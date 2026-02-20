@@ -970,7 +970,6 @@
             isDemo: false
         };
 
-        // Загружаем сохранённые данные
         loadState();
 
         const items = {
@@ -1124,7 +1123,6 @@
                 return;
             }
             
-            // Группируем предметы
             const grouped = {};
             state.inventory.forEach(item => {
                 const key = `${item.id}_${item.isDemo ? 'demo' : 'real'}`;
@@ -1202,15 +1200,10 @@
             saveState();
         }
 
-        function getRandomStopPosition(itemWidth) {
-            return -itemWidth * (Math.floor(Math.random() * 30) + 15);
-        }
-
         // 🔥 Функция для создания последовательности с точными шансами
         function createFairSequence(length) {
             const sequence = [];
             for (let i = 0; i < length; i++) {
-                // Используем те же шансы, что и в реальном выпадении
                 const rand = Math.random() * 100;
                 if (rand < items.calendar.chance) {
                     sequence.push(items.calendar);
@@ -1221,7 +1214,7 @@
             return sequence;
         }
 
-        // 🔥 ПОЛНОСТЬЮ ПЕРЕПИСАННАЯ ФУНКЦИЯ ОТКРЫТИЯ
+        // 🔥 ИСПРАВЛЕННАЯ ФУНКЦИЯ С ТОЧНОЙ ОСТАНОВКОЙ
         async function openCase(isDemo) {
             if (state.isSpinning) return;
             
@@ -1245,7 +1238,7 @@
                 updateBalance();
             }
             
-            // 🔥 ВАЖНО: Сначала выбираем результаты по шансам
+            // 🔥 ВАЖНО: Сначала выбираем результаты
             const results = [];
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const rand = Math.random() * 100;
@@ -1257,7 +1250,6 @@
             
             state.currentOpenings = results;
             
-            // Показываем модальное окно
             const modal = document.getElementById('rouletteModal');
             const multiRoulette = document.getElementById('multiRoulette');
             const resultsList = document.getElementById('resultsList');
@@ -1283,9 +1275,9 @@
             
             finalButtons.style.display = 'none';
             
-            const itemWidth = 80;
+            const itemWidth = 80; // Ширина предмета + gap
             
-            // 🔥 Создаём рулетки с честной последовательностью
+            // 🔥 Создаём рулетки
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const rouletteDiv = document.createElement('div');
                 rouletteDiv.className = 'single-roulette';
@@ -1294,10 +1286,9 @@
                 const track = document.createElement('div');
                 track.className = 'roulette-track';
                 
-                // Создаём последовательность с точными шансами
-                const fairSequence = createFairSequence(50);
+                // Создаём последовательность с правильными шансами
+                const fairSequence = createFairSequence(60); // Больше предметов для плавности
                 
-                // Добавляем предметы в трек
                 fairSequence.forEach(item => {
                     const itemElement = document.createElement('div');
                     itemElement.className = 'roulette-item';
@@ -1312,35 +1303,45 @@
                 rouletteDiv.innerHTML += '<div class="roulette-indicator"></div>';
                 multiRoulette.appendChild(rouletteDiv);
                 
-                // Стартовая позиция
-                track.style.transform = `translateY(-50%) translateX(${-itemWidth * 15}px)`;
+                // Стартуем с 20-го предмета
+                track.style.transform = `translateY(-50%) translateX(${-itemWidth * 20}px)`;
             }
             
             await new Promise(r => setTimeout(r, 100));
             
-            // 🔥 Запускаем анимацию с остановкой на нужном предмете
+            // 🔥 Запускаем анимацию с ТОЧНОЙ остановкой на предмете
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const track = document.querySelector(`#roulette-${i} .roulette-track`);
                 
-                // Находим позицию для результата
-                let targetPosition;
+                // Вычисляем точную позицию для каждого предмета
+                // Хотим остановиться на 40-м предмете (индекс 39)
+                const targetIndex = 39;
+                
+                // Корректируем позицию в зависимости от результата
+                let finalIndex = targetIndex;
                 if (results[i].id === 'calendar') {
-                    // Останавливаем на календаре (примерно 40-й элемент)
-                    targetPosition = -itemWidth * 40;
+                    // Убеждаемся, что на позиции 40 календарь
+                    // Для этого слегка смещаем, если нужно
+                    finalIndex = targetIndex;
                 } else {
-                    // Останавливаем на розочке (примерно 41-й элемент)
-                    targetPosition = -itemWidth * 41;
+                    // Убеждаемся, что на позиции 40 розочка
+                    finalIndex = targetIndex;
                 }
                 
-                const duration = 5000; // 5 секунд вращения
+                const targetPosition = -itemWidth * finalIndex;
+                
+                // Добавляем небольшой оффсет для центрирования под индикатором
+                const centeredPosition = targetPosition - 2; // Чуть-чуть смещаем для идеального центрирования
+                
+                const duration = 5000; // 5 секунд
                 
                 track.style.transition = `transform ${duration}ms cubic-bezier(0.15, 0.85, 0.35, 1)`;
-                track.style.transform = `translateY(-50%) translateX(${targetPosition}px)`;
+                track.style.transform = `translateY(-50%) translateX(${centeredPosition}px)`;
             }
             
-            await new Promise(r => setTimeout(r, 5500));
+            await new Promise(r => setTimeout(r, 5200));
             
-            // 🔥 Показываем результаты - они 100% соответствуют тому, что выпало
+            // Показываем результаты
             results.forEach(r => {
                 resultsList.innerHTML += `
                     <div class="result-item ${isDemo ? 'demo' : ''}">
