@@ -453,7 +453,7 @@
             border-radius: 30px;
             padding: 20px;
             max-width: 95%;
-            width: 550px;
+            width: 600px;
             text-align: center;
             max-height: 90vh;
             overflow-y: auto;
@@ -465,27 +465,27 @@
             margin-bottom: 10px;
         }
         
-        .opening-counter {
-            font-size: 18px;
-            color: var(--tg-theme-hint-color, #666);
-            margin-bottom: 15px;
+        /* Мульти-рулетка */
+        .multi-roulette {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 20px 0;
         }
         
-        .roulette-window {
+        .single-roulette {
             background: linear-gradient(145deg, #1a2634, #2c3e50);
-            border-radius: 15px;
-            padding: 20px 0;
+            border-radius: 10px;
+            padding: 10px 0;
             position: relative;
             overflow: hidden;
-            margin-bottom: 20px;
-            height: 150px;
-            border: 3px solid #ffd700;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            height: 100px;
+            border: 2px solid #ffd700;
         }
         
         .roulette-track {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             position: absolute;
             left: 50%;
             top: 50%;
@@ -498,24 +498,21 @@
             flex-direction: column;
             align-items: center;
             background: rgba(255,255,255,0.15);
-            padding: 10px;
-            border-radius: 12px;
-            min-width: 100px;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,215,0,0.3);
+            padding: 5px;
+            border-radius: 8px;
+            min-width: 70px;
         }
         
         .roulette-item img {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             object-fit: contain;
-            margin-bottom: 5px;
-            border-radius: 8px;
+            border-radius: 5px;
         }
         
         .roulette-item span {
             color: white;
-            font-size: 12px;
+            font-size: 10px;
             font-weight: bold;
         }
         
@@ -524,10 +521,10 @@
             top: 0;
             bottom: 0;
             left: 50%;
-            width: 4px;
+            width: 3px;
             background: linear-gradient(to bottom, #ff0000, #ff4444);
             transform: translateX(-50%);
-            box-shadow: 0 0 20px #ff0000;
+            box-shadow: 0 0 10px #ff0000;
             z-index: 2;
         }
         
@@ -548,7 +545,6 @@
             border-radius: 10px;
             background: var(--tg-theme-secondary-bg-color, #ffffff);
             margin-bottom: 8px;
-            animation: slideIn 0.3s;
         }
         
         .result-item img {
@@ -598,6 +594,11 @@
         .result-button.again {
             background: var(--tg-theme-button-color, #40a7e3);
             color: var(--tg-theme-button-text-color, #ffffff);
+        }
+        
+        .result-button.stars {
+            background: linear-gradient(145deg, #ffd700, #ffb347);
+            color: #333;
         }
         
         .result-button:hover {
@@ -816,15 +817,11 @@
         </div>
     </div>
 
-    <!-- Модальное окно рулетки -->
+    <!-- Модальное окно мульти-рулетки -->
     <div id="rouletteModal" class="modal">
         <div class="roulette-container">
-            <div class="roulette-title">🎰 Открытие кейса</div>
-            <div class="opening-counter" id="openingCounter">Открытие 1 из <span id="totalOpenings">1</span></div>
-            <div class="roulette-window">
-                <div class="roulette-track" id="rouletteTrack"></div>
-                <div class="roulette-indicator"></div>
-            </div>
+            <div class="roulette-title">🎰 Открытие кейсов</div>
+            <div id="multiRoulette" class="multi-roulette"></div>
             <div id="resultsList" class="results-container"></div>
             <div id="finalButtons" style="display: none;">
                 <div class="result-buttons">
@@ -842,6 +839,7 @@
             <div class="roulette-title">💰 Баланс</div>
             <div style="font-size: 48px; color: #ffd700; margin: 20px 0;" id="modalBalance">1000 ⭐</div>
             <div class="result-buttons">
+                <button class="result-button stars" onclick="depositStars()">Пополнить звёздами</button>
                 <button class="result-button sell" onclick="closeBalanceModal()">Закрыть</button>
             </div>
         </div>
@@ -896,58 +894,39 @@
 
         // Функции навигации
         function switchToCases() {
-            // Обновляем активный класс у навигации
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
+            document.querySelectorAll('.nav-item').forEach((item, index) => {
+                item.classList.toggle('active', index === 0);
             });
-            document.querySelectorAll('.nav-item')[0].classList.add('active');
             
-            // Прячем детальную страницу кейса если она открыта
-            document.getElementById('caseDetail').classList.remove('active');
-            
-            // Показываем главное меню с кейсами
             document.getElementById('mainMenu').classList.add('active');
             document.getElementById('gamesSection').classList.remove('active');
             document.getElementById('profileSection').classList.remove('active');
-            
-            // Убираем кнопку "Назад"
+            document.getElementById('caseDetail').classList.remove('active');
             document.getElementById('backButton').classList.remove('visible');
         }
 
         function switchToGames() {
-            // Обновляем активный класс у навигации
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
+            document.querySelectorAll('.nav-item').forEach((item, index) => {
+                item.classList.toggle('active', index === 1);
             });
-            document.querySelectorAll('.nav-item')[1].classList.add('active');
             
-            // Прячем все разделы и показываем игры
             document.getElementById('mainMenu').classList.remove('active');
             document.getElementById('caseDetail').classList.remove('active');
             document.getElementById('gamesSection').classList.add('active');
             document.getElementById('profileSection').classList.remove('active');
-            
-            // Убираем кнопку "Назад"
             document.getElementById('backButton').classList.remove('visible');
         }
 
         function switchToProfile() {
-            // Обновляем активный класс у навигации
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
+            document.querySelectorAll('.nav-item').forEach((item, index) => {
+                item.classList.toggle('active', index === 2);
             });
-            document.querySelectorAll('.nav-item')[2].classList.add('active');
             
-            // Прячем все разделы и показываем профиль
             document.getElementById('mainMenu').classList.remove('active');
             document.getElementById('caseDetail').classList.remove('active');
             document.getElementById('gamesSection').classList.remove('active');
             document.getElementById('profileSection').classList.add('active');
-            
-            // Убираем кнопку "Назад"
             document.getElementById('backButton').classList.remove('visible');
-            
-            // Обновляем инвентарь
             renderInventory();
         }
 
@@ -956,23 +935,19 @@
             state.currentCase = caseId;
             const caseData = cases[caseId];
             
-            // Прячем главное меню и показываем детали
             document.getElementById('mainMenu').classList.remove('active');
             document.getElementById('caseDetail').classList.add('active');
             document.getElementById('backButton').classList.add('visible');
             
-            // Обновляем информацию
             document.getElementById('detailImage').innerHTML = caseData.image;
             document.getElementById('detailName').textContent = caseData.name;
             
-            // Обновляем цену
             const priceElement = document.getElementById('detailPrice');
             priceElement.innerHTML = `
                 <div class="star-icon"></div>
                 ${caseData.price} звёзд
             `;
             
-            // Отображаем шансы
             const chancesList = document.getElementById('chancesList');
             chancesList.innerHTML = '';
             
@@ -992,7 +967,6 @@
                 `;
             });
             
-            // Сбрасываем выбранное количество
             selectQuantity(1);
         }
 
@@ -1007,7 +981,6 @@
         function selectQuantity(quantity) {
             state.selectedQuantity = quantity;
             
-            // Обновляем активную кнопку
             document.querySelectorAll('.quantity-btn').forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.textContent == quantity) {
@@ -1015,7 +988,6 @@
                 }
             });
             
-            // Обновляем общую стоимость
             const caseData = cases[state.currentCase];
             const total = caseData.price * quantity;
             document.getElementById('totalPrice').innerHTML = `${total} ⭐`;
@@ -1032,6 +1004,45 @@
             document.getElementById('balanceModal').classList.remove('active');
         }
 
+        // Пополнение баланса звёздами
+        function depositStars() {
+            tg.showPopup({
+                title: 'Пополнение звёздами',
+                message: 'Введите количество звёзд для пополнения (от 50 до 5000)',
+                buttons: [
+                    {type: 'default', text: '50 ⭐'},
+                    {type: 'default', text: '100 ⭐'},
+                    {type: 'default', text: '500 ⭐'},
+                    {type: 'default', text: '1000 ⭐'},
+                    {type: 'cancel'}
+                ]
+            }, (buttonId) => {
+                const amounts = [50, 100, 500, 1000];
+                if (buttonId < amounts.length) {
+                    const amount = amounts[buttonId];
+                    
+                    // Отправляем запрос на оплату звёздами
+                    tg.openInvoice({
+                        purpose: 'Пополнение баланса',
+                        amount: amount,
+                        description: `Пополнение баланса на ${amount} звёзд`
+                    }, (status) => {
+                        if (status === 'paid') {
+                            state.balance += amount;
+                            updateBalance();
+                            closeBalanceModal();
+                            
+                            tg.showPopup({
+                                title: 'Успешно!',
+                                message: `Баланс пополнен на ${amount} ⭐`,
+                                buttons: [{type: 'ok'}]
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
         // Отображение инвентаря
         function renderInventory() {
             const inventoryDiv = document.getElementById('inventory');
@@ -1041,7 +1052,6 @@
                 return;
             }
             
-            // Группируем предметы
             const grouped = {};
             state.inventory.forEach(item => {
                 if (!grouped[item.id]) {
@@ -1121,6 +1131,13 @@
             document.getElementById('profileBalance').textContent = state.balance + ' ⭐';
         }
 
+        // Функция для получения случайной позиции остановки
+        function getRandomStopPosition(itemWidth, totalItems) {
+            // Случайная позиция в пределах от 20 до 80 процентов трека
+            const randomOffset = Math.floor(Math.random() * (totalItems - 20)) + 10;
+            return -itemWidth * randomOffset;
+        }
+
         // Открытие кейса
         async function openCase() {
             if (state.isSpinning) return;
@@ -1143,30 +1160,31 @@
             
             // Показываем рулетку
             const modal = document.getElementById('rouletteModal');
-            const track = document.getElementById('rouletteTrack');
+            const multiRoulette = document.getElementById('multiRoulette');
             const resultsList = document.getElementById('resultsList');
             const finalButtons = document.getElementById('finalButtons');
-            const openingCounter = document.getElementById('openingCounter');
-            const totalOpenings = document.getElementById('totalOpenings');
             
             modal.classList.add('active');
+            multiRoulette.innerHTML = '';
             resultsList.innerHTML = '';
             finalButtons.style.display = 'none';
-            openingCounter.style.display = 'block';
-            totalOpenings.textContent = state.selectedQuantity;
             
             state.currentOpenings = [];
             
-            // Открываем кейсы по очереди
+            // Создаём несколько рулеток
+            const itemWidth = 80; // Ширина предмета для расчётов
+            
             for (let i = 0; i < state.selectedQuantity; i++) {
-                openingCounter.innerHTML = `Открытие ${i + 1} из ${state.selectedQuantity}`;
+                // Создаём контейнер для одной рулетки
+                const rouletteDiv = document.createElement('div');
+                rouletteDiv.className = 'single-roulette';
+                rouletteDiv.id = `roulette-${i}`;
                 
-                // Создаём трек для рулетки
-                track.innerHTML = '';
-                track.style.transition = 'none';
+                const track = document.createElement('div');
+                track.className = 'roulette-track';
                 
-                // Создаём 50 предметов
-                for (let j = 0; j < 50; j++) {
+                // Добавляем предметы (с запасом для плавной прокрутки)
+                for (let j = 0; j < 30; j++) {
                     const item = j % 2 === 0 ? items.calendar : items.rose;
                     const itemElement = document.createElement('div');
                     itemElement.className = 'roulette-item';
@@ -1177,14 +1195,22 @@
                     track.appendChild(itemElement);
                 }
                 
+                rouletteDiv.appendChild(track);
+                rouletteDiv.innerHTML += '<div class="roulette-indicator"></div>';
+                multiRoulette.appendChild(rouletteDiv);
+                
                 // Устанавливаем начальную позицию
-                const itemWidth = 115;
-                const startPosition = -itemWidth * 15;
+                const startPosition = -itemWidth * 10;
                 track.style.transform = `translateY(-50%) translateX(${startPosition}px)`;
+            }
+            
+            await new Promise(r => setTimeout(r, 100));
+            
+            // Запускаем анимацию для всех рулеток одновременно
+            for (let i = 0; i < state.selectedQuantity; i++) {
+                const track = document.querySelector(`#roulette-${i} .roulette-track`);
                 
-                await new Promise(r => setTimeout(r, 100));
-                
-                // Выбираем результат
+                // Выбираем случайный результат для каждой рулетки
                 const random = Math.random() * 100;
                 let result;
                 if (random < 10) {
@@ -1195,26 +1221,20 @@
                 
                 state.currentOpenings.push(result);
                 
-                // Рассчитываем финальную позицию
-                const spinDistance = 25;
-                const finalPosition = startPosition - (itemWidth * spinDistance);
+                // Получаем случайную позицию остановки
+                const stopPosition = getRandomStopPosition(itemWidth, 25);
                 
-                let targetOffset;
-                if (result.id === 'calendar') {
-                    targetOffset = -itemWidth * 2;
-                } else {
-                    targetOffset = -itemWidth * 1;
-                }
-                
-                const targetPosition = finalPosition + targetOffset;
-                
-                // Запускаем анимацию
-                track.style.transition = 'transform 4000ms cubic-bezier(0.15, 0.85, 0.35, 1)';
-                track.style.transform = `translateY(-50%) translateX(${targetPosition}px)`;
-                
-                await new Promise(r => setTimeout(r, 4000));
-                
-                // Добавляем результат в список
+                // Запускаем анимацию с разной скоростью для реалистичности
+                const duration = 4000 + Math.random() * 1000;
+                track.style.transition = `transform ${duration}ms cubic-bezier(0.15, 0.85, 0.35, 1)`;
+                track.style.transform = `translateY(-50%) translateX(${stopPosition}px)`;
+            }
+            
+            // Ждём окончания анимации (самая долгая)
+            await new Promise(r => setTimeout(r, 5500));
+            
+            // Добавляем результаты в список
+            state.currentOpenings.forEach(result => {
                 resultsList.innerHTML += `
                     <div class="result-item">
                         <img src="${result.image}" alt="${result.name}">
@@ -1224,10 +1244,7 @@
                         </div>
                     </div>
                 `;
-                
-                // Прокручиваем список к последнему результату
-                resultsList.scrollTop = resultsList.scrollHeight;
-            }
+            });
             
             // Добавляем все предметы в инвентарь
             state.inventory.push(...state.currentOpenings);
@@ -1236,7 +1253,6 @@
             
             // Показываем кнопки
             finalButtons.style.display = 'block';
-            openingCounter.style.display = 'none';
             
             state.isSpinning = false;
         }
