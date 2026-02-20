@@ -21,7 +21,6 @@
             flex-direction: column;
         }
         
-        /* Верхняя панель */
         .top-bar {
             background: var(--tg-theme-secondary-bg-color, #ffffff);
             padding: 15px 20px;
@@ -89,7 +88,6 @@
             color: var(--tg-theme-text-color, #333);
         }
         
-        /* Главное меню с кейсами */
         .cases-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -148,7 +146,6 @@
             background: url('https://cdn1.tenchat.ru/static/vbc-gostinder/2025-09-21/5c565d16-168c-49e4-8b3c-6d20da018214.webp') center/contain no-repeat;
         }
         
-        /* Детальная страница кейса */
         .case-detail {
             display: none;
             animation: fadeIn 0.3s;
@@ -204,7 +201,6 @@
             height: 30px;
         }
         
-        /* Шансы выпадения */
         .chances-section {
             background: var(--tg-theme-secondary-bg-color, #ffffff);
             border-radius: 20px;
@@ -273,7 +269,6 @@
             text-align: right;
         }
         
-        /* Выбор количества открытий */
         .quantity-selector {
             background: var(--tg-theme-secondary-bg-color, #ffffff);
             border-radius: 20px;
@@ -316,7 +311,6 @@
             transform: scale(1.05);
         }
         
-        /* Кнопка открытия */
         .open-case-btn {
             background: linear-gradient(145deg, #4CAF50, #45a049);
             color: white;
@@ -352,7 +346,6 @@
             border-radius: 20px;
         }
         
-        /* Инвентарь */
         .inventory-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -430,7 +423,6 @@
             transform: scale(1.05);
         }
         
-        /* Модальное окно рулетки */
         .modal {
             display: none;
             position: fixed;
@@ -465,7 +457,6 @@
             margin-bottom: 10px;
         }
         
-        /* Мульти-рулетка */
         .multi-roulette {
             display: flex;
             flex-direction: column;
@@ -623,7 +614,6 @@
             color: white;
         }
         
-        /* Нижняя навигация */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -708,22 +698,19 @@
     </style>
 </head>
 <body>
-    <!-- Верхняя панель -->
     <div class="top-bar">
         <div class="back-button" id="backButton" onclick="showMainMenu()">← Назад</div>
         <div></div>
         <div class="balance-container" onclick="showBalanceModal()">
             <div class="star-icon"></div>
-            <span class="balance-amount" id="balanceDisplay">1000</span>
+            <span class="balance-amount" id="balanceDisplay">0</span>
         </div>
     </div>
 
     <div class="content">
-        <!-- Главное меню с кейсами -->
         <div id="mainMenu" class="section active">
             <h2 class="section-title">🎁 Доступные кейсы</h2>
             <div class="cases-grid">
-                <!-- Бронзовый кейс -->
                 <div class="case-card" onclick="showCaseDetail('bronze')">
                     <div class="case-image" style="background: linear-gradient(145deg, #cd7f32, #b87333);">
                         🏆
@@ -737,7 +724,6 @@
             </div>
         </div>
 
-        <!-- Детальная страница кейса -->
         <div id="caseDetail" class="case-detail">
             <div class="detail-header">
                 <div class="detail-image" id="detailImage">🏆</div>
@@ -748,13 +734,11 @@
                 </div>
             </div>
 
-            <!-- Шансы выпадения -->
             <div class="chances-section">
                 <div class="chances-title">📊 Шансы выпадения</div>
                 <div id="chancesList"></div>
             </div>
 
-            <!-- Выбор количества -->
             <div class="quantity-selector">
                 <div class="quantity-title">Количество открытий:</div>
                 <div class="quantity-buttons">
@@ -766,14 +750,12 @@
                 </div>
             </div>
 
-            <!-- Кнопка открытия -->
             <button class="open-case-btn" onclick="openCase()" id="openCaseBtn">
                 <span>🎲 Открыть кейс</span>
                 <span class="total-price" id="totalPrice">99 ⭐</span>
             </button>
         </div>
 
-        <!-- Раздел с мини-играми -->
         <div id="gamesSection" class="section">
             <h2 class="section-title">🎮 Мини-игры</h2>
             <div class="empty-section">
@@ -782,7 +764,6 @@
             </div>
         </div>
 
-        <!-- Раздел профиля -->
         <div id="profileSection" class="section">
             <h2 class="section-title">👤 Профиль</h2>
             <div class="profile-stats">
@@ -792,7 +773,7 @@
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">Баланс звёзд:</span>
-                    <span class="stat-value" id="profileBalance">1000 ⭐</span>
+                    <span class="stat-value" id="profileBalance">0 ⭐</span>
                 </div>
             </div>
             
@@ -801,7 +782,6 @@
         </div>
     </div>
 
-    <!-- Нижняя навигация -->
     <div class="bottom-nav">
         <div class="nav-item active" onclick="switchToCases()">
             <span class="nav-icon">🎁</span>
@@ -817,7 +797,6 @@
         </div>
     </div>
 
-    <!-- Модальное окно мульти-рулетки -->
     <div id="rouletteModal" class="modal">
         <div class="roulette-container">
             <div class="roulette-title">🎰 Открытие кейсов</div>
@@ -833,13 +812,12 @@
         </div>
     </div>
 
-    <!-- Модальное окно баланса -->
     <div id="balanceModal" class="modal">
         <div class="roulette-container" style="max-width: 400px;">
             <div class="roulette-title">💰 Баланс</div>
-            <div style="font-size: 48px; color: #ffd700; margin: 20px 0;" id="modalBalance">1000 ⭐</div>
+            <div style="font-size: 48px; color: #ffd700; margin: 20px 0;" id="modalBalance">0 ⭐</div>
             <div class="result-buttons">
-                <button class="result-button stars" onclick="depositStars()">Пополнить звёздами</button>
+                <button class="result-button stars" onclick="depositStars()">⭐ Пополнить звёздами</button>
                 <button class="result-button sell" onclick="closeBalanceModal()">Закрыть</button>
             </div>
         </div>
@@ -850,9 +828,8 @@
         tg.ready();
         tg.expand();
 
-        // Состояние приложения
         let state = {
-            balance: 1000,
+            balance: 0,
             openedCases: 0,
             inventory: [],
             currentCase: 'bronze',
@@ -861,7 +838,6 @@
             isSpinning: false
         };
 
-        // Предметы
         const items = {
             calendar: {
                 id: 'calendar',
@@ -881,7 +857,6 @@
             }
         };
 
-        // Кейсы
         const cases = {
             bronze: {
                 name: 'Бронзовый кейс',
@@ -892,7 +867,6 @@
             }
         };
 
-        // Функции навигации
         function switchToCases() {
             document.querySelectorAll('.nav-item').forEach((item, index) => {
                 item.classList.toggle('active', index === 0);
@@ -930,7 +904,6 @@
             renderInventory();
         }
 
-        // Показать детальную страницу кейса
         function showCaseDetail(caseId) {
             state.currentCase = caseId;
             const caseData = cases[caseId];
@@ -970,14 +943,12 @@
             selectQuantity(1);
         }
 
-        // Вернуться в главное меню
         function showMainMenu() {
             document.getElementById('caseDetail').classList.remove('active');
             document.getElementById('mainMenu').classList.add('active');
             document.getElementById('backButton').classList.remove('visible');
         }
 
-        // Выбор количества открытий
         function selectQuantity(quantity) {
             state.selectedQuantity = quantity;
             
@@ -993,35 +964,49 @@
             document.getElementById('totalPrice').innerHTML = `${total} ⭐`;
         }
 
-        // Показать модальное окно баланса
         function showBalanceModal() {
             document.getElementById('modalBalance').textContent = state.balance + ' ⭐';
             document.getElementById('balanceModal').classList.add('active');
         }
 
-        // Закрыть модальное окно баланса
         function closeBalanceModal() {
             document.getElementById('balanceModal').classList.remove('active');
         }
 
-        // Пополнение баланса звёздами
+        // Исправленная функция пополнения баланса
         function depositStars() {
             tg.showPopup({
-                title: 'Пополнение звёздами',
-                message: 'Введите количество звёзд для пополнения (от 50 до 5000)',
+                title: '⭐ Пополнение баланса',
+                message: 'Выберите сумму для пополнения:',
                 buttons: [
                     {type: 'default', text: '50 ⭐'},
                     {type: 'default', text: '100 ⭐'},
                     {type: 'default', text: '500 ⭐'},
                     {type: 'default', text: '1000 ⭐'},
-                    {type: 'cancel'}
+                    {type: 'cancel', text: 'Отмена'}
                 ]
             }, (buttonId) => {
+                // buttonId может быть строкой, проверяем
+                if (buttonId === 'cancel' || buttonId < 0) return;
+                
                 const amounts = [50, 100, 500, 1000];
-                if (buttonId < amounts.length) {
-                    const amount = amounts[buttonId];
+                const amount = amounts[buttonId];
+                
+                if (amount) {
+                    // Здесь должна быть интеграция с Telegram Stars
+                    // Пока просто добавляем баланс для теста
+                    state.balance += amount;
+                    updateBalance();
+                    closeBalanceModal();
                     
-                    // Отправляем запрос на оплату звёздами
+                    tg.showPopup({
+                        title: '✅ Успешно!',
+                        message: `Баланс пополнен на ${amount} ⭐`,
+                        buttons: [{type: 'ok'}]
+                    });
+                    
+                    // Реальная интеграция со Stars будет выглядеть так:
+                    /*
                     tg.openInvoice({
                         purpose: 'Пополнение баланса',
                         amount: amount,
@@ -1031,19 +1016,13 @@
                             state.balance += amount;
                             updateBalance();
                             closeBalanceModal();
-                            
-                            tg.showPopup({
-                                title: 'Успешно!',
-                                message: `Баланс пополнен на ${amount} ⭐`,
-                                buttons: [{type: 'ok'}]
-                            });
                         }
                     });
+                    */
                 }
             });
         }
 
-        // Отображение инвентаря
         function renderInventory() {
             const inventoryDiv = document.getElementById('inventory');
             
@@ -1087,7 +1066,6 @@
             inventoryDiv.innerHTML = html;
         }
 
-        // Продать один предмет
         function sellOne(itemId) {
             const index = state.inventory.findIndex(i => i.id === itemId);
             if (index === -1) return;
@@ -1106,7 +1084,6 @@
             });
         }
 
-        // Продать все предметы одного типа
         function sellAll(itemId) {
             const itemsToSell = state.inventory.filter(i => i.id === itemId);
             if (itemsToSell.length === 0) return;
@@ -1125,20 +1102,18 @@
             });
         }
 
-        // Обновление баланса
         function updateBalance() {
             document.getElementById('balanceDisplay').textContent = state.balance;
             document.getElementById('profileBalance').textContent = state.balance + ' ⭐';
         }
 
         // Функция для получения случайной позиции остановки
-        function getRandomStopPosition(itemWidth, totalItems) {
-            // Случайная позиция в пределах от 20 до 80 процентов трека
-            const randomOffset = Math.floor(Math.random() * (totalItems - 20)) + 10;
+        function getRandomStopPosition(itemWidth) {
+            // Случайная позиция от 20 до 80% от длины трека
+            const randomOffset = Math.floor(Math.random() * 40) + 20;
             return -itemWidth * randomOffset;
         }
 
-        // Открытие кейса
         async function openCase() {
             if (state.isSpinning) return;
             
@@ -1158,7 +1133,6 @@
             state.balance -= totalPrice;
             updateBalance();
             
-            // Показываем рулетку
             const modal = document.getElementById('rouletteModal');
             const multiRoulette = document.getElementById('multiRoulette');
             const resultsList = document.getElementById('resultsList');
@@ -1171,11 +1145,10 @@
             
             state.currentOpenings = [];
             
-            // Создаём несколько рулеток
-            const itemWidth = 80; // Ширина предмета для расчётов
+            const itemWidth = 80;
             
+            // Создаём несколько рулеток одновременно
             for (let i = 0; i < state.selectedQuantity; i++) {
-                // Создаём контейнер для одной рулетки
                 const rouletteDiv = document.createElement('div');
                 rouletteDiv.className = 'single-roulette';
                 rouletteDiv.id = `roulette-${i}`;
@@ -1183,8 +1156,8 @@
                 const track = document.createElement('div');
                 track.className = 'roulette-track';
                 
-                // Добавляем предметы (с запасом для плавной прокрутки)
-                for (let j = 0; j < 30; j++) {
+                // Добавляем много предметов для длинной прокрутки
+                for (let j = 0; j < 50; j++) {
                     const item = j % 2 === 0 ? items.calendar : items.rose;
                     const itemElement = document.createElement('div');
                     itemElement.className = 'roulette-item';
@@ -1199,18 +1172,18 @@
                 rouletteDiv.innerHTML += '<div class="roulette-indicator"></div>';
                 multiRoulette.appendChild(rouletteDiv);
                 
-                // Устанавливаем начальную позицию
-                const startPosition = -itemWidth * 10;
+                const startPosition = -itemWidth * 15;
                 track.style.transform = `translateY(-50%) translateX(${startPosition}px)`;
             }
             
             await new Promise(r => setTimeout(r, 100));
             
-            // Запускаем анимацию для всех рулеток одновременно
+            // Запускаем все рулетки одновременно с разными скоростями
+            const animationPromises = [];
+            
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const track = document.querySelector(`#roulette-${i} .roulette-track`);
                 
-                // Выбираем случайный результат для каждой рулетки
                 const random = Math.random() * 100;
                 let result;
                 if (random < 10) {
@@ -1221,19 +1194,15 @@
                 
                 state.currentOpenings.push(result);
                 
-                // Получаем случайную позицию остановки
-                const stopPosition = getRandomStopPosition(itemWidth, 25);
+                const stopPosition = getRandomStopPosition(itemWidth);
+                const duration = 4000 + Math.random() * 2000;
                 
-                // Запускаем анимацию с разной скоростью для реалистичности
-                const duration = 4000 + Math.random() * 1000;
                 track.style.transition = `transform ${duration}ms cubic-bezier(0.15, 0.85, 0.35, 1)`;
                 track.style.transform = `translateY(-50%) translateX(${stopPosition}px)`;
             }
             
-            // Ждём окончания анимации (самая долгая)
-            await new Promise(r => setTimeout(r, 5500));
+            await new Promise(r => setTimeout(r, 6000));
             
-            // Добавляем результаты в список
             state.currentOpenings.forEach(result => {
                 resultsList.innerHTML += `
                     <div class="result-item">
@@ -1246,23 +1215,18 @@
                 `;
             });
             
-            // Добавляем все предметы в инвентарь
             state.inventory.push(...state.currentOpenings);
             state.openedCases += state.selectedQuantity;
             document.getElementById('openedCases').textContent = state.openedCases;
             
-            // Показываем кнопки
             finalButtons.style.display = 'block';
-            
             state.isSpinning = false;
         }
 
-        // Продать все результаты
         function sellAllResults() {
             const totalPrice = state.currentOpenings.reduce((sum, item) => sum + item.price, 0);
             state.balance += totalPrice;
             
-            // Удаляем из инвентаря все предметы текущего открытия
             state.currentOpenings.forEach(wonItem => {
                 const index = state.inventory.findIndex(i => i.timestamp === wonItem.timestamp);
                 if (index !== -1) {
@@ -1280,7 +1244,6 @@
             });
         }
 
-        // Открыть ещё раз
         function openAgain() {
             closeRoulette();
             setTimeout(() => {
@@ -1288,12 +1251,10 @@
             }, 300);
         }
 
-        // Закрыть рулетку
         function closeRoulette() {
             document.getElementById('rouletteModal').classList.remove('active');
         }
 
-        // Инициализация
         updateBalance();
     </script>
 </body>
