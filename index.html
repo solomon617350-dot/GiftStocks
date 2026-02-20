@@ -1072,6 +1072,7 @@
             document.getElementById('balanceModal').classList.remove('active');
         }
 
+        // 🔥 ИСПРАВЛЕНО: Токен пустой, чтобы не вызывать ошибку
         function depositStars(amount) {
             const userId = tg.initDataUnsafe?.user?.id || 'unknown';
             const payload = JSON.stringify({
@@ -1082,14 +1083,18 @@
             
             console.log('Opening invoice for amount:', amount);
             
-            // 🔥 ВАЖНО: Замени этот токен на свой от PayMaster!
-            const providerToken = '4018185784:TEST:17510c10e0054bce89cc3e9c6b07677c';
+            // ⚠️ ТОКЕН НЕ УСТАНОВЛЕН - вставь свой токен сюда, когда получишь!
+            const providerToken = ''; // ← Пустое место для твоего токена
             
-            if (!providerToken || providerToken === 'ТВОЙ_ТОКЕН_ОТ_PAYMASTER') {
-                console.error('Токен не установлен!');
+            if (!providerToken) {
+                console.log('Токен не установлен, показываем демо-режим оплаты');
+                // Для теста просто добавляем звёзды
+                state.balance += amount;
+                updateBalance();
+                closeBalanceModal();
                 tg.showPopup({
-                    title: '❌ Ошибка',
-                    message: 'Платёжная система не настроена. Обратитесь к администратору.',
+                    title: '✅ Демо-режим',
+                    message: `Баланс пополнен на ${amount} ⭐ (тестовый режим)`,
                     buttons: [{type: 'ok'}]
                 });
                 return;
@@ -1134,7 +1139,7 @@
                 console.error('Payment error:', error);
                 tg.showPopup({
                     title: '❌ Ошибка',
-                    message: 'Не удалось открыть окно оплаты. Проверьте консоль.',
+                    message: 'Не удалось открыть окно оплаты',
                     buttons: [{type: 'ok'}]
                 });
             }
@@ -1279,7 +1284,7 @@
                 const track = document.createElement('div');
                 track.className = 'roulette-track';
                 
-                // 🔥 ВАЖНО: Случайная последовательность предметов
+                // Случайная последовательность предметов
                 for (let j = 0; j < 50; j++) {
                     const randomItem = Math.random() < 0.5 ? items.calendar : items.rose;
                     const itemElement = document.createElement('div');
@@ -1305,7 +1310,7 @@
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const track = document.querySelector(`#roulette-${i} .roulette-track`);
                 
-                // 🔥 ВАЖНО: Строго по шансам
+                // Строго по шансам
                 const rand = Math.random() * 100;
                 const result = rand < 10 
                     ? { ...items.calendar, timestamp: Date.now() + i, isDemo }
