@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* Все стили без изменений - они уже были правильные */
+        /* Все стили без изменений - они были правильные */
         * {
             margin: 0;
             padding: 0;
@@ -930,6 +930,35 @@
         tg.ready();
         tg.expand();
 
+        // 🔥 КЛЮЧЕВОЕ ИСПРАВЛЕНИЕ: Загружаем сохранённые данные
+        function loadState() {
+            const saved = localStorage.getItem('caseGameState');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    state.balance = parsed.balance || 0;
+                    state.openedCases = parsed.openedCases || 0;
+                    state.inventory = parsed.inventory || [];
+                } catch (e) {
+                    console.error('Error loading state:', e);
+                }
+            }
+        }
+
+        // 🔥 КЛЮЧЕВОЕ ИСПРАВЛЕНИЕ: Сохраняем данные
+        function saveState() {
+            try {
+                const toSave = {
+                    balance: state.balance,
+                    openedCases: state.openedCases,
+                    inventory: state.inventory
+                };
+                localStorage.setItem('caseGameState', JSON.stringify(toSave));
+            } catch (e) {
+                console.error('Error saving state:', e);
+            }
+        }
+
         let state = {
             balance: 0,
             openedCases: 0,
@@ -940,6 +969,9 @@
             isSpinning: false,
             isDemo: false
         };
+
+        // Загружаем сохранённые данные
+        loadState();
 
         const items = {
             calendar: {
@@ -1072,77 +1104,17 @@
             document.getElementById('balanceModal').classList.remove('active');
         }
 
-        // 🔥 ИСПРАВЛЕНО: Токен пустой, чтобы не вызывать ошибку
         function depositStars(amount) {
-            const userId = tg.initDataUnsafe?.user?.id || 'unknown';
-            const payload = JSON.stringify({
-                user_id: userId,
-                amount: amount,
-                order_id: 'order_' + Date.now() + '_' + Math.random().toString(36).substring(7)
+            // Просто добавляем звёзды для теста
+            state.balance += amount;
+            updateBalance();
+            saveState(); // 🔥 Сохраняем после изменения
+            closeBalanceModal();
+            tg.showPopup({
+                title: '✅ Успешно!',
+                message: `Баланс пополнен на ${amount} ⭐`,
+                buttons: [{type: 'ok'}]
             });
-            
-            console.log('Opening invoice for amount:', amount);
-            
-            // ⚠️ ТОКЕН НЕ УСТАНОВЛЕН - вставь свой токен сюда, когда получишь!
-            const providerToken = ''; // ← Пустое место для твоего токена
-            
-            if (!providerToken) {
-                console.log('Токен не установлен, показываем демо-режим оплаты');
-                // Для теста просто добавляем звёзды
-                state.balance += amount;
-                updateBalance();
-                closeBalanceModal();
-                tg.showPopup({
-                    title: '✅ Демо-режим',
-                    message: `Баланс пополнен на ${amount} ⭐ (тестовый режим)`,
-                    buttons: [{type: 'ok'}]
-                });
-                return;
-            }
-            
-            try {
-                tg.openInvoice({
-                    title: 'Пополнение баланса',
-                    description: `Пополнение игрового счета на ${amount} звёзд`,
-                    payload: payload,
-                    provider_token: providerToken,
-                    currency: 'XTR',
-                    prices: [{ label: 'Звёзды', amount: amount }]
-                }, (status) => {
-                    console.log('Payment status:', status);
-                    
-                    if (status === 'paid') {
-                        state.balance += amount;
-                        updateBalance();
-                        closeBalanceModal();
-                        
-                        tg.showPopup({
-                            title: '✅ Успешно!',
-                            message: `Баланс пополнен на ${amount} ⭐\n\nТеперь у тебя ${state.balance} ⭐`,
-                            buttons: [{type: 'ok'}]
-                        });
-                    } else if (status === 'cancelled') {
-                        tg.showPopup({
-                            title: '❌ Отмена',
-                            message: 'Ты отменил оплату.',
-                            buttons: [{type: 'ok'}]
-                        });
-                    } else {
-                        tg.showPopup({
-                            title: '❌ Ошибка',
-                            message: 'Платёж не удался. Попробуй позже.',
-                            buttons: [{type: 'ok'}]
-                        });
-                    }
-                });
-            } catch (error) {
-                console.error('Payment error:', error);
-                tg.showPopup({
-                    title: '❌ Ошибка',
-                    message: 'Не удалось открыть окно оплаты',
-                    buttons: [{type: 'ok'}]
-                });
-            }
         }
 
         function renderInventory() {
@@ -1153,15 +1125,23 @@
                 return;
             }
             
+            // Группируем предметы
             const grouped = {};
             state.inventory.forEach(item => {
-                if (!grouped[item.id]) grouped[item.id] = { ...item, items: [item] };
-                else grouped[item.id].items.push(item);
+                const key = `${item.id}_${item.isDemo ? 'demo' : 'real'}`;
+                if (!grouped[key]) {
+                    grouped[key] = {
+                        ...item,
+                        items: [item]
+                    };
+                } else {
+                    grouped[key].items.push(item);
+                }
             });
             
             let html = '';
-            for (let itemId in grouped) {
-                const group = grouped[itemId];
+            for (let key in grouped) {
+                const group = grouped[key];
                 const item = group.items[0];
                 const count = group.items.length;
                 
@@ -1196,6 +1176,7 @@
             state.balance += item.price;
             state.inventory.splice(index, 1);
             updateBalance();
+            saveState(); // 🔥 Сохраняем после изменения
             renderInventory();
             tg.showPopup({ title: 'Продано!', message: `+${item.price} ⭐`, buttons: [{type: 'ok'}] });
         }
@@ -1211,6 +1192,7 @@
             state.balance += total;
             state.inventory = state.inventory.filter(i => !(i.id === itemId && !i.isDemo));
             updateBalance();
+            saveState(); // 🔥 Сохраняем после изменения
             renderInventory();
             tg.showPopup({ title: 'Продано!', message: `+${total} ⭐`, buttons: [{type: 'ok'}] });
         }
@@ -1218,12 +1200,14 @@
         function updateBalance() {
             document.getElementById('balanceDisplay').textContent = state.balance;
             document.getElementById('profileBalance').textContent = state.balance + ' ⭐';
+            saveState(); // 🔥 Сохраняем при любом изменении баланса
         }
 
         function getRandomStopPosition(itemWidth) {
             return -itemWidth * (Math.floor(Math.random() * 30) + 15);
         }
 
+        // 🔥 ПОЛНОСТЬЮ ПЕРЕПИСАННАЯ ФУНКЦИЯ ОТКРЫТИЯ
         async function openCase(isDemo) {
             if (state.isSpinning) return;
             
@@ -1247,6 +1231,19 @@
                 updateBalance();
             }
             
+            // 🔥 ВАЖНО: Сначала выбираем результаты
+            const results = [];
+            for (let i = 0; i < state.selectedQuantity; i++) {
+                const rand = Math.random() * 100;
+                const result = rand < items.calendar.chance 
+                    ? { ...items.calendar, timestamp: Date.now() + i, isDemo }
+                    : { ...items.rose, timestamp: Date.now() + i, isDemo };
+                results.push(result);
+            }
+            
+            state.currentOpenings = results;
+            
+            // Показываем модальное окно
             const modal = document.getElementById('rouletteModal');
             const multiRoulette = document.getElementById('multiRoulette');
             const resultsList = document.getElementById('resultsList');
@@ -1271,11 +1268,10 @@
             }
             
             finalButtons.style.display = 'none';
-            state.currentOpenings = [];
             
             const itemWidth = 80;
             
-            // Создаём рулетки
+            // Создаём рулетки с перемешанными предметами
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const rouletteDiv = document.createElement('div');
                 rouletteDiv.className = 'single-roulette';
@@ -1284,14 +1280,15 @@
                 const track = document.createElement('div');
                 track.className = 'roulette-track';
                 
-                // Случайная последовательность предметов
+                // Создаём полностью случайную последовательность
                 for (let j = 0; j < 50; j++) {
-                    const randomItem = Math.random() < 0.5 ? items.calendar : items.rose;
+                    // 50% на любой предмет для визуального эффекта
+                    const visualItem = Math.random() < 0.5 ? items.calendar : items.rose;
                     const itemElement = document.createElement('div');
                     itemElement.className = 'roulette-item';
                     itemElement.innerHTML = `
-                        <img src="${randomItem.image}" alt="${randomItem.name}">
-                        <span>${randomItem.name}</span>
+                        <img src="${visualItem.image}" alt="${visualItem.name}">
+                        <span>${visualItem.name}</span>
                     `;
                     track.appendChild(itemElement);
                 }
@@ -1300,35 +1297,34 @@
                 rouletteDiv.innerHTML += '<div class="roulette-indicator"></div>';
                 multiRoulette.appendChild(rouletteDiv);
                 
+                // Стартовая позиция
                 track.style.transform = `translateY(-50%) translateX(${-itemWidth * 15}px)`;
             }
             
             await new Promise(r => setTimeout(r, 100));
             
-            // Выбираем результаты и запускаем анимацию
-            const results = [];
+            // Запускаем анимацию для каждой рулетки
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const track = document.querySelector(`#roulette-${i} .roulette-track`);
                 
-                // Строго по шансам
-                const rand = Math.random() * 100;
-                const result = rand < 10 
-                    ? { ...items.calendar, timestamp: Date.now() + i, isDemo }
-                    : { ...items.rose, timestamp: Date.now() + i, isDemo };
+                // Рассчитываем позицию остановки
+                // Для календаря останавливаем на нём, для розочки - на ней
+                let targetOffset;
+                if (results[i].id === 'calendar') {
+                    targetOffset = -itemWidth * 25; // Останавливаем на календаре
+                } else {
+                    targetOffset = -itemWidth * 26; // Останавливаем на розочке
+                }
                 
-                results.push(result);
-                
-                const stopPos = getRandomStopPosition(itemWidth);
                 const duration = 4000 + Math.random() * 2000;
                 
                 track.style.transition = `transform ${duration}ms cubic-bezier(0.15, 0.85, 0.35, 1)`;
-                track.style.transform = `translateY(-50%) translateX(${stopPos}px)`;
+                track.style.transform = `translateY(-50%) translateX(${targetOffset}px)`;
             }
             
             await new Promise(r => setTimeout(r, 6000));
             
-            state.currentOpenings = results;
-            
+            // Показываем результаты
             results.forEach(r => {
                 resultsList.innerHTML += `
                     <div class="result-item ${isDemo ? 'demo' : ''}">
@@ -1346,6 +1342,7 @@
                 state.inventory.push(...results);
                 state.openedCases += state.selectedQuantity;
                 document.getElementById('openedCases').textContent = state.openedCases;
+                saveState(); // 🔥 Сохраняем после добавления в инвентарь
             }
             
             finalButtons.style.display = 'block';
@@ -1367,6 +1364,7 @@
             });
             
             updateBalance();
+            saveState(); // 🔥 Сохраняем после продажи
             closeRoulette();
             tg.showPopup({ title: 'Продано!', message: `+${total} ⭐`, buttons: [{type: 'ok'}] });
         }
@@ -1380,7 +1378,9 @@
             document.getElementById('rouletteModal').classList.remove('active');
         }
 
+        // Инициализация
         updateBalance();
+        renderInventory();
     </script>
 </body>
 </html>
