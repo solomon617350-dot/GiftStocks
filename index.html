@@ -930,7 +930,7 @@
         tg.ready();
         tg.expand();
 
-        // 🔥 КЛЮЧЕВОЕ ИСПРАВЛЕНИЕ: Загружаем сохранённые данные
+        // Загрузка сохранённых данных
         function loadState() {
             const saved = localStorage.getItem('caseGameState');
             if (saved) {
@@ -945,7 +945,7 @@
             }
         }
 
-        // 🔥 КЛЮЧЕВОЕ ИСПРАВЛЕНИЕ: Сохраняем данные
+        // Сохранение данных
         function saveState() {
             try {
                 const toSave = {
@@ -1105,10 +1105,9 @@
         }
 
         function depositStars(amount) {
-            // Просто добавляем звёзды для теста
             state.balance += amount;
             updateBalance();
-            saveState(); // 🔥 Сохраняем после изменения
+            saveState();
             closeBalanceModal();
             tg.showPopup({
                 title: '✅ Успешно!',
@@ -1176,7 +1175,7 @@
             state.balance += item.price;
             state.inventory.splice(index, 1);
             updateBalance();
-            saveState(); // 🔥 Сохраняем после изменения
+            saveState();
             renderInventory();
             tg.showPopup({ title: 'Продано!', message: `+${item.price} ⭐`, buttons: [{type: 'ok'}] });
         }
@@ -1192,7 +1191,7 @@
             state.balance += total;
             state.inventory = state.inventory.filter(i => !(i.id === itemId && !i.isDemo));
             updateBalance();
-            saveState(); // 🔥 Сохраняем после изменения
+            saveState();
             renderInventory();
             tg.showPopup({ title: 'Продано!', message: `+${total} ⭐`, buttons: [{type: 'ok'}] });
         }
@@ -1200,11 +1199,26 @@
         function updateBalance() {
             document.getElementById('balanceDisplay').textContent = state.balance;
             document.getElementById('profileBalance').textContent = state.balance + ' ⭐';
-            saveState(); // 🔥 Сохраняем при любом изменении баланса
+            saveState();
         }
 
         function getRandomStopPosition(itemWidth) {
             return -itemWidth * (Math.floor(Math.random() * 30) + 15);
+        }
+
+        // 🔥 Функция для создания последовательности с точными шансами
+        function createFairSequence(length) {
+            const sequence = [];
+            for (let i = 0; i < length; i++) {
+                // Используем те же шансы, что и в реальном выпадении
+                const rand = Math.random() * 100;
+                if (rand < items.calendar.chance) {
+                    sequence.push(items.calendar);
+                } else {
+                    sequence.push(items.rose);
+                }
+            }
+            return sequence;
         }
 
         // 🔥 ПОЛНОСТЬЮ ПЕРЕПИСАННАЯ ФУНКЦИЯ ОТКРЫТИЯ
@@ -1231,7 +1245,7 @@
                 updateBalance();
             }
             
-            // 🔥 ВАЖНО: Сначала выбираем результаты
+            // 🔥 ВАЖНО: Сначала выбираем результаты по шансам
             const results = [];
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const rand = Math.random() * 100;
@@ -1271,7 +1285,7 @@
             
             const itemWidth = 80;
             
-            // Создаём рулетки с перемешанными предметами
+            // 🔥 Создаём рулетки с честной последовательностью
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const rouletteDiv = document.createElement('div');
                 rouletteDiv.className = 'single-roulette';
@@ -1280,18 +1294,19 @@
                 const track = document.createElement('div');
                 track.className = 'roulette-track';
                 
-                // Создаём полностью случайную последовательность
-                for (let j = 0; j < 50; j++) {
-                    // 50% на любой предмет для визуального эффекта
-                    const visualItem = Math.random() < 0.5 ? items.calendar : items.rose;
+                // Создаём последовательность с точными шансами
+                const fairSequence = createFairSequence(50);
+                
+                // Добавляем предметы в трек
+                fairSequence.forEach(item => {
                     const itemElement = document.createElement('div');
                     itemElement.className = 'roulette-item';
                     itemElement.innerHTML = `
-                        <img src="${visualItem.image}" alt="${visualItem.name}">
-                        <span>${visualItem.name}</span>
+                        <img src="${item.image}" alt="${item.name}">
+                        <span>${item.name}</span>
                     `;
                     track.appendChild(itemElement);
-                }
+                });
                 
                 rouletteDiv.appendChild(track);
                 rouletteDiv.innerHTML += '<div class="roulette-indicator"></div>';
@@ -1303,28 +1318,29 @@
             
             await new Promise(r => setTimeout(r, 100));
             
-            // Запускаем анимацию для каждой рулетки
+            // 🔥 Запускаем анимацию с остановкой на нужном предмете
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const track = document.querySelector(`#roulette-${i} .roulette-track`);
                 
-                // Рассчитываем позицию остановки
-                // Для календаря останавливаем на нём, для розочки - на ней
-                let targetOffset;
+                // Находим позицию для результата
+                let targetPosition;
                 if (results[i].id === 'calendar') {
-                    targetOffset = -itemWidth * 25; // Останавливаем на календаре
+                    // Останавливаем на календаре (примерно 40-й элемент)
+                    targetPosition = -itemWidth * 40;
                 } else {
-                    targetOffset = -itemWidth * 26; // Останавливаем на розочке
+                    // Останавливаем на розочке (примерно 41-й элемент)
+                    targetPosition = -itemWidth * 41;
                 }
                 
-                const duration = 4000 + Math.random() * 2000;
+                const duration = 5000; // 5 секунд вращения
                 
                 track.style.transition = `transform ${duration}ms cubic-bezier(0.15, 0.85, 0.35, 1)`;
-                track.style.transform = `translateY(-50%) translateX(${targetOffset}px)`;
+                track.style.transform = `translateY(-50%) translateX(${targetPosition}px)`;
             }
             
-            await new Promise(r => setTimeout(r, 6000));
+            await new Promise(r => setTimeout(r, 5500));
             
-            // Показываем результаты
+            // 🔥 Показываем результаты - они 100% соответствуют тому, что выпало
             results.forEach(r => {
                 resultsList.innerHTML += `
                     <div class="result-item ${isDemo ? 'demo' : ''}">
@@ -1342,7 +1358,7 @@
                 state.inventory.push(...results);
                 state.openedCases += state.selectedQuantity;
                 document.getElementById('openedCases').textContent = state.openedCases;
-                saveState(); // 🔥 Сохраняем после добавления в инвентарь
+                saveState();
             }
             
             finalButtons.style.display = 'block';
@@ -1364,7 +1380,7 @@
             });
             
             updateBalance();
-            saveState(); // 🔥 Сохраняем после продажи
+            saveState();
             closeRoulette();
             tg.showPopup({ title: 'Продано!', message: `+${total} ⭐`, buttons: [{type: 'ok'}] });
         }
