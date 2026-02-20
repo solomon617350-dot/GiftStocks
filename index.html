@@ -311,39 +311,59 @@
             transform: scale(1.05);
         }
         
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .open-case-btn, .demo-case-btn {
+            flex: 1;
+            padding: 20px;
+            border: none;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        
         .open-case-btn {
             background: linear-gradient(145deg, #4CAF50, #45a049);
             color: white;
-            border: none;
-            padding: 20px;
-            border-radius: 20px;
-            font-size: 20px;
-            font-weight: bold;
-            width: 100%;
-            cursor: pointer;
-            transition: transform 0.2s;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
         }
         
-        .open-case-btn:hover {
+        .demo-case-btn {
+            background: linear-gradient(145deg, #ff9800, #f57c00);
+            color: white;
+        }
+        
+        .open-case-btn:hover, .demo-case-btn:hover {
             transform: scale(1.02);
         }
         
-        .open-case-btn:disabled {
+        .open-case-btn:disabled, .demo-case-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
         }
         
         .total-price {
-            font-size: 16px;
+            font-size: 14px;
             background: rgba(255,255,255,0.2);
-            padding: 5px 15px;
+            padding: 3px 10px;
             border-radius: 20px;
+        }
+        
+        .demo-badge {
+            font-size: 12px;
+            background: rgba(255,255,255,0.2);
+            padding: 2px 8px;
+            border-radius: 12px;
         }
         
         .inventory-grid {
@@ -359,6 +379,7 @@
             padding: 15px;
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: relative;
         }
         
         .inventory-item img {
@@ -391,6 +412,18 @@
             font-weight: bold;
             display: inline-block;
             margin-bottom: 8px;
+        }
+        
+        .demo-badge-item {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #ff9800;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: bold;
         }
         
         .inventory-controls {
@@ -455,6 +488,23 @@
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 10px;
+        }
+        
+        .roulette-subtitle {
+            font-size: 14px;
+            color: var(--tg-theme-hint-color, #666);
+            margin-bottom: 15px;
+        }
+        
+        .demo-mode {
+            background: linear-gradient(145deg, #ff9800, #f57c00);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: bold;
         }
         
         .multi-roulette {
@@ -538,6 +588,11 @@
             margin-bottom: 8px;
         }
         
+        .result-item.demo {
+            opacity: 0.7;
+            border: 2px dashed #ff9800;
+        }
+        
         .result-item img {
             width: 40px;
             height: 40px;
@@ -558,6 +613,15 @@
         .result-item-price {
             color: #ffd700;
             font-size: 14px;
+        }
+        
+        .demo-label {
+            font-size: 10px;
+            background: #ff9800;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 8px;
+            margin-left: 10px;
         }
         
         .result-buttons {
@@ -773,10 +837,16 @@
                 </div>
             </div>
 
-            <button class="open-case-btn" onclick="openCase()" id="openCaseBtn">
-                <span>🎲 Открыть кейс</span>
-                <span class="total-price" id="totalPrice">99 ⭐</span>
-            </button>
+            <div class="action-buttons">
+                <button class="open-case-btn" onclick="openCase(false)" id="openCaseBtn">
+                    <span>💰 Открыть за звёзды</span>
+                    <span class="total-price" id="totalPrice">99 ⭐</span>
+                </button>
+                <button class="demo-case-btn" onclick="openCase(true)" id="demoCaseBtn">
+                    <span>🎲 Демо-открытие</span>
+                    <span class="demo-badge">Бесплатно</span>
+                </button>
+            </div>
         </div>
 
         <div id="gamesSection" class="section">
@@ -822,12 +892,14 @@
 
     <div id="rouletteModal" class="modal">
         <div class="roulette-container">
-            <div class="roulette-title">🎰 Открытие кейсов</div>
+            <div id="rouletteMode" class="demo-mode" style="display: none;">🎲 ДЕМО-РЕЖИМ</div>
+            <div class="roulette-title" id="rouletteTitle">🎰 Открытие кейсов</div>
+            <div class="roulette-subtitle" id="rouletteSubtitle"></div>
             <div id="multiRoulette" class="multi-roulette"></div>
             <div id="resultsList" class="results-container"></div>
             <div id="finalButtons" style="display: none;">
                 <div class="result-buttons">
-                    <button class="result-button sell" onclick="sellAllResults()">💰 Продать всё</button>
+                    <button class="result-button sell" id="sellButton" onclick="sellAllResults()">💰 Продать всё</button>
                     <button class="result-button again" onclick="openAgain()">🎲 Открыть ещё</button>
                 </div>
                 <button class="close-button" onclick="closeRoulette()">Закрыть</button>
@@ -840,7 +912,6 @@
             <div class="roulette-title">💰 Баланс</div>
             <div style="font-size: 48px; color: #ffd700; margin: 20px 0;" id="modalBalance">0 ⭐</div>
             
-            <!-- Кнопки пополнения -->
             <div class="deposit-options">
                 <button class="deposit-option" onclick="depositStars(50)">50 ⭐</button>
                 <button class="deposit-option" onclick="depositStars(100)">100 ⭐</button>
@@ -857,7 +928,6 @@
         tg.ready();
         tg.expand();
 
-        // Состояние приложения
         let state = {
             balance: 0,
             openedCases: 0,
@@ -865,7 +935,8 @@
             currentCase: 'bronze',
             selectedQuantity: 1,
             currentOpenings: [],
-            isSpinning: false
+            isSpinning: false,
+            isDemo: false
         };
 
         const items = {
@@ -1015,47 +1086,61 @@
             document.getElementById('balanceModal').classList.remove('active');
         }
 
-        // 🔥 ПОЛНОСТЬЮ РАБОЧАЯ ФУНКЦИЯ ПОПОЛНЕНИЯ - ВСТАВЬ СВОЙ ТОКЕН!
+        // 🔥 ИСПРАВЛЕННАЯ ФУНКЦИЯ ПОПОЛНЕНИЯ
         function depositStars(amount) {
             const userId = tg.initDataUnsafe?.user?.id || 'unknown';
             
-            // Уникальный ID заказа (чтобы не было дублей)
             const payload = JSON.stringify({
                 user_id: userId,
                 amount: amount,
                 order_id: 'order_' + Date.now() + '_' + Math.random().toString(36).substring(7)
             });
             
-            // ⚠️ ВАЖНО: Замени 'ТВОЙ_ТОКЕН_ОТ_PAYMASTER' на реальный токен!
-            tg.openInvoice({
-                title: 'Пополнение баланса',
-                description: `Пополнение игрового счета на ${amount} звёзд`,
-                payload: payload,
-                provider_token: '1744374395:TEST:6328760bb42d5b463981', // ← ВСТАВЬ СЮДА ТОКЕН!
-                currency: 'XTR',
-                prices: [{ label: 'Звёзды', amount: amount }]
-            }, (status) => {
-                console.log('Payment status:', status); // Для отладки
-                
-                if (status === 'paid') {
-                    state.balance += amount;
-                    updateBalance();
-                    closeBalanceModal();
+            console.log('Opening invoice for amount:', amount);
+            
+            try {
+                tg.openInvoice({
+                    title: 'Пополнение баланса',
+                    description: `Пополнение игрового счета на ${amount} звёзд`,
+                    payload: payload,
+                    provider_token: '8127579467:AAEXHHm0VPdt59diqrLaD6WjasRLDky_A5c', // ← ВСТАВЬ СВОЙ ТОКЕН!
+                    currency: 'XTR',
+                    prices: [{ label: 'Звёзды', amount: amount }]
+                }, (status) => {
+                    console.log('Payment status:', status);
                     
-                    // Поздравляем пользователя
-                    tg.showPopup({
-                        title: '✅ Успешно!',
-                        message: `Баланс пополнен на ${amount} ⭐\n\nТеперь у тебя ${state.balance} ⭐`,
-                        buttons: [{type: 'ok', text: 'Отлично!'}]
-                    });
-                } else if (status === 'cancelled') {
-                    tg.showPopup({
-                        title: '❌ Отмена',
-                        message: 'Ты отменил оплату. Звёзды не списаны.',
-                        buttons: [{type: 'ok', text: 'Понятно'}]
-                    });
-                }
-            });
+                    if (status === 'paid') {
+                        state.balance += amount;
+                        updateBalance();
+                        closeBalanceModal();
+                        
+                        tg.showPopup({
+                            title: '✅ Успешно!',
+                            message: `Баланс пополнен на ${amount} ⭐\n\nТеперь у тебя ${state.balance} ⭐`,
+                            buttons: [{type: 'ok', text: 'Отлично!'}]
+                        });
+                    } else if (status === 'cancelled') {
+                        tg.showPopup({
+                            title: '❌ Отмена',
+                            message: 'Ты отменил оплату. Звёзды не списаны.',
+                            buttons: [{type: 'ok', text: 'Понятно'}]
+                        });
+                    } else if (status === 'failed') {
+                        tg.showPopup({
+                            title: '❌ Ошибка',
+                            message: 'Не удалось выполнить платёж. Попробуй позже.',
+                            buttons: [{type: 'ok', text: 'Ок'}]
+                        });
+                    }
+                });
+            } catch (error) {
+                console.error('Payment error:', error);
+                tg.showPopup({
+                    title: '❌ Ошибка',
+                    message: 'Произошла ошибка при открытии окна оплаты',
+                    buttons: [{type: 'ok', text: 'Ок'}]
+                });
+            }
         }
 
         function renderInventory() {
@@ -1086,14 +1171,17 @@
                 
                 html += `
                     <div class="inventory-item">
+                        ${item.isDemo ? '<div class="demo-badge-item">DEMO</div>' : ''}
                         <img src="${item.image}" alt="${item.name}">
                         <div class="inventory-item-name">${item.emoji} ${item.name}</div>
                         <div class="inventory-item-price">${item.price} ⭐</div>
                         <span class="item-count">x${count}</span>
+                        ${!item.isDemo ? `
                         <div class="inventory-controls">
                             <button class="sell-one-btn" onclick="sellOne('${item.id}')">Продать 1</button>
                             <button class="sell-all-btn" onclick="sellAll('${item.id}')">Продать все</button>
                         </div>
+                        ` : '<div style="color: #ff9800; font-size: 12px; margin-top: 5px;">⚠️ Демо предмет нельзя продать</div>'}
                     </div>
                 `;
             }
@@ -1102,8 +1190,15 @@
         }
 
         function sellOne(itemId) {
-            const index = state.inventory.findIndex(i => i.id === itemId);
-            if (index === -1) return;
+            const index = state.inventory.findIndex(i => i.id === itemId && !i.isDemo);
+            if (index === -1) {
+                tg.showPopup({
+                    title: '❌ Нельзя продать',
+                    message: 'Демо предметы нельзя продавать!',
+                    buttons: [{type: 'ok'}]
+                });
+                return;
+            }
             
             const item = state.inventory[index];
             state.balance += item.price;
@@ -1120,12 +1215,19 @@
         }
 
         function sellAll(itemId) {
-            const itemsToSell = state.inventory.filter(i => i.id === itemId);
-            if (itemsToSell.length === 0) return;
+            const itemsToSell = state.inventory.filter(i => i.id === itemId && !i.isDemo);
+            if (itemsToSell.length === 0) {
+                tg.showPopup({
+                    title: '❌ Нельзя продать',
+                    message: 'Демо предметы нельзя продавать!',
+                    buttons: [{type: 'ok'}]
+                });
+                return;
+            }
             
             const totalPrice = itemsToSell.reduce((sum, item) => sum + item.price, 0);
             state.balance += totalPrice;
-            state.inventory = state.inventory.filter(i => i.id !== itemId);
+            state.inventory = state.inventory.filter(i => !(i.id === itemId && !i.isDemo));
             
             updateBalance();
             renderInventory();
@@ -1147,13 +1249,13 @@
             return -itemWidth * randomOffset;
         }
 
-        async function openCase() {
+        async function openCase(isDemo) {
             if (state.isSpinning) return;
             
             const caseData = cases[state.currentCase];
             const totalPrice = caseData.price * state.selectedQuantity;
             
-            if (state.balance < totalPrice) {
+            if (!isDemo && state.balance < totalPrice) {
                 tg.showPopup({
                     title: 'Недостаточно звёзд',
                     message: `Нужно ${totalPrice} ⭐ для открытия ${state.selectedQuantity} кейсов`,
@@ -1163,17 +1265,36 @@
             }
             
             state.isSpinning = true;
-            state.balance -= totalPrice;
-            updateBalance();
+            state.isDemo = isDemo;
+            
+            if (!isDemo) {
+                state.balance -= totalPrice;
+                updateBalance();
+            }
             
             const modal = document.getElementById('rouletteModal');
             const multiRoulette = document.getElementById('multiRoulette');
             const resultsList = document.getElementById('resultsList');
             const finalButtons = document.getElementById('finalButtons');
+            const rouletteMode = document.getElementById('rouletteMode');
+            const sellButton = document.getElementById('sellButton');
             
             modal.classList.add('active');
             multiRoulette.innerHTML = '';
             resultsList.innerHTML = '';
+            
+            if (isDemo) {
+                rouletteMode.style.display = 'inline-block';
+                sellButton.style.display = 'none';
+                document.getElementById('rouletteTitle').textContent = '🎲 Демо-открытие';
+                document.getElementById('rouletteSubtitle').textContent = 'Предметы не сохраняются в инвентарь';
+            } else {
+                rouletteMode.style.display = 'none';
+                sellButton.style.display = 'block';
+                document.getElementById('rouletteTitle').textContent = '🎰 Открытие кейсов';
+                document.getElementById('rouletteSubtitle').textContent = '';
+            }
+            
             finalButtons.style.display = 'none';
             
             state.currentOpenings = [];
@@ -1215,9 +1336,17 @@
                 const random = Math.random() * 100;
                 let result;
                 if (random < 10) {
-                    result = { ...items.calendar, timestamp: Date.now() + i };
+                    result = { 
+                        ...items.calendar, 
+                        timestamp: Date.now() + i,
+                        isDemo: isDemo 
+                    };
                 } else {
-                    result = { ...items.rose, timestamp: Date.now() + i };
+                    result = { 
+                        ...items.rose, 
+                        timestamp: Date.now() + i,
+                        isDemo: isDemo 
+                    };
                 }
                 
                 state.currentOpenings.push(result);
@@ -1233,25 +1362,33 @@
             
             state.currentOpenings.forEach(result => {
                 resultsList.innerHTML += `
-                    <div class="result-item">
+                    <div class="result-item ${isDemo ? 'demo' : ''}">
                         <img src="${result.image}" alt="${result.name}">
                         <div class="result-item-info">
                             <div class="result-item-name">${result.emoji} ${result.name}</div>
                             <div class="result-item-price">${result.price} ⭐</div>
                         </div>
+                        ${isDemo ? '<span class="demo-label">DEMO</span>' : ''}
                     </div>
                 `;
             });
             
-            state.inventory.push(...state.currentOpenings);
-            state.openedCases += state.selectedQuantity;
-            document.getElementById('openedCases').textContent = state.openedCases;
+            if (!isDemo) {
+                state.inventory.push(...state.currentOpenings);
+                state.openedCases += state.selectedQuantity;
+                document.getElementById('openedCases').textContent = state.openedCases;
+            }
             
             finalButtons.style.display = 'block';
             state.isSpinning = false;
         }
 
         function sellAllResults() {
+            if (state.isDemo) {
+                closeRoulette();
+                return;
+            }
+            
             const totalPrice = state.currentOpenings.reduce((sum, item) => sum + item.price, 0);
             state.balance += totalPrice;
             
@@ -1275,7 +1412,7 @@
         function openAgain() {
             closeRoulette();
             setTimeout(() => {
-                openCase();
+                openCase(state.isDemo);
             }, 300);
         }
 
