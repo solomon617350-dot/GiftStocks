@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        /* Все стили без изменений - они уже были правильные */
         * {
             margin: 0;
             padding: 0;
@@ -801,7 +802,7 @@
             <h2 class="section-title">🎁 Доступные кейсы</h2>
             <div class="cases-grid">
                 <div class="case-card" onclick="showCaseDetail('bronze')">
-                    <div class="case-image" style="background-image: url('https://i.postimg.cc/1z9kJyvm/image.png'); background-size: cover; background-position: center;">
+                    <div class="case-image" style="background-image: url('https://i.postimg.cc/w3wd8bSR/image-2026-02-20-204059171.png'); background-size: cover; background-position: center;">
                     </div>
                     <div class="case-name">Бронзовый кейс</div>
                     <div class="case-price">
@@ -814,7 +815,7 @@
 
         <div id="caseDetail" class="case-detail">
             <div class="detail-header">
-                <div class="detail-image" id="detailImage" style="background-image: url('https://i.postimg.cc/1z9kJyvm/image.png'); background-size: cover; background-position: center;"></div>
+                <div class="detail-image" id="detailImage" style="background-image: url('https://i.postimg.cc/w3wd8bSR/image-2026-02-20-204059171.png'); background-size: cover; background-position: center;"></div>
                 <div class="detail-name" id="detailName">Бронзовый кейс</div>
                 <div class="detail-price" id="detailPrice">
                     <div class="star-icon"></div>
@@ -971,11 +972,7 @@
 
         function switchToCases() {
             document.querySelectorAll('.nav-item').forEach((item, index) => {
-                if (index === 0) {
-                    item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
-                }
+                item.classList.toggle('active', index === 0);
             });
             
             document.getElementById('mainMenu').classList.add('active');
@@ -987,11 +984,7 @@
 
         function switchToGames() {
             document.querySelectorAll('.nav-item').forEach((item, index) => {
-                if (index === 1) {
-                    item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
-                }
+                item.classList.toggle('active', index === 1);
             });
             
             document.getElementById('mainMenu').classList.remove('active');
@@ -1003,11 +996,7 @@
 
         function switchToProfile() {
             document.querySelectorAll('.nav-item').forEach((item, index) => {
-                if (index === 2) {
-                    item.classList.add('active');
-                } else {
-                    item.classList.remove('active');
-                }
+                item.classList.toggle('active', index === 2);
             });
             
             document.getElementById('mainMenu').classList.remove('active');
@@ -1029,8 +1018,7 @@
             document.getElementById('detailImage').innerHTML = '';
             document.getElementById('detailName').textContent = caseData.name;
             
-            const priceElement = document.getElementById('detailPrice');
-            priceElement.innerHTML = `
+            document.getElementById('detailPrice').innerHTML = `
                 <div class="star-icon"></div>
                 ${caseData.price} звёзд
             `;
@@ -1068,14 +1056,11 @@
             
             document.querySelectorAll('.quantity-btn').forEach(btn => {
                 btn.classList.remove('active');
-                if (btn.textContent == quantity) {
-                    btn.classList.add('active');
-                }
+                if (btn.textContent == quantity) btn.classList.add('active');
             });
             
             const caseData = cases[state.currentCase];
-            const total = caseData.price * quantity;
-            document.getElementById('totalPrice').innerHTML = `${total} ⭐`;
+            document.getElementById('totalPrice').innerHTML = `${caseData.price * quantity} ⭐`;
         }
 
         function showBalanceModal() {
@@ -1089,7 +1074,6 @@
 
         function depositStars(amount) {
             const userId = tg.initDataUnsafe?.user?.id || 'unknown';
-            
             const payload = JSON.stringify({
                 user_id: userId,
                 amount: amount,
@@ -1098,12 +1082,25 @@
             
             console.log('Opening invoice for amount:', amount);
             
+            // 🔥 ВАЖНО: Замени этот токен на свой от PayMaster!
+            const providerToken = '4018185784:TEST:17510c10e0054bce89cc3e9c6b07677c';
+            
+            if (!providerToken || providerToken === 'ТВОЙ_ТОКЕН_ОТ_PAYMASTER') {
+                console.error('Токен не установлен!');
+                tg.showPopup({
+                    title: '❌ Ошибка',
+                    message: 'Платёжная система не настроена. Обратитесь к администратору.',
+                    buttons: [{type: 'ok'}]
+                });
+                return;
+            }
+            
             try {
                 tg.openInvoice({
                     title: 'Пополнение баланса',
                     description: `Пополнение игрового счета на ${amount} звёзд`,
                     payload: payload,
-                    provider_token: '4018185784:TEST:17510c10e0054bce89cc3e9c6b07677c', // ← ВСТАВЬ СВОЙ ТОКЕН!
+                    provider_token: providerToken,
                     currency: 'XTR',
                     prices: [{ label: 'Звёзды', amount: amount }]
                 }, (status) => {
@@ -1117,19 +1114,19 @@
                         tg.showPopup({
                             title: '✅ Успешно!',
                             message: `Баланс пополнен на ${amount} ⭐\n\nТеперь у тебя ${state.balance} ⭐`,
-                            buttons: [{type: 'ok', text: 'Отлично!'}]
+                            buttons: [{type: 'ok'}]
                         });
                     } else if (status === 'cancelled') {
                         tg.showPopup({
                             title: '❌ Отмена',
-                            message: 'Ты отменил оплату. Звёзды не списаны.',
-                            buttons: [{type: 'ok', text: 'Понятно'}]
+                            message: 'Ты отменил оплату.',
+                            buttons: [{type: 'ok'}]
                         });
-                    } else if (status === 'failed') {
+                    } else {
                         tg.showPopup({
                             title: '❌ Ошибка',
-                            message: 'Не удалось выполнить платёж. Попробуй позже.',
-                            buttons: [{type: 'ok', text: 'Ок'}]
+                            message: 'Платёж не удался. Попробуй позже.',
+                            buttons: [{type: 'ok'}]
                         });
                     }
                 });
@@ -1137,8 +1134,8 @@
                 console.error('Payment error:', error);
                 tg.showPopup({
                     title: '❌ Ошибка',
-                    message: 'Произошла ошибка при открытии окна оплаты',
-                    buttons: [{type: 'ok', text: 'Ок'}]
+                    message: 'Не удалось открыть окно оплаты. Проверьте консоль.',
+                    buttons: [{type: 'ok'}]
                 });
             }
         }
@@ -1153,14 +1150,8 @@
             
             const grouped = {};
             state.inventory.forEach(item => {
-                if (!grouped[item.id]) {
-                    grouped[item.id] = {
-                        ...item,
-                        items: [item]
-                    };
-                } else {
-                    grouped[item.id].items.push(item);
-                }
+                if (!grouped[item.id]) grouped[item.id] = { ...item, items: [item] };
+                else grouped[item.id].items.push(item);
             });
             
             let html = '';
@@ -1181,7 +1172,7 @@
                             <button class="sell-one-btn" onclick="sellOne('${item.id}')">Продать 1</button>
                             <button class="sell-all-btn" onclick="sellAll('${item.id}')">Продать все</button>
                         </div>
-                        ` : '<div style="color: #ff9800; font-size: 12px; margin-top: 5px;">⚠️ Демо предмет нельзя продать</div>'}
+                        ` : '<div style="color: #ff9800; font-size: 12px; margin-top: 5px;">⚠️ Демо предмет</div>'}
                     </div>
                 `;
             }
@@ -1192,51 +1183,31 @@
         function sellOne(itemId) {
             const index = state.inventory.findIndex(i => i.id === itemId && !i.isDemo);
             if (index === -1) {
-                tg.showPopup({
-                    title: '❌ Нельзя продать',
-                    message: 'Демо предметы нельзя продавать!',
-                    buttons: [{type: 'ok'}]
-                });
+                tg.showPopup({ title: '❌ Ошибка', message: 'Нельзя продать демо-предмет!', buttons: [{type: 'ok'}] });
                 return;
             }
             
             const item = state.inventory[index];
             state.balance += item.price;
             state.inventory.splice(index, 1);
-            
             updateBalance();
             renderInventory();
-            
-            tg.showPopup({
-                title: 'Продано!',
-                message: `Вы продали 1 ${item.name} за ${item.price} ⭐`,
-                buttons: [{type: 'ok'}]
-            });
+            tg.showPopup({ title: 'Продано!', message: `+${item.price} ⭐`, buttons: [{type: 'ok'}] });
         }
 
         function sellAll(itemId) {
             const itemsToSell = state.inventory.filter(i => i.id === itemId && !i.isDemo);
             if (itemsToSell.length === 0) {
-                tg.showPopup({
-                    title: '❌ Нельзя продать',
-                    message: 'Демо предметы нельзя продавать!',
-                    buttons: [{type: 'ok'}]
-                });
+                tg.showPopup({ title: '❌ Ошибка', message: 'Нет предметов для продажи', buttons: [{type: 'ok'}] });
                 return;
             }
             
-            const totalPrice = itemsToSell.reduce((sum, item) => sum + item.price, 0);
-            state.balance += totalPrice;
+            const total = itemsToSell.reduce((sum, i) => sum + i.price, 0);
+            state.balance += total;
             state.inventory = state.inventory.filter(i => !(i.id === itemId && !i.isDemo));
-            
             updateBalance();
             renderInventory();
-            
-            tg.showPopup({
-                title: 'Продано!',
-                message: `Вы продали ${itemsToSell.length} ${itemsToSell[0].name} за ${totalPrice} ⭐`,
-                buttons: [{type: 'ok'}]
-            });
+            tg.showPopup({ title: 'Продано!', message: `+${total} ⭐`, buttons: [{type: 'ok'}] });
         }
 
         function updateBalance() {
@@ -1245,9 +1216,7 @@
         }
 
         function getRandomStopPosition(itemWidth) {
-            // Генерируем случайную позицию от 15 до 45 (чтобы был разброс)
-            const randomOffset = Math.floor(Math.random() * 30) + 15;
-            return -itemWidth * randomOffset;
+            return -itemWidth * (Math.floor(Math.random() * 30) + 15);
         }
 
         async function openCase(isDemo) {
@@ -1259,7 +1228,7 @@
             if (!isDemo && state.balance < totalPrice) {
                 tg.showPopup({
                     title: 'Недостаточно звёзд',
-                    message: `Нужно ${totalPrice} ⭐ для открытия ${state.selectedQuantity} кейсов`,
+                    message: `Нужно ${totalPrice} ⭐`,
                     buttons: [{type: 'ok'}]
                 });
                 return;
@@ -1288,7 +1257,7 @@
                 rouletteMode.style.display = 'inline-block';
                 sellButton.style.display = 'none';
                 document.getElementById('rouletteTitle').textContent = '🎲 Демо-открытие';
-                document.getElementById('rouletteSubtitle').textContent = 'Предметы не сохраняются в инвентарь';
+                document.getElementById('rouletteSubtitle').textContent = 'Предметы не сохраняются';
             } else {
                 rouletteMode.style.display = 'none';
                 sellButton.style.display = 'block';
@@ -1297,12 +1266,11 @@
             }
             
             finalButtons.style.display = 'none';
-            
             state.currentOpenings = [];
             
             const itemWidth = 80;
             
-            // Создаем рулетки с перемешанными предметами
+            // Создаём рулетки
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const rouletteDiv = document.createElement('div');
                 rouletteDiv.className = 'single-roulette';
@@ -1311,82 +1279,58 @@
                 const track = document.createElement('div');
                 track.className = 'roulette-track';
                 
-                // Создаем перемешанную последовательность предметов
-                const itemSequence = [];
+                // 🔥 ВАЖНО: Случайная последовательность предметов
                 for (let j = 0; j < 50; j++) {
-                    // Случайно выбираем предмет для каждого слота
                     const randomItem = Math.random() < 0.5 ? items.calendar : items.rose;
-                    itemSequence.push(randomItem);
-                }
-                
-                // Добавляем предметы в трек
-                itemSequence.forEach(item => {
                     const itemElement = document.createElement('div');
                     itemElement.className = 'roulette-item';
                     itemElement.innerHTML = `
-                        <img src="${item.image}" alt="${item.name}">
-                        <span>${item.name}</span>
+                        <img src="${randomItem.image}" alt="${randomItem.name}">
+                        <span>${randomItem.name}</span>
                     `;
                     track.appendChild(itemElement);
-                });
+                }
                 
                 rouletteDiv.appendChild(track);
                 rouletteDiv.innerHTML += '<div class="roulette-indicator"></div>';
                 multiRoulette.appendChild(rouletteDiv);
                 
-                const startPosition = -itemWidth * 15;
-                track.style.transform = `translateY(-50%) translateX(${startPosition}px)`;
+                track.style.transform = `translateY(-50%) translateX(${-itemWidth * 15}px)`;
             }
             
             await new Promise(r => setTimeout(r, 100));
             
-            // Запускаем все рулетки одновременно с разными скоростями
+            // Выбираем результаты и запускаем анимацию
             const results = [];
-            
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const track = document.querySelector(`#roulette-${i} .roulette-track`);
                 
-                // Выбираем результат на основе шансов
-                const random = Math.random() * 100;
-                let result;
-                if (random < 10) {
-                    result = { 
-                        ...items.calendar, 
-                        timestamp: Date.now() + i,
-                        isDemo: isDemo 
-                    };
-                } else {
-                    result = { 
-                        ...items.rose, 
-                        timestamp: Date.now() + i,
-                        isDemo: isDemo 
-                    };
-                }
+                // 🔥 ВАЖНО: Строго по шансам
+                const rand = Math.random() * 100;
+                const result = rand < 10 
+                    ? { ...items.calendar, timestamp: Date.now() + i, isDemo }
+                    : { ...items.rose, timestamp: Date.now() + i, isDemo };
                 
                 results.push(result);
                 
-                // Генерируем случайную позицию остановки
-                const stopPosition = getRandomStopPosition(itemWidth);
-                const duration = 4000 + Math.random() * 2000; // Разная скорость для каждой рулетки
+                const stopPos = getRandomStopPosition(itemWidth);
+                const duration = 4000 + Math.random() * 2000;
                 
                 track.style.transition = `transform ${duration}ms cubic-bezier(0.15, 0.85, 0.35, 1)`;
-                track.style.transform = `translateY(-50%) translateX(${stopPosition}px)`;
+                track.style.transform = `translateY(-50%) translateX(${stopPos}px)`;
             }
             
-            // Ждем окончания анимации
             await new Promise(r => setTimeout(r, 6000));
             
-            // Сохраняем результаты
             state.currentOpenings = results;
             
-            // Отображаем результаты
-            results.forEach(result => {
+            results.forEach(r => {
                 resultsList.innerHTML += `
                     <div class="result-item ${isDemo ? 'demo' : ''}">
-                        <img src="${result.image}" alt="${result.name}">
+                        <img src="${r.image}" alt="${r.name}">
                         <div class="result-item-info">
-                            <div class="result-item-name">${result.emoji} ${result.name}</div>
-                            <div class="result-item-price">${result.price} ⭐</div>
+                            <div class="result-item-name">${r.emoji} ${r.name}</div>
+                            <div class="result-item-price">${r.price} ⭐</div>
                         </div>
                         ${isDemo ? '<span class="demo-label">DEMO</span>' : ''}
                     </div>
@@ -1409,31 +1353,22 @@
                 return;
             }
             
-            const totalPrice = state.currentOpenings.reduce((sum, item) => sum + item.price, 0);
-            state.balance += totalPrice;
+            const total = state.currentOpenings.reduce((sum, i) => sum + i.price, 0);
+            state.balance += total;
             
-            state.currentOpenings.forEach(wonItem => {
-                const index = state.inventory.findIndex(i => i.timestamp === wonItem.timestamp);
-                if (index !== -1) {
-                    state.inventory.splice(index, 1);
-                }
+            state.currentOpenings.forEach(won => {
+                const idx = state.inventory.findIndex(i => i.timestamp === won.timestamp);
+                if (idx !== -1) state.inventory.splice(idx, 1);
             });
             
             updateBalance();
             closeRoulette();
-            
-            tg.showPopup({
-                title: 'Продано!',
-                message: `Вы продали все предметы за ${totalPrice} ⭐`,
-                buttons: [{type: 'ok'}]
-            });
+            tg.showPopup({ title: 'Продано!', message: `+${total} ⭐`, buttons: [{type: 'ok'}] });
         }
 
         function openAgain() {
             closeRoulette();
-            setTimeout(() => {
-                openCase(state.isDemo);
-            }, 300);
+            setTimeout(() => openCase(state.isDemo), 300);
         }
 
         function closeRoulette() {
