@@ -1,54 +1,350 @@
-html
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Мое мини-приложение</title>
+    <title>🎰 Кейсы с подарками</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             text-align: center;
             padding: 20px;
-            background: var(--tg-theme-bg-color, #ffffff);
-            color: var(--tg-theme-text-color, #000000);
+            background: var(--tg-theme-bg-color, #f5f5f5);
+            color: var(--tg-theme-text-color, #333333);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
-        button {
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: var(--tg-theme-text-color, #333);
+        }
+        
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: var(--tg-theme-hint-color, #666);
+        }
+        
+        .case-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .case {
+            width: 250px;
+            height: 250px;
+            background: linear-gradient(145deg, #ffd700, #ffb347);
+            border-radius: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            border: 5px solid #fff;
+            margin-bottom: 20px;
+        }
+        
+        .case:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+        
+        .case:active {
+            transform: scale(0.95);
+        }
+        
+        .case-emoji {
+            font-size: 80px;
+            margin-bottom: 10px;
+            filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.2));
+        }
+        
+        .case-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .case-price {
+            font-size: 18px;
+            color: #fff;
+            background: rgba(0,0,0,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            margin-top: 10px;
+        }
+        
+        .result-area {
+            width: 100%;
+            max-width: 300px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 20px;
+            background: var(--tg-theme-secondary-bg-color, #ffffff);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .result-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: var(--tg-theme-text-color, #333);
+        }
+        
+        .chances {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .chance-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 12px;
+            background: var(--tg-theme-bg-color, #f5f5f5);
+        }
+        
+        .item-emoji {
+            font-size: 32px;
+            min-width: 50px;
+        }
+        
+        .item-info {
+            flex: 1;
+            text-align: left;
+        }
+        
+        .item-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+        
+        .chance-bar-container {
+            width: 100%;
+            height: 8px;
+            background: #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .chance-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+        
+        .chance-percent {
+            font-size: 14px;
+            color: var(--tg-theme-hint-color, #666);
+            margin-top: 2px;
+        }
+        
+        .last-result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 12px;
+            background: var(--tg-theme-button-color, #40a7e3);
+            color: var(--tg-theme-button-text-color, #ffffff);
+            font-size: 18px;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .last-result.show {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .open-button {
             background: var(--tg-theme-button-color, #40a7e3);
             color: var(--tg-theme-button-text-color, #ffffff);
             border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-size: 16px;
-            margin-top: 20px;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .open-button:hover {
+            opacity: 0.9;
+        }
+        
+        .open-button:active {
+            transform: scale(0.95);
+        }
+        
+        .open-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
         }
     </style>
 </head>
 <body>
-    <h1>Мое приложение в Telegram</h1>
-    <p id="greeting">Загрузка...</p>
-    <button onclick="sendData()">Отправить данные</button>
+    <h1>🎁 Пробный кейс</h1>
+    <div class="greeting" id="greeting">Загрузка...</div>
+    
+    <div class="case-container">
+        <!-- Кейс -->
+        <div class="case" id="case" onclick="openCase()">
+            <div class="case-emoji">📦</div>
+            <div class="case-title">Пробный кейс</div>
+            <div class="case-price">0 монет</div>
+        </div>
+        
+        <!-- Кнопка открытия (на случай если не захотят нажимать на кейс) -->
+        <button class="open-button" id="openButton" onclick="openCase()">
+            🎲 Открыть кейс
+        </button>
+        
+        <!-- Информация о шансах -->
+        <div class="result-area">
+            <div class="result-title">📊 Шансы выпадения:</div>
+            <div class="chances">
+                <div class="chance-item">
+                    <span class="item-emoji">📓</span>
+                    <div class="item-info">
+                        <div class="item-name">Блокнот</div>
+                        <div class="chance-bar-container">
+                            <div class="chance-bar" style="width: 50%"></div>
+                        </div>
+                        <div class="chance-percent">50%</div>
+                    </div>
+                </div>
+                
+                <div class="chance-item">
+                    <span class="item-emoji">🌹</span>
+                    <div class="item-info">
+                        <div class="item-name">Розочка</div>
+                        <div class="chance-bar-container">
+                            <div class="chance-bar" style="width: 50%"></div>
+                        </div>
+                        <div class="chance-percent">50%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Результат последнего открытия -->
+        <div class="last-result" id="lastResult"></div>
+    </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready();
-        tg.expand();
+        tg.expand(); // Растягиваем на весь экран
         
         // Приветствуем пользователя
         if (tg.initDataUnsafe?.user) {
             const user = tg.initDataUnsafe.user;
             document.getElementById('greeting').innerHTML = 
                 `Привет, ${user.first_name}! 👋`;
+        } else {
+            document.getElementById('greeting').innerHTML = 
+                `Привет, друг! 👋`;
         }
         
-        // Функция отправки данных
-        function sendData() {
-            const data = {
-                action: 'button_clicked',
-                time: new Date().toISOString()
-            };
-            tg.sendData(JSON.stringify(data));
-            tg.close(); // Закрываем приложение после отправки
+        // Функция открытия кейса
+        function openCase() {
+            // Анимация нажатия на кейс
+            const caseElement = document.getElementById('case');
+            caseElement.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                caseElement.style.transform = 'scale(1)';
+            }, 200);
+            
+            // Блокируем кнопку на время анимации
+            const button = document.getElementById('openButton');
+            button.disabled = true;
+            button.style.opacity = '0.5';
+            
+            // Эффект "открытия"
+            caseElement.style.background = 'linear-gradient(145deg, #ffb347, #ff8c00)';
+            
+            // Выбираем случайный предмет (50% на блокнот, 50% на розочку)
+            setTimeout(() => {
+                const random = Math.random(); // число от 0 до 1
+                let result;
+                
+                if (random < 0.5) {
+                    result = {
+                        name: 'Блокнот',
+                        emoji: '📓',
+                        chance: '50%'
+                    };
+                } else {
+                    result = {
+                        name: 'Розочка',
+                        emoji: '🌹',
+                        chance: '50%'
+                    };
+                }
+                
+                // Показываем результат
+                const resultDiv = document.getElementById('lastResult');
+                resultDiv.innerHTML = `🎉 Тебе выпало: ${result.emoji} ${result.name}!`;
+                resultDiv.classList.add('show');
+                
+                // Отправляем данные в бота (если нужно)
+                const data = {
+                    action: 'case_opened',
+                    result: result.name,
+                    time: new Date().toISOString()
+                };
+                
+                // Можно отправить результат в бот
+                // tg.sendData(JSON.stringify(data));
+                
+                // Возвращаем кнопку в нормальное состояние
+                button.disabled = false;
+                button.style.opacity = '1';
+                
+                // Возвращаем цвет кейса
+                caseElement.style.background = 'linear-gradient(145deg, #ffd700, #ffb347)';
+                
+            }, 300); // Небольшая задержка для анимации
         }
+        
+        // Добавляем эффект при наведении на кейс
+        document.getElementById('case').addEventListener('mouseenter', () => {
+            document.getElementById('case').style.transform = 'scale(1.05)';
+        });
+        
+        document.getElementById('case').addEventListener('mouseleave', () => {
+            document.getElementById('case').style.transform = 'scale(1)';
+        });
+        
     </script>
 </body>
 </html>
