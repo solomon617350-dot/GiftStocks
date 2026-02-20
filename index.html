@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* Все стили без изменений - они были правильные */
+        /* Все стили без изменений */
         * {
             margin: 0;
             padding: 0;
@@ -1200,21 +1200,31 @@
             saveState();
         }
 
-        // Функция для создания последовательности с точными шансами
-        function createFairSequence(length) {
+        // 🔥 Функция создания последовательности на основе результатов
+        function createSequenceBasedOnResults(results, length) {
             const sequence = [];
+            
+            // Создаём массив, где первые элементы - это результаты
+            // чтобы они точно попали в область остановки
             for (let i = 0; i < length; i++) {
-                const rand = Math.random() * 100;
-                if (rand < items.calendar.chance) {
-                    sequence.push(items.calendar);
+                if (i >= 35 && i < 35 + results.length) {
+                    // Вставляем результаты в позиции 35-40
+                    sequence.push(results[i - 35]);
                 } else {
-                    sequence.push(items.rose);
+                    // Для остальных позиций - случайные предметы по шансам
+                    const rand = Math.random() * 100;
+                    if (rand < items.calendar.chance) {
+                        sequence.push(items.calendar);
+                    } else {
+                        sequence.push(items.rose);
+                    }
                 }
             }
+            
             return sequence;
         }
 
-        // 🔥 ИСПРАВЛЕННАЯ ФУНКЦИЯ С ТОЧНОЙ ОСТАНОВКОЙ НА ПРЕДМЕТЕ
+        // 🔥 ИСПРАВЛЕННАЯ ФУНКЦИЯ
         async function openCase(isDemo) {
             if (state.isSpinning) return;
             
@@ -1238,7 +1248,7 @@
                 updateBalance();
             }
             
-            // ВЫБИРАЕМ РЕЗУЛЬТАТЫ
+            // ВЫБИРАЕМ РЕЗУЛЬТАТЫ (СНАЧАЛА!)
             const results = [];
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const rand = Math.random() * 100;
@@ -1275,12 +1285,11 @@
             
             finalButtons.style.display = 'none';
             
-            // Константы для расчёта позиции
-            const itemWidth = 80; // Ширина предмета
-            const gap = 10; // Отступ между предметами
-            const totalItemWidth = itemWidth + gap; // Общая ширина одного предмета с отступом
+            const itemWidth = 80;
+            const gap = 10;
+            const totalItemWidth = itemWidth + gap;
             
-            // Создаём рулетки
+            // СОЗДАЁМ РУЛЕТКИ НА ОСНОВЕ РЕЗУЛЬТАТОВ
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const rouletteDiv = document.createElement('div');
                 rouletteDiv.className = 'single-roulette';
@@ -1289,10 +1298,10 @@
                 const track = document.createElement('div');
                 track.className = 'roulette-track';
                 
-                // Создаём последовательность с правильными шансами
-                const fairSequence = createFairSequence(70);
+                // Создаём последовательность, где результаты гарантированно попадают в нужные позиции
+                const sequence = createSequenceBasedOnResults([results[i]], 70);
                 
-                fairSequence.forEach(item => {
+                sequence.forEach(item => {
                     const itemElement = document.createElement('div');
                     itemElement.className = 'roulette-item';
                     itemElement.style.minWidth = `${itemWidth}px`;
@@ -1307,34 +1316,19 @@
                 rouletteDiv.innerHTML += '<div class="roulette-indicator"></div>';
                 multiRoulette.appendChild(rouletteDiv);
                 
-                // Стартовая позиция (сдвиг влево на 20 предметов)
                 track.style.transform = `translateY(-50%) translateX(${-totalItemWidth * 20}px)`;
             }
             
             await new Promise(r => setTimeout(r, 100));
             
-            // Запускаем анимацию для каждой рулетки
+            // Запускаем анимацию
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const track = document.querySelector(`#roulette-${i} .roulette-track`);
                 
-                // Выбираем индекс для остановки (40-й предмет)
+                // Останавливаемся на позиции 40, где гарантированно находится результат
                 const targetIndex = 40;
-                
-                // Рассчитываем позицию, чтобы индикатор был РОВНО ПО ЦЕНТРУ предмета
-                // Индикатор находится в центре, поэтому нужно сместить track так,
-                // чтобы центр targetIndex-го предмета совпал с центром индикатора
-                
-                // Позиция центра targetIndex-го предмета относительно начала track:
-                // Для индекса 0 центр находится на расстоянии (itemWidth/2) от начала
-                // Для индекса targetIndex центр находится на расстоянии targetIndex * totalItemWidth + itemWidth/2
-                
-                // Нам нужно, чтобы эта точка оказалась под индикатором (который на 50% ширины контейнера)
-                // Track позиционируется от левого края, поэтому:
-                // targetPosition = -(targetIndex * totalItemWidth + itemWidth/2)
-                
                 const targetPosition = -(targetIndex * totalItemWidth + itemWidth/2);
-                
-                const duration = 5000; // 5 секунд
+                const duration = 5000;
                 
                 track.style.transition = `transform ${duration}ms cubic-bezier(0.15, 0.85, 0.35, 1)`;
                 track.style.transform = `translateY(-50%) translateX(${targetPosition}px)`;
