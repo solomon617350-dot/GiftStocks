@@ -1200,7 +1200,7 @@
             saveState();
         }
 
-        // 🔥 Функция для создания последовательности с точными шансами
+        // Функция для создания последовательности с точными шансами
         function createFairSequence(length) {
             const sequence = [];
             for (let i = 0; i < length; i++) {
@@ -1214,7 +1214,7 @@
             return sequence;
         }
 
-        // 🔥 ИСПРАВЛЕННАЯ ФУНКЦИЯ С ТОЧНОЙ ОСТАНОВКОЙ
+        // 🔥 ИСПРАВЛЕННАЯ ФУНКЦИЯ С ТОЧНОЙ ОСТАНОВКОЙ НА ПРЕДМЕТЕ
         async function openCase(isDemo) {
             if (state.isSpinning) return;
             
@@ -1238,7 +1238,7 @@
                 updateBalance();
             }
             
-            // 🔥 ВАЖНО: Сначала выбираем результаты
+            // ВЫБИРАЕМ РЕЗУЛЬТАТЫ
             const results = [];
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const rand = Math.random() * 100;
@@ -1275,9 +1275,12 @@
             
             finalButtons.style.display = 'none';
             
-            const itemWidth = 80; // Ширина предмета + gap
+            // Константы для расчёта позиции
+            const itemWidth = 80; // Ширина предмета
+            const gap = 10; // Отступ между предметами
+            const totalItemWidth = itemWidth + gap; // Общая ширина одного предмета с отступом
             
-            // 🔥 Создаём рулетки
+            // Создаём рулетки
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const rouletteDiv = document.createElement('div');
                 rouletteDiv.className = 'single-roulette';
@@ -1287,11 +1290,12 @@
                 track.className = 'roulette-track';
                 
                 // Создаём последовательность с правильными шансами
-                const fairSequence = createFairSequence(60); // Больше предметов для плавности
+                const fairSequence = createFairSequence(70);
                 
                 fairSequence.forEach(item => {
                     const itemElement = document.createElement('div');
                     itemElement.className = 'roulette-item';
+                    itemElement.style.minWidth = `${itemWidth}px`;
                     itemElement.innerHTML = `
                         <img src="${item.image}" alt="${item.name}">
                         <span>${item.name}</span>
@@ -1303,40 +1307,37 @@
                 rouletteDiv.innerHTML += '<div class="roulette-indicator"></div>';
                 multiRoulette.appendChild(rouletteDiv);
                 
-                // Стартуем с 20-го предмета
-                track.style.transform = `translateY(-50%) translateX(${-itemWidth * 20}px)`;
+                // Стартовая позиция (сдвиг влево на 20 предметов)
+                track.style.transform = `translateY(-50%) translateX(${-totalItemWidth * 20}px)`;
             }
             
             await new Promise(r => setTimeout(r, 100));
             
-            // 🔥 Запускаем анимацию с ТОЧНОЙ остановкой на предмете
+            // Запускаем анимацию для каждой рулетки
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const track = document.querySelector(`#roulette-${i} .roulette-track`);
                 
-                // Вычисляем точную позицию для каждого предмета
-                // Хотим остановиться на 40-м предмете (индекс 39)
-                const targetIndex = 39;
+                // Выбираем индекс для остановки (40-й предмет)
+                const targetIndex = 40;
                 
-                // Корректируем позицию в зависимости от результата
-                let finalIndex = targetIndex;
-                if (results[i].id === 'calendar') {
-                    // Убеждаемся, что на позиции 40 календарь
-                    // Для этого слегка смещаем, если нужно
-                    finalIndex = targetIndex;
-                } else {
-                    // Убеждаемся, что на позиции 40 розочка
-                    finalIndex = targetIndex;
-                }
+                // Рассчитываем позицию, чтобы индикатор был РОВНО ПО ЦЕНТРУ предмета
+                // Индикатор находится в центре, поэтому нужно сместить track так,
+                // чтобы центр targetIndex-го предмета совпал с центром индикатора
                 
-                const targetPosition = -itemWidth * finalIndex;
+                // Позиция центра targetIndex-го предмета относительно начала track:
+                // Для индекса 0 центр находится на расстоянии (itemWidth/2) от начала
+                // Для индекса targetIndex центр находится на расстоянии targetIndex * totalItemWidth + itemWidth/2
                 
-                // Добавляем небольшой оффсет для центрирования под индикатором
-                const centeredPosition = targetPosition - 2; // Чуть-чуть смещаем для идеального центрирования
+                // Нам нужно, чтобы эта точка оказалась под индикатором (который на 50% ширины контейнера)
+                // Track позиционируется от левого края, поэтому:
+                // targetPosition = -(targetIndex * totalItemWidth + itemWidth/2)
+                
+                const targetPosition = -(targetIndex * totalItemWidth + itemWidth/2);
                 
                 const duration = 5000; // 5 секунд
                 
                 track.style.transition = `transform ${duration}ms cubic-bezier(0.15, 0.85, 0.35, 1)`;
-                track.style.transform = `translateY(-50%) translateX(${centeredPosition}px)`;
+                track.style.transform = `translateY(-50%) translateX(${targetPosition}px)`;
             }
             
             await new Promise(r => setTimeout(r, 5200));
