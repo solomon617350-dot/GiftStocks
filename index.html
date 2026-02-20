@@ -114,7 +114,6 @@
         .case-image {
             width: 100%;
             height: 200px;
-            background: linear-gradient(145deg, #cd7f32, #b87333);
             border-radius: 15px;
             display: flex;
             align-items: center;
@@ -123,6 +122,8 @@
             font-size: 60px;
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background-size: cover;
+            background-position: center;
         }
         
         .case-name {
@@ -168,7 +169,6 @@
         .detail-image {
             width: 200px;
             height: 200px;
-            background: linear-gradient(145deg, #cd7f32, #b87333);
             border-radius: 30px;
             display: flex;
             align-items: center;
@@ -178,6 +178,8 @@
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            background-size: cover;
+            background-position: center;
         }
         
         .detail-name {
@@ -799,8 +801,7 @@
             <h2 class="section-title">🎁 Доступные кейсы</h2>
             <div class="cases-grid">
                 <div class="case-card" onclick="showCaseDetail('bronze')">
-                    <div class="case-image" style="background: linear-gradient(145deg, #cd7f32, #b87333);">
-                        🏆
+                    <div class="case-image" style="background-image: url('https://i.postimg.cc/1z9kJyvm/image.png'); background-size: cover; background-position: center;">
                     </div>
                     <div class="case-name">Бронзовый кейс</div>
                     <div class="case-price">
@@ -813,7 +814,7 @@
 
         <div id="caseDetail" class="case-detail">
             <div class="detail-header">
-                <div class="detail-image" id="detailImage">🏆</div>
+                <div class="detail-image" id="detailImage" style="background-image: url('https://i.postimg.cc/1z9kJyvm/image.png'); background-size: cover; background-position: center;"></div>
                 <div class="detail-name" id="detailName">Бронзовый кейс</div>
                 <div class="detail-price" id="detailPrice">
                     <div class="star-icon"></div>
@@ -1025,7 +1026,7 @@
             document.getElementById('caseDetail').classList.add('active');
             document.getElementById('backButton').classList.add('visible');
             
-            document.getElementById('detailImage').innerHTML = caseData.image;
+            document.getElementById('detailImage').innerHTML = '';
             document.getElementById('detailName').textContent = caseData.name;
             
             const priceElement = document.getElementById('detailPrice');
@@ -1086,7 +1087,6 @@
             document.getElementById('balanceModal').classList.remove('active');
         }
 
-        // 🔥 ИСПРАВЛЕННАЯ ФУНКЦИЯ ПОПОЛНЕНИЯ
         function depositStars(amount) {
             const userId = tg.initDataUnsafe?.user?.id || 'unknown';
             
@@ -1103,7 +1103,7 @@
                     title: 'Пополнение баланса',
                     description: `Пополнение игрового счета на ${amount} звёзд`,
                     payload: payload,
-                    provider_token: '8127579467:AAEXHHm0VPdt59diqrLaD6WjasRLDky_A5c', // ← ВСТАВЬ СВОЙ ТОКЕН!
+                    provider_token: '4018185784:TEST:17510c10e0054bce89cc3e9c6b07677c', // ← ВСТАВЬ СВОЙ ТОКЕН!
                     currency: 'XTR',
                     prices: [{ label: 'Звёзды', amount: amount }]
                 }, (status) => {
@@ -1245,7 +1245,8 @@
         }
 
         function getRandomStopPosition(itemWidth) {
-            const randomOffset = Math.floor(Math.random() * 40) + 20;
+            // Генерируем случайную позицию от 15 до 45 (чтобы был разброс)
+            const randomOffset = Math.floor(Math.random() * 30) + 15;
             return -itemWidth * randomOffset;
         }
 
@@ -1301,6 +1302,7 @@
             
             const itemWidth = 80;
             
+            // Создаем рулетки с перемешанными предметами
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const rouletteDiv = document.createElement('div');
                 rouletteDiv.className = 'single-roulette';
@@ -1309,8 +1311,16 @@
                 const track = document.createElement('div');
                 track.className = 'roulette-track';
                 
+                // Создаем перемешанную последовательность предметов
+                const itemSequence = [];
                 for (let j = 0; j < 50; j++) {
-                    const item = j % 2 === 0 ? items.calendar : items.rose;
+                    // Случайно выбираем предмет для каждого слота
+                    const randomItem = Math.random() < 0.5 ? items.calendar : items.rose;
+                    itemSequence.push(randomItem);
+                }
+                
+                // Добавляем предметы в трек
+                itemSequence.forEach(item => {
                     const itemElement = document.createElement('div');
                     itemElement.className = 'roulette-item';
                     itemElement.innerHTML = `
@@ -1318,7 +1328,7 @@
                         <span>${item.name}</span>
                     `;
                     track.appendChild(itemElement);
-                }
+                });
                 
                 rouletteDiv.appendChild(track);
                 rouletteDiv.innerHTML += '<div class="roulette-indicator"></div>';
@@ -1330,9 +1340,13 @@
             
             await new Promise(r => setTimeout(r, 100));
             
+            // Запускаем все рулетки одновременно с разными скоростями
+            const results = [];
+            
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const track = document.querySelector(`#roulette-${i} .roulette-track`);
                 
+                // Выбираем результат на основе шансов
                 const random = Math.random() * 100;
                 let result;
                 if (random < 10) {
@@ -1349,18 +1363,24 @@
                     };
                 }
                 
-                state.currentOpenings.push(result);
+                results.push(result);
                 
+                // Генерируем случайную позицию остановки
                 const stopPosition = getRandomStopPosition(itemWidth);
-                const duration = 4000 + Math.random() * 2000;
+                const duration = 4000 + Math.random() * 2000; // Разная скорость для каждой рулетки
                 
                 track.style.transition = `transform ${duration}ms cubic-bezier(0.15, 0.85, 0.35, 1)`;
                 track.style.transform = `translateY(-50%) translateX(${stopPosition}px)`;
             }
             
+            // Ждем окончания анимации
             await new Promise(r => setTimeout(r, 6000));
             
-            state.currentOpenings.forEach(result => {
+            // Сохраняем результаты
+            state.currentOpenings = results;
+            
+            // Отображаем результаты
+            results.forEach(result => {
                 resultsList.innerHTML += `
                     <div class="result-item ${isDemo ? 'demo' : ''}">
                         <img src="${result.image}" alt="${result.name}">
@@ -1374,7 +1394,7 @@
             });
             
             if (!isDemo) {
-                state.inventory.push(...state.currentOpenings);
+                state.inventory.push(...results);
                 state.openedCases += state.selectedQuantity;
                 document.getElementById('openedCases').textContent = state.openedCases;
             }
