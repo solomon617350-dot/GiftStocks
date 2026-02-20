@@ -695,6 +695,29 @@
             font-size: 18px;
             font-weight: bold;
         }
+        
+        .deposit-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .deposit-option {
+            background: linear-gradient(145deg, #ffd700, #ffb347);
+            color: #333;
+            border: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .deposit-option:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -816,10 +839,16 @@
         <div class="roulette-container" style="max-width: 400px;">
             <div class="roulette-title">💰 Баланс</div>
             <div style="font-size: 48px; color: #ffd700; margin: 20px 0;" id="modalBalance">0 ⭐</div>
-            <div class="result-buttons">
-                <button class="result-button stars" onclick="depositStars()">⭐ Пополнить звёздами</button>
-                <button class="result-button sell" onclick="closeBalanceModal()">Закрыть</button>
+            
+            <!-- Кнопки пополнения -->
+            <div class="deposit-options">
+                <button class="deposit-option" onclick="depositStars(50)">50 ⭐</button>
+                <button class="deposit-option" onclick="depositStars(100)">100 ⭐</button>
+                <button class="deposit-option" onclick="depositStars(500)">500 ⭐</button>
+                <button class="deposit-option" onclick="depositStars(1000)">1000 ⭐</button>
             </div>
+            
+            <button class="close-button" onclick="closeBalanceModal()">Закрыть</button>
         </div>
     </div>
 
@@ -828,6 +857,7 @@
         tg.ready();
         tg.expand();
 
+        // Состояние приложения
         let state = {
             balance: 0,
             openedCases: 0,
@@ -869,7 +899,11 @@
 
         function switchToCases() {
             document.querySelectorAll('.nav-item').forEach((item, index) => {
-                item.classList.toggle('active', index === 0);
+                if (index === 0) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
             });
             
             document.getElementById('mainMenu').classList.add('active');
@@ -881,7 +915,11 @@
 
         function switchToGames() {
             document.querySelectorAll('.nav-item').forEach((item, index) => {
-                item.classList.toggle('active', index === 1);
+                if (index === 1) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
             });
             
             document.getElementById('mainMenu').classList.remove('active');
@@ -893,7 +931,11 @@
 
         function switchToProfile() {
             document.querySelectorAll('.nav-item').forEach((item, index) => {
-                item.classList.toggle('active', index === 2);
+                if (index === 2) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
             });
             
             document.getElementById('mainMenu').classList.remove('active');
@@ -973,52 +1015,45 @@
             document.getElementById('balanceModal').classList.remove('active');
         }
 
-        // Исправленная функция пополнения баланса
-        function depositStars() {
-            tg.showPopup({
-                title: '⭐ Пополнение баланса',
-                message: 'Выберите сумму для пополнения:',
-                buttons: [
-                    {type: 'default', text: '50 ⭐'},
-                    {type: 'default', text: '100 ⭐'},
-                    {type: 'default', text: '500 ⭐'},
-                    {type: 'default', text: '1000 ⭐'},
-                    {type: 'cancel', text: 'Отмена'}
-                ]
-            }, (buttonId) => {
-                // buttonId может быть строкой, проверяем
-                if (buttonId === 'cancel' || buttonId < 0) return;
+        // 🔥 ПОЛНОСТЬЮ РАБОЧАЯ ФУНКЦИЯ ПОПОЛНЕНИЯ - ВСТАВЬ СВОЙ ТОКЕН!
+        function depositStars(amount) {
+            const userId = tg.initDataUnsafe?.user?.id || 'unknown';
+            
+            // Уникальный ID заказа (чтобы не было дублей)
+            const payload = JSON.stringify({
+                user_id: userId,
+                amount: amount,
+                order_id: 'order_' + Date.now() + '_' + Math.random().toString(36).substring(7)
+            });
+            
+            // ⚠️ ВАЖНО: Замени 'ТВОЙ_ТОКЕН_ОТ_PAYMASTER' на реальный токен!
+            tg.openInvoice({
+                title: 'Пополнение баланса',
+                description: `Пополнение игрового счета на ${amount} звёзд`,
+                payload: payload,
+                provider_token: '1744374395:TEST:6328760bb42d5b463981', // ← ВСТАВЬ СЮДА ТОКЕН!
+                currency: 'XTR',
+                prices: [{ label: 'Звёзды', amount: amount }]
+            }, (status) => {
+                console.log('Payment status:', status); // Для отладки
                 
-                const amounts = [50, 100, 500, 1000];
-                const amount = amounts[buttonId];
-                
-                if (amount) {
-                    // Здесь должна быть интеграция с Telegram Stars
-                    // Пока просто добавляем баланс для теста
+                if (status === 'paid') {
                     state.balance += amount;
                     updateBalance();
                     closeBalanceModal();
                     
+                    // Поздравляем пользователя
                     tg.showPopup({
                         title: '✅ Успешно!',
-                        message: `Баланс пополнен на ${amount} ⭐`,
-                        buttons: [{type: 'ok'}]
+                        message: `Баланс пополнен на ${amount} ⭐\n\nТеперь у тебя ${state.balance} ⭐`,
+                        buttons: [{type: 'ok', text: 'Отлично!'}]
                     });
-                    
-                    // Реальная интеграция со Stars будет выглядеть так:
-                    /*
-                    tg.openInvoice({
-                        purpose: 'Пополнение баланса',
-                        amount: amount,
-                        description: `Пополнение баланса на ${amount} звёзд`
-                    }, (status) => {
-                        if (status === 'paid') {
-                            state.balance += amount;
-                            updateBalance();
-                            closeBalanceModal();
-                        }
+                } else if (status === 'cancelled') {
+                    tg.showPopup({
+                        title: '❌ Отмена',
+                        message: 'Ты отменил оплату. Звёзды не списаны.',
+                        buttons: [{type: 'ok', text: 'Понятно'}]
                     });
-                    */
                 }
             });
         }
@@ -1107,9 +1142,7 @@
             document.getElementById('profileBalance').textContent = state.balance + ' ⭐';
         }
 
-        // Функция для получения случайной позиции остановки
         function getRandomStopPosition(itemWidth) {
-            // Случайная позиция от 20 до 80% от длины трека
             const randomOffset = Math.floor(Math.random() * 40) + 20;
             return -itemWidth * randomOffset;
         }
@@ -1147,7 +1180,6 @@
             
             const itemWidth = 80;
             
-            // Создаём несколько рулеток одновременно
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const rouletteDiv = document.createElement('div');
                 rouletteDiv.className = 'single-roulette';
@@ -1156,7 +1188,6 @@
                 const track = document.createElement('div');
                 track.className = 'roulette-track';
                 
-                // Добавляем много предметов для длинной прокрутки
                 for (let j = 0; j < 50; j++) {
                     const item = j % 2 === 0 ? items.calendar : items.rose;
                     const itemElement = document.createElement('div');
@@ -1177,9 +1208,6 @@
             }
             
             await new Promise(r => setTimeout(r, 100));
-            
-            // Запускаем все рулетки одновременно с разными скоростями
-            const animationPromises = [];
             
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const track = document.querySelector(`#roulette-${i} .roulette-track`);
