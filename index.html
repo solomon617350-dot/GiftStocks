@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* Все стили без изменений */
         * {
             margin: 0;
             padding: 0;
@@ -125,6 +124,7 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             background-size: cover;
             background-position: center;
+            background-image: url('https://i.postimg.cc/w3wd8bSR/image-2026-02-20-204059171.png');
         }
         
         .case-name {
@@ -181,6 +181,7 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             background-size: cover;
             background-position: center;
+            background-image: url('https://i.postimg.cc/w3wd8bSR/image-2026-02-20-204059171.png');
         }
         
         .detail-name {
@@ -802,8 +803,7 @@
             <h2 class="section-title">🎁 Доступные кейсы</h2>
             <div class="cases-grid">
                 <div class="case-card" onclick="showCaseDetail('bronze')">
-                    <div class="case-image" style="background-image: url('https://i.postimg.cc/w3wd8bSR/image-2026-02-20-204059171.png'); background-size: cover; background-position: center;">
-                    </div>
+                    <div class="case-image"></div>
                     <div class="case-name">Бронзовый кейс</div>
                     <div class="case-price">
                         <div class="small-star"></div>
@@ -815,7 +815,7 @@
 
         <div id="caseDetail" class="case-detail">
             <div class="detail-header">
-                <div class="detail-image" id="detailImage" style="background-image: url('https://i.postimg.cc/w3wd8bSR/image-2026-02-20-204059171.png'); background-size: cover; background-position: center;"></div>
+                <div class="detail-image" id="detailImage"></div>
                 <div class="detail-name" id="detailName">Бронзовый кейс</div>
                 <div class="detail-price" id="detailPrice">
                     <div class="star-icon"></div>
@@ -1200,18 +1200,14 @@
             saveState();
         }
 
-        // 🔥 Функция создания последовательности на основе результатов
-        function createSequenceBasedOnResults(results, length) {
+        // Функция создания последовательности с гарантированным результатом
+        function createSequenceWithResult(resultItem, length) {
             const sequence = [];
-            
-            // Создаём массив, где первые элементы - это результаты
-            // чтобы они точно попали в область остановки
             for (let i = 0; i < length; i++) {
-                if (i >= 35 && i < 35 + results.length) {
-                    // Вставляем результаты в позиции 35-40
-                    sequence.push(results[i - 35]);
+                if (i >= 35 && i < 36) { // Позиция 35 - гарантированный результат
+                    sequence.push(resultItem);
                 } else {
-                    // Для остальных позиций - случайные предметы по шансам
+                    // Остальные позиции - случайные
                     const rand = Math.random() * 100;
                     if (rand < items.calendar.chance) {
                         sequence.push(items.calendar);
@@ -1220,11 +1216,9 @@
                     }
                 }
             }
-            
             return sequence;
         }
 
-        // 🔥 ИСПРАВЛЕННАЯ ФУНКЦИЯ
         async function openCase(isDemo) {
             if (state.isSpinning) return;
             
@@ -1248,14 +1242,16 @@
                 updateBalance();
             }
             
-            // ВЫБИРАЕМ РЕЗУЛЬТАТЫ (СНАЧАЛА!)
+            // 🔥 КЛЮЧЕВОЕ ИСПРАВЛЕНИЕ: Каждый кейс крутится независимо!
             const results = [];
             for (let i = 0; i < state.selectedQuantity; i++) {
+                // У каждого кейса свой шанс 10%
                 const rand = Math.random() * 100;
                 const result = rand < items.calendar.chance 
                     ? { ...items.calendar, timestamp: Date.now() + i, isDemo }
                     : { ...items.rose, timestamp: Date.now() + i, isDemo };
                 results.push(result);
+                console.log(`🎲 Кейс ${i+1}: выпал ${result.name}`);
             }
             
             state.currentOpenings = results;
@@ -1289,7 +1285,7 @@
             const gap = 10;
             const totalItemWidth = itemWidth + gap;
             
-            // СОЗДАЁМ РУЛЕТКИ НА ОСНОВЕ РЕЗУЛЬТАТОВ
+            // 🔥 СОЗДАЁМ РУЛЕТКИ: для каждой свой результат
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const rouletteDiv = document.createElement('div');
                 rouletteDiv.className = 'single-roulette';
@@ -1298,8 +1294,8 @@
                 const track = document.createElement('div');
                 track.className = 'roulette-track';
                 
-                // Создаём последовательность, где результаты гарантированно попадают в нужные позиции
-                const sequence = createSequenceBasedOnResults([results[i]], 70);
+                // Создаём последовательность с результатом для этой конкретной рулетки
+                const sequence = createSequenceWithResult(results[i], 70);
                 
                 sequence.forEach(item => {
                     const itemElement = document.createElement('div');
@@ -1325,8 +1321,7 @@
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const track = document.querySelector(`#roulette-${i} .roulette-track`);
                 
-                // Останавливаемся на позиции 40, где гарантированно находится результат
-                const targetIndex = 40;
+                const targetIndex = 35; // Останавливаемся на позиции 35, где гарантированно результат
                 const targetPosition = -(targetIndex * totalItemWidth + itemWidth/2);
                 const duration = 5000;
                 
@@ -1350,7 +1345,9 @@
                 `;
             });
             
+            // 🔥 СОХРАНЯЕМ В ИНВЕНТАРЬ (только если не демо)
             if (!isDemo) {
+                console.log('📦 Сохраняем в инвентарь:', results.map(r => r.name));
                 state.inventory.push(...results);
                 state.openedCases += state.selectedQuantity;
                 document.getElementById('openedCases').textContent = state.openedCases;
