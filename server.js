@@ -8,9 +8,25 @@ app.use(cors());
 app.use(express.json());
 
 // Подключение к MongoDB
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/casebot', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+mongoose.connect(process.env.MONGODB_URI, {
+  ssl: true,
+  tls: true,
+  tlsAllowInvalidCertificates: true,
+  retryWrites: true,
+  retryReads: true,
+  maxPoolSize: 10,
+  minPoolSize: 5,
+  maxIdleTimeMS: 30000,
+  socketTimeoutMS: 45000,
+  keepAlive: true,
+  keepAliveInitialDelay: 300000,
+  connectTimeoutMS: 30000,
+  serverSelectionTimeoutMS: 30000,
+  heartbeatFrequencyMS: 10000
+}).then(() => {
+  console.log('MongoDB подключен и держит связь');
+}).catch(err => {
+  console.error('MongoDB connection error:', err);
 });
 
 // Схема пользователя
