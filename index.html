@@ -1277,7 +1277,7 @@
                     lastName: tg.initDataUnsafe?.user?.last_name || ''
                 };
                 
-                const response = await fetch(`${SERVER_URL}/api/user`, {
+                const response = await fetch(`https://case-bot-server.onrender.com/api/user`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(userData)
