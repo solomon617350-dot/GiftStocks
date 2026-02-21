@@ -1218,7 +1218,7 @@
     </div>
 
     <!-- Кнопка входа для админа -->
-    <div class="admin-login" onclick="promptAdminPassword()" title="Вход для администратора">
+    <div class="admin-login" id="adminLoginButton" onclick="promptAdminPassword()" title="Вход для администратора">
         👤
     </div>
 
@@ -1227,14 +1227,53 @@
         tg.ready();
         tg.expand();
 
-        // ⚠️ ВАЖНО: ЗАМЕНИ ЭТО ЧИСЛО НА СВОЙ TELEGRAM ID!
+        // ⚠️ ВАЖНО: ЗДЕСЬ НУЖНО ВСТАВИТЬ ТВОЙ РЕАЛЬНЫЙ TELEGRAM ID!
         // Узнать ID можно через бота @userinfobot
-        const OWNER_ID = 7389462195; // ← СЮДА ВСТАВЬ СВОЙ ЧИСЛОВОЙ ID!
+        const OWNER_ID = 7389462195; // ← ЗАМЕНИ ЭТО ЧИСЛО НА СВОЙ ID!
+        
+        // Функция для получения ID пользователя
+        function getUserId() {
+            // Пробуем получить ID разными способами
+            if (tg.initDataUnsafe?.user?.id) {
+                return tg.initDataUnsafe.user.id;
+            }
+            
+            // Если не получили, пробуем распарсить initData
+            if (tg.initData) {
+                try {
+                    const params = new URLSearchParams(tg.initData);
+                    const userStr = params.get('user');
+                    if (userStr) {
+                        const user = JSON.parse(userStr);
+                        return user.id;
+                    }
+                } catch (e) {
+                    console.error('Error parsing user data:', e);
+                }
+            }
+            
+            return null;
+        }
         
         // Проверка, является ли пользователь владельцем
         function isOwner() {
-            const userId = tg.initDataUnsafe?.user?.id;
-            return userId === OWNER_ID;
+            const userId = getUserId();
+            console.log('Current user ID:', userId, 'Owner ID:', OWNER_ID); // Для отладки
+            return userId && userId === OWNER_ID;
+        }
+
+        // Показываем кнопку админа только владельцу
+        function updateAdminButtonVisibility() {
+            const adminLogin = document.getElementById('adminLoginButton');
+            if (adminLogin) {
+                if (isOwner()) {
+                    adminLogin.style.display = 'flex';
+                    console.log('Admin button SHOWN for owner');
+                } else {
+                    adminLogin.style.display = 'none';
+                    console.log('Admin button HIDDEN for non-owner');
+                }
+            }
         }
 
         // Загрузка сохранённых данных
@@ -1309,16 +1348,10 @@
             }
         };
 
-        // Показываем кнопку админа только владельцу
-        function updateAdminButtonVisibility() {
-            const adminLogin = document.querySelector('.admin-login');
-            if (adminLogin) {
-                adminLogin.style.display = isOwner() ? 'flex' : 'none';
-            }
-        }
-
-        // Вызываем при загрузке
-        updateAdminButtonVisibility();
+        // Вызываем при загрузке и добавляем наблюдателя за изменением
+        setTimeout(updateAdminButtonVisibility, 500);
+        // Также вызываем после полной загрузки страницы
+        window.addEventListener('load', updateAdminButtonVisibility);
 
         function switchToCases() {
             document.querySelectorAll('.nav-item').forEach((item, index) => {
