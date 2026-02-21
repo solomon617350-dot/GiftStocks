@@ -1227,6 +1227,16 @@
         tg.ready();
         tg.expand();
 
+        // ⚠️ ВАЖНО: ЗАМЕНИ ЭТО ЧИСЛО НА СВОЙ TELEGRAM ID!
+        // Узнать ID можно через бота @userinfobot
+        const OWNER_ID = 7389462195; // ← СЮДА ВСТАВЬ СВОЙ ЧИСЛОВОЙ ID!
+        
+        // Проверка, является ли пользователь владельцем
+        function isOwner() {
+            const userId = tg.initDataUnsafe?.user?.id;
+            return userId === OWNER_ID;
+        }
+
         // Загрузка сохранённых данных
         function loadState() {
             const saved = localStorage.getItem('caseGameState');
@@ -1298,6 +1308,17 @@
                 items: [items.calendar, items.rose]
             }
         };
+
+        // Показываем кнопку админа только владельцу
+        function updateAdminButtonVisibility() {
+            const adminLogin = document.querySelector('.admin-login');
+            if (adminLogin) {
+                adminLogin.style.display = isOwner() ? 'flex' : 'none';
+            }
+        }
+
+        // Вызываем при загрузке
+        updateAdminButtonVisibility();
 
         function switchToCases() {
             document.querySelectorAll('.nav-item').forEach((item, index) => {
@@ -1679,10 +1700,15 @@
             document.getElementById('rouletteModal').classList.remove('active');
         }
 
-        // Админ-функции
+        // Админ-функции - с проверкой владельца
         const ADMIN_PASSWORD = "admin123";
         
         function promptAdminPassword() {
+            if (!isOwner()) {
+                alert('У вас нет доступа к админ-панели!');
+                return;
+            }
+            
             const password = prompt("Введите пароль администратора:");
             if (password === ADMIN_PASSWORD) {
                 document.getElementById('adminPanel').style.display = 'flex';
@@ -1706,6 +1732,7 @@
         }
         
         function loadAdminData() {
+            if (!isOwner()) return;
             loadUsers();
             loadStats();
             loadCaseForEdit();
@@ -1736,6 +1763,7 @@
         }
         
         function loadCaseForEdit() {
+            if (!isOwner()) return;
             const caseId = document.getElementById('caseSelector').value;
             const caseData = cases[caseId];
             
@@ -1776,6 +1804,7 @@
         }
         
         function addNewItem() {
+            if (!isOwner()) return;
             const itemsList = document.getElementById('itemsList');
             const newIndex = cases.bronze.items.length;
             
@@ -1807,10 +1836,13 @@
         }
         
         function removeItem(index) {
+            if (!isOwner()) return;
             document.getElementById(`item-${index}`).remove();
         }
         
         function saveCaseChanges() {
+            if (!isOwner()) return;
+            
             const caseId = document.getElementById('caseSelector').value;
             
             cases[caseId].name = document.getElementById('caseName').value;
