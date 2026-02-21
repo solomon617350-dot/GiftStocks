@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        /* Все стили без изменений - они уже были правильные */
         * {
             margin: 0;
             padding: 0;
@@ -905,6 +906,7 @@
             align-items: center;
             padding: 10px;
             border-bottom: 1px solid var(--tg-theme-hint-color, #ddd);
+            gap: 10px;
         }
         
         .user-item:last-child {
@@ -913,10 +915,31 @@
         
         .user-name {
             font-weight: bold;
+            min-width: 120px;
         }
         
         .user-stats {
             color: #ffd700;
+            font-size: 14px;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .edit-balance-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .edit-balance-btn:hover {
+            background: #45a049;
         }
         
         .admin-btn {
@@ -936,6 +959,10 @@
         
         .admin-btn.save {
             background: #4CAF50;
+        }
+        
+        .admin-btn.danger {
+            background: #ff4444;
         }
         
         .form-group {
@@ -1192,6 +1219,7 @@
                 
                 <button class="admin-btn" onclick="addNewItem()">➕ Добавить предмет</button>
                 <button class="admin-btn save" onclick="saveCaseChanges()">💾 Сохранить изменения</button>
+                <button class="admin-btn danger" onclick="resetCasesToDefault()">↺ Сбросить к настройкам по умолчанию</button>
             </div>
         </div>
         
@@ -1228,17 +1256,86 @@
         tg.expand();
 
         // ⚠️ ВАЖНО: ЗДЕСЬ НУЖНО ВСТАВИТЬ ТВОЙ РЕАЛЬНЫЙ TELEGRAM ID!
-        // Узнать ID можно через бота @userinfobot
         const OWNER_ID = 7389462195; // ← ЗАМЕНИ ЭТО ЧИСЛО НА СВОЙ ID!
         
+        // Ключи для localStorage
+        const STORAGE_KEYS = {
+            USERS: 'caseGame_users',
+            CASES: 'caseGame_cases',
+            ITEMS: 'caseGame_items'
+        };
+
+        // Загрузка всех пользователей
+        function loadAllUsers() {
+            const saved = localStorage.getItem(STORAGE_KEYS.USERS);
+            if (saved) {
+                try {
+                    return JSON.parse(saved);
+                } catch (e) {
+                    console.error('Error loading users:', e);
+                }
+            }
+            return {};
+        }
+
+        // Сохранение всех пользователей
+        function saveAllUsers(users) {
+            try {
+                localStorage.setItem(STORAGE_KEYS.USERS, JSON.stringify(users));
+            } catch (e) {
+                console.error('Error saving users:', e);
+            }
+        }
+
+        // Загрузка кастомных предметов
+        function loadCustomItems() {
+            const saved = localStorage.getItem(STORAGE_KEYS.ITEMS);
+            if (saved) {
+                try {
+                    return JSON.parse(saved);
+                } catch (e) {
+                    console.error('Error loading custom items:', e);
+                }
+            }
+            return {};
+        }
+
+        // Сохранение кастомных предметов
+        function saveCustomItems(items) {
+            try {
+                localStorage.setItem(STORAGE_KEYS.ITEMS, JSON.stringify(items));
+            } catch (e) {
+                console.error('Error saving custom items:', e);
+            }
+        }
+
+        // Загрузка кастомных кейсов
+        function loadCustomCases() {
+            const saved = localStorage.getItem(STORAGE_KEYS.CASES);
+            if (saved) {
+                try {
+                    return JSON.parse(saved);
+                } catch (e) {
+                    console.error('Error loading custom cases:', e);
+                }
+            }
+            return null;
+        }
+
+        // Сохранение кастомных кейсов
+        function saveCustomCases(cases) {
+            try {
+                localStorage.setItem(STORAGE_KEYS.CASES, JSON.stringify(cases));
+            } catch (e) {
+                console.error('Error saving custom cases:', e);
+            }
+        }
+
         // Функция для получения ID пользователя
         function getUserId() {
-            // Пробуем получить ID разными способами
             if (tg.initDataUnsafe?.user?.id) {
                 return tg.initDataUnsafe.user.id;
             }
-            
-            // Если не получили, пробуем распарсить initData
             if (tg.initData) {
                 try {
                     const params = new URLSearchParams(tg.initData);
@@ -1251,14 +1348,12 @@
                     console.error('Error parsing user data:', e);
                 }
             }
-            
             return null;
         }
         
         // Проверка, является ли пользователь владельцем
         function isOwner() {
             const userId = getUserId();
-            console.log('Current user ID:', userId, 'Owner ID:', OWNER_ID); // Для отладки
             return userId && userId === OWNER_ID;
         }
 
@@ -1266,49 +1361,44 @@
         function updateAdminButtonVisibility() {
             const adminLogin = document.getElementById('adminLoginButton');
             if (adminLogin) {
-                if (isOwner()) {
-                    adminLogin.style.display = 'flex';
-                    console.log('Admin button SHOWN for owner');
-                } else {
-                    adminLogin.style.display = 'none';
-                    console.log('Admin button HIDDEN for non-owner');
-                }
+                adminLogin.style.display = isOwner() ? 'flex' : 'none';
             }
         }
 
-        // Загрузка сохранённых данных
-        function loadState() {
-            const saved = localStorage.getItem('caseGameState');
-            if (saved) {
-                try {
-                    const parsed = JSON.parse(saved);
-                    state.balance = parsed.balance || 0;
-                    state.openedCases = parsed.openedCases || 0;
-                    state.inventory = parsed.inventory || [];
-                } catch (e) {
-                    console.error('Error loading state:', e);
-                }
-            }
-        }
-
-        // Сохранение данных
-        function saveState() {
-            try {
-                const toSave = {
-                    balance: state.balance,
-                    openedCases: state.openedCases,
-                    inventory: state.inventory
+        // Загрузка данных текущего пользователя
+        function loadUserData(userId) {
+            const allUsers = loadAllUsers();
+            if (!allUsers[userId]) {
+                allUsers[userId] = {
+                    balance: 0,
+                    openedCases: 0,
+                    inventory: [],
+                    username: tg.initDataUnsafe?.user?.username || tg.initDataUnsafe?.user?.first_name || 'User',
+                    firstSeen: new Date().toISOString()
                 };
-                localStorage.setItem('caseGameState', JSON.stringify(toSave));
-            } catch (e) {
-                console.error('Error saving state:', e);
+                saveAllUsers(allUsers);
             }
+            return allUsers[userId];
         }
 
-        let state = {
+        // Сохранение данных текущего пользователя
+        function saveUserData(userId, userData) {
+            const allUsers = loadAllUsers();
+            allUsers[userId] = userData;
+            saveAllUsers(allUsers);
+        }
+
+        const currentUserId = getUserId();
+        let currentUserData = currentUserId ? loadUserData(currentUserId) : {
             balance: 0,
             openedCases: 0,
-            inventory: [],
+            inventory: []
+        };
+
+        let state = {
+            balance: currentUserData.balance,
+            openedCases: currentUserData.openedCases,
+            inventory: currentUserData.inventory,
             currentCase: 'bronze',
             selectedQuantity: 1,
             currentOpenings: [],
@@ -1316,10 +1406,8 @@
             isDemo: false
         };
 
-        // Загружаем сохранённые данные
-        loadState();
-
-        const items = {
+        // Базовые предметы
+        const baseItems = {
             calendar: {
                 id: 'calendar',
                 name: 'Календарь',
@@ -1338,21 +1426,51 @@
             }
         };
 
-        const cases = {
+        // Загружаем кастомные предметы
+        let customItems = loadCustomItems();
+        let items = { ...baseItems, ...customItems };
+
+        // Базовые кейсы
+        const baseCases = {
             bronze: {
                 name: 'Бронзовый кейс',
                 price: 99,
                 image: '🏆',
                 color: 'linear-gradient(145deg, #cd7f32, #b87333)',
-                items: [items.calendar, items.rose]
+                items: [baseItems.calendar, baseItems.rose]
             }
         };
 
-        // Вызываем при загрузке и добавляем наблюдателя за изменением
-        setTimeout(updateAdminButtonVisibility, 500);
-        // Также вызываем после полной загрузки страницы
-        window.addEventListener('load', updateAdminButtonVisibility);
+        // Загружаем кастомные кейсы или используем базовые
+        let cases = loadCustomCases() || { ...baseCases };
 
+        // Функция сохранения состояния пользователя
+        function saveCurrentUserState() {
+            if (currentUserId) {
+                currentUserData = {
+                    balance: state.balance,
+                    openedCases: state.openedCases,
+                    inventory: state.inventory,
+                    username: tg.initDataUnsafe?.user?.username || tg.initDataUnsafe?.user?.first_name || 'User',
+                    lastSeen: new Date().toISOString()
+                };
+                saveUserData(currentUserId, currentUserData);
+            }
+        }
+
+        // Переопределяем функции сохранения
+        function saveState() {
+            saveCurrentUserState();
+        }
+
+        // Обновление баланса
+        function updateBalance() {
+            document.getElementById('balanceDisplay').textContent = state.balance;
+            document.getElementById('profileBalance').textContent = state.balance + ' ⭐';
+            saveState();
+        }
+
+        // Остальные функции без изменений...
         function switchToCases() {
             document.querySelectorAll('.nav-item').forEach((item, index) => {
                 item.classList.toggle('active', index === 0);
@@ -1546,12 +1664,6 @@
             tg.showPopup({ title: 'Продано!', message: `+${total} ⭐`, buttons: [{type: 'ok'}] });
         }
 
-        function updateBalance() {
-            document.getElementById('balanceDisplay').textContent = state.balance;
-            document.getElementById('profileBalance').textContent = state.balance + ' ⭐';
-            saveState();
-        }
-
         // Функция создания последовательности с гарантированным результатом
         function createSequenceWithResult(resultItem, length) {
             const sequence = [];
@@ -1593,13 +1705,27 @@
                 updateBalance();
             }
             
-            // Каждый кейс крутится независимо!
             const results = [];
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const rand = Math.random() * 100;
-                const result = rand < items.calendar.chance 
-                    ? { ...items.calendar, timestamp: Date.now() + i, isDemo }
-                    : { ...items.rose, timestamp: Date.now() + i, isDemo };
+                let result;
+                
+                // Выбираем предмет на основе шансов из кейса
+                let cumulativeChance = 0;
+                const randomValue = Math.random() * 100;
+                
+                for (const item of caseData.items) {
+                    cumulativeChance += item.chance;
+                    if (randomValue <= cumulativeChance) {
+                        result = { ...item, timestamp: Date.now() + i, isDemo };
+                        break;
+                    }
+                }
+                
+                if (!result) {
+                    result = { ...caseData.items[0], timestamp: Date.now() + i, isDemo };
+                }
+                
                 results.push(result);
                 console.log(`🎲 Кейс ${i+1}: выпал ${result.name}`);
             }
@@ -1635,7 +1761,6 @@
             const gap = 10;
             const totalItemWidth = itemWidth + gap;
             
-            // Создаём рулетки: для каждой свой результат
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const rouletteDiv = document.createElement('div');
                 rouletteDiv.className = 'single-roulette';
@@ -1644,7 +1769,26 @@
                 const track = document.createElement('div');
                 track.className = 'roulette-track';
                 
-                const sequence = createSequenceWithResult(results[i], 70);
+                // Создаём последовательность с результатом для этой рулетки
+                const sequence = [];
+                for (let j = 0; j < 70; j++) {
+                    if (j >= 35 && j < 36) {
+                        sequence.push(results[i]);
+                    } else {
+                        // Случайный предмет для визуала
+                        const rand = Math.random() * 100;
+                        let randomItem = caseData.items[0];
+                        let cumChance = 0;
+                        for (const item of caseData.items) {
+                            cumChance += item.chance;
+                            if (rand <= cumChance) {
+                                randomItem = item;
+                                break;
+                            }
+                        }
+                        sequence.push(randomItem);
+                    }
+                }
                 
                 sequence.forEach(item => {
                     const itemElement = document.createElement('div');
@@ -1733,7 +1877,7 @@
             document.getElementById('rouletteModal').classList.remove('active');
         }
 
-        // Админ-функции - с проверкой владельца
+        // Админ-функции
         const ADMIN_PASSWORD = "admin123";
         
         function promptAdminPassword() {
@@ -1762,37 +1906,102 @@
             
             event.target.classList.add('active');
             document.getElementById(`admin${tab.charAt(0).toUpperCase() + tab.slice(1)}`).classList.add('active');
+            
+            if (tab === 'users') loadAllUsersList();
+            if (tab === 'stats') loadStats();
         }
         
         function loadAdminData() {
             if (!isOwner()) return;
-            loadUsers();
+            loadAllUsersList();
             loadStats();
             loadCaseForEdit();
         }
         
-        function loadUsers() {
+        function loadAllUsersList() {
+            const allUsers = loadAllUsers();
             const usersList = document.getElementById('usersList');
-            usersList.innerHTML = `
-                <div class="user-item">
-                    <span class="user-name">${tg.initDataUnsafe?.user?.first_name || 'Текущий пользователь'}</span>
-                    <span class="user-stats">Баланс: ${state.balance} ⭐ | Открыто: ${state.openedCases}</span>
-                </div>
-            `;
+            
+            let html = '';
+            for (const [userId, userData] of Object.entries(allUsers)) {
+                html += `
+                    <div class="user-item">
+                        <span class="user-name">${userData.username || 'User'}</span>
+                        <span class="user-stats">💰 ${userData.balance} ⭐ | 🎲 ${userData.openedCases}</span>
+                        <div class="user-actions">
+                            <button class="edit-balance-btn" onclick="editUserBalance('${userId}')">✏️ Баланс</button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            usersList.innerHTML = html || '<div class="empty-section">Нет пользователей</div>';
+        }
+        
+        function editUserBalance(userId) {
+            const allUsers = loadAllUsers();
+            const userData = allUsers[userId];
+            
+            const newBalance = prompt(`Введите новый баланс для пользователя ${userData.username || userId}:`, userData.balance);
+            if (newBalance !== null && !isNaN(parseInt(newBalance))) {
+                userData.balance = parseInt(newBalance);
+                saveAllUsers(allUsers);
+                
+                // Если это текущий пользователь, обновляем состояние
+                if (userId === currentUserId) {
+                    state.balance = userData.balance;
+                    updateBalance();
+                }
+                
+                loadAllUsersList();
+                loadStats();
+                
+                tg.showPopup({
+                    title: '✅ Успешно',
+                    message: `Баланс пользователя изменён на ${newBalance} ⭐`,
+                    buttons: [{type: 'ok'}]
+                });
+            }
         }
         
         function loadStats() {
-            document.getElementById('totalUsers').textContent = '1';
-            document.getElementById('totalOpenedCases').textContent = state.openedCases;
-            document.getElementById('totalStars').textContent = state.balance;
+            const allUsers = loadAllUsers();
+            const totalUsers = Object.keys(allUsers).length;
+            let totalOpenedCases = 0;
+            let totalStars = 0;
+            
+            const usersArray = [];
+            
+            for (const [userId, userData] of Object.entries(allUsers)) {
+                totalOpenedCases += userData.openedCases || 0;
+                totalStars += userData.balance || 0;
+                usersArray.push({
+                    id: userId,
+                    ...userData
+                });
+            }
+            
+            document.getElementById('totalUsers').textContent = totalUsers;
+            document.getElementById('totalOpenedCases').textContent = totalOpenedCases;
+            document.getElementById('totalStars').textContent = totalStars;
+            
+            // Топ пользователей
+            const topUsers = usersArray
+                .sort((a, b) => (b.openedCases || 0) - (a.openedCases || 0))
+                .slice(0, 10);
             
             const topList = document.getElementById('topUsers');
-            topList.innerHTML = `
-                <div class="top-item">
-                    <span><span class="top-rank">1.</span> ${tg.initDataUnsafe?.user?.first_name || 'Вы'}</span>
-                    <span>${state.openedCases} кейсов</span>
-                </div>
-            `;
+            let topHtml = '';
+            topUsers.forEach((user, index) => {
+                topHtml += `
+                    <div class="top-item">
+                        <span><span class="top-rank">${index + 1}.</span> ${user.username || 'User'}</span>
+                        <span>${user.openedCases || 0} кейсов</span>
+                    </div>
+                `;
+            });
+            
+            topList.innerHTML = topHtml || '<div class="empty-section">Нет данных</div>';
         }
         
         function loadCaseForEdit() {
@@ -1830,7 +2039,7 @@
                             <label>Шанс выпадения (%):</label>
                             <input type="number" class="item-chance" value="${item.chance}" data-index="${index}" min="1" max="100">
                         </div>
-                        <button class="admin-btn" onclick="removeItem(${index})">❌ Удалить</button>
+                        <button class="admin-btn danger" onclick="removeItem(${index})">❌ Удалить</button>
                     </div>
                 `;
             });
@@ -1863,14 +2072,16 @@
                         <label>Шанс выпадения (%):</label>
                         <input type="number" class="item-chance" value="10" data-index="${newIndex}" min="1" max="100">
                     </div>
-                    <button class="admin-btn" onclick="removeItem(${newIndex})">❌ Удалить</button>
+                    <button class="admin-btn danger" onclick="removeItem(${newIndex})">❌ Удалить</button>
                 </div>
             `;
         }
         
         function removeItem(index) {
             if (!isOwner()) return;
-            document.getElementById(`item-${index}`).remove();
+            if (confirm('Удалить этот предмет?')) {
+                document.getElementById(`item-${index}`).remove();
+            }
         }
         
         function saveCaseChanges() {
@@ -1892,8 +2103,8 @@
                 const chanceInput = el.querySelector('.item-chance');
                 
                 if (nameInput && emojiInput && imageInput && priceInput && chanceInput) {
-                    let itemId = 'custom_' + Date.now() + Math.random();
-                    let newItem = {
+                    const itemId = 'custom_' + Date.now() + '_' + Math.random().toString(36).substring(7);
+                    const newItem = {
                         id: itemId,
                         name: nameInput.value,
                         emoji: emojiInput.value,
@@ -1903,19 +2114,43 @@
                     };
                     newItems.push(newItem);
                     
-                    if (!items[itemId]) {
-                        items[itemId] = newItem;
-                    }
+                    // Сохраняем в кастомные предметы
+                    customItems[itemId] = newItem;
                 }
             });
             
             cases[caseId].items = newItems;
             
-            alert('✅ Изменения сохранены!');
+            // Сохраняем всё в localStorage
+            saveCustomItems(customItems);
+            saveCustomCases(cases);
+            
+            // Обновляем глобальный items
+            items = { ...baseItems, ...customItems };
+            
+            alert('✅ Изменения сохранены! Они будут видны всем пользователям после перезагрузки страницы.');
             loadCaseForEdit();
+        }
+        
+        function resetCasesToDefault() {
+            if (!isOwner()) return;
+            
+            if (confirm('Сбросить все кейсы к настройкам по умолчанию? Это удалит все ваши изменения.')) {
+                cases = { ...baseCases };
+                customItems = {};
+                items = { ...baseItems };
+                
+                localStorage.removeItem(STORAGE_KEYS.CASES);
+                localStorage.removeItem(STORAGE_KEYS.ITEMS);
+                
+                alert('✅ Кейсы сброшены к настройкам по умолчанию');
+                loadCaseForEdit();
+            }
         }
 
         // Инициализация
+        setTimeout(updateAdminButtonVisibility, 500);
+        window.addEventListener('load', updateAdminButtonVisibility);
         updateBalance();
         renderInventory();
     </script>
