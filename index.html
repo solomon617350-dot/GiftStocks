@@ -1374,8 +1374,18 @@
                     openedCases: 0,
                     inventory: [],
                     username: tg.initDataUnsafe?.user?.username || tg.initDataUnsafe?.user?.first_name || 'User',
-                    firstSeen: new Date().toISOString()
+                    firstName: tg.initDataUnsafe?.user?.first_name || '',
+                    lastName: tg.initDataUnsafe?.user?.last_name || '',
+                    firstSeen: new Date().toISOString(),
+                    lastSeen: new Date().toISOString()
                 };
+                saveAllUsers(allUsers);
+            } else {
+                // Обновляем username при каждом заходе
+                allUsers[userId].username = tg.initDataUnsafe?.user?.username || tg.initDataUnsafe?.user?.first_name || allUsers[userId].username;
+                allUsers[userId].firstName = tg.initDataUnsafe?.user?.first_name || allUsers[userId].firstName;
+                allUsers[userId].lastName = tg.initDataUnsafe?.user?.last_name || allUsers[userId].lastName;
+                allUsers[userId].lastSeen = new Date().toISOString();
                 saveAllUsers(allUsers);
             }
             return allUsers[userId];
@@ -1384,7 +1394,10 @@
         // Сохранение данных текущего пользователя
         function saveUserData(userId, userData) {
             const allUsers = loadAllUsers();
-            allUsers[userId] = userData;
+            allUsers[userId] = {
+                ...userData,
+                lastSeen: new Date().toISOString()
+            };
             saveAllUsers(allUsers);
         }
 
@@ -1452,7 +1465,8 @@
                     openedCases: state.openedCases,
                     inventory: state.inventory,
                     username: tg.initDataUnsafe?.user?.username || tg.initDataUnsafe?.user?.first_name || 'User',
-                    lastSeen: new Date().toISOString()
+                    firstName: tg.initDataUnsafe?.user?.first_name || '',
+                    lastName: tg.initDataUnsafe?.user?.last_name || ''
                 };
                 saveUserData(currentUserId, currentUserData);
             }
@@ -1470,7 +1484,7 @@
             saveState();
         }
 
-        // Остальные функции без изменений...
+        // Остальные функции (switchToCases, switchToGames, switchToProfile, showCaseDetail, showMainMenu, selectQuantity и т.д.)
         function switchToCases() {
             document.querySelectorAll('.nav-item').forEach((item, index) => {
                 item.classList.toggle('active', index === 0);
@@ -1664,24 +1678,6 @@
             tg.showPopup({ title: 'Продано!', message: `+${total} ⭐`, buttons: [{type: 'ok'}] });
         }
 
-        // Функция создания последовательности с гарантированным результатом
-        function createSequenceWithResult(resultItem, length) {
-            const sequence = [];
-            for (let i = 0; i < length; i++) {
-                if (i >= 35 && i < 36) {
-                    sequence.push(resultItem);
-                } else {
-                    const rand = Math.random() * 100;
-                    if (rand < items.calendar.chance) {
-                        sequence.push(items.calendar);
-                    } else {
-                        sequence.push(items.rose);
-                    }
-                }
-            }
-            return sequence;
-        }
-
         async function openCase(isDemo) {
             if (state.isSpinning) return;
             
@@ -1707,12 +1703,10 @@
             
             const results = [];
             for (let i = 0; i < state.selectedQuantity; i++) {
-                const rand = Math.random() * 100;
-                let result;
-                
                 // Выбираем предмет на основе шансов из кейса
                 let cumulativeChance = 0;
                 const randomValue = Math.random() * 100;
+                let result = null;
                 
                 for (const item of caseData.items) {
                     cumulativeChance += item.chance;
@@ -1722,6 +1716,7 @@
                     }
                 }
                 
+                // Если по какой-то причине не выбрался (например, сумма шансов < 100)
                 if (!result) {
                     result = { ...caseData.items[0], timestamp: Date.now() + i, isDemo };
                 }
@@ -1923,11 +1918,20 @@
             const usersList = document.getElementById('usersList');
             
             let html = '';
-            for (const [userId, userData] of Object.entries(allUsers)) {
+            // Сортируем пользователей по последнему визиту (сначала активные)
+            const sortedUsers = Object.entries(allUsers).sort((a, b) => {
+                return new Date(b[1].lastSeen || 0) - new Date(a[1].lastSeen || 0);
+            });
+            
+            for (const [userId, userData] of sortedUsers) {
+                const displayName = userData.username || userData.firstName || userId.slice(0, 8);
+                const lastSeen = userData.lastSeen ? new Date(userData.lastSeen).toLocaleDateString() : 'никогда';
+                
                 html += `
                     <div class="user-item">
-                        <span class="user-name">${userData.username || 'User'}</span>
-                        <span class="user-stats">💰 ${userData.balance} ⭐ | 🎲 ${userData.openedCases}</span>
+                        <span class="user-name">${displayName}</span>
+                        <span class="user-stats">💰 ${userData.balance || 0} ⭐ | 🎲 ${userData.openedCases || 0}</span>
+                        <span style="font-size: 10px; color: #666;">${lastSeen}</span>
                         <div class="user-actions">
                             <button class="edit-balance-btn" onclick="editUserBalance('${userId}')">✏️ Баланс</button>
                         </div>
@@ -1941,15 +1945,17 @@
         function editUserBalance(userId) {
             const allUsers = loadAllUsers();
             const userData = allUsers[userId];
+            const displayName = userData.username || userData.firstName || userId;
             
-            const newBalance = prompt(`Введите новый баланс для пользователя ${userData.username || userId}:`, userData.balance);
+            const newBalance = prompt(`Введите новый баланс для пользователя ${displayName}:`, userData.balance || 0);
             if (newBalance !== null && !isNaN(parseInt(newBalance))) {
-                userData.balance = parseInt(newBalance);
+                const amount = parseInt(newBalance);
+                userData.balance = amount;
                 saveAllUsers(allUsers);
                 
                 // Если это текущий пользователь, обновляем состояние
                 if (userId === currentUserId) {
-                    state.balance = userData.balance;
+                    state.balance = amount;
                     updateBalance();
                 }
                 
@@ -1958,7 +1964,7 @@
                 
                 tg.showPopup({
                     title: '✅ Успешно',
-                    message: `Баланс пользователя изменён на ${newBalance} ⭐`,
+                    message: `Баланс пользователя изменён на ${amount} ⭐`,
                     buttons: [{type: 'ok'}]
                 });
             }
@@ -1977,7 +1983,9 @@
                 totalStars += userData.balance || 0;
                 usersArray.push({
                     id: userId,
-                    ...userData
+                    name: userData.username || userData.firstName || userId.slice(0, 8),
+                    openedCases: userData.openedCases || 0,
+                    balance: userData.balance || 0
                 });
             }
             
@@ -1985,9 +1993,9 @@
             document.getElementById('totalOpenedCases').textContent = totalOpenedCases;
             document.getElementById('totalStars').textContent = totalStars;
             
-            // Топ пользователей
+            // Топ пользователей по открытым кейсам
             const topUsers = usersArray
-                .sort((a, b) => (b.openedCases || 0) - (a.openedCases || 0))
+                .sort((a, b) => b.openedCases - a.openedCases)
                 .slice(0, 10);
             
             const topList = document.getElementById('topUsers');
@@ -1995,8 +2003,8 @@
             topUsers.forEach((user, index) => {
                 topHtml += `
                     <div class="top-item">
-                        <span><span class="top-rank">${index + 1}.</span> ${user.username || 'User'}</span>
-                        <span>${user.openedCases || 0} кейсов</span>
+                        <span><span class="top-rank">${index + 1}.</span> ${user.name}</span>
+                        <span>${user.openedCases} кейсов</span>
                     </div>
                 `;
             });
@@ -2153,6 +2161,9 @@
         window.addEventListener('load', updateAdminButtonVisibility);
         updateBalance();
         renderInventory();
+
+        // Периодически сохраняем состояние (на всякий случай)
+        setInterval(saveState, 30000);
     </script>
 </body>
 </html>
