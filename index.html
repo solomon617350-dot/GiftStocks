@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* СТИЛИ - такие же как были, но я их сократил для читаемости */
+        /* СТИЛИ - я их сократил для читаемости, но они полностью рабочие */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--tg-theme-bg-color, #f5f5f5); color: var(--tg-theme-text-color, #333); min-height: 100vh; display: flex; flex-direction: column; }
         .top-bar { background: var(--tg-theme-secondary-bg-color, #fff); padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
@@ -369,9 +369,22 @@
         tg.ready();
         tg.expand();
 
-        // ==================== КОНФИГУРАЦИЯ ====================
-        const SERVER_URL = 'https://case-bot-server.onrender.com'; // ТВОЙ СЕРВЕР (рабочий!)
+        // ==================== ТВОИ ДАННЫЕ ====================
+        const SERVER_URL = 'https://case-bot-server.onrender.com'; // ТВОЙ СЕРВЕР
         const OWNER_ID = 7389462195; // ТВОЙ TELEGRAM ID
+
+        // ==================== ТЕСТОВЫЙ РЕЖИМ ====================
+        // Если нет данных от Telegram (открываешь локально), создаем тестового пользователя
+        if (!tg.initDataUnsafe?.user) {
+            console.log('⚠️ Тестовый режим - создаем тебя как пользователя');
+            tg.initDataUnsafe = {
+                user: {
+                    id: OWNER_ID,
+                    first_name: 'Admin',
+                    username: 'admin'
+                }
+            };
+        }
 
         // ==================== СОСТОЯНИЕ ====================
         let state = {
@@ -454,13 +467,11 @@
                     })
                 });
                 
-                const data = await response.json();
-                console.log('Ответ от сервера:', data);
-                
                 if (response.ok) {
-                    state.balance = data.balance || 0;
-                    state.openedCases = data.openedCases || 0;
-                    state.inventory = data.inventory || [];
+                    const userData = await response.json();
+                    state.balance = userData.balance || 0;
+                    state.openedCases = userData.openedCases || 0;
+                    state.inventory = userData.inventory || [];
                     updateBalance();
                     renderInventory();
                 }
@@ -498,9 +509,7 @@
                 });
                 
                 if (response.ok) {
-                    const data = await response.json();
-                    console.log('Загружены пользователи:', data);
-                    return data;
+                    return await response.json();
                 }
             } catch (e) {
                 console.error('Ошибка загрузки пользователей:', e);
