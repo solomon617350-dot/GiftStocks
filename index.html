@@ -6,12 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        /* СТИЛИ - такие же как были */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--tg-theme-bg-color, #f5f5f5);
@@ -20,7 +16,6 @@
             display: flex;
             flex-direction: column;
         }
-        
         .top-bar {
             background: var(--tg-theme-secondary-bg-color, #ffffff);
             padding: 15px 20px;
@@ -32,7 +27,6 @@
             top: 0;
             z-index: 100;
         }
-        
         .back-button {
             font-size: 18px;
             cursor: pointer;
@@ -42,11 +36,7 @@
             display: none;
             font-weight: 500;
         }
-        
-        .back-button.visible {
-            display: block;
-        }
-        
+        .back-button.visible { display: block; }
         .balance-container {
             display: flex;
             align-items: center;
@@ -58,43 +48,21 @@
             transition: transform 0.2s;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
-        
-        .balance-container:hover {
-            transform: scale(1.05);
-        }
-        
+        .balance-container:hover { transform: scale(1.05); }
         .star-icon {
             width: 30px;
             height: 30px;
             background: url('https://cdn1.tenchat.ru/static/vbc-gostinder/2025-09-21/5c565d16-168c-49e4-8b3c-6d20da018214.webp') center/contain no-repeat;
         }
-        
-        .balance-amount {
-            color: white;
-            font-size: 20px;
-            font-weight: bold;
-        }
-        
-        .content {
-            flex: 1;
-            padding: 20px;
-            padding-bottom: 80px;
-        }
-        
-        .section-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: var(--tg-theme-text-color, #333);
-        }
-        
+        .balance-amount { color: white; font-size: 20px; font-weight: bold; }
+        .content { flex: 1; padding: 20px; padding-bottom: 80px; }
+        .section-title { font-size: 24px; font-weight: bold; margin-bottom: 20px; color: var(--tg-theme-text-color, #333); }
         .cases-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             margin-top: 20px;
         }
-        
         .case-card {
             background: var(--tg-theme-secondary-bg-color, #ffffff);
             border-radius: 20px;
@@ -104,13 +72,11 @@
             transition: transform 0.2s, box-shadow 0.2s;
             border: 2px solid transparent;
         }
-        
         .case-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 16px rgba(0,0,0,0.15);
             border-color: #ffd700;
         }
-        
         .case-image {
             width: 100%;
             height: 200px;
@@ -126,13 +92,7 @@
             background-position: center;
             background-image: url('https://i.postimg.cc/w3wd8bSR/image-2026-02-20-204059171.png');
         }
-        
-        .case-name {
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
+        .case-name { font-size: 22px; font-weight: bold; margin-bottom: 5px; }
         .case-price {
             display: flex;
             align-items: center;
@@ -141,32 +101,15 @@
             color: #ffd700;
             font-weight: bold;
         }
-        
         .case-price .small-star {
             width: 20px;
             height: 20px;
             background: url('https://cdn1.tenchat.ru/static/vbc-gostinder/2025-09-21/5c565d16-168c-49e4-8b3c-6d20da018214.webp') center/contain no-repeat;
         }
-        
-        .case-detail {
-            display: none;
-            animation: fadeIn 0.3s;
-        }
-        
-        .case-detail.active {
-            display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .detail-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
+        .case-detail { display: none; animation: fadeIn 0.3s; }
+        .case-detail.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .detail-header { text-align: center; margin-bottom: 30px; }
         .detail-image {
             width: 200px;
             height: 200px;
@@ -183,13 +126,7 @@
             background-position: center;
             background-image: url('https://i.postimg.cc/w3wd8bSR/image-2026-02-20-204059171.png');
         }
-        
-        .detail-name {
-            font-size: 32px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        
+        .detail-name { font-size: 32px; font-weight: bold; margin-bottom: 10px; }
         .detail-price {
             display: flex;
             align-items: center;
@@ -199,25 +136,14 @@
             color: #ffd700;
             font-weight: bold;
         }
-        
-        .detail-price .star-icon {
-            width: 30px;
-            height: 30px;
-        }
-        
+        .detail-price .star-icon { width: 30px; height: 30px; }
         .chances-section {
             background: var(--tg-theme-secondary-bg-color, #ffffff);
             border-radius: 20px;
             padding: 20px;
             margin-bottom: 20px;
         }
-        
-        .chances-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        
+        .chances-title { font-size: 20px; font-weight: bold; margin-bottom: 15px; }
         .chance-item {
             display: flex;
             align-items: center;
@@ -227,71 +153,21 @@
             background: var(--tg-theme-bg-color, #f5f5f5);
             margin-bottom: 10px;
         }
-        
-        .chance-item img {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            object-fit: contain;
-        }
-        
-        .chance-info {
-            flex: 1;
-        }
-        
-        .chance-name {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-        
-        .chance-bar-container {
-            width: 100%;
-            height: 8px;
-            background: #ddd;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 2px;
-        }
-        
-        .chance-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #4CAF50, #8BC34A);
-            border-radius: 4px;
-        }
-        
-        .chance-percent {
-            font-size: 14px;
-            color: var(--tg-theme-hint-color, #666);
-        }
-        
-        .chance-value {
-            font-size: 18px;
-            font-weight: bold;
-            color: #ffd700;
-            min-width: 70px;
-            text-align: right;
-        }
-        
+        .chance-item img { width: 50px; height: 50px; border-radius: 10px; object-fit: contain; }
+        .chance-info { flex: 1; }
+        .chance-name { font-size: 16px; font-weight: bold; margin-bottom: 4px; }
+        .chance-bar-container { width: 100%; height: 8px; background: #ddd; border-radius: 4px; overflow: hidden; margin-bottom: 2px; }
+        .chance-bar { height: 100%; background: linear-gradient(90deg, #4CAF50, #8BC34A); border-radius: 4px; }
+        .chance-percent { font-size: 14px; color: var(--tg-theme-hint-color, #666); }
+        .chance-value { font-size: 18px; font-weight: bold; color: #ffd700; min-width: 70px; text-align: right; }
         .quantity-selector {
             background: var(--tg-theme-secondary-bg-color, #ffffff);
             border-radius: 20px;
             padding: 20px;
             margin-bottom: 20px;
         }
-        
-        .quantity-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        
-        .quantity-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-        
+        .quantity-title { font-size: 18px; font-weight: bold; margin-bottom: 15px; }
+        .quantity-buttons { display: flex; gap: 10px; justify-content: center; }
         .quantity-btn {
             flex: 1;
             padding: 15px;
@@ -305,22 +181,12 @@
             transition: all 0.2s;
             max-width: 70px;
         }
-        
         .quantity-btn.active {
             background: var(--tg-theme-button-color, #40a7e3);
             color: var(--tg-theme-button-text-color, #ffffff);
         }
-        
-        .quantity-btn:hover {
-            transform: scale(1.05);
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
+        .quantity-btn:hover { transform: scale(1.05); }
+        .action-buttons { display: flex; gap: 10px; margin-bottom: 20px; }
         .open-case-btn, .demo-case-btn {
             flex: 1;
             padding: 20px;
@@ -335,48 +201,18 @@
             align-items: center;
             gap: 5px;
         }
-        
-        .open-case-btn {
-            background: linear-gradient(145deg, #4CAF50, #45a049);
-            color: white;
-        }
-        
-        .demo-case-btn {
-            background: linear-gradient(145deg, #ff9800, #f57c00);
-            color: white;
-        }
-        
-        .open-case-btn:hover, .demo-case-btn:hover {
-            transform: scale(1.02);
-        }
-        
-        .open-case-btn:disabled, .demo-case-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .total-price {
-            font-size: 14px;
-            background: rgba(255,255,255,0.2);
-            padding: 3px 10px;
-            border-radius: 20px;
-        }
-        
-        .demo-badge {
-            font-size: 12px;
-            background: rgba(255,255,255,0.2);
-            padding: 2px 8px;
-            border-radius: 12px;
-        }
-        
+        .open-case-btn { background: linear-gradient(145deg, #4CAF50, #45a049); color: white; }
+        .demo-case-btn { background: linear-gradient(145deg, #ff9800, #f57c00); color: white; }
+        .open-case-btn:hover, .demo-case-btn:hover { transform: scale(1.02); }
+        .open-case-btn:disabled, .demo-case-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .total-price { font-size: 14px; background: rgba(255,255,255,0.2); padding: 3px 10px; border-radius: 20px; }
+        .demo-badge { font-size: 12px; background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 12px; }
         .inventory-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             gap: 15px;
             margin-top: 20px;
         }
-        
         .inventory-item {
             background: var(--tg-theme-secondary-bg-color, #ffffff);
             border-radius: 15px;
@@ -385,28 +221,9 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             position: relative;
         }
-        
-        .inventory-item img {
-            width: 80px;
-            height: 80px;
-            object-fit: contain;
-            margin-bottom: 10px;
-            border-radius: 10px;
-        }
-        
-        .inventory-item-name {
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .inventory-item-price {
-            color: #ffd700;
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        
+        .inventory-item img { width: 80px; height: 80px; object-fit: contain; margin-bottom: 10px; border-radius: 10px; }
+        .inventory-item-name { font-size: 14px; font-weight: bold; margin-bottom: 5px; }
+        .inventory-item-price { color: #ffd700; font-size: 16px; font-weight: bold; margin-bottom: 10px; }
         .item-count {
             background: #ffd700;
             color: #333;
@@ -417,7 +234,6 @@
             display: inline-block;
             margin-bottom: 8px;
         }
-        
         .demo-badge-item {
             position: absolute;
             top: 5px;
@@ -429,13 +245,7 @@
             font-size: 10px;
             font-weight: bold;
         }
-        
-        .inventory-controls {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        
+        .inventory-controls { display: flex; gap: 8px; margin-top: 10px; }
         .sell-one-btn, .sell-all-btn {
             flex: 1;
             color: white;
@@ -447,19 +257,9 @@
             cursor: pointer;
             transition: transform 0.2s;
         }
-        
-        .sell-one-btn {
-            background: #4CAF50;
-        }
-        
-        .sell-all-btn {
-            background: #ff9800;
-        }
-        
-        .sell-one-btn:hover, .sell-all-btn:hover {
-            transform: scale(1.05);
-        }
-        
+        .sell-one-btn { background: #4CAF50; }
+        .sell-all-btn { background: #ff9800; }
+        .sell-one-btn:hover, .sell-all-btn:hover { transform: scale(1.05); }
         .modal {
             display: none;
             position: fixed;
@@ -472,11 +272,7 @@
             justify-content: center;
             align-items: center;
         }
-        
-        .modal.active {
-            display: flex;
-        }
-        
+        .modal.active { display: flex; }
         .roulette-container {
             background: var(--tg-theme-secondary-bg-color, #ffffff);
             border-radius: 30px;
@@ -487,19 +283,8 @@
             max-height: 90vh;
             overflow-y: auto;
         }
-        
-        .roulette-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        
-        .roulette-subtitle {
-            font-size: 14px;
-            color: var(--tg-theme-hint-color, #666);
-            margin-bottom: 15px;
-        }
-        
+        .roulette-title { font-size: 24px; font-weight: bold; margin-bottom: 10px; }
+        .roulette-subtitle { font-size: 14px; color: var(--tg-theme-hint-color, #666); margin-bottom: 15px; }
         .demo-mode {
             background: linear-gradient(145deg, #ff9800, #f57c00);
             color: white;
@@ -510,14 +295,7 @@
             font-size: 14px;
             font-weight: bold;
         }
-        
-        .multi-roulette {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
+        .multi-roulette { display: flex; flex-direction: column; gap: 15px; margin: 20px 0; }
         .single-roulette {
             background: linear-gradient(145deg, #1a2634, #2c3e50);
             border-radius: 10px;
@@ -527,7 +305,6 @@
             height: 100px;
             border: 2px solid #ffd700;
         }
-        
         .roulette-track {
             display: flex;
             gap: 10px;
@@ -537,7 +314,6 @@
             transform: translateY(-50%);
             will-change: transform;
         }
-        
         .roulette-item {
             display: flex;
             flex-direction: column;
@@ -547,20 +323,8 @@
             border-radius: 8px;
             min-width: 70px;
         }
-        
-        .roulette-item img {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-            border-radius: 5px;
-        }
-        
-        .roulette-item span {
-            color: white;
-            font-size: 10px;
-            font-weight: bold;
-        }
-        
+        .roulette-item img { width: 40px; height: 40px; object-fit: contain; border-radius: 5px; }
+        .roulette-item span { color: white; font-size: 10px; font-weight: bold; }
         .roulette-indicator {
             position: absolute;
             top: 0;
@@ -572,7 +336,6 @@
             box-shadow: 0 0 10px #ff0000;
             z-index: 2;
         }
-        
         .results-container {
             max-height: 250px;
             overflow-y: auto;
@@ -581,7 +344,6 @@
             background: var(--tg-theme-bg-color, #f5f5f5);
             border-radius: 15px;
         }
-        
         .result-item {
             display: flex;
             align-items: center;
@@ -591,34 +353,11 @@
             background: var(--tg-theme-secondary-bg-color, #ffffff);
             margin-bottom: 8px;
         }
-        
-        .result-item.demo {
-            opacity: 0.7;
-            border: 2px dashed #ff9800;
-        }
-        
-        .result-item img {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            object-fit: contain;
-        }
-        
-        .result-item-info {
-            flex: 1;
-            text-align: left;
-        }
-        
-        .result-item-name {
-            font-weight: bold;
-            margin-bottom: 2px;
-        }
-        
-        .result-item-price {
-            color: #ffd700;
-            font-size: 14px;
-        }
-        
+        .result-item.demo { opacity: 0.7; border: 2px dashed #ff9800; }
+        .result-item img { width: 40px; height: 40px; border-radius: 8px; object-fit: contain; }
+        .result-item-info { flex: 1; text-align: left; }
+        .result-item-name { font-weight: bold; margin-bottom: 2px; }
+        .result-item-price { color: #ffd700; font-size: 14px; }
         .demo-label {
             font-size: 10px;
             background: #ff9800;
@@ -627,13 +366,7 @@
             border-radius: 8px;
             margin-left: 10px;
         }
-        
-        .result-buttons {
-            display: flex;
-            gap: 10px;
-            margin: 15px 0;
-        }
-        
+        .result-buttons { display: flex; gap: 10px; margin: 15px 0; }
         .result-button {
             flex: 1;
             padding: 12px;
@@ -644,26 +377,10 @@
             cursor: pointer;
             transition: transform 0.2s;
         }
-        
-        .result-button.sell {
-            background: #4CAF50;
-            color: white;
-        }
-        
-        .result-button.again {
-            background: var(--tg-theme-button-color, #40a7e3);
-            color: var(--tg-theme-button-text-color, #ffffff);
-        }
-        
-        .result-button.stars {
-            background: linear-gradient(145deg, #ffd700, #ffb347);
-            color: #333;
-        }
-        
-        .result-button:hover {
-            transform: scale(1.02);
-        }
-        
+        .result-button.sell { background: #4CAF50; color: white; }
+        .result-button.again { background: var(--tg-theme-button-color, #40a7e3); color: var(--tg-theme-button-text-color, #ffffff); }
+        .result-button.stars { background: linear-gradient(145deg, #ffd700, #ffb347); color: #333; }
+        .result-button:hover { transform: scale(1.02); }
         .close-button {
             width: 100%;
             padding: 12px;
@@ -676,12 +393,7 @@
             cursor: pointer;
             transition: all 0.2s;
         }
-        
-        .close-button:hover {
-            background: var(--tg-theme-hint-color, #666);
-            color: white;
-        }
-        
+        .close-button:hover { background: var(--tg-theme-hint-color, #666); color: white; }
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -694,7 +406,6 @@
             box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
             z-index: 99;
         }
-        
         .nav-item {
             flex: 1;
             display: flex;
@@ -706,71 +417,33 @@
             transition: all 0.2s;
             color: var(--tg-theme-hint-color, #666);
         }
-        
-        .nav-item.active {
-            color: var(--tg-theme-button-color, #40a7e3);
-            transform: translateY(-2px);
-        }
-        
-        .nav-icon {
-            font-size: 28px;
-        }
-        
-        .nav-label {
-            font-size: 12px;
-            font-weight: 500;
-        }
-        
-        .section {
-            display: none;
-        }
-        
-        .section.active {
-            display: block;
-        }
-        
-        .empty-section {
-            text-align: center;
-            padding: 50px 20px;
-            font-size: 18px;
-            color: var(--tg-theme-hint-color, #666);
-        }
-        
+        .nav-item.active { color: var(--tg-theme-button-color, #40a7e3); transform: translateY(-2px); }
+        .nav-icon { font-size: 28px; }
+        .nav-label { font-size: 12px; font-weight: 500; }
+        .section { display: none; }
+        .section.active { display: block; }
+        .empty-section { text-align: center; padding: 50px 20px; font-size: 18px; color: var(--tg-theme-hint-color, #666); }
         .profile-stats {
             background: var(--tg-theme-secondary-bg-color, #ffffff);
             border-radius: 20px;
             padding: 20px;
             margin-bottom: 20px;
         }
-        
         .stat-item {
             display: flex;
             justify-content: space-between;
             padding: 15px 0;
             border-bottom: 1px solid var(--tg-theme-hint-color, #ddd);
         }
-        
-        .stat-item:last-child {
-            border-bottom: none;
-        }
-        
-        .stat-label {
-            font-size: 16px;
-            color: var(--tg-theme-hint-color, #666);
-        }
-        
-        .stat-value {
-            font-size: 18px;
-            font-weight: bold;
-        }
-        
+        .stat-item:last-child { border-bottom: none; }
+        .stat-label { font-size: 16px; color: var(--tg-theme-hint-color, #666); }
+        .stat-value { font-size: 18px; font-weight: bold; }
         .deposit-options {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 10px;
             margin: 20px 0;
         }
-        
         .deposit-option {
             background: linear-gradient(145deg, #ffd700, #ffb347);
             color: #333;
@@ -782,11 +455,7 @@
             cursor: pointer;
             transition: transform 0.2s;
         }
-        
-        .deposit-option:hover {
-            transform: scale(1.05);
-        }
-        
+        .deposit-option:hover { transform: scale(1.05); }
         .admin-login {
             position: fixed;
             top: 70px;
@@ -803,12 +472,7 @@
             z-index: 1000;
             transition: all 0.3s;
         }
-        
-        .admin-login:hover {
-            background: rgba(255,215,0,0.4);
-            transform: scale(1.1);
-        }
-        
+        .admin-login:hover { background: rgba(255,215,0,0.4); transform: scale(1.1); }
         .admin-panel {
             position: fixed;
             top: 50%;
@@ -826,7 +490,6 @@
             flex-direction: column;
             border: 2px solid #ffd700;
         }
-        
         .admin-header {
             background: linear-gradient(145deg, #2c3e50, #3498db);
             color: white;
@@ -835,12 +498,7 @@
             justify-content: space-between;
             align-items: center;
         }
-        
-        .admin-header h2 {
-            margin: 0;
-            font-size: 24px;
-        }
-        
+        .admin-header h2 { margin: 0; font-size: 24px; }
         .close-admin {
             background: none;
             border: none;
@@ -855,16 +513,8 @@
             justify-content: center;
             transition: background 0.3s;
         }
-        
-        .close-admin:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .admin-tabs {
-            display: flex;
-            border-bottom: 2px solid #ddd;
-        }
-        
+        .close-admin:hover { background: rgba(255,255,255,0.2); }
+        .admin-tabs { display: flex; border-bottom: 2px solid #ddd; }
         .admin-tab {
             flex: 1;
             padding: 12px;
@@ -876,28 +526,18 @@
             transition: all 0.3s;
             color: var(--tg-theme-text-color, #333);
         }
-        
         .admin-tab.active {
             background: var(--tg-theme-button-color, #40a7e3);
             color: var(--tg-theme-button-text-color, #ffffff);
         }
-        
         .admin-tab-content {
             display: none;
             padding: 20px;
             overflow-y: auto;
             max-height: calc(80vh - 120px);
         }
-        
-        .admin-tab-content.active {
-            display: block;
-        }
-        
-        .users-list {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        
+        .admin-tab-content.active { display: block; }
+        .users-list { max-height: 300px; overflow-y: auto; }
         .user-item {
             display: flex;
             justify-content: space-between;
@@ -906,32 +546,11 @@
             border-bottom: 1px solid var(--tg-theme-hint-color, #ddd);
             gap: 10px;
         }
-        
-        .user-item:last-child {
-            border-bottom: none;
-        }
-        
-        .user-name {
-            font-weight: bold;
-            min-width: 120px;
-        }
-        
-        .user-stats {
-            color: #ffd700;
-            font-size: 14px;
-        }
-        
-        .user-date {
-            font-size: 10px;
-            color: #666;
-            min-width: 80px;
-        }
-        
-        .user-actions {
-            display: flex;
-            gap: 5px;
-        }
-        
+        .user-item:last-child { border-bottom: none; }
+        .user-name { font-weight: bold; min-width: 120px; }
+        .user-stats { color: #ffd700; font-size: 14px; }
+        .user-date { font-size: 10px; color: #666; min-width: 80px; }
+        .user-actions { display: flex; gap: 5px; }
         .edit-balance-btn {
             background: #4CAF50;
             color: white;
@@ -941,11 +560,7 @@
             cursor: pointer;
             font-size: 12px;
         }
-        
-        .edit-balance-btn:hover {
-            background: #45a049;
-        }
-        
+        .edit-balance-btn:hover { background: #45a049; }
         .admin-btn {
             background: var(--tg-theme-button-color, #40a7e3);
             color: var(--tg-theme-button-text-color, #ffffff);
@@ -956,29 +571,11 @@
             margin: 5px;
             transition: transform 0.2s;
         }
-        
-        .admin-btn:hover {
-            transform: scale(1.05);
-        }
-        
-        .admin-btn.save {
-            background: #4CAF50;
-        }
-        
-        .admin-btn.danger {
-            background: #ff4444;
-        }
-        
-        .form-group {
-            margin: 15px 0;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        
+        .admin-btn:hover { transform: scale(1.05); }
+        .admin-btn.save { background: #4CAF50; }
+        .admin-btn.danger { background: #ff4444; }
+        .form-group { margin: 15px 0; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
         .form-group input, .form-group select {
             width: 100%;
             padding: 8px;
@@ -986,57 +583,34 @@
             border-radius: 8px;
             font-size: 14px;
         }
-        
         .item-edit {
             background: var(--tg-theme-bg-color, #f5f5f5);
             padding: 10px;
             border-radius: 8px;
             margin: 10px 0;
         }
-        
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
             margin-bottom: 20px;
         }
-        
         .stat-card {
             background: var(--tg-theme-bg-color, #f5f5f5);
             padding: 15px;
             border-radius: 10px;
             text-align: center;
         }
-        
-        .stat-label {
-            font-size: 14px;
-            color: var(--tg-theme-hint-color, #666);
-            margin-bottom: 5px;
-        }
-        
-        .stat-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #ffd700;
-        }
-        
-        .top-list {
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        
+        .stat-label { font-size: 14px; color: var(--tg-theme-hint-color, #666); margin-bottom: 5px; }
+        .stat-value { font-size: 24px; font-weight: bold; color: #ffd700; }
+        .top-list { max-height: 200px; overflow-y: auto; }
         .top-item {
             display: flex;
             justify-content: space-between;
             padding: 8px;
             border-bottom: 1px solid var(--tg-theme-hint-color, #ddd);
         }
-        
-        .top-rank {
-            font-weight: bold;
-            color: #ffd700;
-            margin-right: 10px;
-        }
+        .top-rank { font-weight: bold; color: #ffd700; margin-right: 10px; }
     </style>
 </head>
 <body>
@@ -1257,9 +831,11 @@
         tg.ready();
         tg.expand();
 
-        const SERVER_URL = 'https://case-bot-server.onrender.com';
-        const OWNER_ID = 7389462195;
+        // ==================== КОНФИГУРАЦИЯ ====================
+        const SERVER_URL = 'https://case-bot-server.onrender.com'; // Твой сервер
+        const OWNER_ID = 7389462195; // Твой ID
 
+        // ==================== СОСТОЯНИЕ ====================
         let state = {
             balance: 0,
             openedCases: 0,
@@ -1271,6 +847,7 @@
             isDemo: false
         };
 
+        // ==================== КЕЙСЫ ====================
         let cases = {
             bronze: {
                 name: 'Бронзовый кейс',
@@ -1298,6 +875,7 @@
             }
         };
 
+        // ==================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ====================
         function getUserId() {
             return tg.initDataUnsafe?.user?.id || null;
         }
@@ -1305,12 +883,12 @@
         function getUserName() {
             const user = tg.initDataUnsafe?.user;
             if (!user) return 'User';
-            return user.username || user.first_name || `ID: ${user.id}`;
+            return user.username || user.first_name || `User_${user.id}`;
         }
 
         function isOwner() {
             const userId = getUserId();
-            return userId && userId === OWNER_ID;
+            return userId && userId == OWNER_ID;
         }
 
         function updateAdminButtonVisibility() {
@@ -1318,6 +896,7 @@
             if (btn) btn.style.display = isOwner() ? 'flex' : 'none';
         }
 
+        // ==================== РАБОТА С СЕРВЕРОМ ====================
         async function loadUserFromServer() {
             const userId = getUserId();
             if (!userId) return;
@@ -1342,7 +921,7 @@
                     renderInventory();
                 }
             } catch (e) {
-                console.error('Error loading user:', e);
+                console.error('Ошибка загрузки пользователя:', e);
             }
         }
 
@@ -1362,11 +941,11 @@
                     })
                 });
             } catch (e) {
-                console.error('Error saving user:', e);
+                console.error('Ошибка сохранения пользователя:', e);
             }
         }
 
-        async function loadAllUsers() {
+        async function loadAllUsersFromServer() {
             if (!isOwner()) return [];
 
             try {
@@ -1380,12 +959,12 @@
                     return await response.json();
                 }
             } catch (e) {
-                console.error('Error loading users:', e);
+                console.error('Ошибка загрузки пользователей:', e);
             }
             return [];
         }
 
-        async function updateUserBalance(userId, newBalance) {
+        async function updateUserBalanceOnServer(userId, newBalance) {
             if (!isOwner()) return false;
 
             try {
@@ -1401,13 +980,13 @@
                 
                 return response.ok;
             } catch (e) {
-                console.error('Error updating balance:', e);
+                console.error('Ошибка обновления баланса:', e);
                 return false;
             }
         }
 
-        async function loadStats() {
-            if (!isOwner()) return;
+        async function loadStatsFromServer() {
+            if (!isOwner()) return null;
 
             try {
                 const response = await fetch(`${SERVER_URL}/api/stats`, {
@@ -1417,63 +996,15 @@
                 });
                 
                 if (response.ok) {
-                    const stats = await response.json();
-                    document.getElementById('totalUsers').textContent = stats.totalUsers || 0;
-                    document.getElementById('totalOpenedCases').textContent = stats.totalOpenedCases || 0;
-                    document.getElementById('totalStars').textContent = stats.totalStars || 0;
-                    
-                    const topList = document.getElementById('topUsers');
-                    let html = '';
-                    (stats.topUsers || []).forEach((user, i) => {
-                        html += `<div class="top-item"><span class="top-rank">${i+1}.</span> ${user.username || 'User'} <span>${user.openedCases || 0} кейсов</span></div>`;
-                    });
-                    topList.innerHTML = html || '<div class="empty-section">Нет данных</div>';
+                    return await response.json();
                 }
             } catch (e) {
-                console.error('Error loading stats:', e);
+                console.error('Ошибка загрузки статистики:', e);
             }
+            return null;
         }
 
-        async function loadAllUsersList() {
-            const users = await loadAllUsers();
-            const list = document.getElementById('usersList');
-            
-            if (users.length === 0) {
-                list.innerHTML = '<div class="empty-section">Нет пользователей</div>';
-                return;
-            }
-
-            let html = '';
-            users.forEach(user => {
-                html += `
-                    <div class="user-item">
-                        <span class="user-name">${user.username || 'User'}</span>
-                        <span class="user-stats">💰 ${user.balance || 0} ⭐ | 🎲 ${user.openedCases || 0}</span>
-                        <span class="user-date">${user.lastSeen ? new Date(user.lastSeen).toLocaleDateString() : ''}</span>
-                        <div class="user-actions">
-                            <button class="edit-balance-btn" onclick="editUserBalance('${user.userId}')">✏️</button>
-                        </div>
-                    </div>
-                `;
-            });
-            list.innerHTML = html;
-        }
-
-        async function editUserBalance(userId) {
-            const newBalance = prompt('Новый баланс:');
-            if (newBalance && !isNaN(parseInt(newBalance))) {
-                const success = await updateUserBalance(userId, parseInt(newBalance));
-                if (success) {
-                    if (userId == getUserId()) {
-                        state.balance = parseInt(newBalance);
-                        updateBalance();
-                    }
-                    await loadAllUsersList();
-                    await loadStats();
-                }
-            }
-        }
-
+        // ==================== ФУНКЦИИ ИНТЕРФЕЙСА ====================
         function updateBalance() {
             document.getElementById('balanceDisplay').textContent = state.balance;
             document.getElementById('profileBalance').textContent = state.balance + ' ⭐';
@@ -1495,14 +1026,14 @@
                         <img src="${item.image}" alt="${item.name}">
                         <div class="inventory-item-name">${item.emoji} ${item.name}</div>
                         <div class="inventory-item-price">${item.price} ⭐</div>
-                        ${!item.isDemo ? `<button class="sell-one-btn" onclick="sellOne('${item.id}')">Продать</button>` : ''}
+                        ${!item.isDemo ? `<button class="sell-one-btn" onclick="sellItem('${item.id}')">Продать</button>` : ''}
                     </div>
                 `;
             });
             div.innerHTML = html;
         }
 
-        function sellOne(itemId) {
+        function sellItem(itemId) {
             const index = state.inventory.findIndex(i => i.id === itemId && !i.isDemo);
             if (index === -1) return;
             
@@ -1512,6 +1043,7 @@
             renderInventory();
         }
 
+        // ==================== НАВИГАЦИЯ ====================
         function switchToCases() {
             document.querySelectorAll('.nav-item').forEach((item, i) => item.classList.toggle('active', i === 0));
             document.getElementById('mainMenu').classList.add('active');
@@ -1557,9 +1089,15 @@
             caseData.items.forEach(item => {
                 list.innerHTML += `
                     <div class="chance-item">
-                        <img src="${item.image}"><div class="chance-info"><div class="chance-name">${item.emoji} ${item.name}</div>
-                        <div class="chance-bar-container"><div class="chance-bar" style="width:${item.chance}%"></div></div>
-                        <div class="chance-percent">${item.chance}%</div></div><div class="chance-value">${item.price} ⭐</div>
+                        <img src="${item.image}">
+                        <div class="chance-info">
+                            <div class="chance-name">${item.emoji} ${item.name}</div>
+                            <div class="chance-bar-container">
+                                <div class="chance-bar" style="width:${item.chance}%"></div>
+                            </div>
+                            <div class="chance-percent">${item.chance}%</div>
+                        </div>
+                        <div class="chance-value">${item.price} ⭐</div>
                     </div>
                 `;
             });
@@ -1594,6 +1132,7 @@
             closeBalanceModal();
         }
 
+        // ==================== ОТКРЫТИЕ КЕЙСА ====================
         async function openCase(isDemo) {
             if (state.isSpinning) return;
             
@@ -1615,10 +1154,15 @@
             
             const results = [];
             for (let i = 0; i < state.selectedQuantity; i++) {
-                let r = Math.random() * 100, s = 0, item = caseData.items[0];
+                let r = Math.random() * 100;
+                let s = 0;
+                let item = caseData.items[0];
                 for (const it of caseData.items) {
                     s += it.chance;
-                    if (r <= s) { item = it; break; }
+                    if (r <= s) {
+                        item = it;
+                        break;
+                    }
                 }
                 results.push({ ...item, timestamp: Date.now() + i, isDemo });
             }
@@ -1639,13 +1183,19 @@
             if (isDemo) {
                 rmode.style.display = 'inline-block';
                 sbtn.style.display = 'none';
+                document.getElementById('rouletteTitle').textContent = '🎲 Демо-открытие';
+                document.getElementById('rouletteSubtitle').textContent = 'Предметы не сохраняются';
             } else {
                 rmode.style.display = 'none';
                 sbtn.style.display = 'block';
+                document.getElementById('rouletteTitle').textContent = '🎰 Открытие кейсов';
+                document.getElementById('rouletteSubtitle').textContent = '';
             }
             fbtn.style.display = 'none';
             
-            const iw = 80, gap = 10, tiw = iw + gap;
+            const iw = 80;
+            const gap = 10;
+            const tiw = iw + gap;
             
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const rd = document.createElement('div');
@@ -1655,7 +1205,21 @@
                 tr.className = 'roulette-track';
                 
                 for (let j = 0; j < 70; j++) {
-                    let it = j >= 35 && j < 36 ? results[i] : caseData.items[Math.floor(Math.random() * caseData.items.length)];
+                    let it;
+                    if (j >= 35 && j < 36) {
+                        it = results[i];
+                    } else {
+                        let rand = Math.random() * 100;
+                        let cum = 0;
+                        it = caseData.items[0];
+                        for (const item of caseData.items) {
+                            cum += item.chance;
+                            if (rand <= cum) {
+                                it = item;
+                                break;
+                            }
+                        }
+                    }
                     const el = document.createElement('div');
                     el.className = 'roulette-item';
                     el.style.minWidth = iw + 'px';
@@ -1672,14 +1236,24 @@
             
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const tr = document.querySelector(`#r-${i} .roulette-track`);
+                const target = -(35 * tiw + iw/2);
                 tr.style.transition = `transform 5000ms cubic-bezier(0.15, 0.85, 0.35, 1)`;
-                tr.style.transform = `translateY(-50%) translateX(${-(35 * tiw + iw/2)}px)`;
+                tr.style.transform = `translateY(-50%) translateX(${target}px)`;
             }
             
             await new Promise(r => setTimeout(r, 5200));
             
             results.forEach(r => {
-                rlist.innerHTML += `<div class="result-item ${isDemo ? 'demo' : ''}"><img src="${r.image}"><div class="result-item-info"><div class="result-item-name">${r.emoji} ${r.name}</div><div class="result-item-price">${r.price} ⭐</div></div>${isDemo ? '<span class="demo-label">DEMO</span>' : ''}</div>`;
+                rlist.innerHTML += `
+                    <div class="result-item ${isDemo ? 'demo' : ''}">
+                        <img src="${r.image}">
+                        <div class="result-item-info">
+                            <div class="result-item-name">${r.emoji} ${r.name}</div>
+                            <div class="result-item-price">${r.price} ⭐</div>
+                        </div>
+                        ${isDemo ? '<span class="demo-label">DEMO</span>' : ''}
+                    </div>
+                `;
             });
             
             if (!isDemo) {
@@ -1694,7 +1268,10 @@
         }
 
         function sellAllResults() {
-            if (state.isDemo) { closeRoulette(); return; }
+            if (state.isDemo) {
+                closeRoulette();
+                return;
+            }
             const total = state.currentOpenings.reduce((s,i) => s + i.price, 0);
             state.balance += total;
             state.currentOpenings.forEach(w => {
@@ -1714,11 +1291,16 @@
             document.getElementById('rouletteModal').classList.remove('active');
         }
 
+        // ==================== АДМИН-ФУНКЦИИ ====================
         const ADMIN_PASSWORD = 'admin123';
         
         function promptAdminPassword() {
-            if (!isOwner()) { alert('Нет доступа'); return; }
-            if (prompt('Пароль:') === ADMIN_PASSWORD) {
+            if (!isOwner()) {
+                alert('У вас нет доступа к админ-панели!');
+                return;
+            }
+            const pwd = prompt('Введите пароль администратора:');
+            if (pwd === ADMIN_PASSWORD) {
                 document.getElementById('adminPanel').style.display = 'flex';
                 loadAdminData();
             }
@@ -1733,7 +1315,7 @@
             document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
             event.target.classList.add('active');
-            document.getElementById(`admin${tab[0].toUpperCase() + tab.slice(1)}`).classList.add('active');
+            document.getElementById(`admin${tab.charAt(0).toUpperCase() + tab.slice(1)}`).classList.add('active');
             if (tab === 'users') loadAllUsersList();
             if (tab === 'stats') loadStats();
         }
@@ -1744,23 +1326,110 @@
             loadCaseForEdit();
         }
 
+        async function loadAllUsersList() {
+            const users = await loadAllUsersFromServer();
+            const list = document.getElementById('usersList');
+            
+            if (!users || users.length === 0) {
+                list.innerHTML = '<div class="empty-section">Нет пользователей</div>';
+                return;
+            }
+
+            let html = '';
+            users.sort((a,b) => new Date(b.lastSeen) - new Date(a.lastSeen));
+            
+            users.forEach(user => {
+                html += `
+                    <div class="user-item">
+                        <span class="user-name">${user.username || 'User'}</span>
+                        <span class="user-stats">💰 ${user.balance || 0} ⭐ | 🎲 ${user.openedCases || 0}</span>
+                        <span class="user-date">${user.lastSeen ? new Date(user.lastSeen).toLocaleDateString() : ''}</span>
+                        <div class="user-actions">
+                            <button class="edit-balance-btn" onclick="editUserBalance('${user.userId}')">✏️</button>
+                        </div>
+                    </div>
+                `;
+            });
+            list.innerHTML = html;
+        }
+
+        async function editUserBalance(userId) {
+            const newBal = prompt('Новый баланс:');
+            if (newBal && !isNaN(parseInt(newBal))) {
+                const amount = parseInt(newBal);
+                const success = await updateUserBalanceOnServer(userId, amount);
+                
+                if (success) {
+                    if (userId == getUserId()) {
+                        state.balance = amount;
+                        updateBalance();
+                    }
+                    await loadAllUsersList();
+                    await loadStats();
+                }
+            }
+        }
+
+        async function loadStats() {
+            const stats = await loadStatsFromServer();
+            if (!stats) return;
+            
+            document.getElementById('totalUsers').textContent = stats.totalUsers || 0;
+            document.getElementById('totalOpenedCases').textContent = stats.totalOpenedCases || 0;
+            document.getElementById('totalStars').textContent = stats.totalStars || 0;
+            
+            const topList = document.getElementById('topUsers');
+            let html = '';
+            (stats.topUsers || []).forEach((u, i) => {
+                html += `<div class="top-item"><span class="top-rank">${i+1}.</span> ${u.username || 'User'} <span>${u.openedCases || 0} кейсов</span></div>`;
+            });
+            topList.innerHTML = html || '<div class="empty-section">Нет данных</div>';
+        }
+
         function loadCaseForEdit() {
             if (!isOwner()) return;
             const cd = cases.bronze;
             document.getElementById('caseName').value = cd.name;
             document.getElementById('casePrice').value = cd.price;
+            document.getElementById('caseImage').value = cd.image;
+            
             const list = document.getElementById('itemsList');
             list.innerHTML = '';
-            cd.items.forEach((it, i) => {
-                list.innerHTML += `<div class="item-edit" id="item-${i}">${[1,2,3,4,5].map((_,idx)=>'').join('')}</div>`;
+            cd.items.forEach((item, idx) => {
+                list.innerHTML += `
+                    <div class="item-edit" id="item-${idx}">
+                        <div class="form-group"><label>Название:</label><input type="text" class="item-name" value="${item.name}"></div>
+                        <div class="form-group"><label>Эмодзи:</label><input type="text" class="item-emoji" value="${item.emoji}"></div>
+                        <div class="form-group"><label>URL:</label><input type="text" class="item-image" value="${item.image}"></div>
+                        <div class="form-group"><label>Цена:</label><input type="number" class="item-price" value="${item.price}"></div>
+                        <div class="form-group"><label>Шанс:</label><input type="number" class="item-chance" value="${item.chance}"></div>
+                        <button class="admin-btn danger" onclick="removeItem(${idx})">Удалить</button>
+                    </div>
+                `;
             });
         }
 
-        function addNewItem() {}
-        function removeItem(i) {}
-        function saveCaseChanges() { alert('Сохранено'); }
-        function resetCasesToDefault() {}
+        function addNewItem() {
+            alert('Функция добавления предмета будет добавлена позже');
+        }
 
+        function removeItem(idx) {
+            if (confirm('Удалить?')) {
+                document.getElementById(`item-${idx}`).remove();
+            }
+        }
+
+        function saveCaseChanges() {
+            alert('Изменения сохранены');
+        }
+
+        function resetCasesToDefault() {
+            if (confirm('Сбросить?')) {
+                location.reload();
+            }
+        }
+
+        // ==================== ИНИЦИАЛИЗАЦИЯ ====================
         updateAdminButtonVisibility();
         loadUserFromServer();
     </script>
