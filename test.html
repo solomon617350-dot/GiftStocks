@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Тест сервера</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <h3>🛠 Тест подключения к серверу</h3>
+    <div id="log" style="white-space: pre-wrap; font-family: monospace; background: #eee; padding: 10px;"></div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+
+        const SERVER_URL = 'https://case-bot-server.onrender.com';
+        const OWNER_ID = 7389462195;
+
+        const log = document.getElementById('log');
+        function addLog(msg) {
+            log.innerHTML += msg + '\n';
+        }
+
+        addLog('🔍 Начинаем тест...');
+
+        const userId = tg.initDataUnsafe?.user?.id;
+        if (!userId) {
+            addLog('❌ Нет userId — ты открыл не через бота!');
+        } else {
+            addLog(`✅ Твой userId: ${userId}`);
+        }
+
+        // 1. Проверка доступности сервера
+        fetch(SERVER_URL)
+            .then(res => res.text())
+            .then(text => addLog(`✅ Сервер доступен: ${text}`))
+            .catch(e => addLog(`❌ Сервер НЕ доступен: ${e}`));
+
+        // 2. Попытка загрузить пользователя
+        fetch(`${SERVER_URL}/api/user`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                userId: Number(userId),
+                username: tg.initDataUnsafe?.user?.username || 'test',
+                firstName: tg.initDataUnsafe?.user?.first_name || ''
+            })
+        })
+        .then(res => res.json())
+        .then(data => addLog(`✅ Ответ от /api/user: ${JSON.stringify(data)}`))
+        .catch(e => addLog(`❌ Ошибка /api/user: ${e}`));
+
+        // 3. Попытка получить список пользователей
+        fetch(`${SERVER_URL}/api/users`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ adminId: Number(OWNER_ID) })
+        })
+        .then(res => res.json())
+        .then(data => addLog(`👥 Все пользователи: ${JSON.stringify(data)}`))
+        .catch(e => addLog(`❌ Ошибка /api/users: ${e}`));
+    </script>
+</body>
+</html>
