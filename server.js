@@ -4,7 +4,20 @@ const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
-app.use(cors());
+app.use(cors())
+app.get('/', (req, res) => {
+    res.json({ 
+        status: '✅ Сервер работает!',
+        message: 'Case Bot Server is online',
+        endpoints: [
+            'POST /api/user',
+            'POST /api/user/save', 
+            'POST /api/users',
+            'POST /api/user/balance',
+            'POST /api/stats'
+        ]
+    });
+});
 app.use(express.json());
 
 // Подключение к MongoDB
