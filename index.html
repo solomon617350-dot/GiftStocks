@@ -119,15 +119,11 @@
             width: 100%;
             height: 150px;
             border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             margin-bottom: 10px;
-            font-size: 60px;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            background-size: cover;
+            background-size: contain;
             background-position: center;
+            background-repeat: no-repeat;
+            background-color: transparent;
         }
         
         .bronze-case {
@@ -135,7 +131,7 @@
         }
         
         .silver-case {
-            background-image: url('https://iili.io/ЗДЕСЬ-ССЫЛКА-НА-ТВОЮ-КАРТИНКУ.png');
+            background-image: url('https://files.catbox.moe/fte5iy.jpg'); /* ⚠️ ВСТАВЬТЕ ССЫЛКУ НА КАРТИНКУ СЕРЕБРЯНОГО КЕЙСА */
         }
         
         .case-name {
@@ -143,11 +139,13 @@
             font-weight: bold;
             margin-bottom: 5px;
             color: #fff;
+            text-align: center;
         }
         
         .case-price {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 5px;
             font-size: 16px;
             color: #ffd700;
@@ -183,16 +181,12 @@
             width: 200px;
             height: 200px;
             border-radius: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             margin: 0 auto 20px;
-            font-size: 80px;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             box-shadow: 0 10px 20px rgba(255,215,0,0.2);
-            background-size: cover;
+            background-size: contain;
             background-position: center;
+            background-repeat: no-repeat;
+            background-color: transparent;
             border: 2px solid #ffd700;
         }
         
@@ -201,7 +195,7 @@
         }
         
         .silver-detail {
-            background-image: url('https://iili.io/ЗДЕСЬ-ССЫЛКА-НА-ТВОЮ-КАРТИНКУ.png');
+            background-image: url('https://files.catbox.moe/ВАША-ССЫЛКА.png'); /* ⚠️ ВСТАВЬТЕ ТУ ЖЕ ССЫЛКУ */
         }
         
         .detail-name {
@@ -334,7 +328,6 @@
             color: #ffd700;
         }
         
-        /* 🔥 УБРАЛ БЕЛЫЙ ФОН - картинки теперь прозрачные */
         .chance-item {
             display: flex;
             align-items: center;
@@ -345,12 +338,13 @@
             margin-bottom: 10px;
             border: 1px solid #333;
         }
+        
         .chance-item img {
             width: 40px;
             height: 40px;
             border-radius: 8px;
             object-fit: contain;
-            background: transparent; /* Убрал белый фон */
+            background: transparent;
         }
         
         .chance-info {
@@ -415,7 +409,7 @@
             object-fit: contain;
             margin-bottom: 5px;
             border-radius: 8px;
-            background: transparent; /* Убрал белый фон */
+            background: transparent;
         }
         
         .inventory-item-name {
@@ -557,7 +551,6 @@
             will-change: transform;
         }
         
-        /* 🔥 УБРАЛ БЕЛЫЙ ФОН - картинки в рулетке тоже прозрачные */
         .roulette-item {
             display: flex;
             flex-direction: column;
@@ -572,7 +565,7 @@
             height: 40px;
             object-fit: contain;
             border-radius: 5px;
-            background: transparent; /* Убрал белый фон */
+            background: transparent;
         }
         .roulette-item span {
             color: white;
@@ -623,7 +616,7 @@
             height: 40px;
             border-radius: 8px;
             object-fit: contain;
-            background: transparent; /* Убрал белый фон */
+            background: transparent;
         }
         
         .result-item-info {
