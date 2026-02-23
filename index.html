@@ -92,21 +92,23 @@
             text-shadow: 0 0 10px rgba(255,215,0,0.3);
         }
         
+        /* 🔥 ИСПРАВЛЕНО: Сетка для двух кейсов в ряд */
         .cases-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
             margin-top: 20px;
         }
         
         .case-card {
             background: #111111;
             border-radius: 20px;
-            padding: 20px;
+            padding: 15px;
             box-shadow: 0 4px 8px rgba(255,215,0,0.1);
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
             border: 2px solid #333;
+            /* 🔥 ИСПРАВЛЕНО: Убираем белый фон у карточек */
         }
         
         .case-card:hover {
@@ -117,12 +119,12 @@
         
         .case-image {
             width: 100%;
-            height: 200px;
+            height: 150px;
             border-radius: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             font-size: 60px;
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
@@ -139,7 +141,7 @@
         }
         
         .case-name {
-            font-size: 22px;
+            font-size: 18px;
             font-weight: bold;
             margin-bottom: 5px;
             color: #fff;
@@ -149,14 +151,14 @@
             display: flex;
             align-items: center;
             gap: 5px;
-            font-size: 18px;
+            font-size: 16px;
             color: #ffd700;
             font-weight: bold;
         }
         
         .case-price .small-star {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             background: url('https://cdn1.tenchat.ru/static/vbc-gostinder/2025-09-21/5c565d16-168c-49e4-8b3c-6d20da018214.webp') center/contain no-repeat;
         }
         
@@ -205,9 +207,9 @@
         }
         
         .detail-name {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             color: #ffd700;
         }
         
@@ -216,86 +218,17 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            font-size: 24px;
+            font-size: 22px;
             color: #ffd700;
             font-weight: bold;
         }
         
         .detail-price .star-icon {
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
         }
         
-        .roulette-section {
-            background: #111111;
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid #333;
-        }
-        
-        .roulette-title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #ffd700;
-        }
-        
-        .single-roulette {
-            background: linear-gradient(145deg, #1a1a1a, #222);
-            border-radius: 10px;
-            padding: 15px 0;
-            position: relative;
-            overflow: hidden;
-            height: 100px;
-            border: 2px solid #ffd700;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
-        }
-        
-        .roulette-track {
-            display: flex;
-            gap: 10px;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translateY(-50%);
-            will-change: transform;
-        }
-        
-        .roulette-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: rgba(255,255,255,0.1);
-            padding: 5px;
-            border-radius: 8px;
-            min-width: 70px;
-        }
-        
-        .roulette-item img {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-            border-radius: 5px;
-        }
-        
-        .roulette-item span {
-            color: white;
-            font-size: 10px;
-            font-weight: bold;
-        }
-        
-        .roulette-indicator {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            width: 3px;
-            background: linear-gradient(to bottom, #ff0000, #ff4444);
-            transform: translateX(-50%);
-            box-shadow: 0 0 10px #ff0000;
-            z-index: 2;
-        }
+        /* 🔥 УБРАНО: Секция с превью рулетки удалена */
         
         .price-section {
             background: #111111;
@@ -596,6 +529,62 @@
             flex-direction: column;
             gap: 15px;
             margin: 20px 0;
+        }
+        
+        .single-roulette {
+            background: linear-gradient(145deg, #1a1a1a, #222);
+            border-radius: 10px;
+            padding: 15px 0;
+            position: relative;
+            overflow: hidden;
+            height: 100px;
+            border: 2px solid #ffd700;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+        
+        .roulette-track {
+            display: flex;
+            gap: 10px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            will-change: transform;
+        }
+        
+        .roulette-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255,255,255,0.1);
+            padding: 5px;
+            border-radius: 8px;
+            min-width: 70px;
+        }
+        
+        .roulette-item img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+        
+        .roulette-item span {
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        .roulette-indicator {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 3px;
+            background: linear-gradient(to bottom, #ff0000, #ff4444);
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px #ff0000;
+            z-index: 2;
         }
         
         .results-container {
@@ -1033,7 +1022,7 @@
                     <div class="case-name">Бронзовый кейс</div>
                     <div class="case-price">
                         <div class="small-star"></div>
-                        99 звёзд
+                        99 ⭐
                     </div>
                 </div>
                 
@@ -1042,7 +1031,7 @@
                     <div class="case-name">Серебряный кейс</div>
                     <div class="case-price">
                         <div class="small-star"></div>
-                        199 звёзд
+                        199 ⭐
                     </div>
                 </div>
                 
@@ -1073,13 +1062,7 @@
                 <div class="detail-price" id="detailPrice"></div>
             </div>
 
-            <div class="roulette-section">
-                <div class="roulette-title">🎰 Превью рулетки</div>
-                <div class="single-roulette" id="previewRoulette">
-                    <div class="roulette-track" id="previewTrack"></div>
-                    <div class="roulette-indicator"></div>
-                </div>
-            </div>
+            <!-- 🔥 УБРАНО: Превью рулетки здесь больше нет -->
 
             <div class="price-section">
                 <div class="price-value" id="detailPriceValue"></div>
@@ -1287,6 +1270,13 @@
 
         // ========== ВСЕ ПРЕДМЕТЫ ==========
         const allItems = {
+            calendar: {
+                id: 'calendar',
+                name: 'Календарь',
+                emoji: '📅',
+                image: 'https://i.getgems.io/7Sh_kav1VknhySEnSiYNINj0huQcoW6vAH2YtwpIg-w/rs:fill:500:500:1/g:ce/czM6Ly9nZXRnZW1zLXMzL25mdC1jb250ZW50LWNhY2hlL2ltYWdlcy9FUUJNY2ZNQVpsTVVyMVczWDhrZEV3M2ZKTVVBYVdINC1YY21FNVI1UmZGSVkwRTIvODljMjViOWE2NjFhMGU3Zg',
+                price: 500
+            },
             rose: {
                 id: 'rose',
                 name: 'Розочка',
@@ -1413,7 +1403,7 @@
             bronze: {
                 name: 'Бронзовый кейс',
                 price: 99,
-                image: 'https://i.postimg.cc/w3wd8bSR/image-2026-02-20-204059171.png',
+                image: 'bronze',
                 color: 'linear-gradient(145deg, #cd7f32, #b87333)',
                 items: [
                     { ...allItems.calendar, chance: 10 },
@@ -1423,15 +1413,15 @@
             silver: {
                 name: 'Серебряный кейс',
                 price: 199,
-                image: 'silver',
+                image: 'silver', // Сюда потом вставим прямую ссылку на картинку
                 color: 'linear-gradient(145deg, #c0c0c0, #a0a0a0)',
                 items: [
-                    { ...allItems.rose, chance: 27 },
-                    { ...allItems.cake, chance: 26 },
-                    { ...allItems.diamond, chance: 13 },
-                    { ...allItems.cup, chance: 10 },
-                    { ...allItems.stars150, chance: 10 },
-                    { ...allItems.xmas, chance: 5 },
+                    // 🔥 ИСПРАВЛЕНО: Новые шансы для серебряного кейса
+                    { ...allItems.cake, chance: 27 },      // Тортик
+                    { ...allItems.diamond, chance: 26 },   // Алмазик
+                    { ...allItems.cup, chance: 13 },       // Кубок
+                    { ...allItems.stars150, chance: 10 },  // 150 звёзд
+                    { ...allItems.xmas, chance: 5 },       // Xmas Stocking
                     { ...allItems.ramen, chance: 2.5 },
                     { ...allItems.icecream, chance: 2 },
                     { ...allItems.bunny, chance: 1.5 },
@@ -1459,15 +1449,6 @@
                 color: 'linear-gradient(145deg, #b9f2ff, #00ffff)',
                 items: []
             }
-        };
-
-        // Добавляем календарь в allItems
-        allItems.calendar = {
-            id: 'calendar',
-            name: 'Календарь',
-            emoji: '📅',
-            image: 'https://i.getgems.io/7Sh_kav1VknhySEnSiYNINj0huQcoW6vAH2YtwpIg-w/rs:fill:500:500:1/g:ce/czM6Ly9nZXRnZW1zLXMzL25mdC1jb250ZW50LWNhY2hlL2ltYWdlcy9FUUJNY2ZNQVpsTVVyMVczWDhrZEV3M2ZKTVVBYVdINC1YY21FNVI1UmZGSVkwRTIvODljMjViOWE2NjFhMGU3Zg',
-            price: 500
         };
 
         // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
