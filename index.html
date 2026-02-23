@@ -226,20 +226,7 @@
             height: 28px;
         }
         
-        .price-section {
-            background: #111111;
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 1px solid #333;
-            text-align: center;
-        }
-        
-        .price-value {
-            font-size: 28px;
-            color: #ffd700;
-            font-weight: bold;
-        }
+        /* 🔥 УБРАНО: price-section удалён */
         
         .action-buttons {
             display: flex;
@@ -349,15 +336,25 @@
             color: #ffd700;
         }
         
-        /* 🔥 УСИЛЕННОЕ УДАЛЕНИЕ БЕЛОГО ФОНА */
+        /* 🔥 ИСПРАВЛЕНО: Белый фон для картинок */
+        .chance-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            border-radius: 12px;
+            background: #1a1a1a;
+            margin-bottom: 10px;
+            border: 1px solid #333;
+        }
         .chance-item img {
             width: 40px;
             height: 40px;
             border-radius: 8px;
             object-fit: contain;
-            filter: brightness(1.1) contrast(1.1);
-            mix-blend-mode: screen;
-            background: transparent;
+            background: #ffffff;
+            padding: 4px;
+            mix-blend-mode: normal;
         }
         
         .chance-info {
@@ -416,16 +413,14 @@
             border: 1px solid #333;
         }
         
-        /* 🔥 УСИЛЕННОЕ УДАЛЕНИЕ БЕЛОГО ФОНА */
         .inventory-item img {
             width: 60px;
             height: 60px;
             object-fit: contain;
             margin-bottom: 5px;
             border-radius: 8px;
-            filter: brightness(1.1) contrast(1.1);
-            mix-blend-mode: screen;
-            background: transparent;
+            background: #ffffff;
+            padding: 4px;
         }
         
         .inventory-item-name {
@@ -567,7 +562,7 @@
             will-change: transform;
         }
         
-        /* 🔥 УСИЛЕННОЕ УДАЛЕНИЕ БЕЛОГО ФОНА */
+        /* 🔥 ИСПРАВЛЕНО: Белый фон в рулетке */
         .roulette-item {
             display: flex;
             flex-direction: column;
@@ -582,9 +577,8 @@
             height: 40px;
             object-fit: contain;
             border-radius: 5px;
-            filter: brightness(1.1) contrast(1.1);
-            mix-blend-mode: screen;
-            background: transparent;
+            background: #ffffff;
+            padding: 2px;
         }
         .roulette-item span {
             color: white;
@@ -630,15 +624,13 @@
             border: 2px dashed #ff9800;
         }
         
-        /* 🔥 УСИЛЕННОЕ УДАЛЕНИЕ БЕЛОГО ФОНА */
         .result-item img {
             width: 40px;
             height: 40px;
             border-radius: 8px;
             object-fit: contain;
-            filter: brightness(1.1) contrast(1.1);
-            mix-blend-mode: screen;
-            background: transparent;
+            background: #ffffff;
+            padding: 2px;
         }
         
         .result-item-info {
@@ -707,6 +699,11 @@
         .result-button.again {
             background: #ffd700;
             color: #000;
+        }
+        
+        .result-button.sell-all {
+            background: #ff4444;
+            color: white;
         }
         
         .result-button:hover {
@@ -1121,10 +1118,6 @@
                 <div class="detail-price" id="detailPrice"></div>
             </div>
 
-            <div class="price-section">
-                <div class="price-value" id="detailPriceValue"></div>
-            </div>
-
             <div class="action-buttons">
                 <button class="open-case-btn" onclick="openCase(false)" id="openCaseBtn">
                     <span>💰 Открыть за звёзды</span>
@@ -1204,6 +1197,7 @@
             <div id="resultsList" class="results-container"></div>
             <div id="finalButtons" style="display: none;">
                 <div class="result-buttons">
+                    <button class="result-button sell-all" onclick="sellAllCurrentResults()">💰 Продать всё</button>
                     <button class="result-button again" onclick="openAgain()">🎲 Открыть ещё</button>
                 </div>
                 <button class="close-button" onclick="closeRoulette()">Закрыть</button>
@@ -1768,7 +1762,6 @@
             
             document.getElementById('detailName').textContent = caseData.name;
             document.getElementById('detailPrice').innerHTML = `<div class="star-icon"></div>${caseData.price} звёзд`;
-            document.getElementById('detailPriceValue').textContent = `${caseData.price} ⭐`;
             
             const chancesList = document.getElementById('chancesList');
             chancesList.innerHTML = '';
@@ -1856,7 +1849,6 @@
             const rlist = document.getElementById('resultsList');
             const fbtn = document.getElementById('finalButtons');
             const rmode = document.getElementById('rouletteMode');
-            const sbtn = document.getElementById('sellButton');
             
             modal.classList.add('active');
             multi.innerHTML = '';
@@ -1991,7 +1983,8 @@
             });
         }
 
-        function sellAllResults() {
+        // 🔥 НОВОЕ: Продажа всех текущих результатов
+        function sellAllCurrentResults() {
             if (state.isDemo) { closeRoulette(); return; }
             const total = state.currentOpenings.reduce((s,i) => s + i.price, 0);
             state.balance += total;
@@ -2004,6 +1997,12 @@
             state.currentOpenings = [];
             updateBalance();
             document.getElementById('resultsList').innerHTML = '<div class="empty-section">Все предметы проданы</div>';
+            
+            tg.showPopup({
+                title: 'Продано!',
+                message: `Вы продали все предметы за ${total} ⭐`,
+                buttons: [{type: 'ok'}]
+            });
         }
 
         function openAgain() {
