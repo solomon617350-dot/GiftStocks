@@ -92,7 +92,6 @@
             text-shadow: 0 0 10px rgba(255,215,0,0.3);
         }
         
-        /* Сетка для двух кейсов в ряд */
         .cases-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -350,25 +349,15 @@
             color: #ffd700;
         }
         
-        .chance-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 12px;
-            border-radius: 12px;
-            background: #1a1a1a;
-            margin-bottom: 10px;
-            border: 1px solid #333;
-        }
-        
-        /* 🔥 ИСПРАВЛЕНО: Убираем белый фон у картинок предметов */
+        /* 🔥 УСИЛЕННОЕ УДАЛЕНИЕ БЕЛОГО ФОНА */
         .chance-item img {
             width: 40px;
             height: 40px;
             border-radius: 8px;
             object-fit: contain;
+            filter: brightness(1.1) contrast(1.1);
+            mix-blend-mode: screen;
             background: transparent;
-            mix-blend-mode: screen; /* Помогает убрать белый фон, если картинка на прозрачном фоне */
         }
         
         .chance-info {
@@ -427,15 +416,16 @@
             border: 1px solid #333;
         }
         
-        /* 🔥 ИСПРАВЛЕНО: Убираем белый фон у картинок в инвентаре */
+        /* 🔥 УСИЛЕННОЕ УДАЛЕНИЕ БЕЛОГО ФОНА */
         .inventory-item img {
             width: 60px;
             height: 60px;
             object-fit: contain;
             margin-bottom: 5px;
             border-radius: 8px;
-            background: transparent;
+            filter: brightness(1.1) contrast(1.1);
             mix-blend-mode: screen;
+            background: transparent;
         }
         
         .inventory-item-name {
@@ -475,7 +465,6 @@
             font-weight: bold;
         }
         
-        /* 🔥 НОВОЕ: Кнопка продажи отдельного предмета в инвентаре */
         .sell-one-btn {
             background: #4CAF50;
             color: white;
@@ -493,7 +482,6 @@
             transform: scale(1.05);
         }
         
-        /* 🔥 НОВОЕ: Кнопка продажи всего инвентаря */
         .sell-all-btn {
             background: #ff4444;
             color: white;
@@ -579,7 +567,7 @@
             will-change: transform;
         }
         
-        /* 🔥 ИСПРАВЛЕНО: Убираем белый фон у картинок в рулетке */
+        /* 🔥 УСИЛЕННОЕ УДАЛЕНИЕ БЕЛОГО ФОНА */
         .roulette-item {
             display: flex;
             flex-direction: column;
@@ -594,8 +582,9 @@
             height: 40px;
             object-fit: contain;
             border-radius: 5px;
-            background: transparent;
+            filter: brightness(1.1) contrast(1.1);
             mix-blend-mode: screen;
+            background: transparent;
         }
         .roulette-item span {
             color: white;
@@ -641,13 +630,15 @@
             border: 2px dashed #ff9800;
         }
         
+        /* 🔥 УСИЛЕННОЕ УДАЛЕНИЕ БЕЛОГО ФОНА */
         .result-item img {
             width: 40px;
             height: 40px;
             border-radius: 8px;
             object-fit: contain;
-            background: transparent;
+            filter: brightness(1.1) contrast(1.1);
             mix-blend-mode: screen;
+            background: transparent;
         }
         
         .result-item-info {
@@ -666,7 +657,6 @@
             font-size: 14px;
         }
         
-        /* 🔥 НОВОЕ: Кнопка продажи отдельного предмета в результатах */
         .sell-result-btn {
             background: #4CAF50;
             color: white;
@@ -826,7 +816,6 @@
             color: #ffd700;
         }
         
-        /* 🔥 ИСПРАВЛЕНО: Стили для модалки баланса */
         .deposit-options {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -1387,11 +1376,11 @@
                 image: 'https://avatars.mds.yandex.net/i?id=046f9643a0f19a2111d161778800c22255c055cd-7612999-images-thumbs&n=13',
                 price: 495
             },
-            ring: { // 🔥 НОВОЕ: Кольцо для серебряного кейса
+            ring: {
                 id: 'ring',
                 name: 'Кольцо',
                 emoji: '💍',
-                image: 'URL_КОЛЬЦА_НУЖНО_ВСТАВИТЬ',
+                image: 'https://avatars.mds.yandex.net/i?id=454e19c7b391805944ccf80040be5dd57740d3b3-8354186-images-thumbs&n=13',
                 price: 100
             },
             ramen: {
@@ -1488,14 +1477,14 @@
             silver: {
                 name: 'Серебряный кейс',
                 price: 199,
-                image: 'silver', // СЮДА ВСТАВИТЬ ССЫЛКУ НА КАРТИНКУ КЕЙСА
+                image: 'silver',
                 color: 'linear-gradient(145deg, #c0c0c0, #a0a0a0)',
                 items: [
                     { ...allItems.cake, chance: 27 },
                     { ...allItems.diamond, chance: 26 },
                     { ...allItems.cup, chance: 13 },
                     { ...allItems.stars150, chance: 10 },
-                    { ...allItems.ring, chance: 10 }, // 🔥 НОВОЕ: Кольцо с 10%
+                    { ...allItems.ring, chance: 10 },
                     { ...allItems.xmas, chance: 5 },
                     { ...allItems.ramen, chance: 2.5 },
                     { ...allItems.icecream, chance: 2 },
@@ -1706,7 +1695,6 @@
             renderInventory();
         }
 
-        // 🔥 НОВОЕ: Продажа всего инвентаря
         function sellAllInventory() {
             const total = state.inventory.reduce((sum, item) => sum + (item.isDemo ? 0 : item.price), 0);
             if (total === 0) {
@@ -1767,7 +1755,6 @@
             document.getElementById('caseDetail').classList.add('active');
             document.getElementById('backButton').classList.add('visible');
             
-            // Устанавливаем изображение
             const detailImage = document.getElementById('detailImage');
             if (caseId === 'bronze') {
                 detailImage.className = 'detail-image bronze-detail';
@@ -1783,7 +1770,6 @@
             document.getElementById('detailPrice').innerHTML = `<div class="star-icon"></div>${caseData.price} звёзд`;
             document.getElementById('detailPriceValue').textContent = `${caseData.price} ⭐`;
             
-            // Обновляем шансы
             const chancesList = document.getElementById('chancesList');
             chancesList.innerHTML = '';
             
@@ -1829,7 +1815,6 @@
             closeBalanceModal();
         }
 
-        // ========== ОТКРЫТИЕ КЕЙСА ==========
         async function openCase(isDemo) {
             if (state.isSpinning) return;
             
@@ -1958,11 +1943,9 @@
             fbtn.style.display = 'block';
             state.isSpinning = false;
             
-            // 🔥 ИСПРАВЛЕНО: Разблокируем скролл после прокрутки
             document.body.style.overflow = 'auto';
         }
 
-        // 🔥 НОВОЕ: Продажа отдельного предмета из результатов
         function sellSingleResult(timestamp) {
             const itemIndex = state.currentOpenings.findIndex(i => i.timestamp == timestamp);
             if (itemIndex === -1) return;
@@ -1970,20 +1953,16 @@
             const item = state.currentOpenings[itemIndex];
             state.balance += item.price;
             
-            // Удаляем из инвентаря, если предмет был сохранен
             const invIndex = state.inventory.findIndex(i => i.timestamp == timestamp);
             if (invIndex !== -1) {
                 state.inventory.splice(invIndex, 1);
             }
             
-            // Удаляем из текущих открытий
             state.currentOpenings.splice(itemIndex, 1);
             
-            // Обновляем отображение
             updateBalance();
             renderInventory();
             
-            // Перерисовываем список результатов
             const rlist = document.getElementById('resultsList');
             if (state.currentOpenings.length === 0) {
                 rlist.innerHTML = '<div class="empty-section">Все предметы проданы</div>';
@@ -2036,7 +2015,6 @@
             document.getElementById('rouletteModal').classList.remove('active');
         }
 
-        // ========== АДМИНКА ==========
         const ADMIN_PASSWORD = 'admin123';
         
         function promptAdminPassword() {
