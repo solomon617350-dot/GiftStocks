@@ -6,98 +6,115 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* Твои стили остаются без изменений */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+        
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: var(--tg-theme-bg-color, #f5f5f5);
-            color: var(--tg-theme-text-color, #333333);
+            background: #000000;
+            color: #ffffff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
+        
         .top-bar {
-            background: var(--tg-theme-secondary-bg-color, #ffffff);
+            background: #111111;
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(255,215,0,0.1);
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom: 1px solid #333;
         }
+        
         .back-button {
             font-size: 18px;
             cursor: pointer;
             padding: 8px 15px;
             border-radius: 10px;
-            background: var(--tg-theme-bg-color, #f5f5f5);
+            background: #222;
             display: none;
             font-weight: 500;
+            color: #ffd700;
         }
+        
         .back-button.visible {
             display: block;
         }
+        
         .balance-container {
             display: flex;
             align-items: center;
             gap: 10px;
-            background: linear-gradient(145deg, #2c3e50, #3498db);
+            background: linear-gradient(145deg, #1a1a1a, #333);
             padding: 8px 20px;
             border-radius: 30px;
             cursor: pointer;
             transition: transform 0.2s;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 8px rgba(255,215,0,0.2);
+            border: 1px solid #ffd700;
         }
+        
         .balance-container:hover {
             transform: scale(1.05);
         }
+        
         .star-icon {
             width: 30px;
             height: 30px;
             background: url('https://cdn1.tenchat.ru/static/vbc-gostinder/2025-09-21/5c565d16-168c-49e4-8b3c-6d20da018214.webp') center/contain no-repeat;
         }
+        
         .balance-amount {
-            color: white;
+            color: #ffd700;
             font-size: 20px;
             font-weight: bold;
         }
+        
         .content {
             flex: 1;
             padding: 20px;
             padding-bottom: 80px;
         }
+        
         .section-title {
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 20px;
-            color: var(--tg-theme-text-color, #333);
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255,215,0,0.3);
         }
+        
         .cases-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             margin-top: 20px;
         }
+        
         .case-card {
-            background: var(--tg-theme-secondary-bg-color, #ffffff);
+            background: #111111;
             border-radius: 20px;
             padding: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(255,215,0,0.1);
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
-            border: 2px solid transparent;
+            border: 2px solid #333;
         }
+        
         .case-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 16px rgba(255,215,0,0.2);
             border-color: #ffd700;
         }
+        
         .case-image {
             width: 100%;
             height: 200px;
@@ -111,13 +128,23 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             background-size: cover;
             background-position: center;
+        }
+        
+        .bronze-case {
             background-image: url('https://i.postimg.cc/w3wd8bSR/image-2026-02-20-204059171.png');
         }
+        
+        .silver-case {
+            background: linear-gradient(145deg, #c0c0c0, #a0a0a0);
+        }
+        
         .case-name {
             font-size: 22px;
             font-weight: bold;
             margin-bottom: 5px;
+            color: #fff;
         }
+        
         .case-price {
             display: flex;
             align-items: center;
@@ -126,26 +153,32 @@
             color: #ffd700;
             font-weight: bold;
         }
+        
         .case-price .small-star {
             width: 20px;
             height: 20px;
             background: url('https://cdn1.tenchat.ru/static/vbc-gostinder/2025-09-21/5c565d16-168c-49e4-8b3c-6d20da018214.webp') center/contain no-repeat;
         }
+        
         .case-detail {
             display: none;
             animation: fadeIn 0.3s;
         }
+        
         .case-detail.active {
             display: block;
         }
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
         .detail-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
+        
         .detail-image {
             width: 200px;
             height: 200px;
@@ -157,16 +190,27 @@
             font-size: 80px;
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 20px rgba(255,215,0,0.2);
             background-size: cover;
             background-position: center;
+            border: 2px solid #ffd700;
+        }
+        
+        .bronze-detail {
             background-image: url('https://i.postimg.cc/w3wd8bSR/image-2026-02-20-204059171.png');
         }
+        
+        .silver-detail {
+            background: linear-gradient(145deg, #c0c0c0, #a0a0a0);
+        }
+        
         .detail-name {
             font-size: 32px;
             font-weight: bold;
             margin-bottom: 10px;
+            color: #ffd700;
         }
+        
         .detail-price {
             display: flex;
             align-items: center;
@@ -176,229 +220,337 @@
             color: #ffd700;
             font-weight: bold;
         }
+        
         .detail-price .star-icon {
             width: 30px;
             height: 30px;
         }
-        .chances-section {
-            background: var(--tg-theme-secondary-bg-color, #ffffff);
+        
+        .roulette-section {
+            background: #111111;
             border-radius: 20px;
             padding: 20px;
             margin-bottom: 20px;
+            border: 1px solid #333;
         }
-        .chances-title {
+        
+        .roulette-title {
             font-size: 20px;
             font-weight: bold;
             margin-bottom: 15px;
-        }
-        .chance-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 12px;
-            border-radius: 12px;
-            background: var(--tg-theme-bg-color, #f5f5f5);
-            margin-bottom: 10px;
-        }
-        .chance-item img {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            object-fit: contain;
-        }
-        .chance-info {
-            flex: 1;
-        }
-        .chance-name {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-        .chance-bar-container {
-            width: 100%;
-            height: 8px;
-            background: #ddd;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 2px;
-        }
-        .chance-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #4CAF50, #8BC34A);
-            border-radius: 4px;
-        }
-        .chance-percent {
-            font-size: 14px;
-            color: var(--tg-theme-hint-color, #666);
-        }
-        .chance-value {
-            font-size: 18px;
-            font-weight: bold;
             color: #ffd700;
-            min-width: 70px;
-            text-align: right;
         }
-        .quantity-selector {
-            background: var(--tg-theme-secondary-bg-color, #ffffff);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 20px;
+        
+        .single-roulette {
+            background: linear-gradient(145deg, #1a1a1a, #222);
+            border-radius: 10px;
+            padding: 15px 0;
+            position: relative;
+            overflow: hidden;
+            height: 100px;
+            border: 2px solid #ffd700;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
-        .quantity-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-        .quantity-buttons {
+        
+        .roulette-track {
             display: flex;
             gap: 10px;
-            justify-content: center;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            will-change: transform;
         }
-        .quantity-btn {
-            flex: 1;
-            padding: 15px;
-            border: 2px solid var(--tg-theme-button-color, #40a7e3);
-            background: transparent;
-            color: var(--tg-theme-text-color, #333);
-            border-radius: 15px;
-            font-size: 18px;
+        
+        .roulette-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255,255,255,0.1);
+            padding: 5px;
+            border-radius: 8px;
+            min-width: 70px;
+        }
+        
+        .roulette-item img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border-radius: 5px;
+        }
+        
+        .roulette-item span {
+            color: white;
+            font-size: 10px;
             font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-            max-width: 70px;
         }
-        .quantity-btn.active {
-            background: var(--tg-theme-button-color, #40a7e3);
-            color: var(--tg-theme-button-text-color, #ffffff);
+        
+        .roulette-indicator {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 3px;
+            background: linear-gradient(to bottom, #ff0000, #ff4444);
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px #ff0000;
+            z-index: 2;
         }
-        .quantity-btn:hover {
-            transform: scale(1.05);
+        
+        .price-section {
+            background: #111111;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #333;
+            text-align: center;
         }
+        
+        .price-value {
+            font-size: 28px;
+            color: #ffd700;
+            font-weight: bold;
+        }
+        
         .action-buttons {
             display: flex;
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
+        
         .open-case-btn, .demo-case-btn {
             flex: 1;
-            padding: 20px;
+            padding: 15px;
             border: none;
-            border-radius: 20px;
-            font-size: 18px;
+            border-radius: 15px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
             transition: transform 0.2s;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5px;
+            gap: 3px;
         }
+        
         .open-case-btn {
             background: linear-gradient(145deg, #4CAF50, #45a049);
             color: white;
         }
+        
         .demo-case-btn {
             background: linear-gradient(145deg, #ff9800, #f57c00);
             color: white;
         }
+        
         .open-case-btn:hover, .demo-case-btn:hover {
             transform: scale(1.02);
         }
-        .open-case-btn:disabled, .demo-case-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
+        
         .total-price {
-            font-size: 14px;
-            background: rgba(255,255,255,0.2);
-            padding: 3px 10px;
-            border-radius: 20px;
-        }
-        .demo-badge {
             font-size: 12px;
             background: rgba(255,255,255,0.2);
             padding: 2px 8px;
             border-radius: 12px;
         }
-        .inventory-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
+        
+        .demo-badge {
+            font-size: 10px;
+            background: rgba(255,255,255,0.2);
+            padding: 2px 6px;
+            border-radius: 10px;
         }
-        .inventory-item {
-            background: var(--tg-theme-secondary-bg-color, #ffffff);
+        
+        .quantity-section {
+            background: #111111;
             border-radius: 15px;
             padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+        }
+        
+        .quantity-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #ffd700;
+        }
+        
+        .quantity-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .quantity-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ffd700;
+            background: transparent;
+            color: white;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            max-width: 60px;
+        }
+        
+        .quantity-btn.active {
+            background: #ffd700;
+            color: #000;
+        }
+        
+        .quantity-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .chances-section {
+            background: #111111;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+        }
+        
+        .chances-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+        
+        .chance-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            border-radius: 12px;
+            background: #1a1a1a;
+            margin-bottom: 10px;
+            border: 1px solid #333;
+        }
+        
+        .chance-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+        
+        .chance-info {
+            flex: 1;
+        }
+        
+        .chance-name {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            color: #fff;
+        }
+        
+        .chance-bar-container {
+            width: 100%;
+            height: 6px;
+            background: #333;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 2px;
+        }
+        
+        .chance-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700, #ffb347);
+            border-radius: 3px;
+        }
+        
+        .chance-percent {
+            font-size: 12px;
+            color: #aaa;
+        }
+        
+        .chance-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffd700;
+            min-width: 60px;
+            text-align: right;
+        }
+        
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .inventory-item {
+            background: #111111;
+            border-radius: 12px;
+            padding: 10px;
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             position: relative;
+            border: 1px solid #333;
         }
+        
         .inventory-item img {
-            width: 80px;
-            height: 80px;
+            width: 60px;
+            height: 60px;
             object-fit: contain;
-            margin-bottom: 10px;
-            border-radius: 10px;
+            margin-bottom: 5px;
+            border-radius: 8px;
         }
+        
         .inventory-item-name {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 3px;
+            color: #fff;
+        }
+        
+        .inventory-item-price {
+            color: #ffd700;
             font-size: 14px;
             font-weight: bold;
             margin-bottom: 5px;
         }
-        .inventory-item-price {
-            color: #ffd700;
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
+        
         .item-count {
             background: #ffd700;
-            color: #333;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 8px;
-        }
-        .demo-badge-item {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            background: #ff9800;
-            color: white;
+            color: #000;
             padding: 2px 6px;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 10px;
             font-weight: bold;
+            display: inline-block;
+            margin-bottom: 5px;
         }
-        .inventory-controls {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        .sell-one-btn, .sell-all-btn {
-            flex: 1;
+        
+        .demo-badge-item {
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            background: #ff9800;
             color: white;
-            border: none;
-            padding: 8px;
-            border-radius: 8px;
-            font-size: 12px;
+            padding: 2px 4px;
+            border-radius: 6px;
+            font-size: 8px;
             font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
         }
+        
         .sell-one-btn {
             background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
         }
-        .sell-all-btn {
-            background: #ff9800;
-        }
-        .sell-one-btn:hover, .sell-all-btn:hover {
-            transform: scale(1.05);
-        }
+        
         .modal {
             display: none;
             position: fixed;
@@ -411,11 +563,13 @@
             justify-content: center;
             align-items: center;
         }
+        
         .modal.active {
             display: flex;
         }
+        
         .roulette-container {
-            background: var(--tg-theme-secondary-bg-color, #ffffff);
+            background: #111111;
             border-radius: 30px;
             padding: 20px;
             max-width: 95%;
@@ -423,17 +577,9 @@
             text-align: center;
             max-height: 90vh;
             overflow-y: auto;
+            border: 2px solid #ffd700;
         }
-        .roulette-title {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .roulette-subtitle {
-            font-size: 14px;
-            color: var(--tg-theme-hint-color, #666);
-            margin-bottom: 15px;
-        }
+        
         .demo-mode {
             background: linear-gradient(145deg, #ff9800, #f57c00);
             color: white;
@@ -444,100 +590,62 @@
             font-size: 14px;
             font-weight: bold;
         }
+        
         .multi-roulette {
             display: flex;
             flex-direction: column;
             gap: 15px;
             margin: 20px 0;
         }
-        .single-roulette {
-            background: linear-gradient(145deg, #1a2634, #2c3e50);
-            border-radius: 10px;
-            padding: 10px 0;
-            position: relative;
-            overflow: hidden;
-            height: 100px;
-            border: 2px solid #ffd700;
-        }
-        .roulette-track {
-            display: flex;
-            gap: 10px;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translateY(-50%);
-            will-change: transform;
-        }
-        .roulette-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: rgba(255,255,255,0.15);
-            padding: 5px;
-            border-radius: 8px;
-            min-width: 70px;
-        }
-        .roulette-item img {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-            border-radius: 5px;
-        }
-        .roulette-item span {
-            color: white;
-            font-size: 10px;
-            font-weight: bold;
-        }
-        .roulette-indicator {
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            width: 3px;
-            background: linear-gradient(to bottom, #ff0000, #ff4444);
-            transform: translateX(-50%);
-            box-shadow: 0 0 10px #ff0000;
-            z-index: 2;
-        }
+        
         .results-container {
             max-height: 250px;
             overflow-y: auto;
             margin: 15px 0;
             padding: 10px;
-            background: var(--tg-theme-bg-color, #f5f5f5);
+            background: #1a1a1a;
             border-radius: 15px;
         }
+        
         .result-item {
             display: flex;
             align-items: center;
             gap: 15px;
             padding: 10px;
             border-radius: 10px;
-            background: var(--tg-theme-secondary-bg-color, #ffffff);
+            background: #222;
             margin-bottom: 8px;
+            border: 1px solid #333;
         }
+        
         .result-item.demo {
             opacity: 0.7;
             border: 2px dashed #ff9800;
         }
+        
         .result-item img {
             width: 40px;
             height: 40px;
             border-radius: 8px;
             object-fit: contain;
         }
+        
         .result-item-info {
             flex: 1;
             text-align: left;
         }
+        
         .result-item-name {
             font-weight: bold;
             margin-bottom: 2px;
+            color: #fff;
         }
+        
         .result-item-price {
             color: #ffd700;
             font-size: 14px;
         }
+        
         .demo-label {
             font-size: 10px;
             background: #ff9800;
@@ -546,11 +654,13 @@
             border-radius: 8px;
             margin-left: 10px;
         }
+        
         .result-buttons {
             display: flex;
             gap: 10px;
             margin: 15px 0;
         }
+        
         .result-button {
             flex: 1;
             padding: 12px;
@@ -561,49 +671,53 @@
             cursor: pointer;
             transition: transform 0.2s;
         }
+        
         .result-button.sell {
             background: #4CAF50;
             color: white;
         }
+        
         .result-button.again {
-            background: var(--tg-theme-button-color, #40a7e3);
-            color: var(--tg-theme-button-text-color, #ffffff);
+            background: #ffd700;
+            color: #000;
         }
-        .result-button.stars {
-            background: linear-gradient(145deg, #ffd700, #ffb347);
-            color: #333;
-        }
+        
         .result-button:hover {
             transform: scale(1.02);
         }
+        
         .close-button {
             width: 100%;
             padding: 12px;
             background: none;
-            border: 2px solid var(--tg-theme-hint-color, #666);
+            border: 2px solid #666;
             border-radius: 12px;
-            color: var(--tg-theme-hint-color, #666);
+            color: #666;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.2s;
         }
+        
         .close-button:hover {
-            background: var(--tg-theme-hint-color, #666);
+            background: #666;
             color: white;
         }
+        
         .bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
-            background: var(--tg-theme-secondary-bg-color, #ffffff);
+            background: #111111;
             display: flex;
             justify-content: space-around;
             padding: 10px 0;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 -2px 10px rgba(255,215,0,0.1);
             z-index: 99;
+            border-top: 1px solid #333;
         }
+        
         .nav-item {
             flex: 1;
             display: flex;
@@ -613,74 +727,68 @@
             padding: 10px;
             cursor: pointer;
             transition: all 0.2s;
-            color: var(--tg-theme-hint-color, #666);
+            color: #666;
         }
+        
         .nav-item.active {
-            color: var(--tg-theme-button-color, #40a7e3);
+            color: #ffd700;
             transform: translateY(-2px);
         }
+        
         .nav-icon {
             font-size: 28px;
         }
+        
         .nav-label {
             font-size: 12px;
             font-weight: 500;
         }
+        
         .section {
             display: none;
         }
+        
         .section.active {
             display: block;
         }
+        
         .empty-section {
             text-align: center;
             padding: 50px 20px;
             font-size: 18px;
-            color: var(--tg-theme-hint-color, #666);
+            color: #666;
         }
+        
         .profile-stats {
-            background: var(--tg-theme-secondary-bg-color, #ffffff);
+            background: #111111;
             border-radius: 20px;
             padding: 20px;
             margin-bottom: 20px;
+            border: 1px solid #333;
         }
+        
         .stat-item {
             display: flex;
             justify-content: space-between;
             padding: 15px 0;
-            border-bottom: 1px solid var(--tg-theme-hint-color, #ddd);
+            border-bottom: 1px solid #333;
         }
+        
         .stat-item:last-child {
             border-bottom: none;
         }
+        
         .stat-label {
             font-size: 16px;
-            color: var(--tg-theme-hint-color, #666);
+            color: #aaa;
         }
+        
         .stat-value {
             font-size: 18px;
             font-weight: bold;
+            color: #ffd700;
         }
-        .deposit-options {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin: 20px 0;
-        }
-        .deposit-option {
-            background: linear-gradient(145deg, #ffd700, #ffb347);
-            color: #333;
-            border: none;
-            padding: 15px;
-            border-radius: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .deposit-option:hover {
-            transform: scale(1.05);
-        }
+        
         .admin-login {
             position: fixed;
             top: 70px;
@@ -696,11 +804,14 @@
             font-size: 20px;
             z-index: 1000;
             transition: all 0.3s;
+            border: 1px solid #ffd700;
         }
+        
         .admin-login:hover {
             background: rgba(255,215,0,0.4);
             transform: scale(1.1);
         }
+        
         .admin-panel {
             position: fixed;
             top: 50%;
@@ -709,31 +820,34 @@
             width: 90%;
             max-width: 800px;
             max-height: 80vh;
-            background: var(--tg-theme-secondary-bg-color, #ffffff);
+            background: #111111;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(255,215,0,0.2);
             z-index: 2000;
             overflow: hidden;
             display: none;
             flex-direction: column;
             border: 2px solid #ffd700;
         }
+        
         .admin-header {
-            background: linear-gradient(145deg, #2c3e50, #3498db);
-            color: white;
+            background: linear-gradient(145deg, #1a1a1a, #222);
+            color: #ffd700;
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
+        
         .admin-header h2 {
             margin: 0;
             font-size: 24px;
         }
+        
         .close-admin {
             background: none;
             border: none;
-            color: white;
+            color: #ffd700;
             font-size: 24px;
             cursor: pointer;
             width: 40px;
@@ -744,13 +858,16 @@
             justify-content: center;
             transition: background 0.3s;
         }
+        
         .close-admin:hover {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255,215,0,0.2);
         }
+        
         .admin-tabs {
             display: flex;
-            border-bottom: 2px solid #ddd;
+            border-bottom: 2px solid #333;
         }
+        
         .admin-tab {
             flex: 1;
             padding: 12px;
@@ -760,53 +877,65 @@
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
-            color: var(--tg-theme-text-color, #333);
+            color: #aaa;
         }
+        
         .admin-tab.active {
-            background: var(--tg-theme-button-color, #40a7e3);
-            color: var(--tg-theme-button-text-color, #ffffff);
+            background: #ffd700;
+            color: #000;
         }
+        
         .admin-tab-content {
             display: none;
             padding: 20px;
             overflow-y: auto;
             max-height: calc(80vh - 120px);
         }
+        
         .admin-tab-content.active {
             display: block;
         }
+        
         .users-list {
             max-height: 300px;
             overflow-y: auto;
         }
+        
         .user-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 10px;
-            border-bottom: 1px solid var(--tg-theme-hint-color, #ddd);
+            border-bottom: 1px solid #333;
             gap: 10px;
         }
+        
         .user-item:last-child {
             border-bottom: none;
         }
+        
         .user-name {
             font-weight: bold;
             min-width: 120px;
+            color: #fff;
         }
+        
         .user-stats {
             color: #ffd700;
             font-size: 14px;
         }
+        
         .user-date {
             font-size: 10px;
             color: #666;
             min-width: 80px;
         }
+        
         .user-actions {
             display: flex;
             gap: 5px;
         }
+        
         .edit-balance-btn {
             background: #4CAF50;
             color: white;
@@ -816,81 +945,68 @@
             cursor: pointer;
             font-size: 12px;
         }
-        .edit-balance-btn:hover {
-            background: #45a049;
-        }
-        .admin-btn {
-            background: var(--tg-theme-button-color, #40a7e3);
-            color: var(--tg-theme-button-text-color, #ffffff);
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin: 5px;
-            transition: transform 0.2s;
-        }
-        .admin-btn:hover {
-            transform: scale(1.05);
-        }
-        .admin-btn.save {
-            background: #4CAF50;
-        }
-        .admin-btn.danger {
-            background: #ff4444;
-        }
+        
         .form-group {
             margin: 15px 0;
         }
+        
         .form-group label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
+            color: #ffd700;
         }
+        
         .form-group input, .form-group select {
             width: 100%;
             padding: 8px;
-            border: 2px solid #ddd;
+            border: 2px solid #333;
             border-radius: 8px;
             font-size: 14px;
+            background: #1a1a1a;
+            color: #fff;
         }
-        .item-edit {
-            background: var(--tg-theme-bg-color, #f5f5f5);
-            padding: 10px;
-            border-radius: 8px;
-            margin: 10px 0;
-        }
+        
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 15px;
             margin-bottom: 20px;
         }
+        
         .stat-card {
-            background: var(--tg-theme-bg-color, #f5f5f5);
+            background: #1a1a1a;
             padding: 15px;
             border-radius: 10px;
             text-align: center;
+            border: 1px solid #333;
         }
+        
         .stat-label {
             font-size: 14px;
-            color: var(--tg-theme-hint-color, #666);
+            color: #aaa;
             margin-bottom: 5px;
         }
+        
         .stat-value {
             font-size: 24px;
             font-weight: bold;
             color: #ffd700;
         }
+        
         .top-list {
             max-height: 200px;
             overflow-y: auto;
         }
+        
         .top-item {
             display: flex;
             justify-content: space-between;
             padding: 8px;
-            border-bottom: 1px solid var(--tg-theme-hint-color, #ddd);
+            border-bottom: 1px solid #333;
+            color: #fff;
         }
+        
         .top-rank {
             font-weight: bold;
             color: #ffd700;
@@ -913,11 +1029,38 @@
             <h2 class="section-title">🎁 Доступные кейсы</h2>
             <div class="cases-grid">
                 <div class="case-card" onclick="showCaseDetail('bronze')">
-                    <div class="case-image"></div>
+                    <div class="case-image bronze-case"></div>
                     <div class="case-name">Бронзовый кейс</div>
                     <div class="case-price">
                         <div class="small-star"></div>
                         99 звёзд
+                    </div>
+                </div>
+                
+                <div class="case-card" onclick="showCaseDetail('silver')">
+                    <div class="case-image silver-case"></div>
+                    <div class="case-name">Серебряный кейс</div>
+                    <div class="case-price">
+                        <div class="small-star"></div>
+                        199 звёзд
+                    </div>
+                </div>
+                
+                <div class="case-card" onclick="showCaseDetail('gold')">
+                    <div class="case-image" style="background: linear-gradient(145deg, #ffd700, #b8860b);"></div>
+                    <div class="case-name">Золотой кейс</div>
+                    <div class="case-price">
+                        <div class="small-star"></div>
+                        Скоро
+                    </div>
+                </div>
+                
+                <div class="case-card" onclick="showCaseDetail('diamond')">
+                    <div class="case-image" style="background: linear-gradient(145deg, #b9f2ff, #00ffff);"></div>
+                    <div class="case-name">Алмазный кейс</div>
+                    <div class="case-price">
+                        <div class="small-star"></div>
+                        Скоро
                     </div>
                 </div>
             </div>
@@ -926,19 +1069,34 @@
         <div id="caseDetail" class="case-detail">
             <div class="detail-header">
                 <div class="detail-image" id="detailImage"></div>
-                <div class="detail-name" id="detailName">Бронзовый кейс</div>
-                <div class="detail-price" id="detailPrice">
-                    <div class="star-icon"></div>
-                    99 звёзд
+                <div class="detail-name" id="detailName"></div>
+                <div class="detail-price" id="detailPrice"></div>
+            </div>
+
+            <div class="roulette-section">
+                <div class="roulette-title">🎰 Превью рулетки</div>
+                <div class="single-roulette" id="previewRoulette">
+                    <div class="roulette-track" id="previewTrack"></div>
+                    <div class="roulette-indicator"></div>
                 </div>
             </div>
 
-            <div class="chances-section">
-                <div class="chances-title">📊 Шансы выпадения</div>
-                <div id="chancesList"></div>
+            <div class="price-section">
+                <div class="price-value" id="detailPriceValue"></div>
             </div>
 
-            <div class="quantity-selector">
+            <div class="action-buttons">
+                <button class="open-case-btn" onclick="openCase(false)" id="openCaseBtn">
+                    <span>💰 Открыть за звёзды</span>
+                    <span class="total-price" id="totalPrice"></span>
+                </button>
+                <button class="demo-case-btn" onclick="openCase(true)" id="demoCaseBtn">
+                    <span>🎲 Демо-открытие</span>
+                    <span class="demo-badge">Бесплатно</span>
+                </button>
+            </div>
+
+            <div class="quantity-section">
                 <div class="quantity-title">Количество открытий:</div>
                 <div class="quantity-buttons">
                     <button class="quantity-btn active" onclick="selectQuantity(1)">1</button>
@@ -949,15 +1107,9 @@
                 </div>
             </div>
 
-            <div class="action-buttons">
-                <button class="open-case-btn" onclick="openCase(false)" id="openCaseBtn">
-                    <span>💰 Открыть за звёзды</span>
-                    <span class="total-price" id="totalPrice">99 ⭐</span>
-                </button>
-                <button class="demo-case-btn" onclick="openCase(true)" id="demoCaseBtn">
-                    <span>🎲 Демо-открытие</span>
-                    <span class="demo-badge">Бесплатно</span>
-                </button>
+            <div class="chances-section">
+                <div class="chances-title">📊 Шансы выпадения</div>
+                <div id="chancesList"></div>
             </div>
         </div>
 
@@ -982,7 +1134,7 @@
                 </div>
             </div>
             
-            <h3 style="margin: 20px 0 10px;">📦 Инвентарь</h3>
+            <h3 style="margin: 20px 0 10px; color: #ffd700;">📦 Инвентарь</h3>
             <div id="inventory" class="inventory-grid"></div>
         </div>
     </div>
@@ -1059,21 +1211,22 @@
                 <h4>Редактировать кейс</h4>
                 <select id="caseSelector" onchange="loadCaseForEdit()">
                     <option value="bronze">Бронзовый кейс</option>
+                    <option value="silver">Серебряный кейс</option>
                 </select>
                 
                 <div class="form-group">
                     <label>Название кейса:</label>
-                    <input type="text" id="caseName" value="Бронзовый кейс">
+                    <input type="text" id="caseName" value="">
                 </div>
                 
                 <div class="form-group">
                     <label>Цена (звёзд):</label>
-                    <input type="number" id="casePrice" value="99" min="1">
+                    <input type="number" id="casePrice" value="" min="1">
                 </div>
                 
                 <div class="form-group">
                     <label>Изображение (URL):</label>
-                    <input type="text" id="caseImage" value="https://i.postimg.cc/w3wd8bSR/image-2026-02-20-204059171.png">
+                    <input type="text" id="caseImage" value="">
                 </div>
                 
                 <h4>Предметы в кейсе</h4>
@@ -1118,7 +1271,7 @@
 
         // ========== НАСТРОЙКИ ==========
         const SERVER_URL = 'https://case-bot-server.onrender.com';
-        const OWNER_ID = 7389462195; // Твой ID
+        const OWNER_ID = 7389462195;
 
         // ========== СОСТОЯНИЕ ==========
         let state = {
@@ -1132,6 +1285,130 @@
             isDemo: false
         };
 
+        // ========== ВСЕ ПРЕДМЕТЫ ==========
+        const allItems = {
+            rose: {
+                id: 'rose',
+                name: 'Розочка',
+                emoji: '🌹',
+                image: 'https://cdn140.picsart.com/241734929003212.png',
+                price: 25
+            },
+            cake: {
+                id: 'cake',
+                name: 'Тортик',
+                emoji: '🍰',
+                image: 'https://i.pinimg.com/736x/26/97/92/269792e444ce5d1d3b4e54933fa8e33e.jpg',
+                price: 50
+            },
+            diamond: {
+                id: 'diamond',
+                name: 'Алмазик',
+                emoji: '💎',
+                image: 'https://avatars.mds.yandex.net/i?id=6f63769fd3c83181e3a6766b2723eefa293fd267-16973011-images-thumbs&n=13',
+                price: 100
+            },
+            cup: {
+                id: 'cup',
+                name: 'Кубок',
+                emoji: '🏆',
+                image: 'https://avatars.mds.yandex.net/i?id=0489ead33ce8a8f4eedf6bab687736424a556587-5885431-images-thumbs&n=13',
+                price: 100
+            },
+            stars150: {
+                id: 'stars150',
+                name: '150 звёзд',
+                emoji: '⭐',
+                image: 'https://nztcdn.com/files/34b13b5a-7b5f-4d29-9c92-8fada5f27b2f.webp',
+                price: 150
+            },
+            xmas: {
+                id: 'xmas',
+                name: 'Xmas Stocking',
+                emoji: '🧦',
+                image: 'https://avatars.mds.yandex.net/i?id=046f9643a0f19a2111d161778800c22255c055cd-7612999-images-thumbs&n=13',
+                price: 495
+            },
+            ramen: {
+                id: 'ramen',
+                name: 'Instant Ramen',
+                emoji: '🍜',
+                image: 'https://avatars.mds.yandex.net/i?id=52642a58de527071bdae201c978d02355c2b2d5a-4571300-images-thumbs&n=13',
+                price: 520
+            },
+            icecream: {
+                id: 'icecream',
+                name: 'Ice Cream',
+                emoji: '🍦',
+                image: 'https://avatars.mds.yandex.net/i?id=02f538098f4132376e878e0e1ca1f047631879c4-5343659-images-thumbs&n=13',
+                price: 560
+            },
+            bunny: {
+                id: 'bunny',
+                name: 'Jelly Bunny',
+                emoji: '🐰',
+                image: 'https://avatars.mds.yandex.net/i?id=728f421dd1db3114c9deed0be6edce3f4863a26b-16479758-images-thumbs&n=13',
+                price: 750
+            },
+            star: {
+                id: 'star',
+                name: 'Hanging Star',
+                emoji: '⭐',
+                image: 'https://avatars.mds.yandex.net/i?id=f714ffea130dc1fff74ab2b7911d1940dd31f921-5248605-images-thumbs&n=13',
+                price: 917
+            },
+            bell: {
+                id: 'bell',
+                name: 'Sleigh Bell',
+                emoji: '🔔',
+                image: 'https://avatars.mds.yandex.net/i?id=b098e12c2e32a5545191031748e66ba68abdd069-5445950-images-thumbs&n=13',
+                price: 1095
+            },
+            skull: {
+                id: 'skull',
+                name: 'Skull Flower',
+                emoji: '💀',
+                image: 'https://avatars.mds.yandex.net/i?id=9970869f7e1eed0ddf23ba0dfdbe3637_sr-7552082-images-thumbs&n=13',
+                price: 1245
+            },
+            hat: {
+                id: 'hat',
+                name: 'Top Hat',
+                emoji: '🎩',
+                image: 'https://avatars.mds.yandex.net/i?id=5ceeffd98c96d508b22914207b9b17cdee8d5678-6356719-images-thumbs&n=13',
+                price: 1293
+            },
+            skelettos: {
+                id: 'skelettos',
+                name: 'Sky Skelettos',
+                emoji: '💀',
+                image: 'https://avatars.mds.yandex.net/i?id=184208d4cca3e1dfb40745a3f2049a25f93e3bc9-7684353-images-thumbs&n=13',
+                price: 1530
+            },
+            charm: {
+                id: 'charm',
+                name: 'Cupid Charm',
+                emoji: '❤️',
+                image: 'https://avatars.mds.yandex.net/i?id=dcca67cd31308bba7c99a9fba4e8b21aebb8066c-12310327-images-thumbs&n=13',
+                price: 2038
+            },
+            ring: {
+                id: 'ring',
+                name: 'Diamond Ring',
+                emoji: '💍',
+                image: 'https://avatars.mds.yandex.net/i?id=df6b868cdc730a6a77542e4371f81a16c2191507-4714015-images-thumbs&n=13',
+                price: 2858
+            },
+            cigar: {
+                id: 'cigar',
+                name: 'Vintage Cigar',
+                emoji: '🚬',
+                image: 'https://avatars.mds.yandex.net/i?id=a279ef3c5d72b82c47ab30a4672aa21ebbe00b97-7056086-images-thumbs&n=13',
+                price: 3357
+            }
+        };
+
+        // ========== КЕЙСЫ ==========
         let cases = {
             bronze: {
                 name: 'Бронзовый кейс',
@@ -1139,24 +1416,58 @@
                 image: 'https://i.postimg.cc/w3wd8bSR/image-2026-02-20-204059171.png',
                 color: 'linear-gradient(145deg, #cd7f32, #b87333)',
                 items: [
-                    {
-                        id: 'calendar',
-                        name: 'Календарь',
-                        emoji: '📅',
-                        image: 'https://i.getgems.io/7Sh_kav1VknhySEnSiYNINj0huQcoW6vAH2YtwpIg-w/rs:fill:500:500:1/g:ce/czM6Ly9nZXRnZW1zLXMzL25mdC1jb250ZW50LWNhY2hlL2ltYWdlcy9FUUJNY2ZNQVpsTVVyMVczWDhrZEV3M2ZKTVVBYVdINC1YY21FNVI1UmZGSVkwRTIvODljMjViOWE2NjFhMGU3Zg',
-                        price: 500,
-                        chance: 10
-                    },
-                    {
-                        id: 'rose',
-                        name: 'Розочка',
-                        emoji: '🌹',
-                        image: 'https://cdn140.picsart.com/241734929003212.png',
-                        price: 25,
-                        chance: 90
-                    }
+                    { ...allItems.calendar, chance: 10 },
+                    { ...allItems.rose, chance: 90 }
                 ]
+            },
+            silver: {
+                name: 'Серебряный кейс',
+                price: 199,
+                image: 'silver',
+                color: 'linear-gradient(145deg, #c0c0c0, #a0a0a0)',
+                items: [
+                    { ...allItems.rose, chance: 27 },
+                    { ...allItems.cake, chance: 26 },
+                    { ...allItems.diamond, chance: 13 },
+                    { ...allItems.cup, chance: 10 },
+                    { ...allItems.stars150, chance: 10 },
+                    { ...allItems.xmas, chance: 5 },
+                    { ...allItems.ramen, chance: 2.5 },
+                    { ...allItems.icecream, chance: 2 },
+                    { ...allItems.bunny, chance: 1.5 },
+                    { ...allItems.star, chance: 0.64 },
+                    { ...allItems.bell, chance: 0.52 },
+                    { ...allItems.skull, chance: 0.5 },
+                    { ...allItems.hat, chance: 0.4 },
+                    { ...allItems.skelettos, chance: 0.35 },
+                    { ...allItems.charm, chance: 0.25 },
+                    { ...allItems.ring, chance: 0.21 },
+                    { ...allItems.cigar, chance: 0.13 }
+                ]
+            },
+            gold: {
+                name: 'Золотой кейс',
+                price: 0,
+                image: 'gold',
+                color: 'linear-gradient(145deg, #ffd700, #b8860b)',
+                items: []
+            },
+            diamond: {
+                name: 'Алмазный кейс',
+                price: 0,
+                image: 'diamond',
+                color: 'linear-gradient(145deg, #b9f2ff, #00ffff)',
+                items: []
             }
+        };
+
+        // Добавляем календарь в allItems
+        allItems.calendar = {
+            id: 'calendar',
+            name: 'Календарь',
+            emoji: '📅',
+            image: 'https://i.getgems.io/7Sh_kav1VknhySEnSiYNINj0huQcoW6vAH2YtwpIg-w/rs:fill:500:500:1/g:ce/czM6Ly9nZXRnZW1zLXMzL25mdC1jb250ZW50LWNhY2hlL2ltYWdlcy9FUUJNY2ZNQVpsTVVyMVczWDhrZEV3M2ZKTVVBYVdINC1YY21FNVI1UmZGSVkwRTIvODljMjViOWE2NjFhMGU3Zg',
+            price: 500
         };
 
         // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
@@ -1291,18 +1602,36 @@
                 return;
             }
 
-            let html = '';
+            const grouped = {};
             state.inventory.forEach(item => {
+                const key = `${item.id}_${item.isDemo ? 'demo' : 'real'}`;
+                if (!grouped[key]) {
+                    grouped[key] = {
+                        ...item,
+                        items: [item]
+                    };
+                } else {
+                    grouped[key].items.push(item);
+                }
+            });
+
+            let html = '';
+            for (let key in grouped) {
+                const group = grouped[key];
+                const item = group.items[0];
+                const count = group.items.length;
+                
                 html += `
                     <div class="inventory-item">
                         ${item.isDemo ? '<div class="demo-badge-item">DEMO</div>' : ''}
                         <img src="${item.image}">
                         <div class="inventory-item-name">${item.emoji} ${item.name}</div>
                         <div class="inventory-item-price">${item.price} ⭐</div>
+                        <span class="item-count">x${count}</span>
                         ${!item.isDemo ? `<button class="sell-one-btn" onclick="sellItem('${item.id}')">Продать</button>` : ''}
                     </div>
                 `;
-            });
+            }
             div.innerHTML = html;
         }
 
@@ -1344,6 +1673,12 @@
             renderInventory();
         }
 
+        function showMainMenu() {
+            document.getElementById('caseDetail').classList.remove('active');
+            document.getElementById('mainMenu').classList.add('active');
+            document.getElementById('backButton').classList.remove('visible');
+        }
+
         function showCaseDetail(caseId) {
             state.currentCase = caseId;
             const caseData = cases[caseId];
@@ -1352,14 +1687,28 @@
             document.getElementById('caseDetail').classList.add('active');
             document.getElementById('backButton').classList.add('visible');
             
-            document.getElementById('detailImage').innerHTML = '';
+            // Устанавливаем изображение
+            const detailImage = document.getElementById('detailImage');
+            if (caseId === 'bronze') {
+                detailImage.className = 'detail-image bronze-detail';
+            } else if (caseId === 'silver') {
+                detailImage.className = 'detail-image silver-detail';
+            } else {
+                detailImage.className = 'detail-image';
+                detailImage.style.background = caseData.color;
+                detailImage.innerHTML = caseData.image === 'gold' ? '🥇' : '💎';
+            }
+            
             document.getElementById('detailName').textContent = caseData.name;
             document.getElementById('detailPrice').innerHTML = `<div class="star-icon"></div>${caseData.price} звёзд`;
+            document.getElementById('detailPriceValue').textContent = `${caseData.price} ⭐`;
             
-            const list = document.getElementById('chancesList');
-            list.innerHTML = '';
+            // Обновляем шансы
+            const chancesList = document.getElementById('chancesList');
+            chancesList.innerHTML = '';
+            
             caseData.items.forEach(item => {
-                list.innerHTML += `
+                chancesList.innerHTML += `
                     <div class="chance-item">
                         <img src="${item.image}">
                         <div class="chance-info">
@@ -1373,20 +1722,16 @@
                     </div>
                 `;
             });
+            
             selectQuantity(1);
-        }
-
-        function showMainMenu() {
-            document.getElementById('caseDetail').classList.remove('active');
-            document.getElementById('mainMenu').classList.add('active');
-            document.getElementById('backButton').classList.remove('visible');
         }
 
         function selectQuantity(q) {
             state.selectedQuantity = q;
             document.querySelectorAll('.quantity-btn').forEach(b => b.classList.remove('active'));
             document.querySelector(`.quantity-btn:nth-child(${q})`).classList.add('active');
-            document.getElementById('totalPrice').innerHTML = `${cases[state.currentCase].price * q} ⭐`;
+            const caseData = cases[state.currentCase];
+            document.getElementById('totalPrice').innerHTML = `${caseData.price * q} ⭐`;
         }
 
         function showBalanceModal() {
@@ -1647,21 +1992,22 @@
         }
 
         function loadCaseForEdit() {
-            const cd = cases.bronze;
-            document.getElementById('caseName').value = cd.name;
-            document.getElementById('casePrice').value = cd.price;
-            document.getElementById('caseImage').value = cd.image;
+            const caseId = document.getElementById('caseSelector').value;
+            const caseData = cases[caseId];
+            
+            document.getElementById('caseName').value = caseData.name;
+            document.getElementById('casePrice').value = caseData.price;
             
             const list = document.getElementById('itemsList');
             list.innerHTML = '';
-            cd.items.forEach((item, idx) => {
+            caseData.items.forEach((item, idx) => {
                 list.innerHTML += `
                     <div class="item-edit" id="item-${idx}">
                         <div class="form-group"><label>Название:</label><input type="text" class="item-name" value="${item.name}"></div>
                         <div class="form-group"><label>Эмодзи:</label><input type="text" class="item-emoji" value="${item.emoji}"></div>
                         <div class="form-group"><label>URL:</label><input type="text" class="item-image" value="${item.image}"></div>
                         <div class="form-group"><label>Цена:</label><input type="number" class="item-price" value="${item.price}"></div>
-                        <div class="form-group"><label>Шанс:</label><input type="number" class="item-chance" value="${item.chance}"></div>
+                        <div class="form-group"><label>Шанс:</label><input type="number" class="item-chance" value="${item.chance}" min="0.01" max="100" step="0.01"></div>
                         <button class="admin-btn danger" onclick="removeItem(${idx})">Удалить</button>
                     </div>
                 `;
