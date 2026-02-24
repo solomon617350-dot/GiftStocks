@@ -126,8 +126,8 @@
             background-color: transparent;
         }
         
-        .bronze-case {
-            background-image: url('https://i.postimg.cc/w3wd8bSR/image-2026-02-20-204059171.png');
+        .red-case {
+            background-image: url('https://files.catbox.moe/j9t4gd.jpg');
         }
         
         .green-case {
@@ -190,8 +190,8 @@
             border: 2px solid #ffd700;
         }
         
-        .bronze-detail {
-            background-image: url('https://i.postimg.cc/w3wd8bSR/image-2026-02-20-204059171.png');
+        .red-detail {
+            background-image: url('https://files.catbox.moe/j9t4gd.jpg');
         }
         
         .green-detail {
@@ -1059,9 +1059,9 @@
         <div id="mainMenu" class="section active">
             <h2 class="section-title">🎁 Доступные кейсы</h2>
             <div class="cases-grid">
-                <div class="case-card" onclick="showCaseDetail('bronze')">
-                    <div class="case-image bronze-case"></div>
-                    <div class="case-name">Бронзовый кейс</div>
+                <div class="case-card" onclick="showCaseDetail('red')">
+                    <div class="case-image red-case"></div>
+                    <div class="case-name">Red Case</div>
                     <div class="case-price">
                         <div class="small-star"></div>
                         99 ⭐
@@ -1230,7 +1230,7 @@
             <div class="case-editor">
                 <h4>Редактировать кейс</h4>
                 <select id="caseSelector" onchange="loadCaseForEdit()">
-                    <option value="bronze">Бронзовый кейс</option>
+                    <option value="red">Red Case</option>
                     <option value="green">Green Case</option>
                 </select>
                 
@@ -1298,7 +1298,7 @@
             balance: 0,
             openedCases: 0,
             inventory: [],
-            currentCase: 'bronze',
+            currentCase: 'red',
             selectedQuantity: 1,
             currentOpenings: [],
             isSpinning: false,
@@ -1444,11 +1444,11 @@
 
         // ========== КЕЙСЫ ==========
         let cases = {
-            bronze: {
-                name: 'Бронзовый кейс',
+            red: {
+                name: 'Red Case',
                 price: 99,
-                image: 'bronze',
-                color: 'linear-gradient(145deg, #cd7f32, #b87333)',
+                image: 'red',
+                color: 'linear-gradient(145deg, #ff0000, #aa0000)',
                 items: [
                     { ...allItems.calendar, chance: 10 },
                     { ...allItems.rose, chance: 90 }
@@ -1736,8 +1736,8 @@
             document.getElementById('backButton').classList.add('visible');
             
             const detailImage = document.getElementById('detailImage');
-            if (caseId === 'bronze') {
-                detailImage.className = 'detail-image bronze-detail';
+            if (caseId === 'red') {
+                detailImage.className = 'detail-image red-detail';
             } else if (caseId === 'green') {
                 detailImage.className = 'detail-image green-detail';
             } else {
