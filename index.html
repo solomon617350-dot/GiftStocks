@@ -394,11 +394,24 @@
         .price-stars {
             color: #ffd700;
             font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+        
+        .ton-icon {
+            width: 18px;
+            height: 18px;
+            background: url('https://files.catbox.moe/7lnef8.png') center/contain no-repeat;
+            display: inline-block;
         }
         
         .price-ton {
             color: #0088cc;
             font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 3px;
         }
         
         .chance-button {
@@ -460,6 +473,28 @@
             padding: 10px;
         }
         
+        .inventory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .sell-all-inventory-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .sell-all-inventory-btn:hover {
+            transform: scale(1.05);
+        }
+        
         .inventory-item {
             background: #0f0f0f;
             border-radius: 12px;
@@ -491,6 +526,10 @@
             font-size: 14px;
             font-weight: bold;
             margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
         }
         
         .item-count {
@@ -622,6 +661,7 @@
             height: 200px;
             position: relative;
             margin: 20px auto;
+            cursor: pointer;
         }
         
         .circle-bg {
@@ -707,6 +747,10 @@
             font-size: 14px;
             color: #ffd700;
             margin-top: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
         }
         
         .question-mark {
@@ -830,6 +874,10 @@
             font-size: 14px;
             font-weight: bold;
             margin-top: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
         }
         
         .modal {
@@ -885,7 +933,7 @@
             padding: 15px 0;
             position: relative;
             overflow: hidden;
-            height: 100px;
+            height: 80px;
             border: 2px solid #ffd700;
             box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
@@ -907,8 +955,16 @@
             background: rgba(255,255,255,0.1);
             padding: 5px;
             border-radius: 8px;
-            min-width: 70px;
+            min-width: 60px;
+            transition: all 0.3s;
         }
+        
+        .roulette-item.win {
+            box-shadow: 0 0 20px #ffd700;
+            transform: scale(1.1);
+            background: rgba(255,215,0,0.2);
+        }
+        
         .roulette-item img {
             width: 40px;
             height: 40px;
@@ -917,8 +973,8 @@
             background: transparent;
         }
         .roulette-item span {
-            color: white;
-            font-size: 10px;
+            color: #ffd700;
+            font-size: 12px;
             font-weight: bold;
         }
         
@@ -928,9 +984,9 @@
             bottom: 0;
             left: 50%;
             width: 3px;
-            background: linear-gradient(to bottom, #ff0000, #ff4444);
+            background: linear-gradient(to bottom, #ffd700, #ffaa00);
             transform: translateX(-50%);
-            box-shadow: 0 0 10px #ff0000;
+            box-shadow: 0 0 10px #ffd700;
             z-index: 2;
         }
         
@@ -982,6 +1038,9 @@
         .result-item-price {
             color: #ffd700;
             font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
         }
         
         .sell-result-btn {
@@ -1187,9 +1246,8 @@
             border: 1px solid #ffd700;
         }
         
-        .admin-login:hover {
-            background: rgba(255,215,0,0.4);
-            transform: scale(1.1);
+        .admin-login.hidden {
+            display: none;
         }
         
         .admin-panel {
@@ -1505,7 +1563,7 @@
         <!-- Страница апгрейда -->
         <div id="upgradePage" class="upgrade-page">
             <div class="upgrade-container">
-                <div class="chance-circle">
+                <div class="chance-circle" onclick="startUpgradeRoulette()">
                     <div class="circle-bg">
                         <div class="circle-progress" id="circleProgress" style="background: conic-gradient(#ffd700 0deg, #2a2a2a 0deg)"></div>
                         <div class="circle-content">
@@ -1534,7 +1592,7 @@
                 </div>
 
                 <div class="multipliers">
-                    <div class="multiplier-btn" onclick="selectMultiplier(2, this)">2x</div>
+                    <div class="multiplier-btn active" onclick="selectMultiplier(2, this)">2x</div>
                     <div class="multiplier-btn" onclick="selectMultiplier(3, this)">3x</div>
                     <div class="multiplier-btn" onclick="selectMultiplier(5, this)">5x</div>
                     <div class="multiplier-btn" onclick="selectMultiplier(10, this)">10x</div>
@@ -1566,9 +1624,11 @@
                 </div>
             </div>
             
-            <h3 style="margin: 20px 0 10px; color: #ffd700;">📦 Инвентарь</h3>
+            <div class="inventory-header">
+                <h3 style="color: #ffd700;">📦 Инвентарь</h3>
+                <button class="sell-all-inventory-btn" onclick="sellAllInventory()" id="sellAllBtn">💰 Продать всё</button>
+            </div>
             <div id="inventory" class="inventory-grid"></div>
-            <button class="sell-all-btn" onclick="sellAllInventory()" id="sellAllBtn" style="display: none;">💰 Продать всё</button>
         </div>
     </div>
 
@@ -1604,15 +1664,33 @@
         </div>
     </div>
 
+    <div id="upgradeRouletteModal" class="modal">
+        <div class="roulette-container">
+            <div class="roulette-title">⚡ Апгрейд</div>
+            <div id="upgradeRoulette" class="single-roulette" style="margin: 20px 0; height: 100px;">
+                <div class="roulette-track" id="upgradeTrack"></div>
+                <div class="roulette-indicator"></div>
+            </div>
+            <div id="upgradeResult" style="margin: 20px 0; font-size: 18px;"></div>
+            <button class="close-button" onclick="closeUpgradeRoulette()">Закрыть</button>
+        </div>
+    </div>
+
     <div id="balanceModal" class="modal">
         <div class="roulette-container" style="max-width: 400px;">
             <div class="roulette-title">💰 Баланс</div>
             <div style="font-size: 48px; color: #ffd700; margin: 20px 0;" id="modalBalance">1000 ⭐</div>
+            <div class="deposit-options">
+                <button class="deposit-option" onclick="depositBalance(100)">+100 ⭐</button>
+                <button class="deposit-option" onclick="depositBalance(500)">+500 ⭐</button>
+                <button class="deposit-option" onclick="depositBalance(1000)">+1000 ⭐</button>
+                <button class="deposit-option" onclick="depositBalance(5000)">+5000 ⭐</button>
+            </div>
             <button class="close-button" onclick="closeBalanceModal()">Закрыть</button>
         </div>
     </div>
 
-    <div class="admin-login" id="adminLoginButton" onclick="promptAdminPassword()" title="Вход для администратора">
+    <div class="admin-login hidden" id="adminLoginButton" onclick="promptAdminPassword()" title="Вход для администратора">
         👤
     </div>
 
@@ -1622,6 +1700,7 @@
         tg.expand();
 
         const STARS_TO_TON = 100;
+        const OWNER_ID = 7389462195;
 
         // Загружаем сохраненные данные или используем начальные
         let state = loadState() || {
@@ -1663,6 +1742,16 @@
         let showingMyItems = false;
         let showingTargetItems = false;
 
+        // Проверка на владельца
+        function checkOwner() {
+            const userId = tg.initDataUnsafe?.user?.id;
+            if (userId === OWNER_ID) {
+                document.getElementById('adminLoginButton').classList.remove('hidden');
+            } else {
+                document.getElementById('adminLoginButton').classList.add('hidden');
+            }
+        }
+
         // Функции для сохранения/загрузки состояния
         function saveState() {
             localStorage.setItem('caseGameState', JSON.stringify(state));
@@ -1675,6 +1764,13 @@
 
         function starsToTon(stars) {
             return (stars / STARS_TO_TON).toFixed(2);
+        }
+
+        function formatPriceWithIcons(price) {
+            return `
+                <span class="price-stars">${price} ⭐</span>
+                <span class="price-ton"><span class="ton-icon"></span>${starsToTon(price)}</span>
+            `;
         }
 
         function switchToCases() {
@@ -1759,7 +1855,6 @@
             chancesGrid.innerHTML = '';
             
             sortedItems.forEach(item => {
-                const tonPrice = starsToTon(item.price);
                 chancesGrid.innerHTML += `
                     <div class="chance-card">
                         <div class="chance-image">
@@ -1767,8 +1862,7 @@
                         </div>
                         <div class="chance-name">${item.emoji} ${item.name}</div>
                         <div class="chance-prices">
-                            <span class="price-stars">${item.price} ⭐</span>
-                            <span class="price-ton">${tonPrice} TON</span>
+                            ${formatPriceWithIcons(item.price)}
                         </div>
                         <div class="chance-tooltip">
                             <button class="chance-button">Шанс ${item.chance}%</button>
@@ -1810,6 +1904,24 @@
             currentMultiplier = x;
             document.querySelectorAll('.multiplier-btn').forEach(btn => btn.classList.remove('active'));
             element.classList.add('active');
+            
+            if (selectedSource) {
+                // Находим предметы с ценой примерно в x раз выше
+                const sourcePrice = allItems[selectedSource]?.price || 0;
+                const targetPrice = sourcePrice * x;
+                
+                // Ищем подходящий предмет для апгрейда
+                const availableTargets = Object.values(allItems).filter(item => 
+                    item.price >= targetPrice * 0.8 && item.price <= targetPrice * 1.2 && item.id !== selectedSource
+                );
+                
+                if (availableTargets.length > 0) {
+                    // Выбираем случайный подходящий предмет
+                    const randomTarget = availableTargets[Math.floor(Math.random() * availableTargets.length)];
+                    selectTarget(randomTarget.id);
+                }
+            }
+            
             if (selectedSource && selectedTarget) {
                 calculateChance();
             }
@@ -1869,8 +1981,10 @@
                         <div class="item-card" onclick="selectMyItem('${item.id}')">
                             <img src="${item.image}">
                             <div class="item-card-name">${item.name}</div>
-                            <div class="item-card-price">${item.price} ⭐</div>
-                            <div style="color: #0088cc; font-size: 12px;">${starsToTon(item.price)} TON</div>
+                            <div class="item-card-price">
+                                ${item.price} ⭐
+                                <span class="ton-icon"></span>${starsToTon(item.price)}
+                            </div>
                             <div style="color: #aaa; font-size: 11px;">x${item.count || 1}</div>
                         </div>
                     `;
@@ -1886,8 +2000,10 @@
                         <div class="item-card" onclick="selectTarget('${item.id}')">
                             <img src="${item.image}">
                             <div class="item-card-name">${item.name}</div>
-                            <div class="item-card-price">${item.price} ⭐</div>
-                            <div style="color: #0088cc; font-size: 12px;">${starsToTon(item.price)} TON</div>
+                            <div class="item-card-price">
+                                ${item.price} ⭐
+                                <span class="ton-icon"></span>${starsToTon(item.price)}
+                            </div>
                         </div>
                     `;
                 });
@@ -1923,6 +2039,65 @@
             if (selectedSource) {
                 calculateChance();
             }
+        }
+
+        function startUpgradeRoulette() {
+            if (!selectedSource || !selectedTarget) {
+                alert('Выберите предметы для апгрейда');
+                return;
+            }
+            
+            const sourceItem = allItems[selectedSource];
+            const targetItem = allItems[selectedTarget];
+            const chanceText = document.getElementById('chancePercent').textContent;
+            const chance = parseInt(chanceText) / 100;
+            
+            const modal = document.getElementById('upgradeRouletteModal');
+            const track = document.getElementById('upgradeTrack');
+            const result = document.getElementById('upgradeResult');
+            
+            modal.classList.add('active');
+            track.innerHTML = '';
+            
+            // Создаем предметы для прокрутки
+            const items = [];
+            for (let i = 0; i < 50; i++) {
+                if (i >= 25 && i < 26) {
+                    // Центральная позиция - результат
+                    items.push(targetItem);
+                } else {
+                    // Случайные предметы
+                    items.push(Math.random() < chance ? targetItem : sourceItem);
+                }
+            }
+            
+            items.forEach((item, index) => {
+                const el = document.createElement('div');
+                el.className = 'roulette-item';
+                if (index === 25) {
+                    el.classList.add('win');
+                }
+                el.innerHTML = `<img src="${item.image}"><span>${item.price} ⭐</span>`;
+                track.appendChild(el);
+            });
+            
+            track.style.transform = `translateY(-50%) translateX(-1000px)`;
+            
+            setTimeout(() => {
+                track.style.transition = `transform 3000ms cubic-bezier(0.15, 0.85, 0.35, 1)`;
+                track.style.transform = `translateY(-50%) translateX(-${25 * 70}px)`;
+            }, 100);
+            
+            setTimeout(() => {
+                const isSuccess = Math.random() < chance;
+                result.innerHTML = isSuccess ? 
+                    '<div style="color: #4CAF50; font-size: 24px;">✅ Успех!</div>' : 
+                    '<div style="color: #ff4444; font-size: 24px;">❌ Неудача</div>';
+            }, 3100);
+        }
+
+        function closeUpgradeRoulette() {
+            document.getElementById('upgradeRouletteModal').classList.remove('active');
         }
 
         function doUpgrade() {
@@ -1995,14 +2170,10 @@
 
         function renderInventory() {
             const div = document.getElementById('inventory');
-            const sellAllBtn = document.getElementById('sellAllBtn');
             
             if (!state.inventory || state.inventory.length === 0) {
                 div.innerHTML = '<div class="empty-section">🫙 Инвентарь пуст</div>';
-                sellAllBtn.style.display = 'none';
                 return;
-            } else {
-                sellAllBtn.style.display = 'block';
             }
 
             let html = '';
@@ -2011,7 +2182,10 @@
                     <div class="inventory-item">
                         <img src="${item.image}">
                         <div class="inventory-item-name">${item.name}</div>
-                        <div class="inventory-item-price">${item.price} ⭐</div>
+                        <div class="inventory-item-price">
+                            ${item.price} ⭐
+                            <span class="ton-icon"></span>
+                        </div>
                         <span class="item-count">x${item.count || 1}</span>
                         <button class="sell-one-btn" onclick="sellItem('${item.id}')">Продать 1</button>
                     </div>
@@ -2055,6 +2229,13 @@
 
         function closeBalanceModal() {
             document.getElementById('balanceModal').classList.remove('active');
+        }
+
+        function depositBalance(amount) {
+            state.balance += amount;
+            updateBalance();
+            saveState();
+            closeBalanceModal();
         }
 
         function selectQuantity(q) {
@@ -2119,7 +2300,7 @@
             }
             fbtn.style.display = 'none';
             
-            const iw = 80;
+            const iw = 60;
             const gap = 10;
             const tiw = iw + gap;
             
@@ -2149,7 +2330,7 @@
                     const el = document.createElement('div');
                     el.className = 'roulette-item';
                     el.style.minWidth = iw + 'px';
-                    el.innerHTML = `<img src="${it.image}"><span>${it.name}</span>`;
+                    el.innerHTML = `<img src="${it.image}"><span>${it.price} ⭐</span>`;
                     tr.appendChild(el);
                 }
                 rd.appendChild(tr);
@@ -2175,7 +2356,10 @@
                         <img src="${r.image}">
                         <div class="result-item-info">
                             <div class="result-item-name">${r.emoji} ${r.name}</div>
-                            <div class="result-item-price">${r.price} ⭐</div>
+                            <div class="result-item-price">
+                                ${r.price} ⭐
+                                <span class="ton-icon"></span>
+                            </div>
                         </div>
                         ${!isDemo ? `<button class="sell-result-btn" onclick="sellSingleResult('${r.timestamp}')">Продать</button>` : ''}
                         ${isDemo ? '<span class="demo-label">DEMO</span>' : ''}
@@ -2236,7 +2420,10 @@
                             <img src="${r.image}">
                             <div class="result-item-info">
                                 <div class="result-item-name">${r.emoji} ${r.name}</div>
-                                <div class="result-item-price">${r.price} ⭐</div>
+                                <div class="result-item-price">
+                                    ${r.price} ⭐
+                                    <span class="ton-icon"></span>
+                                </div>
                             </div>
                             ${!r.isDemo ? `<button class="sell-result-btn" onclick="sellSingleResult('${r.timestamp}')">Продать</button>` : ''}
                             ${r.isDemo ? '<span class="demo-label">DEMO</span>' : ''}
@@ -2342,6 +2529,7 @@
         };
 
         // Инициализация
+        checkOwner();
         updateBalance();
         renderInventory();
     </script>
