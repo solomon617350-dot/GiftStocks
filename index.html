@@ -654,6 +654,7 @@
             flex-direction: column;
             align-items: center;
             gap: 20px;
+            min-height: 100%;
         }
         
         .chance-circle {
@@ -775,6 +776,7 @@
             gap: 10px;
             justify-content: center;
             margin: 20px 0;
+            flex-wrap: wrap;
         }
         
         .multiplier-btn {
@@ -963,6 +965,7 @@
             box-shadow: 0 0 20px #ffd700;
             transform: scale(1.1);
             background: rgba(255,215,0,0.2);
+            border: 1px solid #ffd700;
         }
         
         .roulette-item img {
@@ -988,6 +991,17 @@
             transform: translateX(-50%);
             box-shadow: 0 0 10px #ffd700;
             z-index: 2;
+        }
+        
+        .arrow-indicator {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffd700;
+            font-size: 24px;
+            text-shadow: 0 0 10px #ffd700;
+            z-index: 3;
         }
         
         .results-container {
@@ -1454,6 +1468,56 @@
         .hidden {
             display: none !important;
         }
+        
+        .confirm-modal {
+            background: #0f0f0f;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            max-width: 300px;
+            border: 2px solid #ffd700;
+        }
+        
+        .confirm-modal h3 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        .confirm-modal p {
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        
+        .confirm-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .confirm-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .confirm-btn.yes {
+            background: #ff4444;
+            color: white;
+        }
+        
+        .confirm-btn.no {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .confirm-btn:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
@@ -1606,7 +1670,7 @@
                     <button class="action-btn secondary" onclick="showTargetItems()">🎯 Выбрать предмет</button>
                 </div>
 
-                <div id="itemsList" class="items-list hidden"></div>
+                <div id="itemsList" class="items-list"></div>
             </div>
         </div>
 
@@ -1626,7 +1690,7 @@
             
             <div class="inventory-header">
                 <h3 style="color: #ffd700;">📦 Инвентарь</h3>
-                <button class="sell-all-inventory-btn" onclick="sellAllInventory()" id="sellAllBtn">💰 Продать всё</button>
+                <button class="sell-all-inventory-btn" onclick="confirmSellAll()">💰 Продать всё</button>
             </div>
             <div id="inventory" class="inventory-grid"></div>
         </div>
@@ -1667,7 +1731,8 @@
     <div id="upgradeRouletteModal" class="modal">
         <div class="roulette-container">
             <div class="roulette-title">⚡ Апгрейд</div>
-            <div id="upgradeRoulette" class="single-roulette" style="margin: 20px 0; height: 100px;">
+            <div class="arrow-indicator">▼</div>
+            <div id="upgradeRoulette" class="single-roulette" style="margin: 30px 0 20px; height: 100px;">
                 <div class="roulette-track" id="upgradeTrack"></div>
                 <div class="roulette-indicator"></div>
             </div>
@@ -1687,6 +1752,17 @@
                 <button class="deposit-option" onclick="depositBalance(5000)">+5000 ⭐</button>
             </div>
             <button class="close-button" onclick="closeBalanceModal()">Закрыть</button>
+        </div>
+    </div>
+
+    <div id="confirmModal" class="modal">
+        <div class="confirm-modal">
+            <h3>⚠️ Подтверждение</h3>
+            <p>Вы точно хотите продать все предметы?</p>
+            <div class="confirm-buttons">
+                <button class="confirm-btn yes" onclick="executeSellAll()">Да</button>
+                <button class="confirm-btn no" onclick="closeConfirmModal()">Нет</button>
+            </div>
         </div>
     </div>
 
@@ -1879,6 +1955,10 @@
             document.getElementById('gamesMenu').classList.remove('active');
             document.getElementById('upgradePage').classList.add('active');
             resetUpgrade();
+            // Автоматически показываем предметы при загрузке
+            setTimeout(() => {
+                showMyItems();
+            }, 100);
         }
 
         function resetUpgrade() {
@@ -1896,34 +1976,47 @@
             
             document.getElementById('circleProgress').style.background = 'conic-gradient(#ffd700 0deg, #2a2a2a 0deg)';
             document.getElementById('chancePercent').textContent = '0%';
-            
-            document.getElementById('itemsList').classList.add('hidden');
         }
 
         function selectMultiplier(x, element) {
-            currentMultiplier = x;
+            // Убираем активный класс у всех
             document.querySelectorAll('.multiplier-btn').forEach(btn => btn.classList.remove('active'));
+            // Добавляем активный класс нажатой кнопке
             element.classList.add('active');
+            
+            currentMultiplier = x;
             
             if (selectedSource) {
                 // Находим предметы с ценой примерно в x раз выше
-                const sourcePrice = allItems[selectedSource]?.price || 0;
-                const targetPrice = sourcePrice * x;
+                const sourceItem = allItems[selectedSource];
+                const targetPrice = sourceItem.price * x;
                 
-                // Ищем подходящий предмет для апгрейда
+                // Ищем подходящие предметы для апгрейда (в диапазоне +-20% от целевой цены)
                 const availableTargets = Object.values(allItems).filter(item => 
-                    item.price >= targetPrice * 0.8 && item.price <= targetPrice * 1.2 && item.id !== selectedSource
+                    item.price >= targetPrice * 0.8 && 
+                    item.price <= targetPrice * 1.2 && 
+                    item.id !== selectedSource
                 );
                 
                 if (availableTargets.length > 0) {
-                    // Выбираем случайный подходящий предмет
-                    const randomTarget = availableTargets[Math.floor(Math.random() * availableTargets.length)];
-                    selectTarget(randomTarget.id);
+                    // Сортируем по близости к целевой цене
+                    availableTargets.sort((a, b) => 
+                        Math.abs(a.price - targetPrice) - Math.abs(b.price - targetPrice)
+                    );
+                    
+                    // Выбираем самый близкий по цене предмет
+                    const bestTarget = availableTargets[0];
+                    selectTarget(bestTarget.id);
+                } else {
+                    // Если нет подходящих, ищем предметы с ценой выше
+                    const higherTargets = Object.values(allItems).filter(item => 
+                        item.price > sourceItem.price && item.id !== selectedSource
+                    ).sort((a, b) => a.price - b.price);
+                    
+                    if (higherTargets.length > 0) {
+                        selectTarget(higherTargets[0].id);
+                    }
                 }
-            }
-            
-            if (selectedSource && selectedTarget) {
-                calculateChance();
             }
         }
 
@@ -1933,6 +2026,8 @@
             const sourceItem = allItems[selectedSource];
             const targetItem = allItems[selectedTarget];
             
+            // Базовая формула: (цена источника * множитель) / цена цели * 50
+            // Но ограничиваем от 5% до 95%
             let chance = (sourceItem.price * currentMultiplier) / targetItem.price * 50;
             chance = Math.min(chance, 95);
             chance = Math.max(chance, 5);
@@ -2018,12 +2113,10 @@
             document.getElementById('sourceItem').innerHTML = `<img src="${item.image}">`;
             document.getElementById('sourcePrice').innerHTML = `${item.price} ⭐`;
             
-            document.getElementById('itemsList').classList.add('hidden');
-            showingMyItems = false;
+            // Автоматически ищем цель при выборе источника
+            selectMultiplier(currentMultiplier, document.querySelector('.multiplier-btn.active'));
             
-            if (selectedTarget) {
-                calculateChance();
-            }
+            showingMyItems = false;
         }
 
         function selectTarget(itemId) {
@@ -2032,9 +2125,6 @@
             
             document.getElementById('targetItem').innerHTML = `<img src="${item.image}">`;
             document.getElementById('targetPrice').innerHTML = `${item.price} ⭐`;
-            
-            document.getElementById('itemsList').classList.add('hidden');
-            showingTargetItems = false;
             
             if (selectedSource) {
                 calculateChance();
@@ -2058,41 +2148,90 @@
             
             modal.classList.add('active');
             track.innerHTML = '';
+            result.innerHTML = '';
             
             // Создаем предметы для прокрутки
             const items = [];
-            for (let i = 0; i < 50; i++) {
-                if (i >= 25 && i < 26) {
-                    // Центральная позиция - результат
+            // Добавляем больше предметов для плавной прокрутки
+            for (let i = 0; i < 100; i++) {
+                if (i >= 45 && i < 55) {
+                    // Центральная зона - результат
                     items.push(targetItem);
                 } else {
-                    // Случайные предметы
-                    items.push(Math.random() < chance ? targetItem : sourceItem);
+                    // Случайные предметы (больше исходных для контраста)
+                    items.push(Math.random() < 0.3 ? targetItem : sourceItem);
                 }
             }
             
             items.forEach((item, index) => {
                 const el = document.createElement('div');
                 el.className = 'roulette-item';
-                if (index === 25) {
-                    el.classList.add('win');
-                }
                 el.innerHTML = `<img src="${item.image}"><span>${item.price} ⭐</span>`;
                 track.appendChild(el);
             });
             
-            track.style.transform = `translateY(-50%) translateX(-1000px)`;
+            // Начальная позиция
+            track.style.transform = `translateY(-50%) translateX(-2000px)`;
             
+            // Запускаем анимацию
             setTimeout(() => {
                 track.style.transition = `transform 3000ms cubic-bezier(0.15, 0.85, 0.35, 1)`;
-                track.style.transform = `translateY(-50%) translateX(-${25 * 70}px)`;
+                // Останавливаемся на центральном предмете
+                track.style.transform = `translateY(-50%) translateX(-${50 * 70}px)`;
             }, 100);
             
+            // Показываем результат
             setTimeout(() => {
                 const isSuccess = Math.random() < chance;
-                result.innerHTML = isSuccess ? 
-                    '<div style="color: #4CAF50; font-size: 24px;">✅ Успех!</div>' : 
-                    '<div style="color: #ff4444; font-size: 24px;">❌ Неудача</div>';
+                if (isSuccess) {
+                    result.innerHTML = '<div style="color: #4CAF50; font-size: 24px;">✅ Успех! Получен новый предмет</div>';
+                    
+                    // Добавляем предмет в инвентарь
+                    const existingTarget = state.inventory.find(i => i.id === selectedTarget);
+                    if (existingTarget) {
+                        existingTarget.count = (existingTarget.count || 1) + 1;
+                    } else {
+                        state.inventory.push({ ...targetItem, count: 1 });
+                    }
+                    
+                    // Удаляем исходный предмет
+                    const sourceIdx = state.inventory.findIndex(i => i.id === selectedSource);
+                    if (sourceIdx !== -1) {
+                        const sourceItem = state.inventory[sourceIdx];
+                        sourceItem.count--;
+                        if (sourceItem.count === 0) {
+                            state.inventory.splice(sourceIdx, 1);
+                        }
+                    }
+                    
+                    renderInventory();
+                    saveState();
+                } else {
+                    result.innerHTML = '<div style="color: #ff4444; font-size: 24px;">❌ Неудача! Предмет сгорел</div>';
+                    
+                    // Удаляем исходный предмет
+                    const sourceIdx = state.inventory.findIndex(i => i.id === selectedSource);
+                    if (sourceIdx !== -1) {
+                        const sourceItem = state.inventory[sourceIdx];
+                        sourceItem.count--;
+                        if (sourceItem.count === 0) {
+                            state.inventory.splice(sourceIdx, 1);
+                        }
+                    }
+                    
+                    renderInventory();
+                    saveState();
+                }
+                
+                // Сбрасываем выбранные предметы
+                selectedSource = null;
+                selectedTarget = null;
+                document.getElementById('sourceItem').innerHTML = '<span style="font-size: 30px; color: #666;">?</span>';
+                document.getElementById('sourcePrice').innerHTML = '- ⭐';
+                document.getElementById('targetItem').innerHTML = '<span style="font-size: 30px; color: #666;">?</span>';
+                document.getElementById('targetPrice').innerHTML = '- ⭐';
+                document.getElementById('circleProgress').style.background = 'conic-gradient(#ffd700 0deg, #2a2a2a 0deg)';
+                document.getElementById('chancePercent').textContent = '0%';
             }, 3100);
         }
 
@@ -2101,55 +2240,7 @@
         }
 
         function doUpgrade() {
-            if (!selectedSource || !selectedTarget) {
-                alert('Выберите предметы для апгрейда');
-                return;
-            }
-            
-            const sourceItem = allItems[selectedSource];
-            const inventoryItem = state.inventory.find(i => i.id === selectedSource);
-            
-            if (!inventoryItem || inventoryItem.count < 1) {
-                alert('У вас нет этого предмета');
-                return;
-            }
-            
-            const chanceText = document.getElementById('chancePercent').textContent;
-            const chance = parseInt(chanceText) / 100;
-            
-            inventoryItem.count--;
-            if (inventoryItem.count === 0) {
-                state.inventory = state.inventory.filter(i => i.id !== selectedSource);
-            }
-            
-            if (Math.random() < chance) {
-                const targetItem = allItems[selectedTarget];
-                const existingTarget = state.inventory.find(i => i.id === selectedTarget);
-                
-                if (existingTarget) {
-                    existingTarget.count = (existingTarget.count || 1) + 1;
-                } else {
-                    state.inventory.push({ ...targetItem, count: 1 });
-                }
-                
-                alert('✅ Апгрейд успешен!');
-            } else {
-                alert('❌ Апгрейд не удался');
-            }
-            
-            selectedSource = null;
-            selectedTarget = null;
-            document.getElementById('sourceItem').innerHTML = '<span style="font-size: 30px; color: #666;">?</span>';
-            document.getElementById('sourcePrice').innerHTML = '- ⭐';
-            document.getElementById('targetItem').innerHTML = '<span style="font-size: 30px; color: #666;">?</span>';
-            document.getElementById('targetPrice').innerHTML = '- ⭐';
-            document.getElementById('circleProgress').style.background = 'conic-gradient(#ffd700 0deg, #2a2a2a 0deg)';
-            document.getElementById('chancePercent').textContent = '0%';
-            document.getElementById('itemsList').classList.add('hidden');
-            
-            updateBalance();
-            renderInventory();
-            saveState();
+            startUpgradeRoulette();
         }
 
         function showMyItems() {
@@ -2208,13 +2299,26 @@
             saveState();
         }
 
-        function sellAllInventory() {
+        function confirmSellAll() {
+            if (!state.inventory || state.inventory.length === 0) {
+                alert('Инвентарь пуст');
+                return;
+            }
+            document.getElementById('confirmModal').classList.add('active');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').classList.remove('active');
+        }
+
+        function executeSellAll() {
             const total = state.inventory.reduce((sum, item) => sum + (item.price * (item.count || 1)), 0);
             state.balance += total;
             state.inventory = [];
             updateBalance();
             renderInventory();
             saveState();
+            closeConfirmModal();
         }
 
         function updateBalance() {
@@ -2250,6 +2354,11 @@
             if (state.isSpinning) return;
             
             const caseData = cases[state.currentCase];
+            if (!caseData) {
+                alert('Кейс временно недоступен');
+                return;
+            }
+            
             const total = caseData.price * state.selectedQuantity;
             
             if (!isDemo && state.balance < total) {
