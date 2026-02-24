@@ -313,6 +313,7 @@
             transform: scale(1.05);
         }
         
+        /* 🔥 НОВЫЙ ДИЗАЙН ДЛЯ ШАНСОВ ВЫПАДЕНИЯ */
         .chances-section {
             background: #0f0f0f;
             border-radius: 20px;
@@ -328,62 +329,119 @@
             color: #ffd700;
         }
         
-        .chance-item {
-            display: flex;
-            align-items: center;
+        .chances-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 15px;
-            padding: 12px;
-            border-radius: 12px;
-            background: #1a1a1a;
-            margin-bottom: 10px;
-            border: 1px solid #2a2a2a;
         }
         
-        .chance-item img {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
+        .chance-card {
+            background: #1a1a1a;
+            border-radius: 16px;
+            padding: 15px;
+            border: 1px solid #2a2a2a;
+            transition: all 0.2s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .chance-card:hover {
+            border-color: #ffd700;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255,215,0,0.2);
+        }
+        
+        .chance-image {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .chance-image img {
+            width: 100%;
+            height: 100%;
             object-fit: contain;
             background: transparent;
         }
         
-        .chance-info {
-            flex: 1;
-        }
-        
         .chance-name {
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 4px;
-            color: #fff;
-        }
-        
-        .chance-bar-container {
-            width: 100%;
-            height: 6px;
-            background: #2a2a2a;
-            border-radius: 3px;
-            overflow: hidden;
-            margin-bottom: 2px;
-        }
-        
-        .chance-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #ffd700, #ffb347);
-            border-radius: 3px;
-        }
-        
-        .chance-percent {
-            font-size: 12px;
-            color: #aaa;
-        }
-        
-        .chance-value {
             font-size: 16px;
             font-weight: bold;
+            color: #fff;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        
+        .chance-prices {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .price-stars {
             color: #ffd700;
-            min-width: 60px;
-            text-align: right;
+            font-weight: bold;
+        }
+        
+        .price-ton {
+            color: #0088cc;
+            font-weight: bold;
+        }
+        
+        .chance-button {
+            background: #2a2a2a;
+            color: #ffd700;
+            border: 1px solid #ffd700;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 100%;
+            max-width: 120px;
+        }
+        
+        .chance-button:hover {
+            background: #ffd700;
+            color: #000;
+        }
+        
+        .chance-tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .chance-tooltip .tooltip-text {
+            visibility: hidden;
+            background: #ffd700;
+            color: #000;
+            text-align: center;
+            padding: 5px 10px;
+            border-radius: 20px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 12px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+            box-shadow: 0 2px 8px rgba(255,215,0,0.3);
+        }
+        
+        .chance-tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
         }
         
         .inventory-grid {
@@ -1128,7 +1186,7 @@
 
             <div class="chances-section">
                 <div class="chances-title">📊 Шансы выпадения</div>
-                <div id="chancesList"></div>
+                <div class="chances-grid" id="chancesGrid"></div>
             </div>
         </div>
 
@@ -1292,6 +1350,7 @@
         // ========== НАСТРОЙКИ ==========
         const SERVER_URL = 'https://case-bot-server.onrender.com';
         const OWNER_ID = 7389462195;
+        const STARS_TO_TON = 100; // 100 звёзд = 1 TON
 
         // ========== СОСТОЯНИЕ ==========
         let state = {
@@ -1494,6 +1553,11 @@
                 items: []
             }
         };
+
+        // Функция для конвертации звёзд в TON
+        function starsToTon(stars) {
+            return (stars / STARS_TO_TON).toFixed(2);
+        }
 
         // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
         function getUserId() {
@@ -1749,21 +1813,28 @@
             document.getElementById('detailName').textContent = caseData.name;
             document.getElementById('detailPrice').innerHTML = `<div class="star-icon"></div>${caseData.price} звёзд`;
             
-            const chancesList = document.getElementById('chancesList');
-            chancesList.innerHTML = '';
+            // 🔥 СОРТИРУЕМ ПРЕДМЕТЫ ПО ЦЕНЕ (ОТ ДОРОГОГО К ДЕШЁВОМУ)
+            const sortedItems = [...caseData.items].sort((a, b) => b.price - a.price);
             
-            caseData.items.forEach(item => {
-                chancesList.innerHTML += `
-                    <div class="chance-item">
-                        <img src="${item.image}">
-                        <div class="chance-info">
-                            <div class="chance-name">${item.emoji} ${item.name}</div>
-                            <div class="chance-bar-container">
-                                <div class="chance-bar" style="width:${item.chance}%"></div>
-                            </div>
-                            <div class="chance-percent">${item.chance}%</div>
+            const chancesGrid = document.getElementById('chancesGrid');
+            chancesGrid.innerHTML = '';
+            
+            sortedItems.forEach(item => {
+                const tonPrice = starsToTon(item.price);
+                chancesGrid.innerHTML += `
+                    <div class="chance-card">
+                        <div class="chance-image">
+                            <img src="${item.image}" alt="${item.name}">
                         </div>
-                        <div class="chance-value">${item.price} ⭐</div>
+                        <div class="chance-name">${item.emoji} ${item.name}</div>
+                        <div class="chance-prices">
+                            <span class="price-stars">${item.price} ⭐</span>
+                            <span class="price-ton">${tonPrice} TON</span>
+                        </div>
+                        <div class="chance-tooltip">
+                            <button class="chance-button">Шанс ${item.chance}%</button>
+                            <span class="tooltip-text">${item.chance}% выпадения</span>
+                        </div>
                     </div>
                 `;
             });
