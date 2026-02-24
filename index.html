@@ -14,7 +14,7 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #000000;
+            background: #0a0a0a; /* Единый тёмный фон */
             color: #ffffff;
             min-height: 100vh;
             display: flex;
@@ -22,7 +22,7 @@
         }
         
         .top-bar {
-            background: #111111;
+            background: #0f0f0f; /* Чуть светлее для контраста, но в тон */
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
@@ -31,7 +31,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid #2a2a2a;
         }
         
         .back-button {
@@ -39,7 +39,7 @@
             cursor: pointer;
             padding: 8px 15px;
             border-radius: 10px;
-            background: #222;
+            background: #1a1a1a;
             display: none;
             font-weight: 500;
             color: #ffd700;
@@ -53,7 +53,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            background: linear-gradient(145deg, #1a1a1a, #333);
+            background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
             padding: 8px 20px;
             border-radius: 30px;
             cursor: pointer;
@@ -100,13 +100,13 @@
         }
         
         .case-card {
-            background: #111111;
+            background: #0f0f0f; /* В тон основному фону */
             border-radius: 20px;
             padding: 15px;
             box-shadow: 0 4px 8px rgba(255,215,0,0.1);
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
-            border: 2px solid #333;
+            border: 2px solid #2a2a2a;
         }
         
         .case-card:hover {
@@ -130,8 +130,8 @@
             background-image: url('https://i.postimg.cc/w3wd8bSR/image-2026-02-20-204059171.png');
         }
         
-        .silver-case {
-            background-image: url('https://files.catbox.moe/fte5iy.jpg'); /* ⚠️ ВСТАВЬТЕ ССЫЛКУ НА КАРТИНКУ СЕРЕБРЯНОГО КЕЙСА */
+        .green-case {
+            background-image: url('https://files.catbox.moe/egzwor.jpg');
         }
         
         .case-name {
@@ -194,8 +194,8 @@
             background-image: url('https://i.postimg.cc/w3wd8bSR/image-2026-02-20-204059171.png');
         }
         
-        .silver-detail {
-            background-image: url('https://files.catbox.moe/ВАША-ССЫЛКА.png'); /* ⚠️ ВСТАВЬТЕ ТУ ЖЕ ССЫЛКУ */
+        .green-detail {
+            background-image: url('https://files.catbox.moe/egzwor.jpg');
         }
         
         .detail-name {
@@ -270,11 +270,11 @@
         }
         
         .quantity-section {
-            background: #111111;
+            background: #0f0f0f; /* В тон основному фону */
             border-radius: 15px;
             padding: 15px;
             margin-bottom: 20px;
-            border: 1px solid #333;
+            border: 1px solid #2a2a2a;
         }
         
         .quantity-title {
@@ -314,11 +314,11 @@
         }
         
         .chances-section {
-            background: #111111;
+            background: #0f0f0f; /* В тон основному фону */
             border-radius: 20px;
             padding: 20px;
             margin-bottom: 20px;
-            border: 1px solid #333;
+            border: 1px solid #2a2a2a;
         }
         
         .chances-title {
@@ -336,7 +336,7 @@
             border-radius: 12px;
             background: #1a1a1a;
             margin-bottom: 10px;
-            border: 1px solid #333;
+            border: 1px solid #2a2a2a;
         }
         
         .chance-item img {
@@ -361,7 +361,7 @@
         .chance-bar-container {
             width: 100%;
             height: 6px;
-            background: #333;
+            background: #2a2a2a;
             border-radius: 3px;
             overflow: hidden;
             margin-bottom: 2px;
@@ -394,13 +394,13 @@
         }
         
         .inventory-item {
-            background: #111111;
+            background: #0f0f0f; /* В тон основному фону */
             border-radius: 12px;
             padding: 10px;
             text-align: center;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             position: relative;
-            border: 1px solid #333;
+            border: 1px solid #2a2a2a;
         }
         
         .inventory-item img {
@@ -501,7 +501,7 @@
         }
         
         .roulette-container {
-            background: #111111;
+            background: #0f0f0f; /* В тон основному фону */
             border-radius: 30px;
             padding: 20px;
             max-width: 95%;
@@ -600,9 +600,9 @@
             gap: 15px;
             padding: 10px;
             border-radius: 10px;
-            background: #222;
+            background: #1a1a1a;
             margin-bottom: 8px;
-            border: 1px solid #333;
+            border: 1px solid #2a2a2a;
             position: relative;
         }
         
@@ -719,13 +719,13 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: #111111;
+            background: #0f0f0f;
             display: flex;
             justify-content: space-around;
             padding: 10px 0;
             box-shadow: 0 -2px 10px rgba(255,215,0,0.1);
             z-index: 99;
-            border-top: 1px solid #333;
+            border-top: 1px solid #2a2a2a;
         }
         
         .nav-item {
@@ -770,18 +770,18 @@
         }
         
         .profile-stats {
-            background: #111111;
+            background: #0f0f0f;
             border-radius: 20px;
             padding: 20px;
             margin-bottom: 20px;
-            border: 1px solid #333;
+            border: 1px solid #2a2a2a;
         }
         
         .stat-item {
             display: flex;
             justify-content: space-between;
             padding: 15px 0;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid #2a2a2a;
         }
         
         .stat-item:last-child {
@@ -851,7 +851,7 @@
             width: 90%;
             max-width: 800px;
             max-height: 80vh;
-            background: #111111;
+            background: #0f0f0f;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(255,215,0,0.2);
             z-index: 2000;
@@ -896,7 +896,7 @@
         
         .admin-tabs {
             display: flex;
-            border-bottom: 2px solid #333;
+            border-bottom: 2px solid #2a2a2a;
         }
         
         .admin-tab {
@@ -937,7 +937,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 10px;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid #2a2a2a;
             gap: 10px;
         }
         
@@ -991,7 +991,7 @@
         .form-group input, .form-group select {
             width: 100%;
             padding: 8px;
-            border: 2px solid #333;
+            border: 2px solid #2a2a2a;
             border-radius: 8px;
             font-size: 14px;
             background: #1a1a1a;
@@ -1010,7 +1010,7 @@
             padding: 15px;
             border-radius: 10px;
             text-align: center;
-            border: 1px solid #333;
+            border: 1px solid #2a2a2a;
         }
         
         .stat-label {
@@ -1034,7 +1034,7 @@
             display: flex;
             justify-content: space-between;
             padding: 8px;
-            border-bottom: 1px solid #333;
+            border-bottom: 1px solid #2a2a2a;
             color: #fff;
         }
         
@@ -1068,9 +1068,9 @@
                     </div>
                 </div>
                 
-                <div class="case-card" onclick="showCaseDetail('silver')">
-                    <div class="case-image silver-case"></div>
-                    <div class="case-name">Серебряный кейс</div>
+                <div class="case-card" onclick="showCaseDetail('green')">
+                    <div class="case-image green-case"></div>
+                    <div class="case-name">Green Case</div>
                     <div class="case-price">
                         <div class="small-star"></div>
                         199 ⭐
@@ -1078,7 +1078,7 @@
                 </div>
                 
                 <div class="case-card" onclick="showCaseDetail('gold')">
-                    <div class="case-image" style="background: linear-gradient(145deg, #ffd700, #b8860b);"></div>
+                    <div class="case-image" style="background: linear-gradient(145deg, #ffd700, #b8860b); background-size: contain; background-position: center; background-repeat: no-repeat;"></div>
                     <div class="case-name">Золотой кейс</div>
                     <div class="case-price">
                         <div class="small-star"></div>
@@ -1087,7 +1087,7 @@
                 </div>
                 
                 <div class="case-card" onclick="showCaseDetail('diamond')">
-                    <div class="case-image" style="background: linear-gradient(145deg, #b9f2ff, #00ffff);"></div>
+                    <div class="case-image" style="background: linear-gradient(145deg, #b9f2ff, #00ffff); background-size: contain; background-position: center; background-repeat: no-repeat;"></div>
                     <div class="case-name">Алмазный кейс</div>
                     <div class="case-price">
                         <div class="small-star"></div>
@@ -1231,7 +1231,7 @@
                 <h4>Редактировать кейс</h4>
                 <select id="caseSelector" onchange="loadCaseForEdit()">
                     <option value="bronze">Бронзовый кейс</option>
-                    <option value="silver">Серебряный кейс</option>
+                    <option value="green">Green Case</option>
                 </select>
                 
                 <div class="form-group">
@@ -1454,11 +1454,11 @@
                     { ...allItems.rose, chance: 90 }
                 ]
             },
-            silver: {
-                name: 'Серебряный кейс',
+            green: {
+                name: 'Green Case',
                 price: 199,
-                image: 'silver',
-                color: 'linear-gradient(145deg, #c0c0c0, #a0a0a0)',
+                image: 'green',
+                color: 'linear-gradient(145deg, #00ff00, #00aa00)',
                 items: [
                     { ...allItems.cake, chance: 27 },
                     { ...allItems.diamond, chance: 26 },
@@ -1738,8 +1738,8 @@
             const detailImage = document.getElementById('detailImage');
             if (caseId === 'bronze') {
                 detailImage.className = 'detail-image bronze-detail';
-            } else if (caseId === 'silver') {
-                detailImage.className = 'detail-image silver-detail';
+            } else if (caseId === 'green') {
+                detailImage.className = 'detail-image green-detail';
             } else {
                 detailImage.className = 'detail-image';
                 detailImage.style.background = caseData.color;
