@@ -2056,7 +2056,6 @@
 
         function renderItemsList(type) {
             const list = document.getElementById('itemsList');
-            list.classList.remove('hidden');
             
             if (type === 'my') {
                 const myItems = state.inventory.filter(item => item.price >= 100);
@@ -2339,7 +2338,6 @@
             state.balance += amount;
             updateBalance();
             saveState();
-            closeBalanceModal();
         }
 
         function selectQuantity(q) {
@@ -2347,15 +2345,17 @@
             document.querySelectorAll('.quantity-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelector(`.quantity-btn:nth-child(${q})`).classList.add('active');
             const caseData = cases[state.currentCase];
-            document.getElementById('totalPrice').innerHTML = `${caseData.price * q} ⭐`;
+            if (caseData) {
+                document.getElementById('totalPrice').innerHTML = `${caseData.price * q} ⭐`;
+            }
         }
 
         async function openCase(isDemo) {
             if (state.isSpinning) return;
             
             const caseData = cases[state.currentCase];
-            if (!caseData) {
-                alert('Кейс временно недоступен');
+            if (!caseData || !caseData.items || caseData.items.length === 0) {
+                alert('Этот кейс временно недоступен');
                 return;
             }
             
@@ -2379,15 +2379,22 @@
             for (let i = 0; i < state.selectedQuantity; i++) {
                 let r = Math.random() * 100;
                 let s = 0;
-                let item = caseData.items[0];
-                for (const it of caseData.items) {
-                    s += it.chance;
+                let selectedItem = caseData.items[0];
+                
+                for (const item of caseData.items) {
+                    s += item.chance;
                     if (r <= s) {
-                        item = it;
+                        selectedItem = item;
                         break;
                     }
                 }
-                results.push({ ...item, timestamp: Date.now() + i, isDemo });
+                
+                results.push({ 
+                    ...selectedItem, 
+                    timestamp: Date.now() + i, 
+                    isDemo,
+                    id: selectedItem.id || 'unknown'
+                });
             }
             
             state.currentOpenings = results;
@@ -2413,43 +2420,54 @@
             const gap = 10;
             const tiw = iw + gap;
             
+            // Создаем рулетки для каждого открытия
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const rd = document.createElement('div');
                 rd.className = 'single-roulette';
                 rd.id = `r-${i}`;
+                
                 const tr = document.createElement('div');
                 tr.className = 'roulette-track';
                 
+                // Создаем 70 предметов для прокрутки
                 for (let j = 0; j < 70; j++) {
-                    let it;
-                    if (j >= 35 && j < 36) {
-                        it = results[i];
+                    let item;
+                    if (j >= 34 && j < 36) {
+                        // Центральные позиции - результат
+                        item = results[i];
                     } else {
+                        // Случайный предмет из кейса
                         let rand = Math.random() * 100;
                         let cum = 0;
-                        it = caseData.items[0];
-                        for (const item of caseData.items) {
-                            cum += item.chance;
+                        item = caseData.items[0];
+                        for (const it of caseData.items) {
+                            cum += it.chance;
                             if (rand <= cum) {
-                                it = item;
+                                item = it;
                                 break;
                             }
                         }
                     }
+                    
                     const el = document.createElement('div');
                     el.className = 'roulette-item';
                     el.style.minWidth = iw + 'px';
-                    el.innerHTML = `<img src="${it.image}"><span>${it.price} ⭐</span>`;
+                    el.innerHTML = `<img src="${item.image}"><span>${item.price} ⭐</span>`;
                     tr.appendChild(el);
                 }
+                
                 rd.appendChild(tr);
                 rd.innerHTML += '<div class="roulette-indicator"></div>';
                 multi.appendChild(rd);
+                
+                // Начальная позиция
                 tr.style.transform = `translateY(-50%) translateX(${-tiw * 20}px)`;
             }
             
+            // Небольшая задержка перед началом анимации
             await new Promise(r => setTimeout(r, 100));
             
+            // Запускаем анимацию для всех рулеток
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const tr = document.querySelector(`#r-${i} .roulette-track`);
                 const target = -(35 * tiw + iw/2);
@@ -2457,14 +2475,16 @@
                 tr.style.transform = `translateY(-50%) translateX(${target}px)`;
             }
             
+            // Ждем окончания анимации
             await new Promise(r => setTimeout(r, 5200));
             
+            // Показываем результаты
             results.forEach(r => {
                 rlist.innerHTML += `
                     <div class="result-item ${isDemo ? 'demo' : ''}">
                         <img src="${r.image}">
                         <div class="result-item-info">
-                            <div class="result-item-name">${r.emoji} ${r.name}</div>
+                            <div class="result-item-name">${r.emoji || ''} ${r.name}</div>
                             <div class="result-item-price">
                                 ${r.price} ⭐
                                 <span class="ton-icon"></span>
@@ -2476,6 +2496,7 @@
                 `;
             });
             
+            // Добавляем предметы в инвентарь если не демо
             if (!isDemo) {
                 results.forEach(result => {
                     const existingItem = state.inventory.find(i => i.id === result.id);
@@ -2491,9 +2512,9 @@
                 saveState();
             }
             
+            // Показываем кнопки
             fbtn.style.display = 'block';
             state.isSpinning = false;
-            document.body.style.overflow = 'auto';
         }
 
         function sellSingleResult(timestamp) {
@@ -2528,7 +2549,7 @@
                         <div class="result-item ${r.isDemo ? 'demo' : ''}">
                             <img src="${r.image}">
                             <div class="result-item-info">
-                                <div class="result-item-name">${r.emoji} ${r.name}</div>
+                                <div class="result-item-name">${r.emoji || ''} ${r.name}</div>
                                 <div class="result-item-price">
                                     ${r.price} ⭐
                                     <span class="ton-icon"></span>
@@ -2548,7 +2569,8 @@
                 closeRoulette(); 
                 return; 
             }
-            const total = state.currentOpenings.reduce((s,i) => s + i.price, 0);
+            
+            const total = state.currentOpenings.reduce((sum, item) => sum + item.price, 0);
             state.balance += total;
             
             state.currentOpenings.forEach(w => {
@@ -2582,6 +2604,7 @@
             const pwd = prompt('Пароль:');
             if (pwd === 'admin123') {
                 alert('Добро пожаловать в админ-панель!');
+                // Здесь можно добавить открытие админ-панели
             }
         }
 
