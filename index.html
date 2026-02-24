@@ -92,6 +92,7 @@
             text-shadow: 0 0 10px rgba(255,215,0,0.3);
         }
         
+        /* Сетка для кейсов */
         .cases-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -313,7 +314,7 @@
             transform: scale(1.05);
         }
         
-        /* 🔥 НОВЫЙ ДИЗАЙН ДЛЯ ШАНСОВ ВЫПАДЕНИЯ */
+        /* Стили для шансов выпадения */
         .chances-section {
             background: #0f0f0f;
             border-radius: 20px;
@@ -539,6 +540,285 @@
         }
         .sell-all-btn:hover {
             transform: scale(1.02);
+        }
+        
+        /* Стили для игр */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .game-card {
+            background: #0f0f0f;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(255,215,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 2px solid #2a2a2a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(255,215,0,0.2);
+            border-color: #ffd700;
+        }
+        
+        .game-icon {
+            width: 80px;
+            height: 80px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #ffd700;
+            border: 2px solid #2a2a2a;
+        }
+        
+        .game-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        /* Страница апгрейда */
+        .upgrade-page {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+        
+        .upgrade-page.active {
+            display: block;
+        }
+        
+        .upgrade-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .chance-circle {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            margin: 20px auto;
+        }
+        
+        .circle-bg {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #1a1a1a;
+            border: 4px solid #2a2a2a;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .circle-progress {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(#ffd700 0deg, #ffd700 0deg, #2a2a2a 0deg);
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: background 0.3s;
+        }
+        
+        .circle-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 2;
+        }
+        
+        .chance-percent {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffd700;
+        }
+        
+        .chance-label {
+            font-size: 14px;
+            color: #aaa;
+        }
+        
+        .items-row {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .item-slot {
+            width: 100px;
+            text-align: center;
+        }
+        
+        .item-image {
+            width: 80px;
+            height: 80px;
+            background: #1a1a1a;
+            border-radius: 15px;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #2a2a2a;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .item-image:hover {
+            border-color: #ffd700;
+            transform: scale(1.05);
+        }
+        
+        .item-image img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+        }
+        
+        .item-price {
+            font-size: 14px;
+            color: #ffd700;
+            margin-top: 5px;
+        }
+        
+        .question-mark {
+            width: 40px;
+            height: 40px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #ffd700;
+            border: 2px solid #2a2a2a;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .multipliers {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .multiplier-btn {
+            width: 50px;
+            height: 50px;
+            background: #1a1a1a;
+            border: 2px solid #2a2a2a;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .multiplier-btn:hover {
+            border-color: #ffd700;
+            transform: scale(1.05);
+        }
+        
+        .multiplier-btn.active {
+            background: #ffd700;
+            color: #000;
+            border-color: #ffd700;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .action-btn.primary {
+            background: linear-gradient(145deg, #4CAF50, #45a049);
+            color: white;
+        }
+        
+        .action-btn.secondary {
+            background: #1a1a1a;
+            color: #fff;
+            border: 2px solid #2a2a2a;
+        }
+        
+        .action-btn:hover {
+            transform: scale(1.02);
+        }
+        
+        .items-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            width: 100%;
+        }
+        
+        .item-card {
+            background: #0f0f0f;
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid #2a2a2a;
+        }
+        
+        .item-card:hover {
+            border-color: #ffd700;
+            transform: translateY(-2px);
+        }
+        
+        .item-card img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin-bottom: 5px;
+        }
+        
+        .item-card-name {
+            font-size: 12px;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .item-card-price {
+            color: #ffd700;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 5px;
         }
         
         .modal {
@@ -1101,6 +1381,10 @@
             color: #ffd700;
             margin-right: 10px;
         }
+        
+        .hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -1109,11 +1393,12 @@
         <div></div>
         <div class="balance-container" onclick="showBalanceModal()">
             <div class="star-icon"></div>
-            <span class="balance-amount" id="balanceDisplay">0</span>
+            <span class="balance-amount" id="balanceDisplay">1000</span>
         </div>
     </div>
 
     <div class="content">
+        <!-- Главное меню (Кейсы) -->
         <div id="mainMenu" class="section active">
             <h2 class="section-title">🎁 Доступные кейсы</h2>
             <div class="cases-grid">
@@ -1155,6 +1440,7 @@
             </div>
         </div>
 
+        <!-- Детальная страница кейса -->
         <div id="caseDetail" class="case-detail">
             <div class="detail-header">
                 <div class="detail-image" id="detailImage"></div>
@@ -1190,14 +1476,72 @@
             </div>
         </div>
 
-        <div id="gamesSection" class="section">
+        <!-- Страница игр -->
+        <div id="gamesMenu" class="section">
             <h2 class="section-title">🎮 Мини-игры</h2>
-            <div class="empty-section">
-                🚧 Раздел в разработке<br>
-                Скоро здесь появятся игры!
+            <div class="games-grid">
+                <div class="game-card" onclick="showUpgradePage()">
+                    <div class="game-icon">⚡</div>
+                    <div class="game-name">Апгрейд</div>
+                </div>
+                <div class="game-card">
+                    <div class="game-icon">🎲</div>
+                    <div class="game-name">Скоро</div>
+                </div>
             </div>
         </div>
 
+        <!-- Страница апгрейда -->
+        <div id="upgradePage" class="upgrade-page">
+            <div class="upgrade-container">
+                <div class="chance-circle">
+                    <div class="circle-bg">
+                        <div class="circle-progress" id="circleProgress" style="background: conic-gradient(#ffd700 0deg, #2a2a2a 0deg)"></div>
+                        <div class="circle-content">
+                            <div class="chance-percent" id="chancePercent">0%</div>
+                            <div class="chance-label">шанс</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="items-row">
+                    <div class="item-slot">
+                        <div class="item-image" id="sourceItem" onclick="selectSourceItem()">
+                            <span style="font-size: 30px; color: #666;">?</span>
+                        </div>
+                        <div class="item-price" id="sourcePrice">- ⭐</div>
+                    </div>
+                    
+                    <div class="question-mark">?</div>
+                    
+                    <div class="item-slot">
+                        <div class="item-image" id="targetItem" onclick="selectTargetItem()">
+                            <span style="font-size: 30px; color: #666;">?</span>
+                        </div>
+                        <div class="item-price" id="targetPrice">- ⭐</div>
+                    </div>
+                </div>
+
+                <div class="multipliers">
+                    <div class="multiplier-btn" onclick="selectMultiplier(2, this)">2x</div>
+                    <div class="multiplier-btn" onclick="selectMultiplier(3, this)">3x</div>
+                    <div class="multiplier-btn" onclick="selectMultiplier(5, this)">5x</div>
+                    <div class="multiplier-btn" onclick="selectMultiplier(10, this)">10x</div>
+                    <div class="multiplier-btn" onclick="selectMultiplier(20, this)">20x</div>
+                </div>
+
+                <button class="action-btn primary" id="upgradeBtn" onclick="doUpgrade()">⚡ Апгрейд</button>
+
+                <div class="action-buttons">
+                    <button class="action-btn secondary" onclick="showMyItems()">📦 Мои предметы</button>
+                    <button class="action-btn secondary" onclick="showTargetItems()">🎯 Выбрать предмет</button>
+                </div>
+
+                <div id="itemsList" class="items-list hidden"></div>
+            </div>
+        </div>
+
+        <!-- Страница профиля -->
         <div id="profileSection" class="section">
             <h2 class="section-title">👤 Профиль</h2>
             <div class="profile-stats">
@@ -1207,7 +1551,7 @@
                 </div>
                 <div class="stat-item">
                     <span class="stat-label">Баланс звёзд:</span>
-                    <span class="stat-value" id="profileBalance">0 ⭐</span>
+                    <span class="stat-value" id="profileBalance">1000 ⭐</span>
                 </div>
             </div>
             
@@ -1241,7 +1585,7 @@
             <div id="resultsList" class="results-container"></div>
             <div id="finalButtons" style="display: none;">
                 <div class="result-buttons">
-                    <button class="result-button sell-all" onclick="sellAllCurrentResults()">💰 Продать всё</button>
+                    <button class="result-button sell-all" onclick="sellAllResults()">💰 Продать всё</button>
                     <button class="result-button again" onclick="openAgain()">🎲 Открыть ещё</button>
                 </div>
                 <button class="close-button" onclick="closeRoulette()">Закрыть</button>
@@ -1252,89 +1596,8 @@
     <div id="balanceModal" class="modal">
         <div class="roulette-container" style="max-width: 400px;">
             <div class="roulette-title">💰 Баланс</div>
-            <div style="font-size: 48px; color: #ffd700; margin: 20px 0;" id="modalBalance">0 ⭐</div>
-            
-            <div class="deposit-options">
-                <button class="deposit-option" onclick="depositStars(50)">50 ⭐</button>
-                <button class="deposit-option" onclick="depositStars(100)">100 ⭐</button>
-                <button class="deposit-option" onclick="depositStars(500)">500 ⭐</button>
-                <button class="deposit-option" onclick="depositStars(1000)">1000 ⭐</button>
-            </div>
-            
+            <div style="font-size: 48px; color: #ffd700; margin: 20px 0;" id="modalBalance">1000 ⭐</div>
             <button class="close-button" onclick="closeBalanceModal()">Закрыть</button>
-        </div>
-    </div>
-
-    <div id="adminPanel" class="admin-panel">
-        <div class="admin-header">
-            <h2>👑 Админ-панель</h2>
-            <button onclick="toggleAdminPanel()" class="close-admin">✖</button>
-        </div>
-        
-        <div class="admin-tabs">
-            <button class="admin-tab active" onclick="switchAdminTab('users')">Пользователи</button>
-            <button class="admin-tab" onclick="switchAdminTab('cases')">Кейсы</button>
-            <button class="admin-tab" onclick="switchAdminTab('stats')">Статистика</button>
-        </div>
-        
-        <div id="adminUsers" class="admin-tab-content active">
-            <h3>👥 Все пользователи</h3>
-            <div class="users-list" id="usersList">Загрузка...</div>
-        </div>
-        
-        <div id="adminCases" class="admin-tab-content">
-            <h3>🎲 Управление кейсами</h3>
-            
-            <div class="case-editor">
-                <h4>Редактировать кейс</h4>
-                <select id="caseSelector" onchange="loadCaseForEdit()">
-                    <option value="red">Red Case</option>
-                    <option value="green">Green Case</option>
-                </select>
-                
-                <div class="form-group">
-                    <label>Название кейса:</label>
-                    <input type="text" id="caseName" value="">
-                </div>
-                
-                <div class="form-group">
-                    <label>Цена (звёзд):</label>
-                    <input type="number" id="casePrice" value="" min="1">
-                </div>
-                
-                <div class="form-group">
-                    <label>Изображение (URL):</label>
-                    <input type="text" id="caseImage" value="">
-                </div>
-                
-                <h4>Предметы в кейсе</h4>
-                <div id="itemsList"></div>
-                
-                <button class="admin-btn" onclick="addNewItem()">➕ Добавить предмет</button>
-                <button class="admin-btn save" onclick="saveCaseChanges()">💾 Сохранить изменения</button>
-                <button class="admin-btn danger" onclick="resetCasesToDefault()">↺ Сбросить</button>
-            </div>
-        </div>
-        
-        <div id="adminStats" class="admin-tab-content">
-            <h3>📊 Статистика</h3>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">Всего пользователей</div>
-                    <div class="stat-value" id="totalUsers">0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Всего открыто кейсов</div>
-                    <div class="stat-value" id="totalOpenedCases">0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Всего звёзд в системе</div>
-                    <div class="stat-value" id="totalStars">0</div>
-                </div>
-            </div>
-            
-            <h4>Топ-10 коллекционеров</h4>
-            <div class="top-list" id="topUsers"></div>
         </div>
     </div>
 
@@ -1347,440 +1610,88 @@
         tg.ready();
         tg.expand();
 
-        // ========== НАСТРОЙКИ ==========
         const SERVER_URL = 'https://case-bot-server.onrender.com';
         const OWNER_ID = 7389462195;
-        const STARS_TO_TON = 100; // 100 звёзд = 1 TON
+        const STARS_TO_TON = 100;
 
-        // ========== СОСТОЯНИЕ ==========
         let state = {
-            balance: 0,
+            balance: 1000,
             openedCases: 0,
-            inventory: [],
-            currentCase: 'red',
-            selectedQuantity: 1,
-            currentOpenings: [],
-            isSpinning: false,
-            isDemo: false
+            inventory: [
+                { id: 'rose', name: 'Розочка', emoji: '', image: 'https://cdn140.picsart.com/241734929003212.png', price: 25, count: 3 },
+                { id: 'cake', name: 'Тортик', emoji: '', image: 'https://files.catbox.moe/1w9dkc.png', price: 50, count: 2 },
+                { id: 'diamond', name: 'Алмазик', emoji: '', image: 'https://files.catbox.moe/nt7ios.png', price: 100, count: 1 },
+                { id: 'xmas', name: 'Xmas Stocking', emoji: '', image: 'https://files.catbox.moe/yecky8.png', price: 495, count: 1 }
+            ]
         };
 
-        // ========== ВСЕ ПРЕДМЕТЫ ==========
         const allItems = {
-            calendar: {
-                id: 'calendar',
-                name: 'Календарь',
-                emoji: '',
-                image: 'https://files.catbox.moe/vp6ocv.png',
-                price: 500
-            },
-            rose: {
-                id: 'rose',
-                name: 'Розочка',
-                emoji: '',
-                image: 'https://cdn140.picsart.com/241734929003212.png',
-                price: 25
-            },
-            cake: {
-                id: 'cake',
-                name: 'Тортик',
-                emoji: '',
-                image: 'https://files.catbox.moe/1w9dkc.png',
-                price: 50
-            },
-            diamond: {
-                id: 'diamond',
-                name: 'Алмазик',
-                emoji: '',
-                image: 'https://files.catbox.moe/nt7ios.png',
-                price: 100
-            },
-            cup: {
-                id: 'cup',
-                name: 'Кубок',
-                emoji: '',
-                image: 'https://files.catbox.moe/9a63n2.png',
-                price: 100
-            },
-            stars150: {
-                id: 'stars150',
-                name: '150 звёзд',
-                emoji: '',
-                image: 'https://nztcdn.com/files/34b13b5a-7b5f-4d29-9c92-8fada5f27b2f.webp',
-                price: 150
-            },
-            xmas: {
-                id: 'xmas',
-                name: 'Xmas Stocking',
-                emoji: '',
-                image: 'https://files.catbox.moe/yecky8.png',
-                price: 495
-            },
-            ring: {
-                id: 'ring',
-                name: 'Кольцо',
-                emoji: '',
-                image: 'https://files.catbox.moe/8mhtc7.png',
-                price: 100
-            },
-            ramen: {
-                id: 'ramen',
-                name: 'Instant Ramen',
-                emoji: '',
-                image: 'https://files.catbox.moe/98yf4o.png',
-                price: 520
-            },
-            icecream: {
-                id: 'icecream',
-                name: 'Ice Cream',
-                emoji: '',
-                image: 'https://files.catbox.moe/hwregp.png',
-                price: 560
-            },
-            bunny: {
-                id: 'bunny',
-                name: 'Jelly Bunny',
-                emoji: '',
-                image: 'https://files.catbox.moe/6nsg8j.png',
-                price: 750
-            },
-            star: {
-                id: 'star',
-                name: 'Hanging Star',
-                emoji: '',
-                image: 'https://files.catbox.moe/59c2w2.png',
-                price: 917
-            },
-            bell: {
-                id: 'bell',
-                name: 'Sleigh Bell',
-                emoji: '',
-                image: 'https://files.catbox.moe/5bya6r.png',
-                price: 1095
-            },
-            skull: {
-                id: 'skull',
-                name: 'Skull Flower',
-                emoji: '',
-                image: 'https://files.catbox.moe/6berpu.png',
-                price: 1245
-            },
-            hat: {
-                id: 'hat',
-                name: 'Top Hat',
-                emoji: '',
-                image: 'https://files.catbox.moe/sldlrh.png',
-                price: 1293
-            },
-            skelettos: {
-                id: 'skelettos',
-                name: 'Sky Skelettos',
-                emoji: '',
-                image: 'https://files.catbox.moe/o336j5.png',
-                price: 1530
-            },
-            charm: {
-                id: 'charm',
-                name: 'Cupid Charm',
-                emoji: '',
-                image: 'https://files.catbox.moe/qel225.png',
-                price: 2038
-            },
-            ringExpensive: {
-                id: 'ringExpensive',
-                name: 'Diamond Ring',
-                emoji: '',
-                image: 'https://files.catbox.moe/tjttfk.png',
-                price: 2858
-            },
-            cigar: {
-                id: 'cigar',
-                name: 'Vintage Cigar',
-                emoji: '',
-                image: 'https://files.catbox.moe/6ified.png',
-                price: 3357
-            }
+            rose: { id: 'rose', name: 'Розочка', emoji: '', image: 'https://cdn140.picsart.com/241734929003212.png', price: 25 },
+            cake: { id: 'cake', name: 'Тортик', emoji: '', image: 'https://files.catbox.moe/1w9dkc.png', price: 50 },
+            diamond: { id: 'diamond', name: 'Алмазик', emoji: '', image: 'https://files.catbox.moe/nt7ios.png', price: 100 },
+            ring: { id: 'ring', name: 'Кольцо', emoji: '', image: 'https://files.catbox.moe/8mhtc7.png', price: 100 },
+            xmas: { id: 'xmas', name: 'Xmas Stocking', emoji: '', image: 'https://files.catbox.moe/yecky8.png', price: 495 },
+            ramen: { id: 'ramen', name: 'Instant Ramen', emoji: '', image: 'https://files.catbox.moe/98yf4o.png', price: 520 },
+            icecream: { id: 'icecream', name: 'Ice Cream', emoji: '', image: 'https://files.catbox.moe/hwregp.png', price: 560 },
+            bunny: { id: 'bunny', name: 'Jelly Bunny', emoji: '', image: 'https://files.catbox.moe/6nsg8j.png', price: 750 },
+            star: { id: 'star', name: 'Hanging Star', emoji: '', image: 'https://files.catbox.moe/59c2w2.png', price: 917 },
+            bell: { id: 'bell', name: 'Sleigh Bell', emoji: '', image: 'https://files.catbox.moe/5bya6r.png', price: 1095 },
+            skull: { id: 'skull', name: 'Skull Flower', emoji: '', image: 'https://files.catbox.moe/6berpu.png', price: 1245 },
+            hat: { id: 'hat', name: 'Top Hat', emoji: '', image: 'https://files.catbox.moe/sldlrh.png', price: 1293 },
+            skelettos: { id: 'skelettos', name: 'Sky Skelettos', emoji: '', image: 'https://files.catbox.moe/o336j5.png', price: 1530 },
+            charm: { id: 'charm', name: 'Cupid Charm', emoji: '', image: 'https://files.catbox.moe/qel225.png', price: 2038 },
+            ringExpensive: { id: 'ringExpensive', name: 'Diamond Ring', emoji: '', image: 'https://files.catbox.moe/tjttfk.png', price: 2858 },
+            cigar: { id: 'cigar', name: 'Vintage Cigar', emoji: '', image: 'https://files.catbox.moe/6ified.png', price: 3357 }
         };
 
-        // ========== КЕЙСЫ ==========
-        let cases = {
-            red: {
-                name: 'Red Case',
-                price: 99,
-                image: 'red',
-                color: 'linear-gradient(145deg, #ff0000, #aa0000)',
-                items: [
-                    { ...allItems.calendar, chance: 10 },
-                    { ...allItems.rose, chance: 90 }
-                ]
-            },
-            green: {
-                name: 'Green Case',
-                price: 199,
-                image: 'green',
-                color: 'linear-gradient(145deg, #00ff00, #00aa00)',
-                items: [
-                    { ...allItems.cake, chance: 27 },
-                    { ...allItems.diamond, chance: 26 },
-                    { ...allItems.cup, chance: 13 },
-                    { ...allItems.stars150, chance: 10 },
-                    { ...allItems.ring, chance: 10 },
-                    { ...allItems.xmas, chance: 5 },
-                    { ...allItems.ramen, chance: 2.5 },
-                    { ...allItems.icecream, chance: 2 },
-                    { ...allItems.bunny, chance: 1.5 },
-                    { ...allItems.star, chance: 0.64 },
-                    { ...allItems.bell, chance: 0.52 },
-                    { ...allItems.skull, chance: 0.5 },
-                    { ...allItems.hat, chance: 0.4 },
-                    { ...allItems.skelettos, chance: 0.35 },
-                    { ...allItems.charm, chance: 0.25 },
-                    { ...allItems.ringExpensive, chance: 0.21 },
-                    { ...allItems.cigar, chance: 0.13 }
-                ]
-            },
-            gold: {
-                name: 'Золотой кейс',
-                price: 0,
-                image: 'gold',
-                color: 'linear-gradient(145deg, #ffd700, #b8860b)',
-                items: []
-            },
-            diamond: {
-                name: 'Алмазный кейс',
-                price: 0,
-                image: 'diamond',
-                color: 'linear-gradient(145deg, #b9f2ff, #00ffff)',
-                items: []
-            }
-        };
+        let selectedSource = null;
+        let selectedTarget = null;
+        let currentMultiplier = 2;
+        let showingMyItems = false;
+        let showingTargetItems = false;
 
-        // Функция для конвертации звёзд в TON
         function starsToTon(stars) {
             return (stars / STARS_TO_TON).toFixed(2);
         }
 
-        // ========== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ==========
-        function getUserId() {
-            return tg.initDataUnsafe?.user?.id || null;
-        }
-
-        function getUserName() {
-            const user = tg.initDataUnsafe?.user;
-            if (!user) return 'User';
-            return user.username || user.first_name || `User_${user.id}`;
-        }
-
-        function isOwner() {
-            const userId = getUserId();
-            return userId && userId == OWNER_ID;
-        }
-
-        function updateAdminButtonVisibility() {
-            const btn = document.getElementById('adminLoginButton');
-            if (btn) btn.style.display = isOwner() ? 'flex' : 'none';
-        }
-
-        // ========== РАБОТА С СЕРВЕРОМ ==========
-        async function loadUser() {
-            const userId = getUserId();
-            if (!userId) return;
-
-            try {
-                const res = await fetch(`${SERVER_URL}/api/user`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        userId: Number(userId),
-                        username: getUserName(),
-                        firstName: tg.initDataUnsafe?.user?.first_name || ''
-                    })
-                });
-                
-                if (res.ok) {
-                    const data = await res.json();
-                    state.balance = data.balance || 0;
-                    state.openedCases = data.openedCases || 0;
-                    state.inventory = data.inventory || [];
-                    updateBalance();
-                    renderInventory();
-                }
-            } catch (e) {
-                console.error('Ошибка загрузки:', e);
-            }
-        }
-
-        async function saveUser() {
-            const userId = getUserId();
-            if (!userId) return;
-
-            try {
-                await fetch(`${SERVER_URL}/api/user/save`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        userId: Number(userId),
-                        balance: state.balance,
-                        openedCases: state.openedCases,
-                        inventory: state.inventory
-                    })
-                });
-            } catch (e) {
-                console.error('Ошибка сохранения:', e);
-            }
-        }
-
-        async function loadUsers() {
-            try {
-                const res = await fetch(`${SERVER_URL}/api/users`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ adminId: Number(OWNER_ID) })
-                });
-                
-                if (res.ok) return await res.json();
-            } catch (e) {
-                console.error('Ошибка загрузки пользователей:', e);
-            }
-            return [];
-        }
-
-        async function loadStats() {
-            try {
-                const res = await fetch(`${SERVER_URL}/api/stats`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ adminId: Number(OWNER_ID) })
-                });
-                
-                if (res.ok) return await res.json();
-            } catch (e) {
-                console.error('Ошибка загрузки статистики:', e);
-            }
-            return null;
-        }
-
-        async function updateBalanceOnServer(userId, newBalance) {
-            try {
-                const res = await fetch(`${SERVER_URL}/api/user/balance`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        userId: Number(userId),
-                        newBalance: Number(newBalance),
-                        adminId: Number(OWNER_ID)
-                    })
-                });
-                return res.ok;
-            } catch (e) {
-                console.error('Ошибка обновления баланса:', e);
-                return false;
-            }
-        }
-
-        // ========== ФУНКЦИИ ИНТЕРФЕЙСА ==========
-        function updateBalance() {
-            document.getElementById('balanceDisplay').textContent = state.balance;
-            document.getElementById('profileBalance').textContent = state.balance + ' ⭐';
-            saveUser();
-        }
-
-        function renderInventory() {
-            const div = document.getElementById('inventory');
-            const sellAllBtn = document.getElementById('sellAllBtn');
-            
-            if (!state.inventory.length) {
-                div.innerHTML = '<div class="empty-section">🫙 Инвентарь пуст</div>';
-                sellAllBtn.style.display = 'none';
-                return;
-            } else {
-                sellAllBtn.style.display = 'block';
-            }
-
-            const grouped = {};
-            state.inventory.forEach(item => {
-                const key = `${item.id}_${item.isDemo ? 'demo' : 'real'}`;
-                if (!grouped[key]) {
-                    grouped[key] = {
-                        ...item,
-                        items: [item]
-                    };
-                } else {
-                    grouped[key].items.push(item);
-                }
-            });
-
-            let html = '';
-            for (let key in grouped) {
-                const group = grouped[key];
-                const item = group.items[0];
-                const count = group.items.length;
-                
-                html += `
-                    <div class="inventory-item">
-                        ${item.isDemo ? '<div class="demo-badge-item">DEMO</div>' : ''}
-                        <img src="${item.image}">
-                        <div class="inventory-item-name">${item.emoji} ${item.name}</div>
-                        <div class="inventory-item-price">${item.price} ⭐</div>
-                        <span class="item-count">x${count}</span>
-                        ${!item.isDemo ? `<button class="sell-one-btn" onclick="sellItem('${item.id}')">Продать 1</button>` : ''}
-                    </div>
-                `;
-            }
-            div.innerHTML = html;
-        }
-
-        function sellItem(itemId) {
-            const idx = state.inventory.findIndex(i => i.id === itemId && !i.isDemo);
-            if (idx === -1) return;
-            const item = state.inventory[idx];
-            state.balance += item.price;
-            state.inventory.splice(idx, 1);
-            updateBalance();
-            renderInventory();
-        }
-
-        function sellAllInventory() {
-            const total = state.inventory.reduce((sum, item) => sum + (item.isDemo ? 0 : item.price), 0);
-            if (total === 0) {
-                alert('Нет предметов для продажи');
-                return;
-            }
-            state.balance += total;
-            state.inventory = state.inventory.filter(item => item.isDemo);
-            updateBalance();
-            renderInventory();
-            tg.showPopup({
-                title: 'Продано!',
-                message: `Вы продали все предметы за ${total} ⭐`,
-                buttons: [{type: 'ok'}]
-            });
-        }
-
-        // ========== НАВИГАЦИЯ ==========
         function switchToCases() {
-            document.querySelectorAll('.nav-item').forEach((item, i) => item.classList.toggle('active', i === 0));
+            document.querySelectorAll('.nav-item').forEach((item, i) => {
+                item.classList.toggle('active', i === 0);
+            });
+            
             document.getElementById('mainMenu').classList.add('active');
-            document.getElementById('gamesSection').classList.remove('active');
+            document.getElementById('gamesMenu').classList.remove('active');
             document.getElementById('profileSection').classList.remove('active');
             document.getElementById('caseDetail').classList.remove('active');
+            document.getElementById('upgradePage').classList.remove('active');
             document.getElementById('backButton').classList.remove('visible');
+            updateBalance();
+            renderInventory();
         }
 
         function switchToGames() {
-            document.querySelectorAll('.nav-item').forEach((item, i) => item.classList.toggle('active', i === 1));
+            document.querySelectorAll('.nav-item').forEach((item, i) => {
+                item.classList.toggle('active', i === 1);
+            });
+            
             document.getElementById('mainMenu').classList.remove('active');
-            document.getElementById('caseDetail').classList.remove('active');
-            document.getElementById('gamesSection').classList.add('active');
+            document.getElementById('gamesMenu').classList.add('active');
             document.getElementById('profileSection').classList.remove('active');
+            document.getElementById('caseDetail').classList.remove('active');
+            document.getElementById('upgradePage').classList.remove('active');
             document.getElementById('backButton').classList.remove('visible');
         }
 
         function switchToProfile() {
-            document.querySelectorAll('.nav-item').forEach((item, i) => item.classList.toggle('active', i === 2));
+            document.querySelectorAll('.nav-item').forEach((item, i) => {
+                item.classList.toggle('active', i === 2);
+            });
+            
             document.getElementById('mainMenu').classList.remove('active');
-            document.getElementById('caseDetail').classList.remove('active');
-            document.getElementById('gamesSection').classList.remove('active');
+            document.getElementById('gamesMenu').classList.remove('active');
             document.getElementById('profileSection').classList.add('active');
+            document.getElementById('caseDetail').classList.remove('active');
+            document.getElementById('upgradePage').classList.remove('active');
             document.getElementById('backButton').classList.remove('visible');
             renderInventory();
         }
@@ -1788,6 +1699,9 @@
         function showMainMenu() {
             document.getElementById('caseDetail').classList.remove('active');
             document.getElementById('mainMenu').classList.add('active');
+            document.getElementById('gamesMenu').classList.remove('active');
+            document.getElementById('profileSection').classList.remove('active');
+            document.getElementById('upgradePage').classList.remove('active');
             document.getElementById('backButton').classList.remove('visible');
         }
 
@@ -1797,6 +1711,9 @@
             
             document.getElementById('mainMenu').classList.remove('active');
             document.getElementById('caseDetail').classList.add('active');
+            document.getElementById('gamesMenu').classList.remove('active');
+            document.getElementById('profileSection').classList.remove('active');
+            document.getElementById('upgradePage').classList.remove('active');
             document.getElementById('backButton').classList.add('visible');
             
             const detailImage = document.getElementById('detailImage');
@@ -1813,7 +1730,6 @@
             document.getElementById('detailName').textContent = caseData.name;
             document.getElementById('detailPrice').innerHTML = `<div class="star-icon"></div>${caseData.price} звёзд`;
             
-            // 🔥 СОРТИРУЕМ ПРЕДМЕТЫ ПО ЦЕНЕ (ОТ ДОРОГОГО К ДЕШЁВОМУ)
             const sortedItems = [...caseData.items].sort((a, b) => b.price - a.price);
             
             const chancesGrid = document.getElementById('chancesGrid');
@@ -1842,16 +1758,256 @@
             selectQuantity(1);
         }
 
-        function selectQuantity(q) {
-            state.selectedQuantity = q;
-            document.querySelectorAll('.quantity-btn').forEach(b =s> b.classList.remove('active'));
-            document.querySelector(`.quantity-btn:nth-child(${q})`).classList.add('active');
-            const caseData = cases[state.currentCase];
-            document.getElementById('totalPrice').innerHTML = `${caseData.price * q} ⭐`;
+        function showUpgradePage() {
+            document.getElementById('gamesMenu').classList.remove('active');
+            document.getElementById('upgradePage').classList.add('active');
+            resetUpgrade();
+        }
+
+        function resetUpgrade() {
+            selectedSource = null;
+            selectedTarget = null;
+            currentMultiplier = 2;
+            
+            document.querySelectorAll('.multiplier-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.multiplier-btn').classList.add('active');
+            
+            document.getElementById('sourceItem').innerHTML = '<span style="font-size: 30px; color: #666;">?</span>';
+            document.getElementById('sourcePrice').innerHTML = '- ⭐';
+            document.getElementById('targetItem').innerHTML = '<span style="font-size: 30px; color: #666;">?</span>';
+            document.getElementById('targetPrice').innerHTML = '- ⭐';
+            
+            document.getElementById('circleProgress').style.background = 'conic-gradient(#ffd700 0deg, #2a2a2a 0deg)';
+            document.getElementById('chancePercent').textContent = '0%';
+            
+            document.getElementById('itemsList').classList.add('hidden');
+        }
+
+        function selectMultiplier(x, element) {
+            currentMultiplier = x;
+            document.querySelectorAll('.multiplier-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+            if (selectedSource && selectedTarget) {
+                calculateChance();
+            }
+        }
+
+        function calculateChance() {
+            if (!selectedSource || !selectedTarget) return;
+            
+            const sourceItem = allItems[selectedSource];
+            const targetItem = allItems[selectedTarget];
+            
+            let chance = (sourceItem.price * currentMultiplier) / targetItem.price * 50;
+            chance = Math.min(chance, 95);
+            chance = Math.max(chance, 5);
+            
+            const degrees = (chance / 100) * 360;
+            document.getElementById('circleProgress').style.background = 
+                `conic-gradient(#ffd700 0deg, #ffd700 ${degrees}deg, #2a2a2a ${degrees}deg)`;
+            document.getElementById('chancePercent').textContent = Math.round(chance) + '%';
+        }
+
+        function selectSourceItem() {
+            showingMyItems = true;
+            showingTargetItems = false;
+            renderItemsList('my');
+        }
+
+        function selectTargetItem() {
+            if (!selectedSource) {
+                alert('Сначала выберите предмет для апгрейда');
+                return;
+            }
+            showingMyItems = false;
+            showingTargetItems = true;
+            renderItemsList('all');
+        }
+
+        function renderItemsList(type) {
+            const list = document.getElementById('itemsList');
+            list.classList.remove('hidden');
+            
+            if (type === 'my') {
+                const myItems = state.inventory.filter(item => item.price >= 100);
+                if (myItems.length === 0) {
+                    list.innerHTML = `
+                        <div class="empty-section">
+                            У вас нет предметов для апгрейда<br>
+                            <button class="action-btn primary" style="margin-top: 20px;" onclick="switchToCases()">🎁 Открыть кейс</button>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                let html = '';
+                myItems.forEach(item => {
+                    html += `
+                        <div class="item-card" onclick="selectMyItem('${item.id}')">
+                            <img src="${item.image}">
+                            <div class="item-card-name">${item.name}</div>
+                            <div class="item-card-price">${item.price} ⭐</div>
+                            <div style="color: #0088cc; font-size: 12px;">${starsToTon(item.price)} TON</div>
+                            <div style="color: #aaa; font-size: 11px;">x${item.count || 1}</div>
+                        </div>
+                    `;
+                });
+                list.innerHTML = html;
+            } else {
+                const sourcePrice = allItems[selectedSource]?.price || 0;
+                const availableItems = Object.values(allItems).filter(item => item.price > sourcePrice * 1.5);
+                
+                let html = '';
+                availableItems.forEach(item => {
+                    html += `
+                        <div class="item-card" onclick="selectTarget('${item.id}')">
+                            <img src="${item.image}">
+                            <div class="item-card-name">${item.name}</div>
+                            <div class="item-card-price">${item.price} ⭐</div>
+                            <div style="color: #0088cc; font-size: 12px;">${starsToTon(item.price)} TON</div>
+                        </div>
+                    `;
+                });
+                list.innerHTML = html;
+            }
+        }
+
+        function selectMyItem(itemId) {
+            selectedSource = itemId;
+            const item = allItems[itemId];
+            
+            document.getElementById('sourceItem').innerHTML = `<img src="${item.image}">`;
+            document.getElementById('sourcePrice').innerHTML = `${item.price} ⭐`;
+            
+            document.getElementById('itemsList').classList.add('hidden');
+            showingMyItems = false;
+            
+            if (selectedTarget) {
+                calculateChance();
+            }
+        }
+
+        function selectTarget(itemId) {
+            selectedTarget = itemId;
+            const item = allItems[itemId];
+            
+            document.getElementById('targetItem').innerHTML = `<img src="${item.image}">`;
+            document.getElementById('targetPrice').innerHTML = `${item.price} ⭐`;
+            
+            document.getElementById('itemsList').classList.add('hidden');
+            showingTargetItems = false;
+            
+            if (selectedSource) {
+                calculateChance();
+            }
+        }
+
+        function doUpgrade() {
+            if (!selectedSource || !selectedTarget) {
+                alert('Выберите предметы для апгрейда');
+                return;
+            }
+            
+            const sourceItem = allItems[selectedSource];
+            const inventoryItem = state.inventory.find(i => i.id === selectedSource);
+            
+            if (!inventoryItem || inventoryItem.count < 1) {
+                alert('У вас нет этого предмета');
+                return;
+            }
+            
+            const chanceText = document.getElementById('chancePercent').textContent;
+            const chance = parseInt(chanceText) / 100;
+            
+            inventoryItem.count--;
+            if (inventoryItem.count === 0) {
+                state.inventory = state.inventory.filter(i => i.id !== selectedSource);
+            }
+            
+            if (Math.random() < chance) {
+                const targetItem = allItems[selectedTarget];
+                const existingTarget = state.inventory.find(i => i.id === selectedTarget);
+                
+                if (existingTarget) {
+                    existingTarget.count = (existingTarget.count || 1) + 1;
+                } else {
+                    state.inventory.push({ ...targetItem, count: 1 });
+                }
+                
+                alert('✅ Апгрейд успешен!');
+            } else {
+                alert('❌ Апгрейд не удался');
+            }
+            
+            selectedSource = null;
+            selectedTarget = null;
+            document.getElementById('sourceItem').innerHTML = '<span style="font-size: 30px; color: #666;">?</span>';
+            document.getElementById('sourcePrice').innerHTML = '- ⭐';
+            document.getElementById('targetItem').innerHTML = '<span style="font-size: 30px; color: #666;">?</span>';
+            document.getElementById('targetPrice').innerHTML = '- ⭐';
+            document.getElementById('circleProgress').style.background = 'conic-gradient(#ffd700 0deg, #2a2a2a 0deg)';
+            document.getElementById('chancePercent').textContent = '0%';
+            document.getElementById('itemsList').classList.add('hidden');
+            
+            updateBalance();
+            renderInventory();
+        }
+
+        function renderInventory() {
+            const div = document.getElementById('inventory');
+            const sellAllBtn = document.getElementById('sellAllBtn');
+            
+            if (!state.inventory.length) {
+                div.innerHTML = '<div class="empty-section">🫙 Инвентарь пуст</div>';
+                sellAllBtn.style.display = 'none';
+                return;
+            } else {
+                sellAllBtn.style.display = 'block';
+            }
+
+            let html = '';
+            state.inventory.forEach(item => {
+                html += `
+                    <div class="inventory-item">
+                        <img src="${item.image}">
+                        <div class="inventory-item-name">${item.name}</div>
+                        <div class="inventory-item-price">${item.price} ⭐</div>
+                        <span class="item-count">x${item.count || 1}</span>
+                        <button class="sell-one-btn" onclick="sellItem('${item.id}')">Продать 1</button>
+                    </div>
+                `;
+            });
+            div.innerHTML = html;
+        }
+
+        function sellItem(itemId) {
+            const idx = state.inventory.findIndex(i => i.id === itemId);
+            if (idx === -1) return;
+            const item = state.inventory[idx];
+            state.balance += item.price;
+            item.count--;
+            if (item.count === 0) {
+                state.inventory.splice(idx, 1);
+            }
+            updateBalance();
+            renderInventory();
+        }
+
+        function sellAllInventory() {
+            const total = state.inventory.reduce((sum, item) => sum + (item.price * (item.count || 1)), 0);
+            state.balance += total;
+            state.inventory = [];
+            updateBalance();
+            renderInventory();
+        }
+
+        function updateBalance() {
+            document.getElementById('balanceDisplay').textContent = state.balance;
+            document.getElementById('profileBalance').textContent = state.balance + ' ⭐';
+            document.getElementById('modalBalance').textContent = state.balance + ' ⭐';
         }
 
         function showBalanceModal() {
-            document.getElementById('modalBalance').textContent = state.balance + ' ⭐';
             document.getElementById('balanceModal').classList.add('active');
         }
 
@@ -1859,10 +2015,12 @@
             document.getElementById('balanceModal').classList.remove('active');
         }
 
-        function depositStars(amount) {
-            state.balance += amount;
-            updateBalance();
-            closeBalanceModal();
+        function selectQuantity(q) {
+            state.selectedQuantity = q;
+            document.querySelectorAll('.quantity-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.quantity-btn:nth-child(${q})`).classList.add('active');
+            const caseData = cases[state.currentCase];
+            document.getElementById('totalPrice').innerHTML = `${caseData.price * q} ⭐`;
         }
 
         async function openCase(isDemo) {
@@ -1986,12 +2144,11 @@
                 state.inventory.push(...results);
                 state.openedCases += state.selectedQuantity;
                 document.getElementById('openedCases').textContent = state.openedCases;
-                saveUser();
+                renderInventory();
             }
             
             fbtn.style.display = 'block';
             state.isSpinning = false;
-            
             document.body.style.overflow = 'auto';
         }
 
@@ -2032,15 +2189,9 @@
                 });
                 rlist.innerHTML = html;
             }
-            
-            tg.showPopup({
-                title: 'Продано!',
-                message: `Вы продали ${item.name} за ${item.price} ⭐`,
-                buttons: [{type: 'ok'}]
-            });
         }
 
-        function sellAllCurrentResults() {
+        function sellAllResults() {
             if (state.isDemo) { 
                 closeRoulette(); 
                 return; 
@@ -2055,13 +2206,8 @@
             
             state.currentOpenings = [];
             updateBalance();
+            renderInventory();
             closeRoulette();
-            
-            tg.showPopup({
-                title: 'Продано!',
-                message: `Вы продали все предметы за ${total} ⭐`,
-                buttons: [{type: 'ok'}]
-            });
         }
 
         function openAgain() {
@@ -2073,122 +2219,71 @@
             document.getElementById('rouletteModal').classList.remove('active');
         }
 
-        const ADMIN_PASSWORD = 'admin123';
-        
         function promptAdminPassword() {
-            if (!isOwner()) { alert('Нет доступа'); return; }
-            if (prompt('Пароль:') === ADMIN_PASSWORD) {
-                document.getElementById('adminPanel').style.display = 'flex';
-                loadAdminData();
+            const pwd = prompt('Пароль:');
+            if (pwd === 'admin123') {
+                alert('Добро пожаловать в админ-панель!');
             }
         }
 
-        function toggleAdminPanel() {
-            const p = document.getElementById('adminPanel');
-            p.style.display = p.style.display === 'none' ? 'flex' : 'none';
-        }
-
-        function switchAdminTab(tab) {
-            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById(`admin${tab.charAt(0).toUpperCase() + tab.slice(1)}`).classList.add('active');
-            if (tab === 'users') loadUsersList();
-            if (tab === 'stats') loadStatsData();
-        }
-
-        async function loadAdminData() {
-            await loadUsersList();
-            await loadStatsData();
-            loadCaseForEdit();
-        }
-
-        async function loadUsersList() {
-            const users = await loadUsers();
-            const list = document.getElementById('usersList');
-            if (!users || users.length === 0) {
-                list.innerHTML = '<div class="empty-section">Нет пользователей</div>';
-                return;
+        const cases = {
+            red: {
+                name: 'Red Case',
+                price: 99,
+                image: 'red',
+                color: 'linear-gradient(145deg, #ff0000, #aa0000)',
+                items: [
+                    { ...allItems.calendar, chance: 10 },
+                    { ...allItems.rose, chance: 90 }
+                ]
+            },
+            green: {
+                name: 'Green Case',
+                price: 199,
+                image: 'green',
+                color: 'linear-gradient(145deg, #00ff00, #00aa00)',
+                items: [
+                    { ...allItems.cake, chance: 27 },
+                    { ...allItems.diamond, chance: 26 },
+                    { ...allItems.cup, chance: 13 },
+                    { ...allItems.stars150, chance: 10 },
+                    { ...allItems.ring, chance: 10 },
+                    { ...allItems.xmas, chance: 5 },
+                    { ...allItems.ramen, chance: 2.5 },
+                    { ...allItems.icecream, chance: 2 },
+                    { ...allItems.bunny, chance: 1.5 },
+                    { ...allItems.star, chance: 0.64 },
+                    { ...allItems.bell, chance: 0.52 },
+                    { ...allItems.skull, chance: 0.5 },
+                    { ...allItems.hat, chance: 0.4 },
+                    { ...allItems.skelettos, chance: 0.35 },
+                    { ...allItems.charm, chance: 0.25 },
+                    { ...allItems.ringExpensive, chance: 0.21 },
+                    { ...allItems.cigar, chance: 0.13 }
+                ]
+            },
+            gold: {
+                name: 'Золотой кейс',
+                price: 0,
+                image: 'gold',
+                color: 'linear-gradient(145deg, #ffd700, #b8860b)',
+                items: []
+            },
+            diamond: {
+                name: 'Алмазный кейс',
+                price: 0,
+                image: 'diamond',
+                color: 'linear-gradient(145deg, #b9f2ff, #00ffff)',
+                items: []
             }
+        };
 
-            let html = '';
-            users.sort((a,b) => new Date(b.lastSeen) - new Date(a.lastSeen));
-            users.forEach(u => {
-                html += `
-                    <div class="user-item">
-                        <span class="user-name">${u.username || 'User'}</span>
-                        <span class="user-stats">💰 ${u.balance || 0} ⭐ | 🎲 ${u.openedCases || 0}</span>
-                        <span class="user-date">${u.lastSeen ? new Date(u.lastSeen).toLocaleDateString() : ''}</span>
-                        <div class="user-actions">
-                            <button class="edit-balance-btn" onclick="editUserBalance('${u.userId}')">✏️</button>
-                        </div>
-                    </div>
-                `;
-            });
-            list.innerHTML = html;
-        }
+        allItems.calendar = { id: 'calendar', name: 'Календарь', emoji: '', image: 'https://files.catbox.moe/vp6ocv.png', price: 500 };
+        allItems.stars150 = { id: 'stars150', name: '150 звёзд', emoji: '', image: 'https://nztcdn.com/files/34b13b5a-7b5f-4d29-9c92-8fada5f27b2f.webp', price: 150 };
+        allItems.cup = { id: 'cup', name: 'Кубок', emoji: '', image: 'https://files.catbox.moe/9a63n2.png', price: 100 };
 
-        async function editUserBalance(userId) {
-            const newBal = prompt('Новый баланс:');
-            if (!newBal || isNaN(parseInt(newBal))) return;
-            const amount = parseInt(newBal);
-            const ok = await updateBalanceOnServer(userId, amount);
-            if (ok) {
-                if (userId == getUserId()) {
-                    state.balance = amount;
-                    updateBalance();
-                }
-                await loadUsersList();
-                await loadStatsData();
-            }
-        }
-
-        async function loadStatsData() {
-            const stats = await loadStats();
-            if (!stats) return;
-            document.getElementById('totalUsers').textContent = stats.totalUsers || 0;
-            document.getElementById('totalOpenedCases').textContent = stats.totalOpenedCases || 0;
-            document.getElementById('totalStars').textContent = stats.totalStars || 0;
-            
-            const topList = document.getElementById('topUsers');
-            let html = '';
-            (stats.topUsers || []).forEach((u, i) => {
-                html += `<div class="top-item"><span class="top-rank">${i+1}.</span> ${u.username || 'User'} <span>${u.openedCases || 0} кейсов</span></div>`;
-            });
-            topList.innerHTML = html || '<div class="empty-section">Нет данных</div>';
-        }
-
-        function loadCaseForEdit() {
-            const caseId = document.getElementById('caseSelector').value;
-            const caseData = cases[caseId];
-            
-            document.getElementById('caseName').value = caseData.name;
-            document.getElementById('casePrice').value = caseData.price;
-            
-            const list = document.getElementById('itemsList');
-            list.innerHTML = '';
-            caseData.items.forEach((item, idx) => {
-                list.innerHTML += `
-                    <div class="item-edit" id="item-${idx}">
-                        <div class="form-group"><label>Название:</label><input type="text" class="item-name" value="${item.name}"></div>
-                        <div class="form-group"><label>Эмодзи:</label><input type="text" class="item-emoji" value="${item.emoji}"></div>
-                        <div class="form-group"><label>URL:</label><input type="text" class="item-image" value="${item.image}"></div>
-                        <div class="form-group"><label>Цена:</label><input type="number" class="item-price" value="${item.price}"></div>
-                        <div class="form-group"><label>Шанс:</label><input type="number" class="item-chance" value="${item.chance}" min="0.01" max="100" step="0.01"></div>
-                        <button class="admin-btn danger" onclick="removeItem(${idx})">Удалить</button>
-                    </div>
-                `;
-            });
-        }
-
-        function addNewItem() { alert('Функция будет добавлена позже'); }
-        function removeItem(idx) { if (confirm('Удалить?')) document.getElementById(`item-${idx}`).remove(); }
-        function saveCaseChanges() { alert('Изменения сохранены'); }
-        function resetCasesToDefault() { if (confirm('Сбросить?')) location.reload(); }
-
-        // ========== СТАРТ ==========
-        updateAdminButtonVisibility();
-        loadUser();
+        updateBalance();
+        renderInventory();
     </script>
 </body>
 </html>
