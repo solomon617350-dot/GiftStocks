@@ -572,23 +572,6 @@
             transform: scale(1.05);
         }
         
-        .sell-all-btn {
-            background: #ff4444;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 15px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 20px;
-            transition: transform 0.2s;
-        }
-        .sell-all-btn:hover {
-            transform: scale(1.02);
-        }
-        
         /* Стили для игр */
         .games-grid {
             display: grid;
@@ -937,7 +920,7 @@
             margin: 20px 0;
         }
         
-        .multi-roulette.horizontal {
+        .multi-roulette.vertical {
             flex-direction: column;
         }
         
@@ -988,8 +971,8 @@
             object-fit: contain;
             border-radius: 5px;
             background: transparent;
-            filter: drop-shadow(0 0 5px rgba(255,215,0,0.5));
         }
+        
         .roulette-item span {
             color: #ffd700;
             font-size: 12px;
@@ -2128,6 +2111,15 @@
                     
                     const bestTarget = availableTargets[0];
                     selectTarget(bestTarget.id);
+                } else {
+                    // Если нет подходящих, ищем предметы с ценой выше
+                    const higherTargets = Object.values(allItems).filter(item => 
+                        item.price > sourceItem.price && item.id !== selectedSource
+                    ).sort((a, b) => a.price - b.price);
+                    
+                    if (higherTargets.length > 0) {
+                        selectTarget(higherTargets[0].id);
+                    }
                 }
             }
         }
@@ -2138,7 +2130,7 @@
             const sourceItem = allItems[selectedSource];
             const targetItem = allItems[selectedTarget];
             
-            // Шанс всегда считается от множителя 2x
+            // Шанс всегда считается от множителя 2x, чтобы нельзя было накрутить
             let chance = (sourceItem.price * 2) / targetItem.price * 50;
             chance = Math.min(chance, 95);
             chance = Math.max(chance, 5);
@@ -2410,9 +2402,9 @@
             
             // Устанавливаем направление в зависимости от количества
             if (state.selectedQuantity === 1) {
-                multi.classList.remove('horizontal');
+                multi.classList.remove('vertical');
             } else {
-                multi.classList.add('horizontal');
+                multi.classList.add('vertical');
             }
             
             if (isDemo) {
