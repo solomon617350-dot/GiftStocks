@@ -1494,6 +1494,7 @@
     </div>
 
     <div class="content" id="content">
+        <!-- Главное меню (Кейсы) -->
         <div id="mainMenu" class="section active">
             <h2 class="section-title">🎁 Доступные кейсы</h2>
             <div class="cases-grid">
@@ -1502,16 +1503,19 @@
                     <div class="case-name">Red Case</div>
                     <div class="case-price"><div class="small-star"></div>99 ⭐</div>
                 </div>
+                
                 <div class="case-card" onclick="showCaseDetail('green')">
                     <div class="case-image green-case"></div>
                     <div class="case-name">Green Case</div>
                     <div class="case-price"><div class="small-star"></div>199 ⭐</div>
                 </div>
+                
                 <div class="case-card" onclick="showCaseDetail('gold')">
                     <div class="case-image" style="background: linear-gradient(145deg, #ffd700, #b8860b);"></div>
                     <div class="case-name">Золотой кейс</div>
                     <div class="case-price"><div class="small-star"></div>Скоро</div>
                 </div>
+                
                 <div class="case-card" onclick="showCaseDetail('diamond')">
                     <div class="case-image" style="background: linear-gradient(145deg, #b9f2ff, #00ffff);"></div>
                     <div class="case-name">Алмазный кейс</div>
@@ -1520,16 +1524,19 @@
             </div>
         </div>
 
+        <!-- Детальная страница кейса -->
         <div id="caseDetail" class="case-detail">
             <div class="detail-header">
                 <div class="detail-image" id="detailImage"></div>
                 <div class="detail-name" id="detailName"></div>
                 <div class="detail-price" id="detailPrice"></div>
             </div>
+
             <div class="action-buttons">
                 <button class="open-case-btn" onclick="openCase(false)"><span>💰 Открыть за звёзды</span><span class="total-price" id="totalPrice"></span></button>
                 <button class="demo-case-btn" onclick="openCase(true)"><span>🎲 Демо-открытие</span><span class="demo-badge">Бесплатно</span></button>
             </div>
+
             <div class="quantity-section">
                 <div class="quantity-title">Количество открытий:</div>
                 <div class="quantity-buttons">
@@ -1540,12 +1547,14 @@
                     <button class="quantity-btn" onclick="selectQuantity(5)">5</button>
                 </div>
             </div>
+
             <div class="chances-section">
                 <div class="chances-title">📊 Шансы выпадения</div>
                 <div class="chances-grid" id="chancesGrid"></div>
             </div>
         </div>
 
+        <!-- Страница игр -->
         <div id="gamesMenu" class="section">
             <h2 class="section-title">🎮 Мини-игры</h2>
             <div class="games-grid">
@@ -1554,6 +1563,7 @@
             </div>
         </div>
 
+        <!-- Страница апгрейда -->
         <div id="upgradePage" class="upgrade-page">
             <div class="upgrade-container">
                 <div class="chance-wheel" onclick="startWheelSpin()">
@@ -1565,11 +1575,13 @@
                     </svg>
                     <div class="wheel-percent" id="wheelPercent">0%</div>
                 </div>
+
                 <div class="items-row">
                     <div class="item-slot"><div class="item-image" id="sourceItem" onclick="selectSourceItem()"><span style="font-size:30px;color:#666;">?</span></div><div class="item-price" id="sourcePrice">- ⭐</div></div>
                     <div class="question-mark">?</div>
                     <div class="item-slot"><div class="item-image" id="targetItem" onclick="selectTargetItem()"><span style="font-size:30px;color:#666;">?</span></div><div class="item-price" id="targetPrice">- ⭐</div></div>
                 </div>
+
                 <div class="multipliers">
                     <div class="multiplier-btn active" onclick="selectMultiplier(2, this)">2x</div>
                     <div class="multiplier-btn" onclick="selectMultiplier(3, this)">3x</div>
@@ -1577,21 +1589,26 @@
                     <div class="multiplier-btn" onclick="selectMultiplier(10, this)">10x</div>
                     <div class="multiplier-btn" onclick="selectMultiplier(20, this)">20x</div>
                 </div>
+
                 <button class="action-btn primary" onclick="startWheelSpin()">⚡ Крутить колесо</button>
+
                 <div class="action-buttons">
                     <button class="action-btn secondary" onclick="showMyItems()">📦 Мои предметы</button>
                     <button class="action-btn secondary" onclick="showTargetItems()">🎯 Выбрать предмет</button>
                 </div>
+
                 <div id="itemsList" class="items-list"></div>
             </div>
         </div>
 
+        <!-- Страница профиля -->
         <div id="profileSection" class="section">
             <h2 class="section-title">👤 Профиль</h2>
             <div class="profile-stats">
                 <div class="stat-item"><span class="stat-label">Открыто кейсов:</span><span class="stat-value" id="openedCases">0</span></div>
                 <div class="stat-item"><span class="stat-label">Баланс звёзд:</span><span class="stat-value" id="profileBalance">1000 ⭐</span></div>
             </div>
+            
             <div class="inventory-header">
                 <h3 style="color:#ffd700;">📦 Инвентарь</h3>
                 <button class="sell-all-inventory-btn" onclick="confirmSellAll()">💰 Продать всё</button>
@@ -1852,14 +1869,8 @@
             const chance = parseFloat(document.getElementById('wheelPercent').textContent) / 100;
             const wheel = document.querySelector('.wheel-svg');
             const spins = 3;
-            
-            // Рандомный угол остановки от 0 до 360 градусов
             const stopAngle = Math.random() * 360;
-            
-            // Проверяем, показывает ли стрелка на желтую часть
-            // Желтая часть занимает (chance * 360) градусов от 0 градусов
             const isWin = stopAngle <= (chance * 360);
-            
             const totalRotation = spins * 360 + stopAngle;
             
             wheel.style.transition = 'none';
@@ -1872,17 +1883,11 @@
             
             setTimeout(() => {
                 if (isWin) {
-                    alert('✅ Успех! Предмет улучшен');
-                    
-                    // Добавляем целевой предмет
+                    alert('✅ Успех!');
                     const existingTarget = state.inventory.find(i => i.id === selectedTarget);
-                    if (existingTarget) {
-                        existingTarget.count = (existingTarget.count || 1) + 1;
-                    } else {
-                        state.inventory.push({...targetItem, count: 1});
-                    }
+                    if (existingTarget) existingTarget.count = (existingTarget.count||1)+1;
+                    else state.inventory.push({...targetItem, count:1});
                     
-                    // Удаляем исходный предмет
                     const sourceIdx = state.inventory.findIndex(i => i.id === selectedSource);
                     if (sourceIdx !== -1) {
                         const src = state.inventory[sourceIdx];
@@ -1890,9 +1895,7 @@
                         if (src.count === 0) state.inventory.splice(sourceIdx, 1);
                     }
                 } else {
-                    alert('❌ Неудача! Предмет сгорел');
-                    
-                    // Только удаляем исходный предмет
+                    alert('❌ Неудача');
                     const sourceIdx = state.inventory.findIndex(i => i.id === selectedSource);
                     if (sourceIdx !== -1) {
                         const src = state.inventory[sourceIdx];
@@ -2123,11 +2126,11 @@
             else rmode.style.display = 'none';
             fbtn.style.display = 'none';
             
-            // Устанавливаем направление
-            if (state.selectedQuantity > 1) {
-                multi.className = 'multi-roulette vertical';
-            } else {
+            // Устанавливаем направление: для 1 - горизонтально, для 2-5 - вертикально
+            if (state.selectedQuantity === 1) {
                 multi.className = 'multi-roulette horizontal';
+            } else {
+                multi.className = 'multi-roulette vertical';
             }
             
             const iw = 60, gap = 10, tiw = iw + gap;
@@ -2141,7 +2144,7 @@
                 
                 for (let j=0; j<70; j++) {
                     let item;
-                    // Только одна позиция - выигрышный предмет (позиция 35)
+                    // Только одна позиция (35) содержит выигрышный предмет
                     if (j === 35) {
                         item = results[i];
                     } else {
