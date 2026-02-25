@@ -953,16 +953,10 @@
             padding: 5px;
             border-radius: 8px;
             min-width: 60px;
-            transition: all 0.3s;
-            box-shadow: 0 0 10px rgba(255,215,0,0.3);
-            filter: drop-shadow(0 0 5px rgba(255,215,0,0.3));
         }
         
         .roulette-item.win {
-            box-shadow: 0 0 20px #ffd700;
-            transform: scale(1.1);
-            background: rgba(255,215,0,0.2);
-            border: 1px solid #ffd700;
+            border: 2px solid #ffd700;
         }
         
         .roulette-item img {
@@ -2006,10 +2000,10 @@
             const wheel = document.querySelector('.wheel-svg');
             const spins = 3;
             
-            // Случайный угол остановки
+            // Случайный угол остановки от 0 до 360 градусов
             const stopAngle = Math.random() * 360;
             
-            // Проверяем, попала ли стрелка в желтую зону
+            // Проверяем, попала ли стрелка в желтую зону (от 0 до chance*360 градусов)
             const isWin = stopAngle <= (chance * 360);
             
             const totalRotation = spins * 360 + stopAngle;
@@ -2058,7 +2052,7 @@
                     }
                 }
                 
-                // Обновляем интерфейс
+                // Обновляем интерфейс - предметы сразу исчезают/появляются
                 renderInventory();
                 saveState();
                 
@@ -2728,7 +2722,7 @@
                 price: 0,
                 image: 'diamond',
                 color: 'linear-gradient(145deg, #b9f2ff, #00ffff)',
-                items: []
+                items: []ы
             }
         };
 
