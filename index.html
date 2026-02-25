@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        /* Все стили остаются без изменений */
         * {
             margin: 0;
             padding: 0;
@@ -2021,30 +2022,24 @@
             const chance = parseFloat(document.getElementById('wheelPercent').textContent) / 100;
             
             const wheel = document.querySelector('.wheel-svg');
-            const spins = 3; // Количество полных оборотов
+            const spins = 3;
             
             // Случайный угол остановки
             const stopAngle = Math.random() * 360;
             
-            // Вычисляем, попала ли стрелка в желтую зону
-            // Желтая зона составляет (chance * 360) градусов, начиная с 0 градусов
+            // Проверяем, попала ли стрелка в желтую зону
             const isWin = stopAngle <= (chance * 360);
             
-            // Общее вращение: несколько оборотов + угол остановки
             const totalRotation = spins * 360 + stopAngle;
             
-            // Сброс предыдущей трансформации
             wheel.style.transition = 'none';
             wheel.style.transform = 'rotate(-90deg)';
             
-            // Небольшая задержка для применения сброса
             setTimeout(() => {
-                // Запускаем плавное вращение
                 wheel.style.transition = 'transform 5s cubic-bezier(0.1, 0.8, 0.2, 1)';
                 wheel.style.transform = `rotate(${totalRotation - 90}deg)`;
             }, 50);
             
-            // Показываем результат после окончания анимации
             setTimeout(() => {
                 if (isWin) {
                     alert('✅ Успех! Получен новый предмет');
@@ -2089,7 +2084,7 @@
                 updateWheel(0);
                 
                 isSpinning = false;
-            }, 5200); // 5 секунд + небольшой запас
+            }, 5200);
         }
 
         function selectMultiplier(x, element) {
@@ -2099,11 +2094,9 @@
             currentMultiplier = x;
             
             if (selectedSource) {
-                // Просто ищем предмет с ценой, кратной множителю, НО НЕ МЕНЯЕМ ПРОЦЕНТ
                 const sourceItem = allItems[selectedSource];
                 const targetPrice = sourceItem.price * x;
                 
-                // Ищем подходящий предмет
                 const availableTargets = Object.values(allItems).filter(item => 
                     item.price >= targetPrice * 0.8 && 
                     item.price <= targetPrice * 1.2 && 
@@ -2127,7 +2120,7 @@
             const sourceItem = allItems[selectedSource];
             const targetItem = allItems[selectedTarget];
             
-            // Шанс всегда считается от множителя 2x, не от текущего
+            // Шанс всегда считается от множителя 2x
             let chance = (sourceItem.price * 2) / targetItem.price * 50;
             chance = Math.min(chance, 95);
             chance = Math.max(chance, 5);
@@ -2335,11 +2328,19 @@
         }
 
         async function openCase(isDemo) {
-            if (state.isSpinning) return;
+            if (state.isSpinning) {
+                alert('Подождите, идёт открытие...');
+                return;
+            }
             
             const caseData = cases[state.currentCase];
-            if (!caseData || !caseData.items || caseData.items.length === 0) {
-                alert('Этот кейс временно недоступен');
+            if (!caseData) {
+                alert('Кейс не найден');
+                return;
+            }
+            
+            if (!caseData.items || caseData.items.length === 0) {
+                alert('В этом кейсе нет предметов');
                 return;
             }
             
@@ -2359,9 +2360,10 @@
                 saveState();
             }
             
+            // Генерируем результаты
             const results = [];
             for (let i = 0; i < state.selectedQuantity; i++) {
-                let r = Math.random() * 100;
+                const r = Math.random() * 100;
                 let s = 0;
                 let selectedItem = caseData.items[0];
                 
@@ -2383,6 +2385,7 @@
             
             state.currentOpenings = results;
             
+            // Показываем модальное окно
             const modal = document.getElementById('rouletteModal');
             const multi = document.getElementById('multiRoulette');
             const rlist = document.getElementById('resultsList');
@@ -2392,13 +2395,6 @@
             modal.classList.add('active');
             multi.innerHTML = '';
             rlist.innerHTML = '';
-            
-            // Для 1 открытия - горизонтально, для 2-5 - вертикально (просто друг под другом)
-            if (state.selectedQuantity === 1) {
-                multi.classList.remove('horizontal');
-            } else {
-                multi.classList.add('horizontal');
-            }
             
             if (isDemo) {
                 rmode.style.display = 'inline-block';
@@ -2411,6 +2407,7 @@
             const gap = 10;
             const tiw = iw + gap;
             
+            // Создаем рулетки
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const rd = document.createElement('div');
                 rd.className = 'single-roulette';
@@ -2424,7 +2421,7 @@
                     if (j >= 34 && j < 36) {
                         item = results[i];
                     } else {
-                        let rand = Math.random() * 100;
+                        const rand = Math.random() * 100;
                         let cum = 0;
                         item = caseData.items[0];
                         for (const it of caseData.items) {
@@ -2453,50 +2450,54 @@
                 tr.style.transform = `translateY(-50%) translateX(${-tiw * 20}px)`;
             }
             
-            await new Promise(r => setTimeout(r, 100));
-            
-            for (let i = 0; i < state.selectedQuantity; i++) {
-                const tr = document.querySelector(`#r-${i} .roulette-track`);
-                const target = -(35 * tiw + iw/2);
-                tr.style.transition = `transform 5000ms cubic-bezier(0.15, 0.85, 0.35, 1)`;
-                tr.style.transform = `translateY(-50%) translateX(${target}px)`;
-            }
-            
-            await new Promise(r => setTimeout(r, 5200));
-            
-            results.forEach(r => {
-                rlist.innerHTML += `
-                    <div class="result-item ${isDemo ? 'demo' : ''}">
-                        <img src="${r.image}">
-                        <div class="result-item-info">
-                            <div class="result-item-name">${r.emoji || ''} ${r.name}</div>
-                            <div class="result-item-price">
-                                ${r.price} ⭐
-                            </div>
-                        </div>
-                        ${!isDemo ? `<button class="sell-result-btn" onclick="sellSingleResult('${r.timestamp}')">Продать</button>` : ''}
-                        ${isDemo ? '<span class="demo-label">DEMO</span>' : ''}
-                    </div>
-                `;
-            });
-            
-            if (!isDemo) {
-                results.forEach(result => {
-                    const existingItem = state.inventory.find(i => i.id === result.id);
-                    if (existingItem) {
-                        existingItem.count = (existingItem.count || 1) + 1;
-                    } else {
-                        state.inventory.push({ ...result, count: 1 });
+            // Запускаем анимацию
+            setTimeout(() => {
+                for (let i = 0; i < state.selectedQuantity; i++) {
+                    const tr = document.querySelector(`#r-${i} .roulette-track`);
+                    if (tr) {
+                        const target = -(35 * tiw + iw/2);
+                        tr.style.transition = 'transform 5000ms cubic-bezier(0.15, 0.85, 0.35, 1)';
+                        tr.style.transform = `translateY(-50%) translateX(${target}px)`;
                     }
-                });
-                state.openedCases += state.selectedQuantity;
-                document.getElementById('openedCases').textContent = state.openedCases;
-                renderInventory();
-                saveState();
-            }
+                }
+            }, 100);
             
-            fbtn.style.display = 'block';
-            state.isSpinning = false;
+            // Показываем результаты после анимации
+            setTimeout(() => {
+                results.forEach(r => {
+                    rlist.innerHTML += `
+                        <div class="result-item ${isDemo ? 'demo' : ''}">
+                            <img src="${r.image}">
+                            <div class="result-item-info">
+                                <div class="result-item-name">${r.emoji || ''} ${r.name}</div>
+                                <div class="result-item-price">
+                                    ${r.price} ⭐
+                                </div>
+                            </div>
+                            ${!isDemo ? `<button class="sell-result-btn" onclick="sellSingleResult('${r.timestamp}')">Продать</button>` : ''}
+                            ${isDemo ? '<span class="demo-label">DEMO</span>' : ''}
+                        </div>
+                    `;
+                });
+                
+                if (!isDemo) {
+                    results.forEach(result => {
+                        const existingItem = state.inventory.find(i => i.id === result.id);
+                        if (existingItem) {
+                            existingItem.count = (existingItem.count || 1) + 1;
+                        } else {
+                            state.inventory.push({ ...result, count: 1 });
+                        }
+                    });
+                    state.openedCases += state.selectedQuantity;
+                    document.getElementById('openedCases').textContent = state.openedCases;
+                    renderInventory();
+                    saveState();
+                }
+                
+                fbtn.style.display = 'block';
+                state.isSpinning = false;
+            }, 5200);
         }
 
         function sellSingleResult(timestamp) {
