@@ -669,7 +669,7 @@
             width: 100%;
             height: 100%;
             transform: rotate(-90deg);
-            transition: transform 0.1s linear;
+            transition: transform 3s cubic-bezier(0.2, 0.9, 0.3, 1);
         }
         
         .wheel-arrow {
@@ -937,6 +937,11 @@
             margin: 20px 0;
         }
         
+        .multi-roulette.horizontal {
+            flex-direction: row;
+            justify-content: center;
+        }
+        
         .single-roulette {
             background: linear-gradient(145deg, #1a1a1a, #222);
             border-radius: 10px;
@@ -946,6 +951,10 @@
             height: 80px;
             border: 2px solid #ffd700;
             box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+        
+        .multi-roulette.horizontal .single-roulette {
+            width: 100%;
         }
         
         .roulette-track {
@@ -967,13 +976,15 @@
             border-radius: 8px;
             min-width: 60px;
             transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(255,215,0,0.3);
         }
         
         .roulette-item.win {
-            box-shadow: 0 0 20px #ffd700;
-            transform: scale(1.1);
-            background: rgba(255,215,0,0.2);
-            border: 1px solid #ffd700;
+            box-shadow: 0 0 30px #ffd700, 0 0 60px #ffaa00;
+            transform: scale(1.15);
+            background: rgba(255,215,0,0.3);
+            border: 2px solid #ffd700;
+            z-index: 10;
         }
         
         .roulette-item img {
@@ -982,6 +993,7 @@
             object-fit: contain;
             border-radius: 5px;
             background: transparent;
+            filter: drop-shadow(0 0 5px rgba(255,215,0,0.5));
         }
         .roulette-item span {
             color: #ffd700;
@@ -997,7 +1009,7 @@
             width: 3px;
             background: linear-gradient(to bottom, #ffd700, #ffaa00);
             transform: translateX(-50%);
-            box-shadow: 0 0 10px #ffd700;
+            box-shadow: 0 0 20px #ffd700;
             z-index: 2;
         }
         
@@ -2015,67 +2027,70 @@
             const chance = parseInt(chanceText) / 100;
             
             const wheel = document.querySelector('.wheel-svg');
-            let rotation = 0;
-            const spins = 5;
-            const targetRotation = spins * 360 + (chance * 360);
+            const spins = 5; // Количество полных оборотов
+            // Вычисляем целевой угол на основе шанса (0-360 градусов)
+            const targetAngle = chance * 360;
+            const totalRotation = spins * 360 + targetAngle;
             
-            const interval = setInterval(() => {
-                rotation += 15;
-                wheel.style.transform = `rotate(${rotation}deg)`;
+            // Сброс предыдущей трансформации
+            wheel.style.transition = 'none';
+            wheel.style.transform = 'rotate(-90deg)';
+            
+            // Небольшая задержка для применения сброса
+            setTimeout(() => {
+                // Запускаем плавное вращение
+                wheel.style.transition = 'transform 3s cubic-bezier(0.2, 0.9, 0.3, 1)';
+                wheel.style.transform = `rotate(${totalRotation - 90}deg)`;
+            }, 50);
+            
+            // Показываем результат после окончания анимации
+            setTimeout(() => {
+                const isSuccess = Math.random() < chance;
                 
-                if (rotation >= targetRotation) {
-                    clearInterval(interval);
-                    wheel.style.transform = `rotate(${targetRotation}deg)`;
+                if (isSuccess) {
+                    alert('✅ Успех! Получен новый предмет');
                     
-                    setTimeout(() => {
-                        const isSuccess = Math.random() < chance;
-                        
-                        if (isSuccess) {
-                            alert('✅ Успех! Получен новый предмет');
-                            
-                            const existingTarget = state.inventory.find(i => i.id === selectedTarget);
-                            if (existingTarget) {
-                                existingTarget.count = (existingTarget.count || 1) + 1;
-                            } else {
-                                state.inventory.push({ ...targetItem, count: 1 });
-                            }
-                            
-                            const sourceIdx = state.inventory.findIndex(i => i.id === selectedSource);
-                            if (sourceIdx !== -1) {
-                                const sourceItem = state.inventory[sourceIdx];
-                                sourceItem.count--;
-                                if (sourceItem.count === 0) {
-                                    state.inventory.splice(sourceIdx, 1);
-                                }
-                            }
-                        } else {
-                            alert('❌ Неудача! Предмет сгорел');
-                            
-                            const sourceIdx = state.inventory.findIndex(i => i.id === selectedSource);
-                            if (sourceIdx !== -1) {
-                                const sourceItem = state.inventory[sourceIdx];
-                                sourceItem.count--;
-                                if (sourceItem.count === 0) {
-                                    state.inventory.splice(sourceIdx, 1);
-                                }
-                            }
+                    const existingTarget = state.inventory.find(i => i.id === selectedTarget);
+                    if (existingTarget) {
+                        existingTarget.count = (existingTarget.count || 1) + 1;
+                    } else {
+                        state.inventory.push({ ...targetItem, count: 1 });
+                    }
+                    
+                    const sourceIdx = state.inventory.findIndex(i => i.id === selectedSource);
+                    if (sourceIdx !== -1) {
+                        const sourceItem = state.inventory[sourceIdx];
+                        sourceItem.count--;
+                        if (sourceItem.count === 0) {
+                            state.inventory.splice(sourceIdx, 1);
                         }
-                        
-                        renderInventory();
-                        saveState();
-                        
-                        selectedSource = null;
-                        selectedTarget = null;
-                        document.getElementById('sourceItem').innerHTML = '<span style="font-size: 30px; color: #666;">?</span>';
-                        document.getElementById('sourcePrice').innerHTML = '- ⭐';
-                        document.getElementById('targetItem').innerHTML = '<span style="font-size: 30px; color: #666;">?</span>';
-                        document.getElementById('targetPrice').innerHTML = '- ⭐';
-                        updateWheel(0);
-                        
-                        isSpinning = false;
-                    }, 500);
+                    }
+                } else {
+                    alert('❌ Неудача! Предмет сгорел');
+                    
+                    const sourceIdx = state.inventory.findIndex(i => i.id === selectedSource);
+                    if (sourceIdx !== -1) {
+                        const sourceItem = state.inventory[sourceIdx];
+                        sourceItem.count--;
+                        if (sourceItem.count === 0) {
+                            state.inventory.splice(sourceIdx, 1);
+                        }
+                    }
                 }
-            }, 20);
+                
+                renderInventory();
+                saveState();
+                
+                selectedSource = null;
+                selectedTarget = null;
+                document.getElementById('sourceItem').innerHTML = '<span style="font-size: 30px; color: #666;">?</span>';
+                document.getElementById('sourcePrice').innerHTML = '- ⭐';
+                document.getElementById('targetItem').innerHTML = '<span style="font-size: 30px; color: #666;">?</span>';
+                document.getElementById('targetPrice').innerHTML = '- ⭐';
+                updateWheel(0);
+                
+                isSpinning = false;
+            }, 3200); // 3 секунды + небольшой запас
         }
 
         function selectMultiplier(x, element) {
@@ -2165,7 +2180,6 @@
                             <div class="item-card-name">${item.name}</div>
                             <div class="item-card-price">
                                 ${item.price} ⭐
-                                <span class="ton-icon"></span>${starsToTon(item.price)}
                             </div>
                             <div style="color: #aaa; font-size: 11px;">x${item.count || 1}</div>
                         </div>
@@ -2184,7 +2198,6 @@
                             <div class="item-card-name">${item.name}</div>
                             <div class="item-card-price">
                                 ${item.price} ⭐
-                                <span class="ton-icon"></span>${starsToTon(item.price)}
                             </div>
                         </div>
                     `;
@@ -2249,7 +2262,6 @@
                         <div class="inventory-item-name">${item.name}</div>
                         <div class="inventory-item-price">
                             ${item.price} ⭐
-                            <span class="ton-icon"></span>
                         </div>
                         <span class="item-count">x${item.count || 1}</span>
                         <button class="sell-one-btn" onclick="sellItem('${item.id}')">Продать 1</button>
@@ -2384,6 +2396,13 @@
             multi.innerHTML = '';
             rlist.innerHTML = '';
             
+            // Устанавливаем направление в зависимости от количества
+            if (state.selectedQuantity === 1) {
+                multi.classList.remove('horizontal');
+            } else {
+                multi.classList.add('horizontal');
+            }
+            
             if (isDemo) {
                 rmode.style.display = 'inline-block';
             } else {
@@ -2422,6 +2441,9 @@
                     
                     const el = document.createElement('div');
                     el.className = 'roulette-item';
+                    if (j >= 34 && j < 36) {
+                        el.classList.add('win');
+                    }
                     el.style.minWidth = iw + 'px';
                     el.innerHTML = `<img src="${item.image}"><span>${item.price} ⭐</span>`;
                     tr.appendChild(el);
@@ -2453,7 +2475,6 @@
                             <div class="result-item-name">${r.emoji || ''} ${r.name}</div>
                             <div class="result-item-price">
                                 ${r.price} ⭐
-                                <span class="ton-icon"></span>
                             </div>
                         </div>
                         ${!isDemo ? `<button class="sell-result-btn" onclick="sellSingleResult('${r.timestamp}')">Продать</button>` : ''}
@@ -2516,7 +2537,6 @@
                                 <div class="result-item-name">${r.emoji || ''} ${r.name}</div>
                                 <div class="result-item-price">
                                     ${r.price} ⭐
-                                    <span class="ton-icon"></span>
                                 </div>
                             </div>
                             ${!r.isDemo ? `<button class="sell-result-btn" onclick="sellSingleResult('${r.timestamp}')">Продать</button>` : ''}
