@@ -669,6 +669,7 @@
             width: 100%;
             height: 100%;
             transform: rotate(-90deg);
+            transition: transform 0.1s linear;
         }
         
         .wheel-segment {
@@ -941,8 +942,11 @@
         }
         
         .multi-roulette.horizontal {
-            flex-direction: row;
-            justify-content: center;
+            flex-direction: column;
+        }
+        
+        .multi-roulette:not(.horizontal) {
+            flex-direction: column;
         }
         
         .single-roulette {
@@ -954,10 +958,6 @@
             height: 80px;
             border: 2px solid #ffd700;
             box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
-        }
-        
-        .multi-roulette.horizontal .single-roulette {
-            width: 100%;
         }
         
         .roulette-track {
@@ -1765,7 +1765,6 @@
         tg.expand();
 
         const STARS_TO_TON = 100;
-        const OWNER_ID = 7389462195;
 
         // Загружаем сохраненные данные или используем начальные
         let state = loadState() || {
@@ -1807,16 +1806,6 @@
         let showingMyItems = false;
         let showingTargetItems = false;
         let isSpinning = false;
-
-        // Проверка на владельца
-        function checkOwner() {
-            const userId = tg.initDataUnsafe?.user?.id;
-            if (userId === OWNER_ID) {
-                document.getElementById('adminLoginButton').classList.remove('hidden');
-            } else {
-                document.getElementById('adminLoginButton').classList.add('hidden');
-            }
-        }
 
         // Функции для сохранения/загрузки состояния
         function saveState() {
@@ -2374,13 +2363,6 @@
             multi.innerHTML = '';
             rlist.innerHTML = '';
             
-            // Устанавливаем направление в зависимости от количества
-            if (state.selectedQuantity > 1) {
-                multi.classList.add('horizontal');
-            } else {
-                multi.classList.remove('horizontal');
-            }
-            
             if (isDemo) {
                 rmode.style.display = 'inline-block';
             } else {
@@ -2576,7 +2558,6 @@
             const pwd = prompt('Пароль:');
             if (pwd === 'admin123') {
                 alert('Добро пожаловать в админ-панель!');
-                // Здесь можно добавить открытие админ-панели
             }
         }
 
@@ -2633,7 +2614,6 @@
         };
 
         // Инициализация
-        checkOwner();
         updateBalance();
         renderInventory();
     </script>
