@@ -406,14 +406,6 @@
             display: inline-block;
         }
         
-        .price-ton {
-            color: #0088cc;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 3px;
-        }
-        
         .chance-button {
             background: #2a2a2a;
             color: #ffd700;
@@ -543,18 +535,6 @@
             margin-bottom: 5px;
         }
         
-        .demo-badge-item {
-            position: absolute;
-            top: 3px;
-            right: 3px;
-            background: #ff9800;
-            color: white;
-            padding: 2px 4px;
-            border-radius: 6px;
-            font-size: 8px;
-            font-weight: bold;
-        }
-        
         .sell-one-btn {
             background: #4CAF50;
             color: white;
@@ -652,7 +632,7 @@
             width: 100%;
             height: 100%;
             transform: rotate(-90deg);
-            transition: transform 5s cubic-bezier(0.1, 0.8, 0.2, 1);
+            transition: transform 7s cubic-bezier(0.1, 0.8, 0.1, 1);
         }
         
         .wheel-arrow {
@@ -664,7 +644,6 @@
             font-size: 40px;
             text-shadow: 0 0 20px #ffd700;
             z-index: 10;
-            filter: drop-shadow(0 0 10px #ffd700);
         }
         
         .wheel-percent {
@@ -920,6 +899,10 @@
             margin: 20px 0;
         }
         
+        .multi-roulette.vertical {
+            flex-direction: column;
+        }
+        
         .single-roulette {
             background: linear-gradient(145deg, #1a1a1a, #222);
             border-radius: 10px;
@@ -949,10 +932,6 @@
             padding: 5px;
             border-radius: 8px;
             min-width: 60px;
-        }
-        
-        .roulette-item.win {
-            border: 2px solid #ffd700;
         }
         
         .roulette-item img {
@@ -1495,67 +1474,42 @@
     </div>
 
     <div class="content" id="content">
-        <!-- Главное меню (Кейсы) -->
         <div id="mainMenu" class="section active">
             <h2 class="section-title">🎁 Доступные кейсы</h2>
             <div class="cases-grid">
                 <div class="case-card" onclick="showCaseDetail('red')">
                     <div class="case-image red-case"></div>
                     <div class="case-name">Red Case</div>
-                    <div class="case-price">
-                        <div class="small-star"></div>
-                        99 ⭐
-                    </div>
+                    <div class="case-price"><div class="small-star"></div>99 ⭐</div>
                 </div>
-                
                 <div class="case-card" onclick="showCaseDetail('green')">
                     <div class="case-image green-case"></div>
                     <div class="case-name">Green Case</div>
-                    <div class="case-price">
-                        <div class="small-star"></div>
-                        199 ⭐
-                    </div>
+                    <div class="case-price"><div class="small-star"></div>199 ⭐</div>
                 </div>
-                
                 <div class="case-card" onclick="showCaseDetail('gold')">
-                    <div class="case-image" style="background: linear-gradient(145deg, #ffd700, #b8860b); background-size: contain; background-position: center; background-repeat: no-repeat;"></div>
+                    <div class="case-image" style="background: linear-gradient(145deg, #ffd700, #b8860b);"></div>
                     <div class="case-name">Золотой кейс</div>
-                    <div class="case-price">
-                        <div class="small-star"></div>
-                        Скоро
-                    </div>
+                    <div class="case-price"><div class="small-star"></div>Скоро</div>
                 </div>
-                
                 <div class="case-card" onclick="showCaseDetail('diamond')">
-                    <div class="case-image" style="background: linear-gradient(145deg, #b9f2ff, #00ffff); background-size: contain; background-position: center; background-repeat: no-repeat;"></div>
+                    <div class="case-image" style="background: linear-gradient(145deg, #b9f2ff, #00ffff);"></div>
                     <div class="case-name">Алмазный кейс</div>
-                    <div class="case-price">
-                        <div class="small-star"></div>
-                        Скоро
-                    </div>
+                    <div class="case-price"><div class="small-star"></div>Скоро</div>
                 </div>
             </div>
         </div>
 
-        <!-- Детальная страница кейса -->
         <div id="caseDetail" class="case-detail">
             <div class="detail-header">
                 <div class="detail-image" id="detailImage"></div>
                 <div class="detail-name" id="detailName"></div>
                 <div class="detail-price" id="detailPrice"></div>
             </div>
-
             <div class="action-buttons">
-                <button class="open-case-btn" onclick="openCase(false)" id="openCaseBtn">
-                    <span>💰 Открыть за звёзды</span>
-                    <span class="total-price" id="totalPrice"></span>
-                </button>
-                <button class="demo-case-btn" onclick="openCase(true)" id="demoCaseBtn">
-                    <span>🎲 Демо-открытие</span>
-                    <span class="demo-badge">Бесплатно</span>
-                </button>
+                <button class="open-case-btn" onclick="openCase(false)"><span>💰 Открыть за звёзды</span><span class="total-price" id="totalPrice"></span></button>
+                <button class="demo-case-btn" onclick="openCase(true)"><span>🎲 Демо-открытие</span><span class="demo-badge">Бесплатно</span></button>
             </div>
-
             <div class="quantity-section">
                 <div class="quantity-title">Количество открытий:</div>
                 <div class="quantity-buttons">
@@ -1566,29 +1520,20 @@
                     <button class="quantity-btn" onclick="selectQuantity(5)">5</button>
                 </div>
             </div>
-
             <div class="chances-section">
                 <div class="chances-title">📊 Шансы выпадения</div>
                 <div class="chances-grid" id="chancesGrid"></div>
             </div>
         </div>
 
-        <!-- Страница игр -->
         <div id="gamesMenu" class="section">
             <h2 class="section-title">🎮 Мини-игры</h2>
             <div class="games-grid">
-                <div class="game-card" onclick="showUpgradePage()">
-                    <div class="game-icon">⚡</div>
-                    <div class="game-name">Апгрейд</div>
-                </div>
-                <div class="game-card">
-                    <div class="game-icon">🎲</div>
-                    <div class="game-name">Скоро</div>
-                </div>
+                <div class="game-card" onclick="showUpgradePage()"><div class="game-icon">⚡</div><div class="game-name">Апгрейд</div></div>
+                <div class="game-card"><div class="game-icon">🎲</div><div class="game-name">Скоро</div></div>
             </div>
         </div>
 
-        <!-- Страница апгрейда -->
         <div id="upgradePage" class="upgrade-page">
             <div class="upgrade-container">
                 <div class="chance-wheel" onclick="startWheelSpin()">
@@ -1600,25 +1545,11 @@
                     </svg>
                     <div class="wheel-percent" id="wheelPercent">0%</div>
                 </div>
-
                 <div class="items-row">
-                    <div class="item-slot">
-                        <div class="item-image" id="sourceItem" onclick="selectSourceItem()">
-                            <span style="font-size: 30px; color: #666;">?</span>
-                        </div>
-                        <div class="item-price" id="sourcePrice">- ⭐</div>
-                    </div>
-                    
+                    <div class="item-slot"><div class="item-image" id="sourceItem" onclick="selectSourceItem()"><span style="font-size:30px;color:#666;">?</span></div><div class="item-price" id="sourcePrice">- ⭐</div></div>
                     <div class="question-mark">?</div>
-                    
-                    <div class="item-slot">
-                        <div class="item-image" id="targetItem" onclick="selectTargetItem()">
-                            <span style="font-size: 30px; color: #666;">?</span>
-                        </div>
-                        <div class="item-price" id="targetPrice">- ⭐</div>
-                    </div>
+                    <div class="item-slot"><div class="item-image" id="targetItem" onclick="selectTargetItem()"><span style="font-size:30px;color:#666;">?</span></div><div class="item-price" id="targetPrice">- ⭐</div></div>
                 </div>
-
                 <div class="multipliers">
                     <div class="multiplier-btn active" onclick="selectMultiplier(2, this)">2x</div>
                     <div class="multiplier-btn" onclick="selectMultiplier(3, this)">3x</div>
@@ -1626,34 +1557,23 @@
                     <div class="multiplier-btn" onclick="selectMultiplier(10, this)">10x</div>
                     <div class="multiplier-btn" onclick="selectMultiplier(20, this)">20x</div>
                 </div>
-
-                <button class="action-btn primary" id="upgradeBtn" onclick="startWheelSpin()">⚡ Крутить колесо</button>
-
+                <button class="action-btn primary" onclick="startWheelSpin()">⚡ Крутить колесо</button>
                 <div class="action-buttons">
                     <button class="action-btn secondary" onclick="showMyItems()">📦 Мои предметы</button>
                     <button class="action-btn secondary" onclick="showTargetItems()">🎯 Выбрать предмет</button>
                 </div>
-
                 <div id="itemsList" class="items-list"></div>
             </div>
         </div>
 
-        <!-- Страница профиля -->
         <div id="profileSection" class="section">
             <h2 class="section-title">👤 Профиль</h2>
             <div class="profile-stats">
-                <div class="stat-item">
-                    <span class="stat-label">Открыто кейсов:</span>
-                    <span class="stat-value" id="openedCases">0</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-label">Баланс звёзд:</span>
-                    <span class="stat-value" id="profileBalance">1000 ⭐</span>
-                </div>
+                <div class="stat-item"><span class="stat-label">Открыто кейсов:</span><span class="stat-value" id="openedCases">0</span></div>
+                <div class="stat-item"><span class="stat-label">Баланс звёзд:</span><span class="stat-value" id="profileBalance">1000 ⭐</span></div>
             </div>
-            
             <div class="inventory-header">
-                <h3 style="color: #ffd700;">📦 Инвентарь</h3>
+                <h3 style="color:#ffd700;">📦 Инвентарь</h3>
                 <button class="sell-all-inventory-btn" onclick="confirmSellAll()">💰 Продать всё</button>
             </div>
             <div id="inventory" class="inventory-grid"></div>
@@ -1661,28 +1581,18 @@
     </div>
 
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchToCases()">
-            <span class="nav-icon">🎁</span>
-            <span class="nav-label">Кейсы</span>
-        </div>
-        <div class="nav-item" onclick="switchToGames()">
-            <span class="nav-icon">🎮</span>
-            <span class="nav-label">Игры</span>
-        </div>
-        <div class="nav-item" onclick="switchToProfile()">
-            <span class="nav-icon">👤</span>
-            <span class="nav-label">Профиль</span>
-        </div>
+        <div class="nav-item active" onclick="switchToCases()"><span class="nav-icon">🎁</span><span class="nav-label">Кейсы</span></div>
+        <div class="nav-item" onclick="switchToGames()"><span class="nav-icon">🎮</span><span class="nav-label">Игры</span></div>
+        <div class="nav-item" onclick="switchToProfile()"><span class="nav-icon">👤</span><span class="nav-label">Профиль</span></div>
     </div>
 
     <div id="rouletteModal" class="modal">
         <div class="roulette-container">
-            <div id="rouletteMode" class="demo-mode" style="display: none;">🎲 ДЕМО-РЕЖИМ</div>
-            <div class="roulette-title" id="rouletteTitle">🎰 Открытие кейсов</div>
-            <div class="roulette-subtitle" id="rouletteSubtitle"></div>
+            <div id="rouletteMode" class="demo-mode" style="display:none;">🎲 ДЕМО-РЕЖИМ</div>
+            <div class="roulette-title">🎰 Открытие кейсов</div>
             <div id="multiRoulette" class="multi-roulette"></div>
             <div id="resultsList" class="results-container"></div>
-            <div id="finalButtons" style="display: none;">
+            <div id="finalButtons" style="display:none;">
                 <div class="result-buttons">
                     <button class="result-button sell-all" onclick="sellAllResults()">💰 Продать всё</button>
                     <button class="result-button again" onclick="openAgain()">🎲 Открыть ещё</button>
@@ -1693,9 +1603,9 @@
     </div>
 
     <div id="balanceModal" class="modal">
-        <div class="roulette-container" style="max-width: 400px;">
+        <div class="roulette-container" style="max-width:400px;">
             <div class="roulette-title">💰 Баланс</div>
-            <div style="font-size: 48px; color: #ffd700; margin: 20px 0;" id="modalBalance">1000 ⭐</div>
+            <div style="font-size:48px; color:#ffd700; margin:20px 0;" id="modalBalance">1000 ⭐</div>
             <div class="deposit-options">
                 <button class="deposit-option" onclick="depositBalance(100)">+100 ⭐</button>
                 <button class="deposit-option" onclick="depositBalance(500)">+500 ⭐</button>
@@ -1718,52 +1628,30 @@
     </div>
 
     <div id="adminPanel" class="admin-panel">
-        <div class="admin-header">
-            <h2>👑 Админ-панель</h2>
-            <button class="close-admin" onclick="closeAdminPanel()">×</button>
-        </div>
+        <div class="admin-header"><h2>👑 Админ-панель</h2><button class="close-admin" onclick="closeAdminPanel()">×</button></div>
         <div class="admin-tabs">
             <button class="admin-tab active" onclick="switchAdminTab('users')">Пользователи</button>
             <button class="admin-tab" onclick="switchAdminTab('stats')">Статистика</button>
             <button class="admin-tab" onclick="switchAdminTab('settings')">Настройки</button>
         </div>
-        <div id="adminUsers" class="admin-tab-content active">
-            <div class="users-list" id="usersList"></div>
-        </div>
+        <div id="adminUsers" class="admin-tab-content active"><div class="users-list" id="usersList"></div></div>
         <div id="adminStats" class="admin-tab-content">
             <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-label">Всего пользователей</div>
-                    <div class="stat-value" id="totalUsers">1</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Всего открыто кейсов</div>
-                    <div class="stat-value" id="totalOpened">0</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-label">Всего звёзд</div>
-                    <div class="stat-value" id="totalStars">1000</div>
-                </div>
+                <div class="stat-card"><div class="stat-label">Всего пользователей</div><div class="stat-value" id="totalUsers">1</div></div>
+                <div class="stat-card"><div class="stat-label">Всего открыто кейсов</div><div class="stat-value" id="totalOpened">0</div></div>
+                <div class="stat-card"><div class="stat-label">Всего звёзд</div><div class="stat-value" id="totalStars">1000</div></div>
             </div>
-            <h3 style="color: #ffd700; margin: 20px 0 10px;">🏆 Топ игроков</h3>
+            <h3 style="color:#ffd700; margin:20px 0 10px;">🏆 Топ игроков</h3>
             <div class="top-list" id="topPlayers"></div>
         </div>
         <div id="adminSettings" class="admin-tab-content">
-            <div class="form-group">
-                <label>Цена Red Case</label>
-                <input type="number" id="redCasePrice" value="99">
-            </div>
-            <div class="form-group">
-                <label>Цена Green Case</label>
-                <input type="number" id="greenCasePrice" value="199">
-            </div>
+            <div class="form-group"><label>Цена Red Case</label><input type="number" id="redCasePrice" value="99"></div>
+            <div class="form-group"><label>Цена Green Case</label><input type="number" id="greenCasePrice" value="199"></div>
             <button class="action-btn primary" onclick="saveSettings()">Сохранить</button>
         </div>
     </div>
 
-    <div class="admin-login" id="adminLoginButton" onclick="promptAdminPassword()" title="Админ-панель">
-        👑
-    </div>
+    <div class="admin-login" id="adminLoginButton" onclick="promptAdminPassword()" title="Админ-панель">👑</div>
 
     <script>
         const tg = window.Telegram.WebApp;
@@ -1773,45 +1661,42 @@
         const STARS_TO_TON = 100;
         const OWNER_ID = 7389462195;
 
-        // Загружаем сохраненные данные
         let state = {
             balance: 1000,
             openedCases: 0,
             inventory: [
-                { id: 'rose', name: 'Розочка', emoji: '', image: 'https://cdn140.picsart.com/241734929003212.png', price: 25, count: 3 },
-                { id: 'cake', name: 'Тортик', emoji: '', image: 'https://files.catbox.moe/1w9dkc.png', price: 50, count: 2 },
-                { id: 'diamond', name: 'Алмазик', emoji: '', image: 'https://files.catbox.moe/nt7ios.png', price: 100, count: 1 },
-                { id: 'xmas', name: 'Xmas Stocking', emoji: '', image: 'https://files.catbox.moe/yecky8.png', price: 495, count: 1 }
+                { id: 'rose', name: 'Розочка', image: 'https://cdn140.picsart.com/241734929003212.png', price: 25, count: 3 },
+                { id: 'cake', name: 'Тортик', image: 'https://files.catbox.moe/1w9dkc.png', price: 50, count: 2 },
+                { id: 'diamond', name: 'Алмазик', image: 'https://files.catbox.moe/nt7ios.png', price: 100, count: 1 },
+                { id: 'xmas', name: 'Xmas Stocking', image: 'https://files.catbox.moe/yecky8.png', price: 495, count: 1 }
             ]
         };
 
         const allItems = {
-            rose: { id: 'rose', name: 'Розочка', emoji: '', image: 'https://cdn140.picsart.com/241734929003212.png', price: 25 },
-            cake: { id: 'cake', name: 'Тортик', emoji: '', image: 'https://files.catbox.moe/1w9dkc.png', price: 50 },
-            diamond: { id: 'diamond', name: 'Алмазик', emoji: '', image: 'https://files.catbox.moe/nt7ios.png', price: 100 },
-            ring: { id: 'ring', name: 'Кольцо', emoji: '', image: 'https://files.catbox.moe/8mhtc7.png', price: 100 },
-            xmas: { id: 'xmas', name: 'Xmas Stocking', emoji: '', image: 'https://files.catbox.moe/yecky8.png', price: 495 },
-            ramen: { id: 'ramen', name: 'Instant Ramen', emoji: '', image: 'https://files.catbox.moe/98yf4o.png', price: 520 },
-            icecream: { id: 'icecream', name: 'Ice Cream', emoji: '', image: 'https://files.catbox.moe/hwregp.png', price: 560 },
-            bunny: { id: 'bunny', name: 'Jelly Bunny', emoji: '', image: 'https://files.catbox.moe/6nsg8j.png', price: 750 },
-            star: { id: 'star', name: 'Hanging Star', emoji: '', image: 'https://files.catbox.moe/59c2w2.png', price: 917 },
-            bell: { id: 'bell', name: 'Sleigh Bell', emoji: '', image: 'https://files.catbox.moe/5bya6r.png', price: 1095 },
-            skull: { id: 'skull', name: 'Skull Flower', emoji: '', image: 'https://files.catbox.moe/6berpu.png', price: 1245 },
-            hat: { id: 'hat', name: 'Top Hat', emoji: '', image: 'https://files.catbox.moe/sldlrh.png', price: 1293 },
-            skelettos: { id: 'skelettos', name: 'Sky Skelettos', emoji: '', image: 'https://files.catbox.moe/o336j5.png', price: 1530 },
-            charm: { id: 'charm', name: 'Cupid Charm', emoji: '', image: 'https://files.catbox.moe/qel225.png', price: 2038 },
-            ringExpensive: { id: 'ringExpensive', name: 'Diamond Ring', emoji: '', image: 'https://files.catbox.moe/tjttfk.png', price: 2858 },
-            cigar: { id: 'cigar', name: 'Vintage Cigar', emoji: '', image: 'https://files.catbox.moe/6ified.png', price: 3357 },
-            calendar: { id: 'calendar', name: 'Календарь', emoji: '', image: 'https://files.catbox.moe/vp6ocv.png', price: 500 },
-            stars150: { id: 'stars150', name: '150 звёзд', emoji: '', image: 'https://nztcdn.com/files/34b13b5a-7b5f-4d29-9c92-8fada5f27b2f.webp', price: 150 },
-            cup: { id: 'cup', name: 'Кубок', emoji: '', image: 'https://files.catbox.moe/9a63n2.png', price: 100 }
+            rose: { id: 'rose', name: 'Розочка', image: 'https://cdn140.picsart.com/241734929003212.png', price: 25 },
+            cake: { id: 'cake', name: 'Тортик', image: 'https://files.catbox.moe/1w9dkc.png', price: 50 },
+            diamond: { id: 'diamond', name: 'Алмазик', image: 'https://files.catbox.moe/nt7ios.png', price: 100 },
+            ring: { id: 'ring', name: 'Кольцо', image: 'https://files.catbox.moe/8mhtc7.png', price: 100 },
+            xmas: { id: 'xmas', name: 'Xmas Stocking', image: 'https://files.catbox.moe/yecky8.png', price: 495 },
+            ramen: { id: 'ramen', name: 'Instant Ramen', image: 'https://files.catbox.moe/98yf4o.png', price: 520 },
+            icecream: { id: 'icecream', name: 'Ice Cream', image: 'https://files.catbox.moe/hwregp.png', price: 560 },
+            bunny: { id: 'bunny', name: 'Jelly Bunny', image: 'https://files.catbox.moe/6nsg8j.png', price: 750 },
+            star: { id: 'star', name: 'Hanging Star', image: 'https://files.catbox.moe/59c2w2.png', price: 917 },
+            bell: { id: 'bell', name: 'Sleigh Bell', image: 'https://files.catbox.moe/5bya6r.png', price: 1095 },
+            skull: { id: 'skull', name: 'Skull Flower', image: 'https://files.catbox.moe/6berpu.png', price: 1245 },
+            hat: { id: 'hat', name: 'Top Hat', image: 'https://files.catbox.moe/sldlrh.png', price: 1293 },
+            skelettos: { id: 'skelettos', name: 'Sky Skelettos', image: 'https://files.catbox.moe/o336j5.png', price: 1530 },
+            charm: { id: 'charm', name: 'Cupid Charm', image: 'https://files.catbox.moe/qel225.png', price: 2038 },
+            ringExpensive: { id: 'ringExpensive', name: 'Diamond Ring', image: 'https://files.catbox.moe/tjttfk.png', price: 2858 },
+            cigar: { id: 'cigar', name: 'Vintage Cigar', image: 'https://files.catbox.moe/6ified.png', price: 3357 },
+            calendar: { id: 'calendar', name: 'Календарь', image: 'https://files.catbox.moe/vp6ocv.png', price: 500 },
+            stars150: { id: 'stars150', name: '150 звёзд', image: 'https://nztcdn.com/files/34b13b5a-7b5f-4d29-9c92-8fada5f27b2f.webp', price: 150 },
+            cup: { id: 'cup', name: 'Кубок', image: 'https://files.catbox.moe/9a63n2.png', price: 100 }
         };
 
         let selectedSource = null;
         let selectedTarget = null;
         let currentMultiplier = 2;
-        let showingMyItems = false;
-        let showingTargetItems = false;
         let isSpinning = false;
 
         function saveState() {
@@ -1820,9 +1705,7 @@
 
         function loadState() {
             const saved = localStorage.getItem('caseGameState');
-            if (saved) {
-                state = JSON.parse(saved);
-            }
+            if (saved) state = JSON.parse(saved);
         }
         loadState();
 
@@ -1831,10 +1714,7 @@
         }
 
         function switchToCases() {
-            document.querySelectorAll('.nav-item').forEach((item, i) => {
-                item.classList.toggle('active', i === 0);
-            });
-            
+            document.querySelectorAll('.nav-item').forEach((item,i)=>item.classList.toggle('active',i===0));
             document.getElementById('mainMenu').classList.add('active');
             document.getElementById('gamesMenu').classList.remove('active');
             document.getElementById('profileSection').classList.remove('active');
@@ -1846,10 +1726,7 @@
         }
 
         function switchToGames() {
-            document.querySelectorAll('.nav-item').forEach((item, i) => {
-                item.classList.toggle('active', i === 1);
-            });
-            
+            document.querySelectorAll('.nav-item').forEach((item,i)=>item.classList.toggle('active',i===1));
             document.getElementById('mainMenu').classList.remove('active');
             document.getElementById('gamesMenu').classList.add('active');
             document.getElementById('profileSection').classList.remove('active');
@@ -1859,10 +1736,7 @@
         }
 
         function switchToProfile() {
-            document.querySelectorAll('.nav-item').forEach((item, i) => {
-                item.classList.toggle('active', i === 2);
-            });
-            
+            document.querySelectorAll('.nav-item').forEach((item,i)=>item.classList.toggle('active',i===2));
             document.getElementById('mainMenu').classList.remove('active');
             document.getElementById('gamesMenu').classList.remove('active');
             document.getElementById('profileSection').classList.add('active');
@@ -1884,7 +1758,6 @@
         function showCaseDetail(caseId) {
             state.currentCase = caseId;
             const caseData = cases[caseId];
-            
             document.getElementById('mainMenu').classList.remove('active');
             document.getElementById('caseDetail').classList.add('active');
             document.getElementById('gamesMenu').classList.remove('active');
@@ -1893,33 +1766,25 @@
             document.getElementById('backButton').classList.add('visible');
             
             const detailImage = document.getElementById('detailImage');
-            if (caseId === 'red') {
-                detailImage.className = 'detail-image red-detail';
-            } else if (caseId === 'green') {
-                detailImage.className = 'detail-image green-detail';
-            } else {
-                detailImage.className = 'detail-image';
-                detailImage.style.background = caseData.color;
-            }
+            if (caseId === 'red') detailImage.className = 'detail-image red-detail';
+            else if (caseId === 'green') detailImage.className = 'detail-image green-detail';
+            else { detailImage.className = 'detail-image'; detailImage.style.background = caseData.color; }
             
             document.getElementById('detailName').textContent = caseData.name;
             document.getElementById('detailPrice').innerHTML = `<div class="star-icon"></div>${caseData.price} звёзд`;
             
             const sortedItems = [...caseData.items].sort((a, b) => a.chance - b.chance);
-            
             const chancesGrid = document.getElementById('chancesGrid');
             chancesGrid.innerHTML = '';
             
             sortedItems.forEach(item => {
                 chancesGrid.innerHTML += `
                     <div class="chance-card">
-                        <div class="chance-image">
-                            <img src="${item.image}" alt="${item.name}">
-                        </div>
-                        <div class="chance-name">${item.emoji} ${item.name}</div>
+                        <div class="chance-image"><img src="${item.image}" alt="${item.name}"></div>
+                        <div class="chance-name">${item.name}</div>
                         <div class="chance-prices">
                             <span class="price-stars">${item.price} ⭐</span>
-                            <span class="price-ton"><span class="ton-icon"></span>${starsToTon(item.price)} TON</span>
+                            <span class="price-ton"><span class="ton-icon"></span></span>
                         </div>
                         <div class="chance-tooltip">
                             <button class="chance-button">Шанс ${item.chance}%</button>
@@ -1928,7 +1793,6 @@
                     </div>
                 `;
             });
-            
             selectQuantity(1);
         }
 
@@ -1942,41 +1806,31 @@
             selectedSource = null;
             selectedTarget = null;
             currentMultiplier = 2;
-            
             document.querySelectorAll('.multiplier-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelector('.multiplier-btn').classList.add('active');
-            
-            document.getElementById('sourceItem').innerHTML = '<span style="font-size: 30px; color: #666;">?</span>';
+            document.getElementById('sourceItem').innerHTML = '<span style="font-size:30px;color:#666;">?</span>';
             document.getElementById('sourcePrice').innerHTML = '- ⭐';
-            document.getElementById('targetItem').innerHTML = '<span style="font-size: 30px; color: #666;">?</span>';
+            document.getElementById('targetItem').innerHTML = '<span style="font-size:30px;color:#666;">?</span>';
             document.getElementById('targetPrice').innerHTML = '- ⭐';
-            
             updateWheel(0);
         }
 
         function updateWheel(percent) {
             const angle = (percent / 100) * 360;
-            document.getElementById('wheelSegment').setAttribute('d', `M50 50 L50 5 A45 45 0 ${angle > 180 ? 1 : 0} 1 ${50 + 45 * Math.sin(angle * Math.PI / 180)} ${50 - 45 * Math.cos(angle * Math.PI / 180)} Z`);
+            document.getElementById('wheelSegment').setAttribute('d', `M50 50 L50 5 A45 45 0 ${angle>180?1:0} 1 ${50+45*Math.sin(angle*Math.PI/180)} ${50-45*Math.cos(angle*Math.PI/180)} Z`);
             document.getElementById('wheelPercent').textContent = Math.round(percent) + '%';
         }
 
         function startWheelSpin() {
-            if (!selectedSource || !selectedTarget) {
-                alert('Выберите предметы для апгрейда');
-                return;
-            }
-            
+            if (!selectedSource || !selectedTarget) { alert('Выберите предметы'); return; }
             if (isSpinning) return;
-            
             isSpinning = true;
             
             const sourceItem = allItems[selectedSource];
             const targetItem = allItems[selectedTarget];
             const chance = parseFloat(document.getElementById('wheelPercent').textContent) / 100;
-            
             const wheel = document.querySelector('.wheel-svg');
             const spins = 3;
-            
             const stopAngle = Math.random() * 360;
             const isWin = stopAngle <= (chance * 360);
             const totalRotation = spins * 360 + stopAngle;
@@ -1985,39 +1839,30 @@
             wheel.style.transform = 'rotate(-90deg)';
             
             setTimeout(() => {
-                wheel.style.transition = 'transform 5s cubic-bezier(0.1, 0.8, 0.2, 1)';
+                wheel.style.transition = 'transform 7s cubic-bezier(0.1, 0.8, 0.1, 1)';
                 wheel.style.transform = `rotate(${totalRotation - 90}deg)`;
             }, 50);
             
             setTimeout(() => {
                 if (isWin) {
-                    alert('✅ Успех! Получен новый предмет');
-                    
+                    alert('✅ Успех!');
                     const existingTarget = state.inventory.find(i => i.id === selectedTarget);
-                    if (existingTarget) {
-                        existingTarget.count = (existingTarget.count || 1) + 1;
-                    } else {
-                        state.inventory.push({ ...targetItem, count: 1 });
-                    }
+                    if (existingTarget) existingTarget.count = (existingTarget.count||1)+1;
+                    else state.inventory.push({...targetItem, count:1});
                     
                     const sourceIdx = state.inventory.findIndex(i => i.id === selectedSource);
                     if (sourceIdx !== -1) {
-                        const sourceItem = state.inventory[sourceIdx];
-                        sourceItem.count--;
-                        if (sourceItem.count === 0) {
-                            state.inventory.splice(sourceIdx, 1);
-                        }
+                        const src = state.inventory[sourceIdx];
+                        src.count--;
+                        if (src.count === 0) state.inventory.splice(sourceIdx, 1);
                     }
                 } else {
-                    alert('❌ Неудача! Предмет сгорел');
-                    
+                    alert('❌ Неудача');
                     const sourceIdx = state.inventory.findIndex(i => i.id === selectedSource);
                     if (sourceIdx !== -1) {
-                        const sourceItem = state.inventory[sourceIdx];
-                        sourceItem.count--;
-                        if (sourceItem.count === 0) {
-                            state.inventory.splice(sourceIdx, 1);
-                        }
+                        const src = state.inventory[sourceIdx];
+                        src.count--;
+                        if (src.count === 0) state.inventory.splice(sourceIdx, 1);
                     }
                 }
                 
@@ -2026,123 +1871,77 @@
                 
                 selectedSource = null;
                 selectedTarget = null;
-                document.getElementById('sourceItem').innerHTML = '<span style="font-size: 30px; color: #666;">?</span>';
+                document.getElementById('sourceItem').innerHTML = '<span style="font-size:30px;color:#666;">?</span>';
                 document.getElementById('sourcePrice').innerHTML = '- ⭐';
-                document.getElementById('targetItem').innerHTML = '<span style="font-size: 30px; color: #666;">?</span>';
+                document.getElementById('targetItem').innerHTML = '<span style="font-size:30px;color:#666;">?</span>';
                 document.getElementById('targetPrice').innerHTML = '- ⭐';
                 
                 wheel.style.transition = 'none';
                 wheel.style.transform = 'rotate(-90deg)';
-                
                 updateWheel(0);
                 
                 document.querySelectorAll('.multiplier-btn').forEach(btn => btn.classList.remove('active'));
                 document.querySelector('.multiplier-btn').classList.add('active');
                 
                 isSpinning = false;
-            }, 5200);
+            }, 7200);
         }
 
         function selectMultiplier(x, element) {
             document.querySelectorAll('.multiplier-btn').forEach(btn => btn.classList.remove('active'));
             element.classList.add('active');
-            
             currentMultiplier = x;
             
             if (selectedSource) {
                 const sourceItem = allItems[selectedSource];
                 const targetPrice = sourceItem.price * x;
-                
-                const availableTargets = Object.values(allItems).filter(item => 
-                    item.price >= targetPrice * 0.8 && 
-                    item.price <= targetPrice * 1.2 && 
-                    item.id !== selectedSource
+                const available = Object.values(allItems).filter(item => 
+                    item.price >= targetPrice*0.8 && item.price <= targetPrice*1.2 && item.id !== selectedSource
                 );
-                
-                if (availableTargets.length > 0) {
-                    availableTargets.sort((a, b) => 
-                        Math.abs(a.price - targetPrice) - Math.abs(b.price - targetPrice)
-                    );
-                    
-                    const bestTarget = availableTargets[0];
-                    selectTarget(bestTarget.id);
+                if (available.length) {
+                    available.sort((a,b)=>Math.abs(a.price-targetPrice)-Math.abs(b.price-targetPrice));
+                    selectTarget(available[0].id);
                 }
             }
         }
 
         function calculateChance() {
             if (!selectedSource || !selectedTarget) return;
-            
             const sourceItem = allItems[selectedSource];
             const targetItem = allItems[selectedTarget];
-            
             let chance = (sourceItem.price * 2) / targetItem.price * 50;
-            chance = Math.min(chance, 95);
-            chance = Math.max(chance, 5);
-            
+            chance = Math.min(Math.max(chance, 5), 95);
             updateWheel(chance);
         }
 
         function selectSourceItem() {
-            showingMyItems = true;
-            showingTargetItems = false;
             renderItemsList('my');
         }
 
         function selectTargetItem() {
-            if (!selectedSource) {
-                alert('Сначала выберите предмет для апгрейда');
-                return;
-            }
-            showingMyItems = false;
-            showingTargetItems = true;
+            if (!selectedSource) { alert('Сначала выберите предмет'); return; }
             renderItemsList('all');
         }
 
         function renderItemsList(type) {
             const list = document.getElementById('itemsList');
-            
             if (type === 'my') {
                 const myItems = state.inventory.filter(item => item.price >= 100);
-                if (myItems.length === 0) {
-                    list.innerHTML = `
-                        <div class="empty-section">
-                            <div>🫙 У вас нет предметов для апгрейда</div>
-                            <button class="action-btn primary" onclick="switchToCases()">🎁 Открыть кейс</button>
-                        </div>
-                    `;
+                if (!myItems.length) {
+                    list.innerHTML = `<div class="empty-section"><div>🫙 Нет предметов</div><button class="action-btn primary" onclick="switchToCases()">🎁 Открыть кейс</button></div>`;
                     return;
                 }
-                
                 let html = '';
                 myItems.forEach(item => {
-                    html += `
-                        <div class="item-card" onclick="selectMyItem('${item.id}')">
-                            <img src="${item.image}">
-                            <div class="item-card-name">${item.name}</div>
-                            <div class="item-card-price">
-                                ${item.price} ⭐
-                            </div>
-                            <div style="color: #aaa; font-size: 11px;">x${item.count || 1}</div>
-                        </div>
-                    `;
+                    html += `<div class="item-card" onclick="selectMyItem('${item.id}')"><img src="${item.image}"><div class="item-card-name">${item.name}</div><div class="item-card-price">${item.price} ⭐</div><div style="color:#aaa;">x${item.count||1}</div></div>`;
                 });
                 list.innerHTML = html;
             } else {
                 const sourcePrice = allItems[selectedSource]?.price || 0;
-                const availableItems = Object.values(allItems).filter(item => item.price > sourcePrice * 1.5);
-                
+                const available = Object.values(allItems).filter(item => item.price > sourcePrice * 1.5);
                 let html = '';
-                availableItems.forEach(item => {
-                    html += `
-                        <div class="item-card" onclick="selectTarget('${item.id}')">
-                            <img src="${item.image}">
-                            <div class="item-card-name">${item.name}</div>
-                            <div class="item-card-price">
-                                ${item.price} ⭐
-                            </div>
-                        </div>
-                    `;
+                available.forEach(item => {
+                    html += `<div class="item-card" onclick="selectTarget('${item.id}')"><img src="${item.image}"><div class="item-card-name">${item.name}</div><div class="item-card-price">${item.price} ⭐</div></div>`;
                 });
                 list.innerHTML = html;
             }
@@ -2151,66 +1950,39 @@
         function selectMyItem(itemId) {
             selectedSource = itemId;
             const item = allItems[itemId];
-            
             document.getElementById('sourceItem').innerHTML = `<img src="${item.image}">`;
             document.getElementById('sourcePrice').innerHTML = `${item.price} ⭐`;
-            
             currentMultiplier = 2;
             document.querySelectorAll('.multiplier-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelector('.multiplier-btn').classList.add('active');
-            
-            showingMyItems = false;
         }
 
         function selectTarget(itemId) {
             selectedTarget = itemId;
             const item = allItems[itemId];
-            
             document.getElementById('targetItem').innerHTML = `<img src="${item.image}">`;
             document.getElementById('targetPrice').innerHTML = `${item.price} ⭐`;
-            
-            if (selectedSource) {
-                calculateChance();
-            }
+            if (selectedSource) calculateChance();
         }
 
         function showMyItems() {
-            showingMyItems = true;
-            showingTargetItems = false;
             renderItemsList('my');
         }
 
         function showTargetItems() {
-            if (!selectedSource) {
-                alert('Сначала выберите предмет для апгрейда');
-                return;
-            }
-            showingMyItems = false;
-            showingTargetItems = true;
+            if (!selectedSource) { alert('Сначала выберите предмет'); return; }
             renderItemsList('all');
         }
 
         function renderInventory() {
             const div = document.getElementById('inventory');
-            
-            if (!state.inventory || state.inventory.length === 0) {
+            if (!state.inventory?.length) {
                 div.innerHTML = '<div class="empty-section">🫙 Инвентарь пуст</div>';
                 return;
             }
-
             let html = '';
             state.inventory.forEach(item => {
-                html += `
-                    <div class="inventory-item">
-                        <img src="${item.image}">
-                        <div class="inventory-item-name">${item.name}</div>
-                        <div class="inventory-item-price">
-                            ${item.price} ⭐
-                        </div>
-                        <span class="item-count">x${item.count || 1}</span>
-                        <button class="sell-one-btn" onclick="sellItem('${item.id}')">Продать 1</button>
-                    </div>
-                `;
+                html += `<div class="inventory-item"><img src="${item.image}"><div class="inventory-item-name">${item.name}</div><div class="inventory-item-price">${item.price} ⭐</div><span class="item-count">x${item.count||1}</span><button class="sell-one-btn" onclick="sellItem('${item.id}')">Продать 1</button></div>`;
             });
             div.innerHTML = html;
         }
@@ -2221,19 +1993,14 @@
             const item = state.inventory[idx];
             state.balance += item.price;
             item.count--;
-            if (item.count === 0) {
-                state.inventory.splice(idx, 1);
-            }
+            if (item.count === 0) state.inventory.splice(idx, 1);
             updateBalance();
             renderInventory();
             saveState();
         }
 
         function confirmSellAll() {
-            if (!state.inventory || state.inventory.length === 0) {
-                alert('Инвентарь пуст');
-                return;
-            }
+            if (!state.inventory?.length) { alert('Инвентарь пуст'); return; }
             document.getElementById('confirmModal').classList.add('active');
         }
 
@@ -2242,7 +2009,7 @@
         }
 
         function executeSellAll() {
-            const total = state.inventory.reduce((sum, item) => sum + (item.price * (item.count || 1)), 0);
+            const total = state.inventory.reduce((sum,item) => sum + item.price * (item.count||1), 0);
             state.balance += total;
             state.inventory = [];
             updateBalance();
@@ -2276,32 +2043,17 @@
             document.querySelectorAll('.quantity-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelector(`.quantity-btn:nth-child(${q})`).classList.add('active');
             const caseData = cases[state.currentCase];
-            if (caseData) {
-                document.getElementById('totalPrice').innerHTML = `${caseData.price * q} ⭐`;
-            }
+            if (caseData) document.getElementById('totalPrice').innerHTML = `${caseData.price * q} ⭐`;
         }
 
         function openCase(isDemo) {
             const caseData = cases[state.currentCase];
-            if (!caseData) {
-                alert('Кейс не найден');
-                return;
-            }
-            
-            if (!caseData.items || caseData.items.length === 0) {
-                alert('В этом кейсе нет предметов');
-                return;
-            }
+            if (!caseData?.items?.length) { alert('Кейс недоступен'); return; }
             
             const total = caseData.price * state.selectedQuantity;
-            
-            if (!isDemo && state.balance < total) {
-                alert('Недостаточно звёзд');
-                return;
-            }
+            if (!isDemo && state.balance < total) { alert('Недостаточно звёзд'); return; }
             
             state.isDemo = isDemo;
-            
             if (!isDemo) {
                 state.balance -= total;
                 updateBalance();
@@ -2309,25 +2061,15 @@
             }
             
             const results = [];
-            for (let i = 0; i < state.selectedQuantity; i++) {
+            for (let i=0; i<state.selectedQuantity; i++) {
                 const r = Math.random() * 100;
                 let s = 0;
                 let selectedItem = caseData.items[0];
-                
                 for (const item of caseData.items) {
                     s += item.chance;
-                    if (r <= s) {
-                        selectedItem = item;
-                        break;
-                    }
+                    if (r <= s) { selectedItem = item; break; }
                 }
-                
-                results.push({ 
-                    ...selectedItem, 
-                    timestamp: Date.now() + i, 
-                    isDemo,
-                    id: selectedItem.id || 'unknown'
-                });
+                results.push({...selectedItem, timestamp: Date.now()+i, isDemo, id: selectedItem.id||'unknown'});
             }
             
             state.currentOpenings = results;
@@ -2342,65 +2084,56 @@
             multi.innerHTML = '';
             rlist.innerHTML = '';
             
-            if (isDemo) {
-                rmode.style.display = 'inline-block';
-            } else {
-                rmode.style.display = 'none';
-            }
+            if (isDemo) rmode.style.display = 'inline-block';
+            else rmode.style.display = 'none';
             fbtn.style.display = 'none';
             
-            const iw = 60;
-            const gap = 10;
-            const tiw = iw + gap;
+            const iw = 60, gap = 10, tiw = iw + gap;
             
-            for (let i = 0; i < state.selectedQuantity; i++) {
+            // ВЕРТИКАЛЬНО для 2-5 открытий, горизонтально для 1
+            if (state.selectedQuantity > 1) {
+                multi.style.flexDirection = 'column';
+            } else {
+                multi.style.flexDirection = 'row';
+            }
+            
+            for (let i=0; i<state.selectedQuantity; i++) {
                 const rd = document.createElement('div');
                 rd.className = 'single-roulette';
                 rd.id = `r-${i}`;
-                
                 const tr = document.createElement('div');
                 tr.className = 'roulette-track';
                 
-                for (let j = 0; j < 70; j++) {
+                for (let j=0; j<70; j++) {
                     let item;
-                    if (j >= 34 && j < 36) {
-                        item = results[i];
-                    } else {
-                        const rand = Math.random() * 100;
+                    if (j>=34 && j<36) item = results[i];
+                    else {
+                        const rand = Math.random()*100;
                         let cum = 0;
                         item = caseData.items[0];
                         for (const it of caseData.items) {
                             cum += it.chance;
-                            if (rand <= cum) {
-                                item = it;
-                                break;
-                            }
+                            if (rand <= cum) { item = it; break; }
                         }
                     }
-                    
                     const el = document.createElement('div');
                     el.className = 'roulette-item';
-                    if (j >= 34 && j < 36) {
-                        el.classList.add('win');
-                    }
                     el.style.minWidth = iw + 'px';
                     el.innerHTML = `<img src="${item.image}"><span>${item.price} ⭐</span>`;
                     tr.appendChild(el);
                 }
-                
                 rd.appendChild(tr);
                 rd.innerHTML += '<div class="roulette-indicator"></div>';
                 multi.appendChild(rd);
-                
-                tr.style.transform = `translateY(-50%) translateX(${-tiw * 20}px)`;
+                tr.style.transform = `translateY(-50%) translateX(${-tiw*20}px)`;
             }
             
             setTimeout(() => {
-                for (let i = 0; i < state.selectedQuantity; i++) {
+                for (let i=0; i<state.selectedQuantity; i++) {
                     const tr = document.querySelector(`#r-${i} .roulette-track`);
                     if (tr) {
-                        const target = -(35 * tiw + iw/2);
-                        tr.style.transition = 'transform 5000ms cubic-bezier(0.15, 0.85, 0.35, 1)';
+                        const target = -(35*tiw + iw/2);
+                        tr.style.transition = 'transform 10s cubic-bezier(0.15, 0.85, 0.35, 1)';
                         tr.style.transform = `translateY(-50%) translateX(${target}px)`;
                     }
                 }
@@ -2408,93 +2141,56 @@
             
             setTimeout(() => {
                 results.forEach(r => {
-                    rlist.innerHTML += `
-                        <div class="result-item ${isDemo ? 'demo' : ''}">
-                            <img src="${r.image}">
-                            <div class="result-item-info">
-                                <div class="result-item-name">${r.emoji || ''} ${r.name}</div>
-                                <div class="result-item-price">
-                                    ${r.price} ⭐
-                                </div>
-                            </div>
-                            ${!isDemo ? `<button class="sell-result-btn" onclick="sellSingleResult('${r.timestamp}')">Продать</button>` : ''}
-                            ${isDemo ? '<span class="demo-label">DEMO</span>' : ''}
-                        </div>
-                    `;
+                    rlist.innerHTML += `<div class="result-item ${isDemo?'demo':''}"><img src="${r.image}"><div class="result-item-info"><div class="result-item-name">${r.name}</div><div class="result-item-price">${r.price} ⭐</div></div>${!isDemo?`<button class="sell-result-btn" onclick="sellSingleResult('${r.timestamp}')">Продать</button>`:''}${isDemo?'<span class="demo-label">DEMO</span>':''}</div>`;
                 });
                 
                 if (!isDemo) {
                     results.forEach(result => {
-                        const existingItem = state.inventory.find(i => i.id === result.id);
-                        if (existingItem) {
-                            existingItem.count = (existingItem.count || 1) + 1;
-                        } else {
-                            state.inventory.push({ ...result, count: 1 });
-                        }
+                        const existing = state.inventory.find(i => i.id === result.id);
+                        if (existing) existing.count = (existing.count||1)+1;
+                        else state.inventory.push({...result, count:1});
                     });
                     state.openedCases += state.selectedQuantity;
                     document.getElementById('openedCases').textContent = state.openedCases;
                     renderInventory();
                     saveState();
                 }
-                
                 fbtn.style.display = 'block';
-            }, 5200);
+            }, 10200);
         }
 
         function sellSingleResult(timestamp) {
-            const itemIndex = state.currentOpenings.findIndex(i => i.timestamp == timestamp);
-            if (itemIndex === -1) return;
-            
-            const item = state.currentOpenings[itemIndex];
+            const idx = state.currentOpenings.findIndex(i => i.timestamp == timestamp);
+            if (idx === -1) return;
+            const item = state.currentOpenings[idx];
             state.balance += item.price;
             
-            const invIndex = state.inventory.findIndex(i => i.id === item.id);
-            if (invIndex !== -1) {
-                const invItem = state.inventory[invIndex];
+            const invIdx = state.inventory.findIndex(i => i.id === item.id);
+            if (invIdx !== -1) {
+                const invItem = state.inventory[invIdx];
                 invItem.count--;
-                if (invItem.count === 0) {
-                    state.inventory.splice(invIndex, 1);
-                }
+                if (invItem.count === 0) state.inventory.splice(invIdx, 1);
             }
             
-            state.currentOpenings.splice(itemIndex, 1);
-            
+            state.currentOpenings.splice(idx, 1);
             updateBalance();
             renderInventory();
             saveState();
             
             const rlist = document.getElementById('resultsList');
-            if (state.currentOpenings.length === 0) {
-                rlist.innerHTML = '<div class="empty-section">Все предметы проданы</div>';
-            } else {
+            if (!state.currentOpenings.length) rlist.innerHTML = '<div class="empty-section">Все предметы проданы</div>';
+            else {
                 let html = '';
                 state.currentOpenings.forEach(r => {
-                    html += `
-                        <div class="result-item ${r.isDemo ? 'demo' : ''}">
-                            <img src="${r.image}">
-                            <div class="result-item-info">
-                                <div class="result-item-name">${r.emoji || ''} ${r.name}</div>
-                                <div class="result-item-price">
-                                    ${r.price} ⭐
-                                </div>
-                            </div>
-                            ${!r.isDemo ? `<button class="sell-result-btn" onclick="sellSingleResult('${r.timestamp}')">Продать</button>` : ''}
-                            ${r.isDemo ? '<span class="demo-label">DEMO</span>' : ''}
-                        </div>
-                    `;
+                    html += `<div class="result-item ${r.isDemo?'demo':''}"><img src="${r.image}"><div class="result-item-info"><div class="result-item-name">${r.name}</div><div class="result-item-price">${r.price} ⭐</div></div>${!r.isDemo?`<button class="sell-result-btn" onclick="sellSingleResult('${r.timestamp}')">Продать</button>`:''}${r.isDemo?'<span class="demo-label">DEMO</span>':''}</div>`;
                 });
                 rlist.innerHTML = html;
             }
         }
 
         function sellAllResults() {
-            if (state.isDemo) { 
-                closeRoulette(); 
-                return; 
-            }
-            
-            const total = state.currentOpenings.reduce((sum, item) => sum + item.price, 0);
+            if (state.isDemo) { closeRoulette(); return; }
+            const total = state.currentOpenings.reduce((sum,item) => sum + item.price, 0);
             state.balance += total;
             
             state.currentOpenings.forEach(w => {
@@ -2502,9 +2198,7 @@
                 if (idx !== -1) {
                     const invItem = state.inventory[idx];
                     invItem.count--;
-                    if (invItem.count === 0) {
-                        state.inventory.splice(idx, 1);
-                    }
+                    if (invItem.count === 0) state.inventory.splice(idx, 1);
                 }
             });
             
@@ -2525,12 +2219,9 @@
         }
 
         function promptAdminPassword() {
-            const pwd = prompt('Введите пароль админа:');
-            if (pwd === 'pr000sto') {
-                openAdminPanel();
-            } else {
-                alert('Неверный пароль!');
-            }
+            const pwd = prompt('Пароль:');
+            if (pwd === 'pr000sto') openAdminPanel();
+            else alert('Неверный пароль');
         }
 
         function openAdminPanel() {
@@ -2545,7 +2236,6 @@
         function switchAdminTab(tab) {
             document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
-            
             if (tab === 'users') {
                 document.querySelectorAll('.admin-tab')[0].classList.add('active');
                 document.getElementById('adminUsers').classList.add('active');
@@ -2564,35 +2254,20 @@
             const usersList = document.getElementById('usersList');
             const userId = tg.initDataUnsafe?.user?.id || 'unknown';
             const userName = tg.initDataUnsafe?.user?.first_name || 'Пользователь';
-            
-            usersList.innerHTML = `
-                <div class="user-item">
-                    <span class="user-name">${userName}</span>
-                    <span class="user-stats">${state.balance} ⭐</span>
-                    <span class="user-actions">
-                        <button class="edit-balance-btn" onclick="editUserBalance('${userId}')">✏️ Изменить баланс</button>
-                    </span>
-                </div>
-            `;
+            usersList.innerHTML = `<div class="user-item"><span class="user-name">${userName}</span><span class="user-stats">${state.balance} ⭐</span><span class="user-actions"><button class="edit-balance-btn" onclick="editUserBalance('${userId}')">✏️</button></span></div>`;
         }
 
         function updateAdminStats() {
             document.getElementById('totalUsers').textContent = '1';
             document.getElementById('totalOpened').textContent = state.openedCases;
             document.getElementById('totalStars').textContent = state.balance;
-            
             const topPlayers = document.getElementById('topPlayers');
-            topPlayers.innerHTML = `
-                <div class="top-item">
-                    <span><span class="top-rank">1.</span> ${tg.initDataUnsafe?.user?.first_name || 'Вы'}</span>
-                    <span>${state.balance} ⭐</span>
-                </div>
-            `;
+            topPlayers.innerHTML = `<div class="top-item"><span><span class="top-rank">1.</span> ${tg.initDataUnsafe?.user?.first_name||'Вы'}</span><span>${state.balance} ⭐</span></div>`;
         }
 
         function editUserBalance(userId) {
-            const newBalance = prompt('Введите новый баланс:', state.balance);
-            if (newBalance !== null && !isNaN(newBalance) && newBalance >= 0) {
+            const newBalance = prompt('Новый баланс:', state.balance);
+            if (newBalance && !isNaN(newBalance) && newBalance>=0) {
                 state.balance = parseInt(newBalance);
                 updateBalance();
                 saveState();
@@ -2604,63 +2279,21 @@
         function saveSettings() {
             const redPrice = document.getElementById('redCasePrice').value;
             const greenPrice = document.getElementById('greenCasePrice').value;
-            
             cases.red.price = parseInt(redPrice);
             cases.green.price = parseInt(greenPrice);
-            
-            alert('Настройки сохранены!');
+            alert('Сохранено');
         }
 
         const cases = {
-            red: {
-                name: 'Red Case',
-                price: 99,
-                image: 'red',
-                color: 'linear-gradient(145deg, #ff0000, #aa0000)',
-                items: [
-                    { ...allItems.calendar, chance: 10 },
-                    { ...allItems.rose, chance: 90 }
-                ]
-            },
-            green: {
-                name: 'Green Case',
-                price: 199,
-                image: 'green',
-                color: 'linear-gradient(145deg, #00ff00, #00aa00)',
-                items: [
-                    { ...allItems.cake, chance: 27 },
-                    { ...allItems.diamond, chance: 26 },
-                    { ...allItems.cup, chance: 13 },
-                    { ...allItems.stars150, chance: 10 },
-                    { ...allItems.ring, chance: 10 },
-                    { ...allItems.xmas, chance: 5 },
-                    { ...allItems.ramen, chance: 2.5 },
-                    { ...allItems.icecream, chance: 2 },
-                    { ...allItems.bunny, chance: 1.5 },
-                    { ...allItems.star, chance: 0.64 },
-                    { ...allItems.bell, chance: 0.52 },
-                    { ...allItems.skull, chance: 0.5 },
-                    { ...allItems.hat, chance: 0.4 },
-                    { ...allItems.skelettos, chance: 0.35 },
-                    { ...allItems.charm, chance: 0.25 },
-                    { ...allItems.ringExpensive, chance: 0.21 },
-                    { ...allItems.cigar, chance: 0.13 }
-                ]
-            },
-            gold: {
-                name: 'Золотой кейс',
-                price: 0,
-                image: 'gold',
-                color: 'linear-gradient(145deg, #ffd700, #b8860b)',
-                items: []
-            },
-            diamond: {
-                name: 'Алмазный кейс',
-                price: 0,
-                image: 'diamond',
-                color: 'linear-gradient(145deg, #b9f2ff, #00ffff)',
-                items: []
-            }
+            red: { name: 'Red Case', price: 99, color: 'linear-gradient(145deg,#ff0000,#aa0000)', items: [{...allItems.calendar, chance:10}, {...allItems.rose, chance:90}] },
+            green: { name: 'Green Case', price: 199, color: 'linear-gradient(145deg,#00ff00,#00aa00)', items: [
+                {...allItems.cake, chance:27}, {...allItems.diamond, chance:26}, {...allItems.cup, chance:13}, {...allItems.stars150, chance:10}, {...allItems.ring, chance:10},
+                {...allItems.xmas, chance:5}, {...allItems.ramen, chance:2.5}, {...allItems.icecream, chance:2}, {...allItems.bunny, chance:1.5}, {...allItems.star, chance:0.64},
+                {...allItems.bell, chance:0.52}, {...allItems.skull, chance:0.5}, {...allItems.hat, chance:0.4}, {...allItems.skelettos, chance:0.35}, {...allItems.charm, chance:0.25},
+                {...allItems.ringExpensive, chance:0.21}, {...allItems.cigar, chance:0.13}
+            ]},
+            gold: { name: 'Золотой кейс', price: 0, color: 'linear-gradient(145deg,#ffd700,#b8860b)', items: [] },
+            diamond: { name: 'Алмазный кейс', price: 0, color: 'linear-gradient(145deg,#b9f2ff,#00ffff)', items: [] }
         };
 
         // Инициализация
