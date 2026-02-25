@@ -406,6 +406,14 @@
             display: inline-block;
         }
         
+        .price-ton {
+            color: #0088cc;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+        
         .chance-button {
             background: #2a2a2a;
             color: #ffd700;
@@ -1790,13 +1798,14 @@
             chancesGrid.innerHTML = '';
             
             sortedItems.forEach(item => {
+                const tonPrice = (item.price / STARS_TO_TON).toFixed(2);
                 chancesGrid.innerHTML += `
                     <div class="chance-card">
                         <div class="chance-image"><img src="${item.image}" alt="${item.name}"></div>
                         <div class="chance-name">${item.name}</div>
                         <div class="chance-prices">
                             <span class="price-stars">${item.price} ⭐</span>
-                            <span class="price-ton"><span class="ton-icon"></span></span>
+                            <span class="price-ton"><span class="ton-icon"></span>${tonPrice}</span>
                         </div>
                         <div class="chance-tooltip">
                             <button class="chance-button">Шанс ${item.chance}%</button>
@@ -1843,8 +1852,14 @@
             const chance = parseFloat(document.getElementById('wheelPercent').textContent) / 100;
             const wheel = document.querySelector('.wheel-svg');
             const spins = 3;
+            
+            // Рандомный угол остановки от 0 до 360 градусов
             const stopAngle = Math.random() * 360;
+            
+            // Проверяем, показывает ли стрелка на желтую часть
+            // Желтая часть занимает (chance * 360) градусов от 0 градусов
             const isWin = stopAngle <= (chance * 360);
+            
             const totalRotation = spins * 360 + stopAngle;
             
             wheel.style.transition = 'none';
@@ -1857,11 +1872,17 @@
             
             setTimeout(() => {
                 if (isWin) {
-                    alert('✅ Успех!');
-                    const existingTarget = state.inventory.find(i => i.id === selectedTarget);
-                    if (existingTarget) existingTarget.count = (existingTarget.count||1)+1;
-                    else state.inventory.push({...targetItem, count:1});
+                    alert('✅ Успех! Предмет улучшен');
                     
+                    // Добавляем целевой предмет
+                    const existingTarget = state.inventory.find(i => i.id === selectedTarget);
+                    if (existingTarget) {
+                        existingTarget.count = (existingTarget.count || 1) + 1;
+                    } else {
+                        state.inventory.push({...targetItem, count: 1});
+                    }
+                    
+                    // Удаляем исходный предмет
                     const sourceIdx = state.inventory.findIndex(i => i.id === selectedSource);
                     if (sourceIdx !== -1) {
                         const src = state.inventory[sourceIdx];
@@ -1869,7 +1890,9 @@
                         if (src.count === 0) state.inventory.splice(sourceIdx, 1);
                     }
                 } else {
-                    alert('❌ Неудача');
+                    alert('❌ Неудача! Предмет сгорел');
+                    
+                    // Только удаляем исходный предмет
                     const sourceIdx = state.inventory.findIndex(i => i.id === selectedSource);
                     if (sourceIdx !== -1) {
                         const src = state.inventory[sourceIdx];
@@ -2118,8 +2141,10 @@
                 
                 for (let j=0; j<70; j++) {
                     let item;
-                    if (j >= 34 && j < 36) item = results[i];
-                    else {
+                    // Только одна позиция - выигрышный предмет (позиция 35)
+                    if (j === 35) {
+                        item = results[i];
+                    } else {
                         const rand = Math.random()*100;
                         let cum = 0;
                         item = caseData.items[0];
