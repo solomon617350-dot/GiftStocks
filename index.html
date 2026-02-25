@@ -894,13 +894,17 @@
         
         .multi-roulette {
             display: flex;
-            flex-direction: column;
             gap: 15px;
             margin: 20px 0;
         }
         
         .multi-roulette.vertical {
             flex-direction: column;
+        }
+        
+        .multi-roulette.horizontal {
+            flex-direction: row;
+            justify-content: center;
         }
         
         .single-roulette {
@@ -912,6 +916,14 @@
             height: 80px;
             border: 2px solid #ffd700;
             box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+        
+        .multi-roulette.vertical .single-roulette {
+            width: 100%;
+        }
+        
+        .multi-roulette.horizontal .single-roulette {
+            flex: 1;
         }
         
         .roulette-track {
@@ -2088,14 +2100,14 @@
             else rmode.style.display = 'none';
             fbtn.style.display = 'none';
             
-            const iw = 60, gap = 10, tiw = iw + gap;
-            
-            // ВЕРТИКАЛЬНО для 2-5 открытий, горизонтально для 1
+            // Устанавливаем направление
             if (state.selectedQuantity > 1) {
-                multi.style.flexDirection = 'column';
+                multi.className = 'multi-roulette vertical';
             } else {
-                multi.style.flexDirection = 'row';
+                multi.className = 'multi-roulette horizontal';
             }
+            
+            const iw = 60, gap = 10, tiw = iw + gap;
             
             for (let i=0; i<state.selectedQuantity; i++) {
                 const rd = document.createElement('div');
@@ -2106,7 +2118,7 @@
                 
                 for (let j=0; j<70; j++) {
                     let item;
-                    if (j>=34 && j<36) item = results[i];
+                    if (j >= 34 && j < 36) item = results[i];
                     else {
                         const rand = Math.random()*100;
                         let cum = 0;
