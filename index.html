@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* Все стили остаются без изменений */
         * {
             margin: 0;
             padding: 0;
@@ -973,14 +972,14 @@
             min-width: 60px;
             transition: all 0.3s;
             box-shadow: 0 0 10px rgba(255,215,0,0.3);
+            filter: drop-shadow(0 0 5px rgba(255,215,0,0.3));
         }
         
         .roulette-item.win {
-            box-shadow: 0 0 30px #ffd700, 0 0 60px #ffaa00;
-            transform: scale(1.15);
-            background: rgba(255,215,0,0.3);
-            border: 2px solid #ffd700;
-            z-index: 10;
+            box-shadow: 0 0 20px #ffd700;
+            transform: scale(1.1);
+            background: rgba(255,215,0,0.2);
+            border: 1px solid #ffd700;
         }
         
         .roulette-item img {
@@ -1498,12 +1497,12 @@
         }
         
         .confirm-btn.yes {
-            background: #ff4444;
+            background: #4CAF50;
             color: white;
         }
         
         .confirm-btn.no {
-            background: #4CAF50;
+            background: #ff4444;
             color: white;
         }
         
@@ -2041,9 +2040,11 @@
             }, 50);
             
             setTimeout(() => {
+                // Обновляем инвентарь в зависимости от результата
                 if (isWin) {
                     alert('✅ Успех! Получен новый предмет');
                     
+                    // Добавляем целевой предмет
                     const existingTarget = state.inventory.find(i => i.id === selectedTarget);
                     if (existingTarget) {
                         existingTarget.count = (existingTarget.count || 1) + 1;
@@ -2051,6 +2052,7 @@
                         state.inventory.push({ ...targetItem, count: 1 });
                     }
                     
+                    // Удаляем исходный предмет
                     const sourceIdx = state.inventory.findIndex(i => i.id === selectedSource);
                     if (sourceIdx !== -1) {
                         const sourceItem = state.inventory[sourceIdx];
@@ -2062,6 +2064,7 @@
                 } else {
                     alert('❌ Неудача! Предмет сгорел');
                     
+                    // Только удаляем исходный предмет
                     const sourceIdx = state.inventory.findIndex(i => i.id === selectedSource);
                     if (sourceIdx !== -1) {
                         const sourceItem = state.inventory[sourceIdx];
@@ -2072,16 +2075,31 @@
                     }
                 }
                 
+                // Обновляем интерфейс
                 renderInventory();
                 saveState();
                 
+                // Сбрасываем всё в исходное состояние
                 selectedSource = null;
                 selectedTarget = null;
+                currentMultiplier = 2;
+                
+                // Сбрасываем UI
                 document.getElementById('sourceItem').innerHTML = '<span style="font-size: 30px; color: #666;">?</span>';
                 document.getElementById('sourcePrice').innerHTML = '- ⭐';
                 document.getElementById('targetItem').innerHTML = '<span style="font-size: 30px; color: #666;">?</span>';
                 document.getElementById('targetPrice').innerHTML = '- ⭐';
+                
+                // Возвращаем круг в исходное положение
+                wheel.style.transition = 'none';
+                wheel.style.transform = 'rotate(-90deg)';
+                
+                // Сбрасываем процент
                 updateWheel(0);
+                
+                // Сбрасываем активный множитель на 2x
+                document.querySelectorAll('.multiplier-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelector('.multiplier-btn').classList.add('active');
                 
                 isSpinning = false;
             }, 5200);
@@ -2389,6 +2407,13 @@
             modal.classList.add('active');
             multi.innerHTML = '';
             rlist.innerHTML = '';
+            
+            // Устанавливаем направление в зависимости от количества
+            if (state.selectedQuantity === 1) {
+                multi.classList.remove('horizontal');
+            } else {
+                multi.classList.add('horizontal');
+            }
             
             if (isDemo) {
                 rmode.style.display = 'inline-block';
