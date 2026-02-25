@@ -2328,11 +2328,6 @@
         }
 
         async function openCase(isDemo) {
-            if (state.isSpinning) {
-                alert('Подождите, идёт открытие...');
-                return;
-            }
-            
             const caseData = cases[state.currentCase];
             if (!caseData) {
                 alert('Кейс не найден');
@@ -2351,7 +2346,6 @@
                 return;
             }
             
-            state.isSpinning = true;
             state.isDemo = isDemo;
             
             if (!isDemo) {
@@ -2496,7 +2490,6 @@
                 }
                 
                 fbtn.style.display = 'block';
-                state.isSpinning = false;
             }, 5200);
         }
 
