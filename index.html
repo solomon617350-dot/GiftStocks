@@ -669,7 +669,7 @@
             width: 100%;
             height: 100%;
             transform: rotate(-90deg);
-            transition: transform 3s cubic-bezier(0.2, 0.9, 0.3, 1);
+            transition: transform 5s cubic-bezier(0.1, 0.8, 0.2, 1);
         }
         
         .wheel-arrow {
@@ -938,8 +938,7 @@
         }
         
         .multi-roulette.horizontal {
-            flex-direction: row;
-            justify-content: center;
+            flex-direction: column;
         }
         
         .single-roulette {
@@ -951,10 +950,6 @@
             height: 80px;
             border: 2px solid #ffd700;
             box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
-        }
-        
-        .multi-roulette.horizontal .single-roulette {
-            width: 100%;
         }
         
         .roulette-track {
@@ -1803,7 +1798,7 @@
         tg.expand();
 
         const STARS_TO_TON = 100;
-        const OWNER_ID = 7389462195; // Ваш ID
+        const OWNER_ID = 7389462195;
 
         // Загружаем сохраненные данные или используем начальные
         let state = loadState() || {
@@ -2023,14 +2018,20 @@
             
             const sourceItem = allItems[selectedSource];
             const targetItem = allItems[selectedTarget];
-            const chanceText = document.getElementById('wheelPercent').textContent;
-            const chance = parseInt(chanceText) / 100;
+            const chance = parseFloat(document.getElementById('wheelPercent').textContent) / 100;
             
             const wheel = document.querySelector('.wheel-svg');
-            const spins = 5; // Количество полных оборотов
-            // Вычисляем целевой угол на основе шанса (0-360 градусов)
-            const targetAngle = chance * 360;
-            const totalRotation = spins * 360 + targetAngle;
+            const spins = 3; // Количество полных оборотов
+            
+            // Случайный угол остановки
+            const stopAngle = Math.random() * 360;
+            
+            // Вычисляем, попала ли стрелка в желтую зону
+            // Желтая зона составляет (chance * 360) градусов, начиная с 0 градусов
+            const isWin = stopAngle <= (chance * 360);
+            
+            // Общее вращение: несколько оборотов + угол остановки
+            const totalRotation = spins * 360 + stopAngle;
             
             // Сброс предыдущей трансформации
             wheel.style.transition = 'none';
@@ -2039,15 +2040,13 @@
             // Небольшая задержка для применения сброса
             setTimeout(() => {
                 // Запускаем плавное вращение
-                wheel.style.transition = 'transform 3s cubic-bezier(0.2, 0.9, 0.3, 1)';
+                wheel.style.transition = 'transform 5s cubic-bezier(0.1, 0.8, 0.2, 1)';
                 wheel.style.transform = `rotate(${totalRotation - 90}deg)`;
             }, 50);
             
             // Показываем результат после окончания анимации
             setTimeout(() => {
-                const isSuccess = Math.random() < chance;
-                
-                if (isSuccess) {
+                if (isWin) {
                     alert('✅ Успех! Получен новый предмет');
                     
                     const existingTarget = state.inventory.find(i => i.id === selectedTarget);
@@ -2090,7 +2089,7 @@
                 updateWheel(0);
                 
                 isSpinning = false;
-            }, 3200); // 3 секунды + небольшой запас
+            }, 5200); // 5 секунд + небольшой запас
         }
 
         function selectMultiplier(x, element) {
@@ -2100,9 +2099,11 @@
             currentMultiplier = x;
             
             if (selectedSource) {
+                // Просто ищем предмет с ценой, кратной множителю, НО НЕ МЕНЯЕМ ПРОЦЕНТ
                 const sourceItem = allItems[selectedSource];
                 const targetPrice = sourceItem.price * x;
                 
+                // Ищем подходящий предмет
                 const availableTargets = Object.values(allItems).filter(item => 
                     item.price >= targetPrice * 0.8 && 
                     item.price <= targetPrice * 1.2 && 
@@ -2116,14 +2117,6 @@
                     
                     const bestTarget = availableTargets[0];
                     selectTarget(bestTarget.id);
-                } else {
-                    const higherTargets = Object.values(allItems).filter(item => 
-                        item.price > sourceItem.price && item.id !== selectedSource
-                    ).sort((a, b) => a.price - b.price);
-                    
-                    if (higherTargets.length > 0) {
-                        selectTarget(higherTargets[0].id);
-                    }
                 }
             }
         }
@@ -2134,7 +2127,8 @@
             const sourceItem = allItems[selectedSource];
             const targetItem = allItems[selectedTarget];
             
-            let chance = (sourceItem.price * currentMultiplier) / targetItem.price * 50;
+            // Шанс всегда считается от множителя 2x, не от текущего
+            let chance = (sourceItem.price * 2) / targetItem.price * 50;
             chance = Math.min(chance, 95);
             chance = Math.max(chance, 5);
             
@@ -2213,7 +2207,10 @@
             document.getElementById('sourceItem').innerHTML = `<img src="${item.image}">`;
             document.getElementById('sourcePrice').innerHTML = `${item.price} ⭐`;
             
-            selectMultiplier(currentMultiplier, document.querySelector('.multiplier-btn.active'));
+            // Сбрасываем множитель на 2x при выборе нового предмета
+            currentMultiplier = 2;
+            document.querySelectorAll('.multiplier-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.multiplier-btn').classList.add('active');
             
             showingMyItems = false;
         }
@@ -2396,7 +2393,7 @@
             multi.innerHTML = '';
             rlist.innerHTML = '';
             
-            // Устанавливаем направление в зависимости от количества
+            // Для 1 открытия - горизонтально, для 2-5 - вертикально (просто друг под другом)
             if (state.selectedQuantity === 1) {
                 multi.classList.remove('horizontal');
             } else {
