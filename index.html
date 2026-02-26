@@ -49,20 +49,17 @@
             display: block;
         }
         
-        /* Новая кнопка слева с вашей картинкой */
+        /* Кнопка слева - без свечения */
         .cases-teleport {
             width: 55px;
             height: 55px;
             background: url('https://files.catbox.moe/7g3tdg.png') center/contain no-repeat;
             cursor: pointer;
-            transition: transform 0.2s, filter 0.2s;
-            filter: drop-shadow(0 0 8px rgba(255,215,0,0.5));
-            background-color: transparent;
+            transition: transform 0.2s;
         }
         
         .cases-teleport:hover {
             transform: scale(1.1);
-            filter: drop-shadow(0 0 15px rgba(255,215,0,0.9));
         }
         
         .right-container {
@@ -71,14 +68,13 @@
             gap: 15px;
         }
         
-        /* Объединенная панель баланса с плюсиком */
+        /* Панель баланса */
         .balance-panel {
             display: flex;
             align-items: center;
             background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
             border-radius: 40px;
             border: 2px solid #ffd700;
-            box-shadow: 0 4px 12px rgba(255,215,0,0.3);
             overflow: hidden;
             height: 48px;
         }
@@ -90,11 +86,6 @@
             padding: 0 15px;
             height: 100%;
             cursor: pointer;
-            transition: background 0.2s;
-        }
-        
-        .balance-box:hover {
-            background: rgba(255,215,0,0.15);
         }
         
         .star-icon {
@@ -111,7 +102,6 @@
             text-align: center;
         }
         
-        /* Плюсик внутри той же панели */
         .add-balance {
             width: 48px;
             height: 48px;
@@ -123,19 +113,9 @@
             font-weight: bold;
             color: white;
             cursor: pointer;
-            transition: all 0.2s;
             border-left: 2px solid #ffd700;
-            line-height: 1;
-            box-shadow: 0 0 15px rgba(76, 175, 80, 0.3);
         }
         
-        .add-balance:hover {
-            background: #45a049;
-            box-shadow: 0 0 25px rgba(76, 175, 80, 0.7);
-            transform: scale(1.02);
-        }
-        
-        /* Аватарка из Telegram */
         .profile-avatar {
             width: 48px;
             height: 48px;
@@ -148,9 +128,7 @@
             font-weight: bold;
             color: #000;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
             border: 2px solid #ffd700;
-            box-shadow: 0 0 15px rgba(255,215,0,0.4);
             overflow: hidden;
         }
         
@@ -158,11 +136,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-        }
-        
-        .profile-avatar:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 25px rgba(255,215,0,0.8);
         }
         
         .content {
@@ -178,7 +151,6 @@
             font-weight: bold;
             margin-bottom: 20px;
             color: #ffd700;
-            text-shadow: 0 0 10px rgba(255,215,0,0.3);
         }
         
         /* Сетка для кейсов */
@@ -193,15 +165,11 @@
             background: #0f0f0f;
             border-radius: 20px;
             padding: 15px;
-            box-shadow: 0 4px 8px rgba(255,215,0,0.1);
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
             border: 2px solid #2a2a2a;
         }
         
         .case-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(255,215,0,0.2);
             border-color: #ffd700;
         }
         
@@ -250,7 +218,6 @@
         
         .case-detail {
             display: none;
-            animation: fadeIn 0.3s;
             overflow-y: auto;
             max-height: calc(100vh - 140px);
             padding-bottom: 20px;
@@ -258,11 +225,6 @@
         
         .case-detail.active {
             display: block;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         
         .detail-header {
@@ -275,7 +237,6 @@
             height: 200px;
             border-radius: 30px;
             margin: 0 auto 20px;
-            box-shadow: 0 10px 20px rgba(255,215,0,0.2);
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
@@ -327,7 +288,6 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -342,10 +302,6 @@
         .demo-case-btn {
             background: linear-gradient(145deg, #ff9800, #f57c00);
             color: white;
-        }
-        
-        .open-case-btn:hover, .demo-case-btn:hover {
-            transform: scale(1.02);
         }
         
         .total-price {
@@ -393,17 +349,12 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s;
             max-width: 60px;
         }
         
         .quantity-btn.active {
             background: #ffd700;
             color: #000;
-        }
-        
-        .quantity-btn:hover {
-            transform: scale(1.05);
         }
         
         /* Стили для шансов выпадения */
@@ -433,17 +384,9 @@
             border-radius: 16px;
             padding: 15px;
             border: 1px solid #2a2a2a;
-            transition: all 0.2s;
-            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
-        
-        .chance-card:hover {
-            border-color: #ffd700;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255,215,0,0.2);
         }
         
         .chance-image {
@@ -493,14 +436,6 @@
             display: inline-block;
         }
         
-        .price-ton {
-            color: #0088cc;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 3px;
-        }
-        
         .chance-button {
             background: #2a2a2a;
             color: #ffd700;
@@ -510,44 +445,8 @@
             font-size: 13px;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s;
             width: 100%;
             max-width: 120px;
-        }
-        
-        .chance-button:hover {
-            background: #ffd700;
-            color: #000;
-        }
-        
-        .chance-tooltip {
-            position: relative;
-            display: inline-block;
-        }
-        
-        .chance-tooltip .tooltip-text {
-            visibility: hidden;
-            background: #ffd700;
-            color: #000;
-            text-align: center;
-            padding: 5px 10px;
-            border-radius: 20px;
-            position: absolute;
-            z-index: 1;
-            bottom: 125%;
-            left: 50%;
-            transform: translateX(-50%);
-            white-space: nowrap;
-            font-size: 12px;
-            font-weight: bold;
-            opacity: 0;
-            transition: opacity 0.3s;
-            box-shadow: 0 2px 8px rgba(255,215,0,0.3);
-        }
-        
-        .chance-tooltip:hover .tooltip-text {
-            visibility: visible;
-            opacity: 1;
         }
         
         .inventory-grid {
@@ -576,10 +475,6 @@
             font-size: 14px;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .sell-all-inventory-btn:hover {
-            transform: scale(1.05);
         }
         
         .inventory-item {
@@ -587,8 +482,6 @@
             border-radius: 12px;
             padding: 10px;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            position: relative;
             border: 1px solid #2a2a2a;
         }
         
@@ -641,10 +534,6 @@
             cursor: pointer;
             width: 100%;
             margin-top: 5px;
-            transition: transform 0.2s;
-        }
-        .sell-one-btn:hover {
-            transform: scale(1.05);
         }
         
         /* Стили для игр */
@@ -659,9 +548,7 @@
             background: #0f0f0f;
             border-radius: 20px;
             padding: 20px;
-            box-shadow: 0 4px 8px rgba(255,215,0,0.1);
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
             border: 2px solid #2a2a2a;
             display: flex;
             flex-direction: column;
@@ -669,8 +556,6 @@
         }
         
         .game-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(255,215,0,0.2);
             border-color: #ffd700;
         }
         
@@ -697,7 +582,6 @@
         /* Страница апгрейда */
         .upgrade-page {
             display: none;
-            animation: fadeIn 0.3s;
             overflow-y: auto;
             max-height: calc(100vh - 140px);
             padding-bottom: 20px;
@@ -712,7 +596,6 @@
             flex-direction: column;
             align-items: center;
             gap: 20px;
-            min-height: 100%;
         }
         
         .chance-wheel {
@@ -749,7 +632,6 @@
             font-size: 32px;
             font-weight: bold;
             color: #ffffff;
-            text-shadow: 0 0 10px rgba(255,255,255,0.5);
             z-index: 5;
         }
         
@@ -777,12 +659,10 @@
             justify-content: center;
             border: 2px solid #2a2a2a;
             cursor: pointer;
-            transition: all 0.2s;
         }
         
         .item-image:hover {
             border-color: #ffd700;
-            transform: scale(1.05);
         }
         
         .item-image img {
@@ -826,7 +706,6 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s;
         }
         
         .action-btn.primary {
@@ -838,10 +717,6 @@
             background: #1a1a1a;
             color: #fff;
             border: 2px solid #2a2a2a;
-        }
-        
-        .action-btn:hover {
-            transform: scale(1.02);
         }
         
         .items-list {
@@ -879,13 +754,11 @@
             padding: 10px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s;
             border: 2px solid #2a2a2a;
         }
         
         .item-card:hover {
             border-color: #ffd700;
-            transform: translateY(-2px);
         }
         
         .item-card img {
@@ -975,7 +848,6 @@
             overflow: hidden;
             height: 80px;
             border: 2px solid #ffd700;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
         
         .multi-roulette.vertical .single-roulette {
@@ -1004,9 +876,6 @@
             padding: 5px;
             border-radius: 8px;
             min-width: 60px;
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
-            filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.2));
-            transition: all 0.3s ease;
         }
         
         .roulette-item img {
@@ -1015,14 +884,12 @@
             object-fit: contain;
             border-radius: 5px;
             background: transparent;
-            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.3));
         }
         
         .roulette-item span {
             color: #ffd700;
             font-size: 12px;
             font-weight: bold;
-            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
         }
         
         .roulette-indicator {
@@ -1033,7 +900,6 @@
             width: 3px;
             background: linear-gradient(to bottom, #ffd700, #ffaa00);
             transform: translateX(-50%);
-            box-shadow: 0 0 20px #ffd700;
             z-index: 2;
         }
         
@@ -1055,11 +921,9 @@
             background: #1a1a1a;
             margin-bottom: 8px;
             border: 1px solid #2a2a2a;
-            position: relative;
         }
         
         .result-item.demo {
-            opacity: 0.7;
             border: 2px dashed #ff9800;
         }
         
@@ -1100,10 +964,6 @@
             font-weight: bold;
             cursor: pointer;
             margin-left: 10px;
-            transition: transform 0.2s;
-        }
-        .sell-result-btn:hover {
-            transform: scale(1.05);
         }
         
         .demo-label {
@@ -1129,7 +989,6 @@
             font-size: 14px;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s;
         }
         
         .result-button.sell {
@@ -1147,10 +1006,6 @@
             color: white;
         }
         
-        .result-button:hover {
-            transform: scale(1.02);
-        }
-        
         .close-button {
             width: 100%;
             padding: 12px;
@@ -1161,7 +1016,6 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s;
         }
         
         .close-button:hover {
@@ -1178,9 +1032,8 @@
             display: flex;
             justify-content: space-around;
             padding: 10px 0;
-            box-shadow: 0 -2px 10px rgba(255,215,0,0.1);
-            z-index: 99;
             border-top: 1px solid #2a2a2a;
+            z-index: 99;
         }
         
         .nav-item {
@@ -1191,13 +1044,11 @@
             gap: 5px;
             padding: 10px;
             cursor: pointer;
-            transition: all 0.2s;
             color: #666;
         }
         
         .nav-item.active {
             color: #ffd700;
-            transform: translateY(-2px);
         }
         
         .nav-icon {
@@ -1217,7 +1068,7 @@
             display: block;
         }
         
-        /* Обновленный профиль */
+        /* Профиль */
         .profile-section {
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://avatars.mds.yandex.net/i?id=206f6bd99b548c1999cfbb94645e4ac52125f749-16349630-images-thumbs&n=13');
             background-size: cover;
@@ -1226,8 +1077,6 @@
             padding: 30px 20px;
             margin-bottom: 20px;
             border: 2px solid #ffd700;
-            position: relative;
-            overflow: hidden;
         }
         
         .profile-avatar-large {
@@ -1243,7 +1092,6 @@
             color: #000;
             margin: 0 auto 15px;
             border: 3px solid #ffd700;
-            box-shadow: 0 0 20px rgba(255,215,0,0.5);
             overflow: hidden;
         }
         
@@ -1259,7 +1107,6 @@
             color: #ffd700;
             text-align: center;
             margin-bottom: 5px;
-            text-shadow: 0 0 10px rgba(255,215,0,0.5);
         }
         
         .profile-id {
@@ -1356,6 +1203,7 @@
             gap: 10px;
             margin: 20px 0;
         }
+        
         .deposit-option {
             background: linear-gradient(145deg, #ffd700, #ffb347);
             color: #333;
@@ -1365,10 +1213,6 @@
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .deposit-option:hover {
-            transform: scale(1.05);
         }
         
         .admin-login {
@@ -1385,7 +1229,6 @@
             cursor: pointer;
             font-size: 20px;
             z-index: 1000;
-            transition: all 0.3s;
             border: 1px solid #ffd700;
         }
         
@@ -1403,7 +1246,6 @@
             max-height: 80vh;
             background: #0f0f0f;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(255,215,0,0.2);
             z-index: 2000;
             overflow: hidden;
             display: none;
@@ -1437,11 +1279,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.3s;
-        }
-        
-        .close-admin:hover {
-            background: rgba(255,215,0,0.2);
         }
         
         .admin-tabs {
@@ -1457,7 +1294,6 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s;
             color: #aaa;
         }
         
@@ -1489,10 +1325,6 @@
             padding: 10px;
             border-bottom: 1px solid #2a2a2a;
             gap: 10px;
-        }
-        
-        .user-item:last-child {
-            border-bottom: none;
         }
         
         .user-name {
@@ -1588,10 +1420,6 @@
             margin-right: 10px;
         }
         
-        .hidden {
-            display: none !important;
-        }
-        
         .confirm-modal {
             background: #0f0f0f;
             border-radius: 20px;
@@ -1625,7 +1453,6 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s;
         }
         
         .confirm-btn.yes {
@@ -1637,19 +1464,13 @@
             background: #ff4444;
             color: white;
         }
-        
-        .confirm-btn:hover {
-            transform: scale(1.05);
-        }
     </style>
 </head>
 <body>
     <div class="top-bar">
-        <!-- Увеличенная кнопка слева с ВАШЕЙ картинкой -->
         <div class="cases-teleport" onclick="teleportToCases()" title="Перейти к кейсам"></div>
         
         <div class="right-container">
-            <!-- ОБЪЕДИНЕННАЯ панель баланса с плюсиком -->
             <div class="balance-panel">
                 <div class="balance-box" onclick="showBalanceModal()">
                     <div class="star-icon"></div>
@@ -1658,7 +1479,6 @@
                 <div class="add-balance" onclick="showBalanceModal()">+</div>
             </div>
             
-            <!-- Аватарка из Telegram -->
             <div class="profile-avatar" onclick="switchToProfile()" id="profileAvatar"></div>
         </div>
     </div>
@@ -1673,19 +1493,16 @@
                     <div class="case-name">Red Case</div>
                     <div class="case-price"><div class="small-star"></div>99 ⭐</div>
                 </div>
-                
                 <div class="case-card" onclick="showCaseDetail('green')">
                     <div class="case-image green-case"></div>
                     <div class="case-name">Green Case</div>
                     <div class="case-price"><div class="small-star"></div>199 ⭐</div>
                 </div>
-                
                 <div class="case-card" onclick="showCaseDetail('gold')">
                     <div class="case-image" style="background: linear-gradient(145deg, #ffd700, #b8860b);"></div>
                     <div class="case-name">Золотой кейс</div>
                     <div class="case-price"><div class="small-star"></div>Скоро</div>
                 </div>
-                
                 <div class="case-card" onclick="showCaseDetail('diamond')">
                     <div class="case-image" style="background: linear-gradient(145deg, #b9f2ff, #00ffff);"></div>
                     <div class="case-name">Алмазный кейс</div>
@@ -1884,7 +1701,7 @@
         const STARS_TO_TON = 100;
         const OWNER_ID = 7389462195;
 
-        // ВСЕ ПРЕДМЕТЫ В СИСТЕМЕ
+        // ВСЕ ПРЕДМЕТЫ
         const allItems = {
             rose: { id: 'rose', name: 'Розочка', image: 'https://cdn140.picsart.com/241734929003212.png', price: 25 },
             cake: { id: 'cake', name: 'Тортик', image: 'https://files.catbox.moe/1w9dkc.png', price: 50 },
@@ -1906,12 +1723,7 @@
             stars150: { id: 'stars150', name: '150 звёзд', image: 'https://nztcdn.com/files/34b13b5a-7b5f-4d29-9c92-8fada5f27b2f.webp', price: 150 },
             cup: { id: 'cup', name: 'Кубок', image: 'https://files.catbox.moe/9a63n2.png', price: 100 },
             
-            heart: { id: 'heart', name: 'Сердечко', image: 'https://files.catbox.moe/n8n9z4.png', price: 15 },
-            bear: { id: 'bear', name: 'Мишка', image: 'https://files.catbox.moe/vbau80.png', price: 15 },
-            gift25: { id: 'gift25', name: 'Подарок', image: 'https://files.catbox.moe/4jk41n.png', price: 25 },
-            champagne: { id: 'champagne', name: 'Шампанское', image: 'https://files.catbox.moe/jrc3k2.png', price: 50 },
-            rocket: { id: 'rocket', name: 'Ракета', image: 'https://files.catbox.moe/kbki0e.png', price: 50 },
-            bouquet: { id: 'bouquet', name: 'Букет роз', image: 'https://files.catbox.moe/dtuvb7.png', price: 50 },
+            // Новые предметы (только дороже 100)
             bdayCandle: { id: 'bdayCandle', name: 'B-day Candle', image: 'https://files.catbox.moe/epcq0u.png', price: 575 },
             snowMittens: { id: 'snowMittens', name: 'Snow Mittens', image: 'https://files.catbox.moe/8kjk36.png', price: 795 },
             jesterHat: { id: 'jesterHat', name: 'Jester Hat', image: 'https://files.catbox.moe/xrpmwz.png', price: 606 },
@@ -1949,10 +1761,7 @@
                 { id: 'cake', name: 'Тортик', image: 'https://files.catbox.moe/1w9dkc.png', price: 50, count: 2 },
                 { id: 'diamond', name: 'Алмазик', image: 'https://files.catbox.moe/nt7ios.png', price: 100, count: 1 },
                 { id: 'xmas', name: 'Xmas Stocking', image: 'https://files.catbox.moe/yecky8.png', price: 495, count: 1 },
-                { id: 'cigar', name: 'Vintage Cigar', image: 'https://files.catbox.moe/6ified.png', price: 3357, count: 1 },
-                { id: 'heart', name: 'Сердечко', image: 'https://files.catbox.moe/n8n9z4.png', price: 15, count: 5 },
-                { id: 'bear', name: 'Мишка', image: 'https://files.catbox.moe/vbau80.png', price: 15, count: 3 },
-                { id: 'gift25', name: 'Подарок', image: 'https://files.catbox.moe/4jk41n.png', price: 25, count: 2 }
+                { id: 'cigar', name: 'Vintage Cigar', image: 'https://files.catbox.moe/6ified.png', price: 3357, count: 1 }
             ],
             bestDrop: { id: 'cigar', name: 'Vintage Cigar', image: 'https://files.catbox.moe/6ified.png', price: 3357 },
             bestUpgrade: { id: 'ringExpensive', name: 'Diamond Ring', image: 'https://files.catbox.moe/tjttfk.png', price: 2858 }
@@ -1981,8 +1790,6 @@
                 showMainMenu();
             } else if (!document.getElementById('mainMenu').classList.contains('active')) {
                 switchToCases();
-            } else {
-                document.querySelector('.content').scrollTop = 0;
             }
         }
 
@@ -2216,6 +2023,7 @@
         function renderItemsList(type) {
             const list = document.getElementById('itemsList');
             if (type === 'my') {
+                // Только предметы >= 100
                 const myItems = state.inventory.filter(item => item.price >= 100);
                 if (!myItems.length) {
                     list.innerHTML = `<div class="empty-section"><div>🫙 Нет предметов</div><button class="action-btn primary" onclick="switchToCases()">🎁 Открыть кейс</button></div>`;
@@ -2227,7 +2035,8 @@
                 });
                 list.innerHTML = html;
             } else {
-                const available = Object.values(allItems).filter(item => item.price > 0).sort((a, b) => a.price - b.price);
+                // Только предметы >= 100
+                const available = Object.values(allItems).filter(item => item.price >= 100).sort((a, b) => a.price - b.price);
                 let html = '';
                 available.forEach(item => {
                     html += `<div class="item-card" onclick="selectTarget('${item.id}')"><img src="${item.image}"><div class="item-card-name">${item.name}</div><div class="item-card-price">${item.price} ⭐</div></div>`;
@@ -2614,18 +2423,8 @@
                     {...allItems.cigar, chance: 0.13}
                 ]
             },
-            gold: { 
-                name: 'Золотой кейс', 
-                price: 0, 
-                color: 'linear-gradient(145deg,#ffd700,#b8860b)', 
-                items: [] 
-            },
-            diamond: { 
-                name: 'Алмазный кейс', 
-                price: 0, 
-                color: 'linear-gradient(145deg,#b9f2ff,#00ffff)', 
-                items: [] 
-            }
+            gold: { name: 'Золотой кейс', price: 0, color: 'linear-gradient(145deg,#ffd700,#b8860b)', items: [] },
+            diamond: { name: 'Алмазный кейс', price: 0, color: 'linear-gradient(145deg,#b9f2ff,#00ffff)', items: [] }
         };
 
         // Инициализация
