@@ -1726,7 +1726,7 @@
             stars150: { id: 'stars150', name: '150 звёзд', image: 'https://nztcdn.com/files/34b13b5a-7b5f-4d29-9c92-8fada5f27b2f.webp', price: 150 },
             cup: { id: 'cup', name: 'Кубок', image: 'https://files.catbox.moe/9a63n2.png', price: 100 },
             
-            // НОВЫЕ ПРЕДМЕТЫ
+            // НОВЫЕ ПРЕДМЕТЫ (только в системе, не в кейсах)
             heart: { id: 'heart', name: 'Сердечко', image: 'https://files.catbox.moe/n8n9z4.png', price: 15 },
             bear: { id: 'bear', name: 'Мишка', image: 'https://files.catbox.moe/vbau80.png', price: 15 },
             gift25: { id: 'gift25', name: 'Подарок', image: 'https://files.catbox.moe/4jk41n.png', price: 25 },
@@ -1775,7 +1775,9 @@
                 { id: 'heart', name: 'Сердечко', image: 'https://files.catbox.moe/n8n9z4.png', price: 15, count: 5 },
                 { id: 'bear', name: 'Мишка', image: 'https://files.catbox.moe/vbau80.png', price: 15, count: 3 },
                 { id: 'gift25', name: 'Подарок', image: 'https://files.catbox.moe/4jk41n.png', price: 25, count: 2 },
-                { id: 'champagne', name: 'Шампанское', image: 'https://files.catbox.moe/jrc3k2.png', price: 50, count: 1 }
+                { id: 'champagne', name: 'Шампанское', image: 'https://files.catbox.moe/jrc3k2.png', price: 50, count: 1 },
+                { id: 'rocket', name: 'Ракета', image: 'https://files.catbox.moe/kbki0e.png', price: 50, count: 1 },
+                { id: 'bouquet', name: 'Букет роз', image: 'https://files.catbox.moe/dtuvb7.png', price: 50, count: 1 }
             ]
         };
 
@@ -2372,7 +2374,7 @@
             alert('Сохранено');
         }
 
-        // Кейсы с новыми предметами
+        // Кейсы БЕЗ новых предметов (только старые)
         const cases = {
             red: { 
                 name: 'Red Case', 
@@ -2388,56 +2390,23 @@
                 price: 199, 
                 color: 'linear-gradient(145deg,#00ff00,#00aa00)', 
                 items: [
-                    {...allItems.heart, chance: 5},
-                    {...allItems.bear, chance: 5},
-                    {...allItems.gift25, chance: 5},
-                    {...allItems.champagne, chance: 5},
-                    {...allItems.rocket, chance: 5},
-                    {...allItems.bouquet, chance: 5},
-                    {...allItems.cake, chance: 4},
-                    {...allItems.diamond, chance: 4},
-                    {...allItems.cup, chance: 4},
-                    {...allItems.stars150, chance: 4},
-                    {...allItems.ring, chance: 4},
-                    {...allItems.xmas, chance: 3},
+                    {...allItems.cake, chance: 27},
+                    {...allItems.diamond, chance: 26},
+                    {...allItems.cup, chance: 13},
+                    {...allItems.stars150, chance: 10},
+                    {...allItems.ring, chance: 10},
+                    {...allItems.xmas, chance: 5},
                     {...allItems.ramen, chance: 2.5},
                     {...allItems.icecream, chance: 2},
                     {...allItems.bunny, chance: 1.5},
-                    {...allItems.star, chance: 1},
-                    {...allItems.bell, chance: 0.8},
-                    {...allItems.skull, chance: 0.7},
-                    {...allItems.hat, chance: 0.6},
-                    {...allItems.skelettos, chance: 0.5},
-                    {...allItems.charm, chance: 0.4},
-                    {...allItems.ringExpensive, chance: 0.3},
-                    {...allItems.cigar, chance: 0.2},
-                    {...allItems.bdayCandle, chance: 0.2},
-                    {...allItems.snowMittens, chance: 0.2},
-                    {...allItems.jesterHat, chance: 0.2},
-                    {...allItems.springBasket, chance: 0.2},
-                    {...allItems.prettyPosy, chance: 0.2},
-                    {...allItems.petSnake, chance: 0.2},
-                    {...allItems.lunarSnake, chance: 0.2},
-                    {...allItems.snakeBox, chance: 0.2},
-                    {...allItems.mousseCake, chance: 0.2},
-                    {...allItems.faithAmulet, chance: 0.2},
-                    {...allItems.victoryMedal, chance: 0.2},
-                    {...allItems.swagBag, chance: 0.2},
-                    {...allItems.cloverPin, chance: 0.2},
-                    {...allItems.freshSocks, chance: 0.2},
-                    {...allItems.candyCane, chance: 0.2},
-                    {...allItems.deskCalendar, chance: 0.2},
-                    {...allItems.lolPop, chance: 0.2},
-                    {...allItems.berryBox, chance: 0.15},
-                    {...allItems.whipCupcake, chance: 0.15},
-                    {...allItems.happyBrownie, chance: 0.15},
-                    {...allItems.snoopDog, chance: 0.15},
-                    {...allItems.cookieHeard, chance: 0.1},
-                    {...allItems.snoopCigar, chance: 0.05},
-                    {...allItems.loveCandle, chance: 0.05},
-                    {...allItems.trappedHeard, chance: 0.03},
-                    {...allItems.lovePotion, chance: 0.02},
-                    {...allItems.valentineBox, chance: 0.02}
+                    {...allItems.star, chance: 0.64},
+                    {...allItems.bell, chance: 0.52},
+                    {...allItems.skull, chance: 0.5},
+                    {...allItems.hat, chance: 0.4},
+                    {...allItems.skelettos, chance: 0.35},
+                    {...allItems.charm, chance: 0.25},
+                    {...allItems.ringExpensive, chance: 0.21},
+                    {...allItems.cigar, chance: 0.13}
                 ]
             },
             gold: { 
