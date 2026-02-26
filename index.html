@@ -1514,7 +1514,7 @@
             </div>
         </div>
 
-        <!-- Детальная страница кейса -->
+        <!-- Детальная страница кейса - ИСПРАВЛЕНО: добавлен detail-image -->
         <div id="caseDetail" class="case-detail">
             <div class="detail-header">
                 <div class="detail-image" id="detailImage"></div>
@@ -1726,7 +1726,7 @@
             stars150: { id: 'stars150', name: '150 звёзд', image: 'https://nztcdn.com/files/34b13b5a-7b5f-4d29-9c92-8fada5f27b2f.webp', price: 150 },
             cup: { id: 'cup', name: 'Кубок', image: 'https://files.catbox.moe/9a63n2.png', price: 100 },
             
-            // Новые предметы (только дороже 100)
+            // Новые предметы
             bdayCandle: { id: 'bdayCandle', name: 'B-day Candle', image: 'https://files.catbox.moe/epcq0u.png', price: 575 },
             snowMittens: { id: 'snowMittens', name: 'Snow Mittens', image: 'https://files.catbox.moe/8kjk36.png', price: 795 },
             jesterHat: { id: 'jesterHat', name: 'Jester Hat', image: 'https://files.catbox.moe/xrpmwz.png', price: 606 },
@@ -1886,9 +1886,14 @@
             document.getElementById('backButton').classList.add('visible');
             
             const detailImage = document.getElementById('detailImage');
-            if (caseId === 'red') detailImage.className = 'detail-image red-detail';
-            else if (caseId === 'green') detailImage.className = 'detail-image green-detail';
-            else { detailImage.className = 'detail-image'; detailImage.style.background = caseData.color; }
+            if (caseId === 'red') {
+                detailImage.className = 'detail-image red-detail';
+            } else if (caseId === 'green') {
+                detailImage.className = 'detail-image green-detail';
+            } else {
+                detailImage.className = 'detail-image';
+                detailImage.style.background = caseData.color;
+            }
             
             document.getElementById('detailName').textContent = caseData.name;
             document.getElementById('detailPrice').innerHTML = `<div class="star-icon"></div>${caseData.price} звёзд`;
@@ -2026,7 +2031,6 @@
         function renderItemsList(type) {
             const list = document.getElementById('itemsList');
             if (type === 'my') {
-                // Только предметы >= 100
                 const myItems = state.inventory.filter(item => item.price >= 100);
                 if (!myItems.length) {
                     list.innerHTML = `<div class="empty-section"><div>🫙 Нет предметов</div><button class="action-btn primary" onclick="switchToCases()">🎁 Открыть кейс</button></div>`;
@@ -2038,7 +2042,6 @@
                 });
                 list.innerHTML = html;
             } else {
-                // Только предметы >= 100
                 const available = Object.values(allItems).filter(item => item.price >= 100).sort((a, b) => a.price - b.price);
                 let html = '';
                 available.forEach(item => {
