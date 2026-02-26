@@ -1703,18 +1703,9 @@
         const STARS_TO_TON = 100;
         const OWNER_ID = 7389462195;
 
-        let state = {
-            balance: 1000,
-            openedCases: 0,
-            inventory: [
-                { id: 'rose', name: 'Розочка', image: 'https://cdn140.picsart.com/241734929003212.png', price: 25, count: 3 },
-                { id: 'cake', name: 'Тортик', image: 'https://files.catbox.moe/1w9dkc.png', price: 50, count: 2 },
-                { id: 'diamond', name: 'Алмазик', image: 'https://files.catbox.moe/nt7ios.png', price: 100, count: 1 },
-                { id: 'xmas', name: 'Xmas Stocking', image: 'https://files.catbox.moe/yecky8.png', price: 495, count: 1 }
-            ]
-        };
-
+        // ВСЕ ПРЕДМЕТЫ В СИСТЕМЕ
         const allItems = {
+            // Базовые предметы
             rose: { id: 'rose', name: 'Розочка', image: 'https://cdn140.picsart.com/241734929003212.png', price: 25 },
             cake: { id: 'cake', name: 'Тортик', image: 'https://files.catbox.moe/1w9dkc.png', price: 50 },
             diamond: { id: 'diamond', name: 'Алмазик', image: 'https://files.catbox.moe/nt7ios.png', price: 100 },
@@ -1733,7 +1724,59 @@
             cigar: { id: 'cigar', name: 'Vintage Cigar', image: 'https://files.catbox.moe/6ified.png', price: 3357 },
             calendar: { id: 'calendar', name: 'Календарь', image: 'https://files.catbox.moe/vp6ocv.png', price: 500 },
             stars150: { id: 'stars150', name: '150 звёзд', image: 'https://nztcdn.com/files/34b13b5a-7b5f-4d29-9c92-8fada5f27b2f.webp', price: 150 },
-            cup: { id: 'cup', name: 'Кубок', image: 'https://files.catbox.moe/9a63n2.png', price: 100 }
+            cup: { id: 'cup', name: 'Кубок', image: 'https://files.catbox.moe/9a63n2.png', price: 100 },
+            
+            // НОВЫЕ ПРЕДМЕТЫ
+            heart: { id: 'heart', name: 'Сердечко', image: 'https://files.catbox.moe/n8n9z4.png', price: 15 },
+            bear: { id: 'bear', name: 'Мишка', image: 'https://files.catbox.moe/vbau80.png', price: 15 },
+            gift25: { id: 'gift25', name: 'Подарок', image: 'https://files.catbox.moe/4jk41n.png', price: 25 },
+            champagne: { id: 'champagne', name: 'Шампанское', image: 'https://files.catbox.moe/jrc3k2.png', price: 50 },
+            rocket: { id: 'rocket', name: 'Ракета', image: 'https://files.catbox.moe/kbki0e.png', price: 50 },
+            bouquet: { id: 'bouquet', name: 'Букет роз', image: 'https://files.catbox.moe/dtuvb7.png', price: 50 },
+            bdayCandle: { id: 'bdayCandle', name: 'B-day Candle', image: 'https://files.catbox.moe/epcq0u.png', price: 575 },
+            snowMittens: { id: 'snowMittens', name: 'Snow Mittens', image: 'https://files.catbox.moe/8kjk36.png', price: 795 },
+            jesterHat: { id: 'jesterHat', name: 'Jester Hat', image: 'https://files.catbox.moe/xrpmwz.png', price: 606 },
+            snoopCigar: { id: 'snoopCigar', name: 'Snoop Cigar', image: 'https://files.catbox.moe/v1btxg.png', price: 1215 },
+            springBasket: { id: 'springBasket', name: 'Spring Basket', image: 'https://files.catbox.moe/vag2kq.png', price: 606 },
+            prettyPosy: { id: 'prettyPosy', name: 'Pretty Posy', image: 'https://files.catbox.moe/5vqnh5.png', price: 620 },
+            petSnake: { id: 'petSnake', name: 'Pet Snake', image: 'https://files.catbox.moe/n65kjc.png', price: 615 },
+            loveCandle: { id: 'loveCandle', name: 'Love Candle', image: 'https://files.catbox.moe/ov5dx7.png', price: 1255 },
+            lunarSnake: { id: 'lunarSnake', name: 'Lunar Snake', image: 'https://files.catbox.moe/dd1l2y.png', price: 530 },
+            snakeBox: { id: 'snakeBox', name: 'Snake Box', image: 'https://files.catbox.moe/vfcsau.png', price: 555 },
+            mousseCake: { id: 'mousseCake', name: 'Mousse Cake', image: 'https://files.catbox.moe/2xw2m1.png', price: 605 },
+            faithAmulet: { id: 'faithAmulet', name: 'Faith Amulet', image: 'https://files.catbox.moe/aggknj.png', price: 620 },
+            victoryMedal: { id: 'victoryMedal', name: 'Victory Medal', image: 'https://files.catbox.moe/mayh1v.png', price: 612 },
+            swagBag: { id: 'swagBag', name: 'Swag Bag', image: 'https://files.catbox.moe/fafc2e.png', price: 601 },
+            cloverPin: { id: 'cloverPin', name: 'Clover Pin', image: 'https://files.catbox.moe/3gcqdj.png', price: 615 },
+            freshSocks: { id: 'freshSocks', name: 'Fresh Socks', image: 'https://files.catbox.moe/6cohuh.png', price: 636 },
+            candyCane: { id: 'candyCane', name: 'Candy Cane', image: 'https://files.catbox.moe/m30dxn.png', price: 567 },
+            deskCalendar: { id: 'deskCalendar', name: 'Desk Calendar', image: 'https://files.catbox.moe/4enydz.png', price: 645 },
+            lolPop: { id: 'lolPop', name: 'Lol Pop', image: 'https://files.catbox.moe/uu98ia.png', price: 610 },
+            berryBox: { id: 'berryBox', name: 'Berry Box', image: 'https://files.catbox.moe/usimyp.png', price: 854 },
+            whipCupcake: { id: 'whipCupcake', name: 'Whip Cupcake', image: 'https://files.catbox.moe/a1rr86.png', price: 603 },
+            happyBrownie: { id: 'happyBrownie', name: 'Happy Brownie', image: 'https://files.catbox.moe/t42euq.png', price: 643 },
+            snoopDog: { id: 'snoopDog', name: 'Snoop Dog', image: 'https://files.catbox.moe/h1ej2q.png', price: 624 },
+            trappedHeard: { id: 'trappedHeard', name: 'Trapped Heard', image: 'https://files.catbox.moe/p2crbv.png', price: 1513 },
+            cookieHeard: { id: 'cookieHeard', name: 'Cookie Heard', image: 'https://files.catbox.moe/ysqlmp.png', price: 605 },
+            lovePotion: { id: 'lovePotion', name: 'Love Potion', image: 'https://files.catbox.moe/el2fg5.png', price: 1540 },
+            valentineBox: { id: 'valentineBox', name: 'Valentine Box', image: 'https://files.catbox.moe/o2hbqe.png', price: 1204 }
+        };
+
+        // Начальное состояние с новыми предметами
+        let state = {
+            balance: 1000,
+            openedCases: 0,
+            inventory: [
+                { id: 'rose', name: 'Розочка', image: 'https://cdn140.picsart.com/241734929003212.png', price: 25, count: 3 },
+                { id: 'cake', name: 'Тортик', image: 'https://files.catbox.moe/1w9dkc.png', price: 50, count: 2 },
+                { id: 'diamond', name: 'Алмазик', image: 'https://files.catbox.moe/nt7ios.png', price: 100, count: 1 },
+                { id: 'xmas', name: 'Xmas Stocking', image: 'https://files.catbox.moe/yecky8.png', price: 495, count: 1 },
+                // Новые предметы для примера
+                { id: 'heart', name: 'Сердечко', image: 'https://files.catbox.moe/n8n9z4.png', price: 15, count: 5 },
+                { id: 'bear', name: 'Мишка', image: 'https://files.catbox.moe/vbau80.png', price: 15, count: 3 },
+                { id: 'gift25', name: 'Подарок', image: 'https://files.catbox.moe/4jk41n.png', price: 25, count: 2 },
+                { id: 'champagne', name: 'Шампанское', image: 'https://files.catbox.moe/jrc3k2.png', price: 50, count: 1 }
+            ]
         };
 
         let selectedSource = null;
@@ -2329,16 +2372,86 @@
             alert('Сохранено');
         }
 
+        // Кейсы с новыми предметами
         const cases = {
-            red: { name: 'Red Case', price: 99, color: 'linear-gradient(145deg,#ff0000,#aa0000)', items: [{...allItems.calendar, chance:10}, {...allItems.rose, chance:90}] },
-            green: { name: 'Green Case', price: 199, color: 'linear-gradient(145deg,#00ff00,#00aa00)', items: [
-                {...allItems.cake, chance:27}, {...allItems.diamond, chance:26}, {...allItems.cup, chance:13}, {...allItems.stars150, chance:10}, {...allItems.ring, chance:10},
-                {...allItems.xmas, chance:5}, {...allItems.ramen, chance:2.5}, {...allItems.icecream, chance:2}, {...allItems.bunny, chance:1.5}, {...allItems.star, chance:0.64},
-                {...allItems.bell, chance:0.52}, {...allItems.skull, chance:0.5}, {...allItems.hat, chance:0.4}, {...allItems.skelettos, chance:0.35}, {...allItems.charm, chance:0.25},
-                {...allItems.ringExpensive, chance:0.21}, {...allItems.cigar, chance:0.13}
-            ]},
-            gold: { name: 'Золотой кейс', price: 0, color: 'linear-gradient(145deg,#ffd700,#b8860b)', items: [] },
-            diamond: { name: 'Алмазный кейс', price: 0, color: 'linear-gradient(145deg,#b9f2ff,#00ffff)', items: [] }
+            red: { 
+                name: 'Red Case', 
+                price: 99, 
+                color: 'linear-gradient(145deg,#ff0000,#aa0000)', 
+                items: [
+                    {...allItems.calendar, chance: 10}, 
+                    {...allItems.rose, chance: 90}
+                ] 
+            },
+            green: { 
+                name: 'Green Case', 
+                price: 199, 
+                color: 'linear-gradient(145deg,#00ff00,#00aa00)', 
+                items: [
+                    {...allItems.heart, chance: 5},
+                    {...allItems.bear, chance: 5},
+                    {...allItems.gift25, chance: 5},
+                    {...allItems.champagne, chance: 5},
+                    {...allItems.rocket, chance: 5},
+                    {...allItems.bouquet, chance: 5},
+                    {...allItems.cake, chance: 4},
+                    {...allItems.diamond, chance: 4},
+                    {...allItems.cup, chance: 4},
+                    {...allItems.stars150, chance: 4},
+                    {...allItems.ring, chance: 4},
+                    {...allItems.xmas, chance: 3},
+                    {...allItems.ramen, chance: 2.5},
+                    {...allItems.icecream, chance: 2},
+                    {...allItems.bunny, chance: 1.5},
+                    {...allItems.star, chance: 1},
+                    {...allItems.bell, chance: 0.8},
+                    {...allItems.skull, chance: 0.7},
+                    {...allItems.hat, chance: 0.6},
+                    {...allItems.skelettos, chance: 0.5},
+                    {...allItems.charm, chance: 0.4},
+                    {...allItems.ringExpensive, chance: 0.3},
+                    {...allItems.cigar, chance: 0.2},
+                    {...allItems.bdayCandle, chance: 0.2},
+                    {...allItems.snowMittens, chance: 0.2},
+                    {...allItems.jesterHat, chance: 0.2},
+                    {...allItems.springBasket, chance: 0.2},
+                    {...allItems.prettyPosy, chance: 0.2},
+                    {...allItems.petSnake, chance: 0.2},
+                    {...allItems.lunarSnake, chance: 0.2},
+                    {...allItems.snakeBox, chance: 0.2},
+                    {...allItems.mousseCake, chance: 0.2},
+                    {...allItems.faithAmulet, chance: 0.2},
+                    {...allItems.victoryMedal, chance: 0.2},
+                    {...allItems.swagBag, chance: 0.2},
+                    {...allItems.cloverPin, chance: 0.2},
+                    {...allItems.freshSocks, chance: 0.2},
+                    {...allItems.candyCane, chance: 0.2},
+                    {...allItems.deskCalendar, chance: 0.2},
+                    {...allItems.lolPop, chance: 0.2},
+                    {...allItems.berryBox, chance: 0.15},
+                    {...allItems.whipCupcake, chance: 0.15},
+                    {...allItems.happyBrownie, chance: 0.15},
+                    {...allItems.snoopDog, chance: 0.15},
+                    {...allItems.cookieHeard, chance: 0.1},
+                    {...allItems.snoopCigar, chance: 0.05},
+                    {...allItems.loveCandle, chance: 0.05},
+                    {...allItems.trappedHeard, chance: 0.03},
+                    {...allItems.lovePotion, chance: 0.02},
+                    {...allItems.valentineBox, chance: 0.02}
+                ]
+            },
+            gold: { 
+                name: 'Золотой кейс', 
+                price: 0, 
+                color: 'linear-gradient(145deg,#ffd700,#b8860b)', 
+                items: [] 
+            },
+            diamond: { 
+                name: 'Алмазный кейс', 
+                price: 0, 
+                color: 'linear-gradient(145deg,#b9f2ff,#00ffff)', 
+                items: [] 
+            }
         };
 
         // Инициализация
