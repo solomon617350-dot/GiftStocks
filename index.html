@@ -23,7 +23,7 @@
         
         .top-bar {
             background: #0f0f0f;
-            padding: 15px 20px;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -53,8 +53,14 @@
             display: flex;
             align-items: center;
             gap: 10px;
+        }
+        
+        .balance-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
-            padding: 8px 20px;
+            padding: 6px 15px;
             border-radius: 30px;
             cursor: pointer;
             transition: transform 0.2s;
@@ -62,20 +68,60 @@
             border: 1px solid #ffd700;
         }
         
-        .balance-container:hover {
+        .balance-box:hover {
             transform: scale(1.05);
         }
         
         .star-icon {
-            width: 30px;
-            height: 30px;
+            width: 24px;
+            height: 24px;
             background: url('https://cdn1.tenchat.ru/static/vbc-gostinder/2025-09-21/5c565d16-168c-49e4-8b3c-6d20da018214.webp') center/contain no-repeat;
         }
         
         .balance-amount {
             color: #ffd700;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .add-balance {
+            width: 30px;
+            height: 30px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 20px;
             font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: 2px solid #ffd700;
+        }
+        
+        .add-balance:hover {
+            transform: scale(1.1);
+        }
+        
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #ffd700, #ffaa00);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border: 2px solid #ffd700;
+        }
+        
+        .profile-avatar:hover {
+            transform: scale(1.1);
         }
         
         .content {
@@ -731,41 +777,6 @@
             transform: translate(-50%, -50%);
         }
         
-        .multipliers {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-        
-        .multiplier-btn {
-            width: 50px;
-            height: 50px;
-            background: #1a1a1a;
-            border: 2px solid #2a2a2a;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            font-weight: bold;
-            color: #fff;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .multiplier-btn:hover {
-            border-color: #ffd700;
-            transform: scale(1.05);
-        }
-        
-        .multiplier-btn.active {
-            background: #ffd700;
-            color: #000;
-            border-color: #ffd700;
-        }
-        
         .action-btn {
             flex: 1;
             padding: 15px;
@@ -1165,6 +1176,102 @@
             display: block;
         }
         
+        /* Обновленный профиль */
+        .profile-section {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://avatars.mds.yandex.net/i?id=206f6bd99b548c1999cfbb94645e4ac52125f749-16349630-images-thumbs&n=13');
+            background-size: cover;
+            background-position: center;
+            border-radius: 30px;
+            padding: 30px 20px;
+            margin-bottom: 20px;
+            border: 2px solid #ffd700;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-avatar-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #ffd700, #ffaa00);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: bold;
+            color: #000;
+            margin: 0 auto 15px;
+            border: 3px solid #ffd700;
+            box-shadow: 0 0 20px rgba(255,215,0,0.5);
+        }
+        
+        .profile-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 5px;
+            text-shadow: 0 0 10px rgba(255,215,0,0.5);
+        }
+        
+        .profile-id {
+            font-size: 14px;
+            color: #aaa;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .stats-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-block {
+            flex: 1;
+            background: rgba(0,0,0,0.8);
+            border-radius: 20px;
+            padding: 15px;
+            border: 1px solid #ffd700;
+            text-align: center;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 10px;
+        }
+        
+        .best-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .best-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            padding: 5px;
+        }
+        
+        .best-item-name {
+            font-size: 12px;
+            font-weight: bold;
+            color: #ffd700;
+        }
+        
+        .best-item-price {
+            font-size: 14px;
+            color: #ffd700;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+        
         .profile-stats {
             background: #0f0f0f;
             border-radius: 20px;
@@ -1492,9 +1599,13 @@
     <div class="top-bar">
         <div class="back-button" id="backButton" onclick="showMainMenu()">← Назад</div>
         <div></div>
-        <div class="balance-container" onclick="showBalanceModal()">
-            <div class="star-icon"></div>
-            <span class="balance-amount" id="balanceDisplay">1000</span>
+        <div class="balance-container">
+            <div class="balance-box" onclick="showBalanceModal()">
+                <div class="star-icon"></div>
+                <span class="balance-amount" id="balanceDisplay">1000</span>
+            </div>
+            <div class="add-balance" onclick="showBalanceModal()">+</div>
+            <div class="profile-avatar" onclick="switchToProfile()" id="profileAvatar">👤</div>
         </div>
     </div>
 
@@ -1587,14 +1698,6 @@
                     <div class="item-slot"><div class="item-image" id="targetItem" onclick="selectTargetItem()"><span style="font-size:30px;color:#666;">?</span></div><div class="item-price" id="targetPrice">- ⭐</div></div>
                 </div>
 
-                <div class="multipliers">
-                    <div class="multiplier-btn active" onclick="selectMultiplier(2, this)">2x</div>
-                    <div class="multiplier-btn" onclick="selectMultiplier(3, this)">3x</div>
-                    <div class="multiplier-btn" onclick="selectMultiplier(5, this)">5x</div>
-                    <div class="multiplier-btn" onclick="selectMultiplier(10, this)">10x</div>
-                    <div class="multiplier-btn" onclick="selectMultiplier(20, this)">20x</div>
-                </div>
-
                 <button class="action-btn primary" onclick="startWheelSpin()">⚡ Крутить колесо</button>
 
                 <div class="action-buttons">
@@ -1608,7 +1711,31 @@
 
         <!-- Страница профиля -->
         <div id="profileSection" class="section">
-            <h2 class="section-title">👤 Профиль</h2>
+            <div class="profile-section">
+                <div class="profile-avatar-large" id="profileAvatarLarge">👤</div>
+                <div class="profile-name" id="profileName">Игрок</div>
+                <div class="profile-id" id="profileId">ID: 123456789</div>
+                
+                <div class="stats-row">
+                    <div class="stat-block">
+                        <div class="stat-label">🏆 Лучший дроп</div>
+                        <div class="best-item" id="bestDrop">
+                            <img src="https://files.catbox.moe/nt7ios.png">
+                            <div class="best-item-name">Алмазик</div>
+                            <div class="best-item-price">100 ⭐</div>
+                        </div>
+                    </div>
+                    <div class="stat-block">
+                        <div class="stat-label">⚡ Лучший апгрейд</div>
+                        <div class="best-item" id="bestUpgrade">
+                            <img src="https://files.catbox.moe/6ified.png">
+                            <div class="best-item-name">Vintage Cigar</div>
+                            <div class="best-item-price">3357 ⭐</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="profile-stats">
                 <div class="stat-item"><span class="stat-label">Открыто кейсов:</span><span class="stat-value" id="openedCases">0</span></div>
                 <div class="stat-item"><span class="stat-label">Баланс звёзд:</span><span class="stat-value" id="profileBalance">1000 ⭐</span></div>
@@ -1726,7 +1853,7 @@
             stars150: { id: 'stars150', name: '150 звёзд', image: 'https://nztcdn.com/files/34b13b5a-7b5f-4d29-9c92-8fada5f27b2f.webp', price: 150 },
             cup: { id: 'cup', name: 'Кубок', image: 'https://files.catbox.moe/9a63n2.png', price: 100 },
             
-            // НОВЫЕ ПРЕДМЕТЫ (только в системе, не в кейсах)
+            // НОВЫЕ ПРЕДМЕТЫ
             heart: { id: 'heart', name: 'Сердечко', image: 'https://files.catbox.moe/n8n9z4.png', price: 15 },
             bear: { id: 'bear', name: 'Мишка', image: 'https://files.catbox.moe/vbau80.png', price: 15 },
             gift25: { id: 'gift25', name: 'Подарок', image: 'https://files.catbox.moe/4jk41n.png', price: 25 },
@@ -1762,7 +1889,7 @@
             valentineBox: { id: 'valentineBox', name: 'Valentine Box', image: 'https://files.catbox.moe/o2hbqe.png', price: 1204 }
         };
 
-        // Начальное состояние с новыми предметами
+        // Начальное состояние
         let state = {
             balance: 1000,
             openedCases: 0,
@@ -1771,19 +1898,17 @@
                 { id: 'cake', name: 'Тортик', image: 'https://files.catbox.moe/1w9dkc.png', price: 50, count: 2 },
                 { id: 'diamond', name: 'Алмазик', image: 'https://files.catbox.moe/nt7ios.png', price: 100, count: 1 },
                 { id: 'xmas', name: 'Xmas Stocking', image: 'https://files.catbox.moe/yecky8.png', price: 495, count: 1 },
-                // Новые предметы для примера
+                { id: 'cigar', name: 'Vintage Cigar', image: 'https://files.catbox.moe/6ified.png', price: 3357, count: 1 },
                 { id: 'heart', name: 'Сердечко', image: 'https://files.catbox.moe/n8n9z4.png', price: 15, count: 5 },
                 { id: 'bear', name: 'Мишка', image: 'https://files.catbox.moe/vbau80.png', price: 15, count: 3 },
-                { id: 'gift25', name: 'Подарок', image: 'https://files.catbox.moe/4jk41n.png', price: 25, count: 2 },
-                { id: 'champagne', name: 'Шампанское', image: 'https://files.catbox.moe/jrc3k2.png', price: 50, count: 1 },
-                { id: 'rocket', name: 'Ракета', image: 'https://files.catbox.moe/kbki0e.png', price: 50, count: 1 },
-                { id: 'bouquet', name: 'Букет роз', image: 'https://files.catbox.moe/dtuvb7.png', price: 50, count: 1 }
-            ]
+                { id: 'gift25', name: 'Подарок', image: 'https://files.catbox.moe/4jk41n.png', price: 25, count: 2 }
+            ],
+            bestDrop: { id: 'cigar', name: 'Vintage Cigar', image: 'https://files.catbox.moe/6ified.png', price: 3357 },
+            bestUpgrade: { id: 'ringExpensive', name: 'Diamond Ring', image: 'https://files.catbox.moe/tjttfk.png', price: 2858 }
         };
 
         let selectedSource = null;
         let selectedTarget = null;
-        let currentMultiplier = 2;
         let isSpinning = false;
 
         function saveState() {
@@ -1798,6 +1923,36 @@
 
         function starsToTon(stars) {
             return (stars / STARS_TO_TON).toFixed(2);
+        }
+
+        function updateProfileInfo() {
+            const user = tg.initDataUnsafe?.user;
+            if (user) {
+                document.getElementById('profileName').textContent = user.first_name || 'Игрок';
+                document.getElementById('profileId').textContent = `ID: ${user.id}`;
+                
+                // Аватарка с первой буквой имени
+                const firstLetter = (user.first_name || 'П').charAt(0).toUpperCase();
+                document.getElementById('profileAvatar').textContent = firstLetter;
+                document.getElementById('profileAvatarLarge').textContent = firstLetter;
+            }
+            
+            // Обновляем лучшие предметы
+            if (state.bestDrop) {
+                document.getElementById('bestDrop').innerHTML = `
+                    <img src="${state.bestDrop.image}">
+                    <div class="best-item-name">${state.bestDrop.name}</div>
+                    <div class="best-item-price">${state.bestDrop.price} ⭐</div>
+                `;
+            }
+            
+            if (state.bestUpgrade) {
+                document.getElementById('bestUpgrade').innerHTML = `
+                    <img src="${state.bestUpgrade.image}">
+                    <div class="best-item-name">${state.bestUpgrade.name}</div>
+                    <div class="best-item-price">${state.bestUpgrade.price} ⭐</div>
+                `;
+            }
         }
 
         function switchToCases() {
@@ -1830,6 +1985,7 @@
             document.getElementById('caseDetail').classList.remove('active');
             document.getElementById('upgradePage').classList.remove('active');
             document.getElementById('backButton').classList.remove('visible');
+            updateProfileInfo();
             renderInventory();
         }
 
@@ -1893,9 +2049,6 @@
         function resetUpgrade() {
             selectedSource = null;
             selectedTarget = null;
-            currentMultiplier = 2;
-            document.querySelectorAll('.multiplier-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector('.multiplier-btn').classList.add('active');
             document.getElementById('sourceItem').innerHTML = '<span style="font-size:30px;color:#666;">?</span>';
             document.getElementById('sourcePrice').innerHTML = '- ⭐';
             document.getElementById('targetItem').innerHTML = '<span style="font-size:30px;color:#666;">?</span>';
@@ -1916,11 +2069,15 @@
             
             const sourceItem = allItems[selectedSource];
             const targetItem = allItems[selectedTarget];
-            const chance = parseFloat(document.getElementById('wheelPercent').textContent) / 100;
+            
+            // Шанс всегда считается от 2x
+            let chance = (sourceItem.price * 2) / targetItem.price * 50;
+            chance = Math.min(Math.max(chance, 5), 95);
+            
             const wheel = document.querySelector('.wheel-svg');
             const spins = 3;
             const stopAngle = Math.random() * 360;
-            const isWin = stopAngle <= (chance * 360);
+            const isWin = stopAngle <= (chance / 100 * 360);
             const totalRotation = spins * 360 + stopAngle;
             
             wheel.style.transition = 'none';
@@ -1934,9 +2091,20 @@
             setTimeout(() => {
                 if (isWin) {
                     alert('✅ Успех!');
-                    const existingTarget = state.inventory.find(i => i.id === selectedTarget);
-                    if (existingTarget) existingTarget.count = (existingTarget.count||1)+1;
-                    else state.inventory.push({...targetItem, count:1});
+                    
+                    // Проверяем, не звезды ли это
+                    if (targetItem.id === 'stars150') {
+                        state.balance += targetItem.price;
+                    } else {
+                        const existingTarget = state.inventory.find(i => i.id === selectedTarget);
+                        if (existingTarget) existingTarget.count = (existingTarget.count||1)+1;
+                        else state.inventory.push({...targetItem, count:1});
+                    }
+                    
+                    // Обновляем лучший апгрейд
+                    if (targetItem.price > (state.bestUpgrade?.price || 0)) {
+                        state.bestUpgrade = targetItem;
+                    }
                     
                     const sourceIdx = state.inventory.findIndex(i => i.id === selectedSource);
                     if (sourceIdx !== -1) {
@@ -1968,38 +2136,8 @@
                 wheel.style.transform = 'rotate(-90deg)';
                 updateWheel(0);
                 
-                document.querySelectorAll('.multiplier-btn').forEach(btn => btn.classList.remove('active'));
-                document.querySelector('.multiplier-btn').classList.add('active');
-                
                 isSpinning = false;
             }, 7200);
-        }
-
-        function selectMultiplier(x, element) {
-            document.querySelectorAll('.multiplier-btn').forEach(btn => btn.classList.remove('active'));
-            element.classList.add('active');
-            currentMultiplier = x;
-            
-            if (selectedSource) {
-                const sourceItem = allItems[selectedSource];
-                const targetPrice = sourceItem.price * x;
-                const available = Object.values(allItems).filter(item => 
-                    item.price >= targetPrice*0.8 && item.price <= targetPrice*1.2 && item.id !== selectedSource
-                );
-                if (available.length) {
-                    available.sort((a,b)=>Math.abs(a.price-targetPrice)-Math.abs(b.price-targetPrice));
-                    selectTarget(available[0].id);
-                }
-            }
-        }
-
-        function calculateChance() {
-            if (!selectedSource || !selectedTarget) return;
-            const sourceItem = allItems[selectedSource];
-            const targetItem = allItems[selectedTarget];
-            let chance = (sourceItem.price * 2) / targetItem.price * 50;
-            chance = Math.min(Math.max(chance, 5), 95);
-            updateWheel(chance);
         }
 
         function selectSourceItem() {
@@ -2025,8 +2163,8 @@
                 });
                 list.innerHTML = html;
             } else {
-                const sourcePrice = allItems[selectedSource]?.price || 0;
-                const available = Object.values(allItems).filter(item => item.price > sourcePrice * 1.5);
+                // Сортируем от самого дешевого до самого дорогого
+                const available = Object.values(allItems).filter(item => item.price > 0).sort((a, b) => a.price - b.price);
                 let html = '';
                 available.forEach(item => {
                     html += `<div class="item-card" onclick="selectTarget('${item.id}')"><img src="${item.image}"><div class="item-card-name">${item.name}</div><div class="item-card-price">${item.price} ⭐</div></div>`;
@@ -2040,9 +2178,6 @@
             const item = allItems[itemId];
             document.getElementById('sourceItem').innerHTML = `<img src="${item.image}">`;
             document.getElementById('sourcePrice').innerHTML = `${item.price} ⭐`;
-            currentMultiplier = 2;
-            document.querySelectorAll('.multiplier-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector('.multiplier-btn').classList.add('active');
         }
 
         function selectTarget(itemId) {
@@ -2050,7 +2185,6 @@
             const item = allItems[itemId];
             document.getElementById('targetItem').innerHTML = `<img src="${item.image}">`;
             document.getElementById('targetPrice').innerHTML = `${item.price} ⭐`;
-            if (selectedSource) calculateChance();
         }
 
         function showMyItems() {
@@ -2064,12 +2198,13 @@
 
         function renderInventory() {
             const div = document.getElementById('inventory');
-            if (!state.inventory?.length) {
+            const items = state.inventory.filter(item => item.id !== 'stars150'); // Не показываем звезды в инвентаре
+            if (!items.length) {
                 div.innerHTML = '<div class="empty-section">🫙 Инвентарь пуст</div>';
                 return;
             }
             let html = '';
-            state.inventory.forEach(item => {
+            items.forEach(item => {
                 html += `<div class="inventory-item"><img src="${item.image}"><div class="inventory-item-name">${item.name}</div><div class="inventory-item-price">${item.price} ⭐</div><span class="item-count">x${item.count||1}</span><button class="sell-one-btn" onclick="sellItem('${item.id}')">Продать 1</button></div>`;
             });
             div.innerHTML = html;
@@ -2194,7 +2329,6 @@
                 
                 for (let j=0; j<70; j++) {
                     let item;
-                    // Только одна позиция (35) содержит выигрышный предмет
                     if (j === 35) {
                         item = results[i];
                     } else {
@@ -2231,15 +2365,28 @@
             
             setTimeout(() => {
                 results.forEach(r => {
-                    rlist.innerHTML += `<div class="result-item ${isDemo?'demo':''}"><img src="${r.image}"><div class="result-item-info"><div class="result-item-name">${r.name}</div><div class="result-item-price">${r.price} ⭐</div></div>${!isDemo?`<button class="sell-result-btn" onclick="sellSingleResult('${r.timestamp}')">Продать</button>`:''}${isDemo?'<span class="demo-label">DEMO</span>':''}</div>`;
+                    // Если это 150 звёзд - сразу добавляем на баланс
+                    if (r.id === 'stars150' && !isDemo) {
+                        state.balance += r.price;
+                        updateBalance();
+                    } else if (!isDemo && r.id !== 'stars150') {
+                        const existing = state.inventory.find(i => i.id === r.id);
+                        if (existing) existing.count = (existing.count||1)+1;
+                        else state.inventory.push({...r, count:1});
+                        
+                        // Обновляем лучший дроп
+                        if (r.price > (state.bestDrop?.price || 0)) {
+                            state.bestDrop = r;
+                        }
+                    }
+                    
+                    // Показываем в результатах только если это не звезды
+                    if (r.id !== 'stars150') {
+                        rlist.innerHTML += `<div class="result-item ${isDemo?'demo':''}"><img src="${r.image}"><div class="result-item-info"><div class="result-item-name">${r.name}</div><div class="result-item-price">${r.price} ⭐</div></div>${!isDemo?`<button class="sell-result-btn" onclick="sellSingleResult('${r.timestamp}')">Продать</button>`:''}${isDemo?'<span class="demo-label">DEMO</span>':''}</div>`;
+                    }
                 });
                 
                 if (!isDemo) {
-                    results.forEach(result => {
-                        const existing = state.inventory.find(i => i.id === result.id);
-                        if (existing) existing.count = (existing.count||1)+1;
-                        else state.inventory.push({...result, count:1});
-                    });
                     state.openedCases += state.selectedQuantity;
                     document.getElementById('openedCases').textContent = state.openedCases;
                     renderInventory();
@@ -2374,7 +2521,6 @@
             alert('Сохранено');
         }
 
-        // Кейсы БЕЗ новых предметов (только старые)
         const cases = {
             red: { 
                 name: 'Red Case', 
@@ -2426,6 +2572,7 @@
         // Инициализация
         updateBalance();
         renderInventory();
+        updateProfileInfo();
     </script>
 </body>
 </html>
