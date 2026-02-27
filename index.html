@@ -49,7 +49,7 @@
             display: block;
         }
         
-        /* Кнопка телепорта - новая ссылка */
+        /* Кнопка телепорта */
         .cases-teleport {
             width: 55px;
             height: 55px;
@@ -242,14 +242,6 @@
             background-repeat: no-repeat;
             background-color: transparent;
             border: 2px solid #ffd700;
-        }
-        
-        .red-detail {
-            background-image: url('https://i.imgur.com/o9NlMVp.jpeg');
-        }
-        
-        .green-detail {
-            background-image: url('https://i.imgur.com/49pWrH0.jpeg');
         }
         
         .detail-name {
@@ -1704,9 +1696,8 @@
         const STARS_TO_TON = 100;
         const OWNER_ID = 7389462195;
 
-        // ВСЕ ПРЕДМЕТЫ С НОВЫМИ ССЫЛКАМИ НА IMGUR
+        // ВСЕ ПРЕДМЕТЫ С НОВЫМИ ССЫЛКАМИ
         const allItems = {
-            // Базовые предметы
             rose: { id: 'rose', name: 'Розочка', image: 'https://cdn140.picsart.com/241734929003212.png', price: 25 },
             cake: { id: 'cake', name: 'Тортик', image: 'https://i.imgur.com/D3DESZt.jpeg', price: 50 },
             diamond: { id: 'diamond', name: 'Алмазик', image: 'https://i.imgur.com/cMroapP.jpeg', price: 100 },
@@ -1769,7 +1760,6 @@
                 { id: 'diamond', name: 'Алмазик', image: 'https://i.imgur.com/cMroapP.jpeg', price: 100, count: 1 },
                 { id: 'xmas', name: 'Xmas Stocking', image: 'https://i.imgur.com/HmFjBiE.jpeg', price: 495, count: 1 },
                 { id: 'cigar', name: 'Vintage Cigar', image: 'https://i.imgur.com/Dpx93bA.jpeg', price: 3357, count: 1 },
-                { id: 'heart', name: 'Сердечко', image: 'https://i.imgur.com/YOUR_HEART_IMAGE_HERE.jpeg', price: 15, count: 5 },
                 { id: 'bear', name: 'Мишка', image: 'https://i.imgur.com/g3ICcYr.jpeg', price: 15, count: 3 },
                 { id: 'champagne', name: 'Шампанское', image: 'https://i.imgur.com/LxpRqZV.jpeg', price: 50, count: 2 },
                 { id: 'rocket', name: 'Ракета', image: 'https://i.imgur.com/5MlFvNn.jpeg', price: 50, count: 1 }
@@ -1886,6 +1876,14 @@
         function showCaseDetail(caseId) {
             state.currentCase = caseId;
             const caseData = cases[caseId];
+            
+            // Проверяем существование элемента перед использованием
+            const detailImage = document.getElementById('detailImage');
+            if (!detailImage) {
+                console.error('Элемент detailImage не найден!');
+                return;
+            }
+            
             document.getElementById('mainMenu').classList.remove('active');
             document.getElementById('caseDetail').classList.add('active');
             document.getElementById('gamesMenu').classList.remove('active');
@@ -1893,7 +1891,6 @@
             document.getElementById('upgradePage').classList.remove('active');
             document.getElementById('backButton').classList.add('visible');
             
-            const detailImage = document.getElementById('detailImage');
             if (caseId === 'red') {
                 detailImage.className = 'detail-image red-detail';
             } else if (caseId === 'green') {
