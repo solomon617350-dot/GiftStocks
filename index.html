@@ -49,11 +49,11 @@
             display: block;
         }
         
-        /* Кнопка слева */
+        /* Кнопка слева - НОВАЯ ССЫЛКА */
         .cases-teleport {
             width: 55px;
             height: 55px;
-            background: url('https://files.catbox.moe/qe8a2z.png') center/contain no-repeat;
+            background: url('https://i.postimg.cc/TPHcFsNw/qe8a2z.png') center/contain no-repeat;
             cursor: pointer;
             transition: transform 0.2s;
         }
@@ -185,11 +185,11 @@
         }
         
         .red-case {
-            background-image: url('https://files.catbox.moe/o2w0dj.png');
+            background-image: url('https://i.postimg.cc/kMFDXg1N/o2w0dj.png');
         }
         
         .green-case {
-            background-image: url('https://files.catbox.moe/xl3oa3.png');
+            background-image: url('https://i.postimg.cc/k5q9scw6/xl3oa3.png');
         }
         
         .case-name {
@@ -245,11 +245,11 @@
         }
         
         .red-detail {
-            background-image: url('https://files.catbox.moe/o2w0dj.png');
+            background-image: url('https://i.postimg.cc/kMFDXg1N/o2w0dj.png');
         }
         
         .green-detail {
-            background-image: url('https://files.catbox.moe/xl3oa3.png');
+            background-image: url('https://i.postimg.cc/k5q9scw6/xl3oa3.png');
         }
         
         .detail-name {
@@ -432,7 +432,7 @@
         .ton-icon {
             width: 18px;
             height: 18px;
-            background: url('https://files.catbox.moe/7lnef8.png') center/contain no-repeat;
+            background: url('https://i.postimg.cc/MTz2hNqL/7lnef8.png') center/contain no-repeat;
             display: inline-block;
         }
         
@@ -1514,7 +1514,7 @@
             </div>
         </div>
 
-        <!-- Детальная страница кейса - ИСПРАВЛЕНО: добавлен detail-image -->
+        <!-- Детальная страница кейса -->
         <div id="caseDetail" class="case-detail">
             <div class="detail-header">
                 <div class="detail-image" id="detailImage"></div>
@@ -1594,7 +1594,7 @@
                     <div class="stat-block">
                         <div class="stat-label">🏆 Лучший дроп</div>
                         <div class="best-item" id="bestDrop">
-                            <img src="https://files.catbox.moe/nt7ios.png">
+                            <img src="https://i.postimg.cc/3RCdpQPK/nt7ios.png">
                             <div class="best-item-name">Алмазик</div>
                             <div class="best-item-price">100 ⭐</div>
                         </div>
@@ -1602,7 +1602,7 @@
                     <div class="stat-block">
                         <div class="stat-label">⚡ Лучший апгрейд</div>
                         <div class="best-item" id="bestUpgrade">
-                            <img src="https://files.catbox.moe/6ified.png">
+                            <img src="https://i.postimg.cc/bYBjWYvW/6ified.png">
                             <div class="best-item-name">Vintage Cigar</div>
                             <div class="best-item-price">3357 ⭐</div>
                         </div>
@@ -1704,56 +1704,56 @@
         const STARS_TO_TON = 100;
         const OWNER_ID = 7389462195;
 
-        // ВСЕ ПРЕДМЕТЫ
+        // ВСЕ ПРЕДМЕТЫ С НОВЫМИ ССЫЛКАМИ НА POSTIMAGES
         const allItems = {
             rose: { id: 'rose', name: 'Розочка', image: 'https://cdn140.picsart.com/241734929003212.png', price: 25 },
-            cake: { id: 'cake', name: 'Тортик', image: 'https://files.catbox.moe/1w9dkc.png', price: 50 },
-            diamond: { id: 'diamond', name: 'Алмазик', image: 'https://files.catbox.moe/nt7ios.png', price: 100 },
-            ring: { id: 'ring', name: 'Кольцо', image: 'https://files.catbox.moe/8mhtc7.png', price: 100 },
-            xmas: { id: 'xmas', name: 'Xmas Stocking', image: 'https://files.catbox.moe/yecky8.png', price: 495 },
-            ramen: { id: 'ramen', name: 'Instant Ramen', image: 'https://files.catbox.moe/98yf4o.png', price: 520 },
-            icecream: { id: 'icecream', name: 'Ice Cream', image: 'https://files.catbox.moe/hwregp.png', price: 560 },
-            bunny: { id: 'bunny', name: 'Jelly Bunny', image: 'https://files.catbox.moe/6nsg8j.png', price: 750 },
-            star: { id: 'star', name: 'Hanging Star', image: 'https://files.catbox.moe/59c2w2.png', price: 917 },
-            bell: { id: 'bell', name: 'Sleigh Bell', image: 'https://files.catbox.moe/5bya6r.png', price: 1095 },
-            skull: { id: 'skull', name: 'Skull Flower', image: 'https://files.catbox.moe/6berpu.png', price: 1245 },
-            hat: { id: 'hat', name: 'Top Hat', image: 'https://files.catbox.moe/sldlrh.png', price: 1293 },
-            skelettos: { id: 'skelettos', name: 'Sky Skelettos', image: 'https://files.catbox.moe/o336j5.png', price: 1530 },
-            charm: { id: 'charm', name: 'Cupid Charm', image: 'https://files.catbox.moe/qel225.png', price: 2038 },
-            ringExpensive: { id: 'ringExpensive', name: 'Diamond Ring', image: 'https://files.catbox.moe/tjttfk.png', price: 2858 },
-            cigar: { id: 'cigar', name: 'Vintage Cigar', image: 'https://files.catbox.moe/6ified.png', price: 3357 },
-            calendar: { id: 'calendar', name: 'Календарь', image: 'https://files.catbox.moe/vp6ocv.png', price: 500 },
+            cake: { id: 'cake', name: 'Тортик', image: 'https://i.postimg.cc/2yDS7m1p/1w9dkc.png', price: 50 },
+            diamond: { id: 'diamond', name: 'Алмазик', image: 'https://i.postimg.cc/3RCdpQPK/nt7ios.png', price: 100 },
+            ring: { id: 'ring', name: 'Кольцо', image: 'https://i.postimg.cc/VvL3Fwxb/8mhtc7.png', price: 100 },
+            xmas: { id: 'xmas', name: 'Xmas Stocking', image: 'https://i.postimg.cc/Yq1LvN0T/yecky8.png', price: 495 },
+            ramen: { id: 'ramen', name: 'Instant Ramen', image: 'https://i.postimg.cc/9QvCVZRt/98yf4o.png', price: 520 },
+            icecream: { id: 'icecream', name: 'Ice Cream', image: 'https://i.postimg.cc/28qkPp0J/hwregp.png', price: 560 },
+            bunny: { id: 'bunny', name: 'Jelly Bunny', image: 'https://i.postimg.cc/PJmzGjCB/6nsg8j.png', price: 750 },
+            star: { id: 'star', name: 'Hanging Star', image: 'https://i.postimg.cc/0NXtbLrW/59c2w2.png', price: 917 },
+            bell: { id: 'bell', name: 'Sleigh Bell', image: 'https://i.postimg.cc/ncPLJLLn/5bya6r.png', price: 1095 },
+            skull: { id: 'skull', name: 'Skull Flower', image: 'https://i.postimg.cc/hGspXm72/6berpu.png', price: 1245 },
+            hat: { id: 'hat', name: 'Top Hat', image: 'https://i.postimg.cc/FR1cST3V/sldlrh.png', price: 1293 },
+            skelettos: { id: 'skelettos', name: 'Sky Skelettos', image: 'https://i.postimg.cc/MHLh2YN0/o336j5.png', price: 1530 },
+            charm: { id: 'charm', name: 'Cupid Charm', image: 'https://i.postimg.cc/cHcWQYH8/qel225.png', price: 2038 },
+            ringExpensive: { id: 'ringExpensive', name: 'Diamond Ring', image: 'https://i.postimg.cc/2S95x3jf/tjttfk.png', price: 2858 },
+            cigar: { id: 'cigar', name: 'Vintage Cigar', image: 'https://i.postimg.cc/bYBjWYvW/6ified.png', price: 3357 },
+            calendar: { id: 'calendar', name: 'Календарь', image: 'https://i.postimg.cc/8c6BDShV/vp6ocv.png', price: 500 },
             stars150: { id: 'stars150', name: '150 звёзд', image: 'https://nztcdn.com/files/34b13b5a-7b5f-4d29-9c92-8fada5f27b2f.webp', price: 150 },
-            cup: { id: 'cup', name: 'Кубок', image: 'https://files.catbox.moe/9a63n2.png', price: 100 },
+            cup: { id: 'cup', name: 'Кубок', image: 'https://i.postimg.cc/gjX8rfrH/9a63n2.png', price: 100 },
             
             // Новые предметы
-            bdayCandle: { id: 'bdayCandle', name: 'B-day Candle', image: 'https://files.catbox.moe/epcq0u.png', price: 575 },
-            snowMittens: { id: 'snowMittens', name: 'Snow Mittens', image: 'https://files.catbox.moe/8kjk36.png', price: 795 },
-            jesterHat: { id: 'jesterHat', name: 'Jester Hat', image: 'https://files.catbox.moe/xrpmwz.png', price: 606 },
-            snoopCigar: { id: 'snoopCigar', name: 'Snoop Cigar', image: 'https://files.catbox.moe/v1btxg.png', price: 1215 },
-            springBasket: { id: 'springBasket', name: 'Spring Basket', image: 'https://files.catbox.moe/vag2kq.png', price: 606 },
-            prettyPosy: { id: 'prettyPosy', name: 'Pretty Posy', image: 'https://files.catbox.moe/5vqnh5.png', price: 620 },
-            petSnake: { id: 'petSnake', name: 'Pet Snake', image: 'https://files.catbox.moe/n65kjc.png', price: 615 },
-            loveCandle: { id: 'loveCandle', name: 'Love Candle', image: 'https://files.catbox.moe/ov5dx7.png', price: 1255 },
-            lunarSnake: { id: 'lunarSnake', name: 'Lunar Snake', image: 'https://files.catbox.moe/dd1l2y.png', price: 530 },
-            snakeBox: { id: 'snakeBox', name: 'Snake Box', image: 'https://files.catbox.moe/vfcsau.png', price: 555 },
-            mousseCake: { id: 'mousseCake', name: 'Mousse Cake', image: 'https://files.catbox.moe/2xw2m1.png', price: 605 },
-            faithAmulet: { id: 'faithAmulet', name: 'Faith Amulet', image: 'https://files.catbox.moe/aggknj.png', price: 620 },
-            victoryMedal: { id: 'victoryMedal', name: 'Victory Medal', image: 'https://files.catbox.moe/mayh1v.png', price: 612 },
-            swagBag: { id: 'swagBag', name: 'Swag Bag', image: 'https://files.catbox.moe/fafc2e.png', price: 601 },
-            cloverPin: { id: 'cloverPin', name: 'Clover Pin', image: 'https://files.catbox.moe/3gcqdj.png', price: 615 },
-            freshSocks: { id: 'freshSocks', name: 'Fresh Socks', image: 'https://files.catbox.moe/6cohuh.png', price: 636 },
-            candyCane: { id: 'candyCane', name: 'Candy Cane', image: 'https://files.catbox.moe/m30dxn.png', price: 567 },
-            deskCalendar: { id: 'deskCalendar', name: 'Desk Calendar', image: 'https://files.catbox.moe/4enydz.png', price: 645 },
-            lolPop: { id: 'lolPop', name: 'Lol Pop', image: 'https://files.catbox.moe/uu98ia.png', price: 610 },
-            berryBox: { id: 'berryBox', name: 'Berry Box', image: 'https://files.catbox.moe/usimyp.png', price: 854 },
-            whipCupcake: { id: 'whipCupcake', name: 'Whip Cupcake', image: 'https://files.catbox.moe/a1rr86.png', price: 603 },
-            happyBrownie: { id: 'happyBrownie', name: 'Happy Brownie', image: 'https://files.catbox.moe/t42euq.png', price: 643 },
-            snoopDog: { id: 'snoopDog', name: 'Snoop Dog', image: 'https://files.catbox.moe/h1ej2q.png', price: 624 },
-            trappedHeard: { id: 'trappedHeard', name: 'Trapped Heard', image: 'https://files.catbox.moe/p2crbv.png', price: 1513 },
-            cookieHeard: { id: 'cookieHeard', name: 'Cookie Heard', image: 'https://files.catbox.moe/ysqlmp.png', price: 605 },
-            lovePotion: { id: 'lovePotion', name: 'Love Potion', image: 'https://files.catbox.moe/el2fg5.png', price: 1540 },
-            valentineBox: { id: 'valentineBox', name: 'Valentine Box', image: 'https://files.catbox.moe/o2hbqe.png', price: 1204 }
+            bdayCandle: { id: 'bdayCandle', name: 'B-day Candle', image: 'https://i.postimg.cc/1zLdbQY3/epcq0u.png', price: 575 },
+            snowMittens: { id: 'snowMittens', name: 'Snow Mittens', image: 'https://i.postimg.cc/GtKzZFFn/8kjk36.png', price: 795 },
+            jesterHat: { id: 'jesterHat', name: 'Jester Hat', image: 'https://i.postimg.cc/QMwJYbMg/xrpmwz.png', price: 606 },
+            snoopCigar: { id: 'snoopCigar', name: 'Snoop Cigar', image: 'https://i.postimg.cc/DyvLhMvW/v1btxg.png', price: 1215 },
+            springBasket: { id: 'springBasket', name: 'Spring Basket', image: 'https://i.postimg.cc/SNdFYFhQ/vag2kq.png', price: 606 },
+            prettyPosy: { id: 'prettyPosy', name: 'Pretty Posy', image: 'https://i.postimg.cc/Y9W5q0cY/5vqnh5.png', price: 620 },
+            petSnake: { id: 'petSnake', name: 'Pet Snake', image: 'https://i.postimg.cc/SsDZ2t4z/n65kjc.png', price: 615 },
+            loveCandle: { id: 'loveCandle', name: 'Love Candle', image: 'https://i.postimg.cc/CK0s4QGy/ov5dx7.png', price: 1255 },
+            lunarSnake: { id: 'lunarSnake', name: 'Lunar Snake', image: 'https://i.postimg.cc/tCJZnX5N/dd1l2y.png', price: 530 },
+            snakeBox: { id: 'snakeBox', name: 'Snake Box', image: 'https://i.postimg.cc/fW9bY5hm/vfcsau.png', price: 555 },
+            mousseCake: { id: 'mousseCake', name: 'Mousse Cake', image: 'https://i.postimg.cc/Y9q5vM2T/2xw2m1.png', price: 605 },
+            faithAmulet: { id: 'faithAmulet', name: 'Faith Amulet', image: 'https://i.postimg.cc/MTpSsKPB/aggknj.png', price: 620 },
+            victoryMedal: { id: 'victoryMedal', name: 'Victory Medal', image: 'https://i.postimg.cc/tJMCyQpW/mayh1v.png', price: 612 },
+            swagBag: { id: 'swagBag', name: 'Swag Bag', image: 'https://i.postimg.cc/W1rR1QfL/fafc2e.png', price: 601 },
+            cloverPin: { id: 'cloverPin', name: 'Clover Pin', image: 'https://i.postimg.cc/bryfzqhN/3gcqdj.png', price: 615 },
+            freshSocks: { id: 'freshSocks', name: 'Fresh Socks', image: 'https://i.postimg.cc/RhH7ZJ3t/6cohuh.png', price: 636 },
+            candyCane: { id: 'candyCane', name: 'Candy Cane', image: 'https://i.postimg.cc/L5wPYhpW/m30dxn.png', price: 567 },
+            deskCalendar: { id: 'deskCalendar', name: 'Desk Calendar', image: 'https://i.postimg.cc/9X99FY9c/4enydz.png', price: 645 },
+            lolPop: { id: 'lolPop', name: 'Lol Pop', image: 'https://i.postimg.cc/MKVmJQ6V/uu98ia.png', price: 610 },
+            berryBox: { id: 'berryBox', name: 'Berry Box', image: 'https://i.postimg.cc/PqWckYh2/usimyp.png', price: 854 },
+            whipCupcake: { id: 'whipCupcake', name: 'Whip Cupcake', image: 'https://i.postimg.cc/CxwTNLF9/a1rr86.png', price: 603 },
+            happyBrownie: { id: 'happyBrownie', name: 'Happy Brownie', image: 'https://i.postimg.cc/Dz2Lp8wZ/t42euq.png', price: 643 },
+            snoopDog: { id: 'snoopDog', name: 'Snoop Dog', image: 'https://i.postimg.cc/3Nqs9s2F/h1ej2q.png', price: 624 },
+            trappedHeard: { id: 'trappedHeard', name: 'Trapped Heard', image: 'https://i.postimg.cc/gkRqZ8Vp/p2crbv.png', price: 1513 },
+            cookieHeard: { id: 'cookieHeard', name: 'Cookie Heard', image: 'https://i.postimg.cc/y8crhf5h/ysqlmp.png', price: 605 },
+            lovePotion: { id: 'lovePotion', name: 'Love Potion', image: 'https://i.postimg.cc/1z7wJ5kZ/el2fg5.png', price: 1540 },
+            valentineBox: { id: 'valentineBox', name: 'Valentine Box', image: 'https://i.postimg.cc/RVC9v6Hn/o2hbqe.png', price: 1204 }
         };
 
         let state = {
@@ -1761,13 +1761,13 @@
             openedCases: 0,
             inventory: [
                 { id: 'rose', name: 'Розочка', image: 'https://cdn140.picsart.com/241734929003212.png', price: 25, count: 3 },
-                { id: 'cake', name: 'Тортик', image: 'https://files.catbox.moe/1w9dkc.png', price: 50, count: 2 },
-                { id: 'diamond', name: 'Алмазик', image: 'https://files.catbox.moe/nt7ios.png', price: 100, count: 1 },
-                { id: 'xmas', name: 'Xmas Stocking', image: 'https://files.catbox.moe/yecky8.png', price: 495, count: 1 },
-                { id: 'cigar', name: 'Vintage Cigar', image: 'https://files.catbox.moe/6ified.png', price: 3357, count: 1 }
+                { id: 'cake', name: 'Тортик', image: 'https://i.postimg.cc/2yDS7m1p/1w9dkc.png', price: 50, count: 2 },
+                { id: 'diamond', name: 'Алмазик', image: 'https://i.postimg.cc/3RCdpQPK/nt7ios.png', price: 100, count: 1 },
+                { id: 'xmas', name: 'Xmas Stocking', image: 'https://i.postimg.cc/Yq1LvN0T/yecky8.png', price: 495, count: 1 },
+                { id: 'cigar', name: 'Vintage Cigar', image: 'https://i.postimg.cc/bYBjWYvW/6ified.png', price: 3357, count: 1 }
             ],
-            bestDrop: { id: 'cigar', name: 'Vintage Cigar', image: 'https://files.catbox.moe/6ified.png', price: 3357 },
-            bestUpgrade: { id: 'ringExpensive', name: 'Diamond Ring', image: 'https://files.catbox.moe/tjttfk.png', price: 2858 }
+            bestDrop: { id: 'cigar', name: 'Vintage Cigar', image: 'https://i.postimg.cc/bYBjWYvW/6ified.png', price: 3357 },
+            bestUpgrade: { id: 'ringExpensive', name: 'Diamond Ring', image: 'https://i.postimg.cc/2S95x3jf/tjttfk.png', price: 2858 }
         };
 
         let selectedSource = null;
