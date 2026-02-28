@@ -25,7 +25,7 @@
             background: #0f0f0f;
             padding: 10px 20px;
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid #2a2a2a;
             position: sticky;
@@ -33,15 +33,30 @@
             z-index: 100;
         }
         
-        .balance {
+        .back-button {
+            font-size: 18px;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 10px;
+            background: #1a1a1a;
+            display: none;
+            font-weight: 500;
+            color: #ffd700;
+        }
+        
+        .back-button.visible {
+            display: block;
+        }
+        
+        .balance-container {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             background: #1a1a1a;
             padding: 8px 20px;
             border-radius: 30px;
-            border: 1px solid #ffd700;
             cursor: pointer;
+            border: 1px solid #ffd700;
         }
         
         .star-icon {
@@ -97,14 +112,15 @@
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
+            background-color: transparent;
         }
         
         .red-case {
-            background-image: url('https://i.imgur.com/o9NlMVp.png');
+            background-image: url('https://files.catbox.moe/o2w0dj.png');
         }
         
         .green-case {
-            background-image: url('https://i.imgur.com/49pWrH0.png');
+            background-image: url('https://files.catbox.moe/xl3oa3.png');
         }
         
         .case-name {
@@ -152,6 +168,7 @@
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
+            background-color: transparent;
             border: 2px solid #ffd700;
         }
         
@@ -320,7 +337,7 @@
         .ton-icon {
             width: 18px;
             height: 18px;
-            background: url('https://i.imgur.com/7lnef8.png') center/contain no-repeat;
+            background: url('https://files.catbox.moe/7lnef8.png') center/contain no-repeat;
             display: inline-block;
         }
         
@@ -660,7 +677,6 @@
             color: #000;
             margin: 0 auto 15px;
             border: 3px solid #ffd700;
-            box-shadow: 0 0 20px rgba(255,215,0,0.5);
             overflow: hidden;
         }
         
@@ -676,7 +692,6 @@
             color: #ffd700;
             text-align: center;
             margin-bottom: 5px;
-            text-shadow: 0 0 10px rgba(255,215,0,0.5);
         }
         
         .profile-id {
@@ -832,7 +847,7 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 20px;
+            margin-top: 10px;
         }
         
         .modal-content button:hover {
@@ -1121,15 +1136,17 @@
 </head>
 <body>
     <div class="top-bar">
-        <div class="balance" onclick="showBalanceModal()">
+        <div class="back-button" id="backButton" onclick="goBack()">← Назад</div>
+        <div></div>
+        <div class="balance-container" onclick="showBalanceModal()">
             <div class="star-icon"></div>
             <span class="balance-amount" id="balanceDisplay">1000</span>
         </div>
     </div>
 
     <div class="content">
-        <!-- Кейсы -->
-        <div id="casesSection" class="section active">
+        <!-- Главная -->
+        <div id="mainSection" class="section active">
             <h2 class="section-title">🎁 Доступные кейсы</h2>
             <div class="cases-grid">
                 <div class="case-card" onclick="showCaseDetail('red')">
@@ -1245,7 +1262,7 @@
                     <div class="stat-block">
                         <div class="stat-label">🏆 Лучший дроп</div>
                         <div class="best-item" id="bestDrop">
-                            <img src="https://i.imgur.com/cMroapP.png">
+                            <img src="https://files.catbox.moe/nt7ios.png">
                             <div class="best-item-name">Алмазик</div>
                             <div class="best-item-price">100 ⭐</div>
                         </div>
@@ -1253,7 +1270,7 @@
                     <div class="stat-block">
                         <div class="stat-label">⚡ Лучший апгрейд</div>
                         <div class="best-item" id="bestUpgrade">
-                            <img src="https://i.imgur.com/Dpx93bA.png">
+                            <img src="https://files.catbox.moe/6ified.png">
                             <div class="best-item-name">Vintage Cigar</div>
                             <div class="best-item-price">3357 ⭐</div>
                         </div>
@@ -1275,7 +1292,7 @@
     </div>
 
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchToSection('cases')"><span class="nav-icon">🎁</span><span class="nav-label">Кейсы</span></div>
+        <div class="nav-item active" onclick="switchToSection('main')"><span class="nav-icon">🎁</span><span class="nav-label">Кейсы</span></div>
         <div class="nav-item" onclick="switchToSection('games')"><span class="nav-icon">🎮</span><span class="nav-label">Игры</span></div>
         <div class="nav-item" onclick="switchToSection('profile')"><span class="nav-icon">👤</span><span class="nav-label">Профиль</span></div>
     </div>
@@ -1329,28 +1346,28 @@
 
         const STARS_TO_TON = 100;
 
-        // Все предметы с Imgur
+        // Все предметы на CATBOX
         const allItems = {
             rose: { id: 'rose', name: 'Розочка', image: 'https://cdn140.picsart.com/241734929003212.png', price: 25 },
-            cake: { id: 'cake', name: 'Тортик', image: 'https://i.imgur.com/D3DESZt.png', price: 50 },
-            diamond: { id: 'diamond', name: 'Алмазик', image: 'https://i.imgur.com/cMroapP.png', price: 100 },
-            ring: { id: 'ring', name: 'Кольцо', image: 'https://i.imgur.com/PL9KSBM.png', price: 100 },
-            xmas: { id: 'xmas', name: 'Xmas Stocking', image: 'https://i.imgur.com/HmFjBiE.png', price: 495 },
-            ramen: { id: 'ramen', name: 'Instant Ramen', image: 'https://i.imgur.com/OA9BWaG.png', price: 520 },
-            icecream: { id: 'icecream', name: 'Ice Cream', image: 'https://i.imgur.com/JkPFcRe.png', price: 560 },
-            bunny: { id: 'bunny', name: 'Jelly Bunny', image: 'https://i.imgur.com/oNV50mT.png', price: 750 },
-            star: { id: 'star', name: 'Hanging Star', image: 'https://i.imgur.com/YvNEbT6.png', price: 917 },
-            bell: { id: 'bell', name: 'Sleigh Bell', image: 'https://i.imgur.com/gikSosw.png', price: 1095 },
-            skull: { id: 'skull', name: 'Skull Flower', image: 'https://i.imgur.com/wgSravV.png', price: 1245 },
-            hat: { id: 'hat', name: 'Top Hat', image: 'https://i.imgur.com/HRKrpf1.png', price: 1293 },
-            skelettos: { id: 'skelettos', name: 'Sky Skelettos', image: 'https://i.imgur.com/yuDmNze.png', price: 1530 },
-            charm: { id: 'charm', name: 'Cupid Charm', image: 'https://i.imgur.com/Lq9Mqvi.png', price: 2038 },
-            ringExpensive: { id: 'ringExpensive', name: 'Diamond Ring', image: 'https://i.imgur.com/m2rhS29.png', price: 2858 },
-            cigar: { id: 'cigar', name: 'Vintage Cigar', image: 'https://i.imgur.com/Dpx93bA.png', price: 3357 },
-            calendar: { id: 'calendar', name: 'Календарь', image: 'https://i.imgur.com/ookI6Ae.png', price: 500 },
+            cake: { id: 'cake', name: 'Тортик', image: 'https://files.catbox.moe/1w9dkc.png', price: 50 },
+            diamond: { id: 'diamond', name: 'Алмазик', image: 'https://files.catbox.moe/nt7ios.png', price: 100 },
+            ring: { id: 'ring', name: 'Кольцо', image: 'https://files.catbox.moe/8mhtc7.png', price: 100 },
+            xmas: { id: 'xmas', name: 'Xmas Stocking', image: 'https://files.catbox.moe/yecky8.png', price: 495 },
+            ramen: { id: 'ramen', name: 'Instant Ramen', image: 'https://files.catbox.moe/98yf4o.png', price: 520 },
+            icecream: { id: 'icecream', name: 'Ice Cream', image: 'https://files.catbox.moe/hwregp.png', price: 560 },
+            bunny: { id: 'bunny', name: 'Jelly Bunny', image: 'https://files.catbox.moe/6nsg8j.png', price: 750 },
+            star: { id: 'star', name: 'Hanging Star', image: 'https://files.catbox.moe/59c2w2.png', price: 917 },
+            bell: { id: 'bell', name: 'Sleigh Bell', image: 'https://files.catbox.moe/5bya6r.png', price: 1095 },
+            skull: { id: 'skull', name: 'Skull Flower', image: 'https://files.catbox.moe/6berpu.png', price: 1245 },
+            hat: { id: 'hat', name: 'Top Hat', image: 'https://files.catbox.moe/sldlrh.png', price: 1293 },
+            skelettos: { id: 'skelettos', name: 'Sky Skelettos', image: 'https://files.catbox.moe/o336j5.png', price: 1530 },
+            charm: { id: 'charm', name: 'Cupid Charm', image: 'https://files.catbox.moe/qel225.png', price: 2038 },
+            ringExpensive: { id: 'ringExpensive', name: 'Diamond Ring', image: 'https://files.catbox.moe/tjttfk.png', price: 2858 },
+            cigar: { id: 'cigar', name: 'Vintage Cigar', image: 'https://files.catbox.moe/6ified.png', price: 3357 },
+            calendar: { id: 'calendar', name: 'Календарь', image: 'https://files.catbox.moe/vp6ocv.png', price: 500 },
             stars150: { id: 'stars150', name: '150 звёзд', image: 'https://nztcdn.com/files/34b13b5a-7b5f-4d29-9c92-8fada5f27b2f.webp', price: 150 },
-            cup: { id: 'cup', name: 'Кубок', image: 'https://i.imgur.com/isRoUFP.png', price: 100 },
-            tonIcon: { id: 'ton', name: 'TON', image: 'https://i.imgur.com/7lnef8.png', price: 0 }
+            cup: { id: 'cup', name: 'Кубок', image: 'https://files.catbox.moe/9a63n2.png', price: 100 },
+            tonIcon: { id: 'ton', name: 'TON', image: 'https://files.catbox.moe/7lnef8.png', price: 0 }
         };
 
         // Состояние
@@ -1359,13 +1376,13 @@
             openedCases: 0,
             inventory: [
                 { id: 'rose', name: 'Розочка', image: 'https://cdn140.picsart.com/241734929003212.png', price: 25, count: 3 },
-                { id: 'cake', name: 'Тортик', image: 'https://i.imgur.com/D3DESZt.png', price: 50, count: 2 },
-                { id: 'diamond', name: 'Алмазик', image: 'https://i.imgur.com/cMroapP.png', price: 100, count: 1 },
-                { id: 'xmas', name: 'Xmas Stocking', image: 'https://i.imgur.com/HmFjBiE.png', price: 495, count: 1 },
-                { id: 'cigar', name: 'Vintage Cigar', image: 'https://i.imgur.com/Dpx93bA.png', price: 3357, count: 1 }
+                { id: 'cake', name: 'Тортик', image: 'https://files.catbox.moe/1w9dkc.png', price: 50, count: 2 },
+                { id: 'diamond', name: 'Алмазик', image: 'https://files.catbox.moe/nt7ios.png', price: 100, count: 1 },
+                { id: 'xmas', name: 'Xmas Stocking', image: 'https://files.catbox.moe/yecky8.png', price: 495, count: 1 },
+                { id: 'cigar', name: 'Vintage Cigar', image: 'https://files.catbox.moe/6ified.png', price: 3357, count: 1 }
             ],
-            bestDrop: { id: 'cigar', name: 'Vintage Cigar', image: 'https://i.imgur.com/Dpx93bA.png', price: 3357 },
-            bestUpgrade: { id: 'ringExpensive', name: 'Diamond Ring', image: 'https://i.imgur.com/m2rhS29.png', price: 2858 }
+            bestDrop: { id: 'cigar', name: 'Vintage Cigar', image: 'https://files.catbox.moe/6ified.png', price: 3357 },
+            bestUpgrade: { id: 'ringExpensive', name: 'Diamond Ring', image: 'https://files.catbox.moe/tjttfk.png', price: 2858 }
         };
 
         let selectedSource = null;
@@ -1395,14 +1412,25 @@
             return (stars / STARS_TO_TON).toFixed(2);
         }
 
+        function goBack() {
+            showMainMenu();
+        }
+
+        function showMainMenu() {
+            document.getElementById('caseDetailSection').classList.remove('active');
+            document.getElementById('mainSection').classList.add('active');
+            document.getElementById('backButton').classList.remove('visible');
+        }
+
         // Навигация
         function switchToSection(section) {
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById('backButton').classList.remove('visible');
             
-            if (section === 'cases') {
+            if (section === 'main') {
                 document.querySelector('.nav-item').classList.add('active');
-                document.getElementById('casesSection').classList.add('active');
+                document.getElementById('mainSection').classList.add('active');
             } else if (section === 'games') {
                 document.querySelectorAll('.nav-item')[1].classList.add('active');
                 document.getElementById('gamesSection').classList.add('active');
@@ -1419,14 +1447,15 @@
             const caseData = cases[caseId];
             if (!caseData) return;
             
-            document.getElementById('casesSection').classList.remove('active');
+            document.getElementById('mainSection').classList.remove('active');
             document.getElementById('caseDetailSection').classList.add('active');
+            document.getElementById('backButton').classList.add('visible');
             
             const detailImage = document.getElementById('detailImage');
             if (caseId === 'red') {
-                detailImage.style.backgroundImage = "url('https://i.imgur.com/o9NlMVp.png')";
+                detailImage.style.backgroundImage = "url('https://files.catbox.moe/o2w0dj.png')";
             } else if (caseId === 'green') {
-                detailImage.style.backgroundImage = "url('https://i.imgur.com/49pWrH0.png')";
+                detailImage.style.backgroundImage = "url('https://files.catbox.moe/xl3oa3.png')";
             } else {
                 detailImage.style.background = caseData.color;
             }
@@ -1459,6 +1488,7 @@
         function showUpgradePage() {
             document.getElementById('gamesSection').classList.remove('active');
             document.getElementById('upgradeSection').classList.add('active');
+            document.getElementById('backButton').classList.add('visible');
             resetUpgrade();
         }
 
