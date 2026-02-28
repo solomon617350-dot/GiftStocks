@@ -27,63 +27,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(255,215,0,0.1);
             position: sticky;
             top: 0;
             z-index: 100;
             border-bottom: 1px solid #2a2a2a;
         }
         
-        .back-button {
-            font-size: 18px;
-            cursor: pointer;
-            padding: 8px 15px;
-            border-radius: 10px;
+        .balance-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             background: #1a1a1a;
-            display: none;
-            font-weight: 500;
-            color: #ffd700;
-        }
-        
-        .back-button.visible {
-            display: block;
-        }
-        
-        .cases-teleport {
-            width: 55px;
-            height: 55px;
-            background: url('https://files.catbox.moe/7g3tdg.png') center/contain no-repeat;
+            padding: 8px 20px;
+            border-radius: 30px;
             cursor: pointer;
-            transition: transform 0.2s;
-        }
-        
-        .cases-teleport:hover {
-            transform: scale(1.1);
-        }
-        
-        .right-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .balance-panel {
-            display: flex;
-            align-items: center;
-            background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
-            border-radius: 40px;
-            border: 2px solid #ffd700;
-            overflow: hidden;
-            height: 48px;
-        }
-        
-        .balance-box {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 0 15px;
-            height: 100%;
-            cursor: pointer;
+            border: 1px solid #ffd700;
         }
         
         .star-icon {
@@ -94,46 +52,8 @@
         
         .balance-amount {
             color: #ffd700;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
-            min-width: 60px;
-            text-align: center;
-        }
-        
-        .add-balance {
-            width: 48px;
-            height: 48px;
-            background: #4CAF50;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            font-weight: bold;
-            color: white;
-            cursor: pointer;
-            border-left: 2px solid #ffd700;
-        }
-        
-        .profile-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: linear-gradient(145deg, #ffd700, #ffaa00);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            font-weight: bold;
-            color: #000;
-            cursor: pointer;
-            border: 2px solid #ffd700;
-            overflow: hidden;
-        }
-        
-        .profile-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
         }
         
         .content {
@@ -141,7 +61,6 @@
             padding: 20px;
             padding-bottom: 80px;
             overflow-y: auto;
-            max-height: calc(100vh - 140px);
         }
         
         .section-title {
@@ -215,9 +134,6 @@
         
         .case-detail {
             display: none;
-            overflow-y: auto;
-            max-height: calc(100vh - 140px);
-            padding-bottom: 20px;
         }
         
         .case-detail.active {
@@ -237,7 +153,6 @@
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
-            background-color: transparent;
             border: 2px solid #ffd700;
         }
         
@@ -258,11 +173,6 @@
             font-weight: bold;
         }
         
-        .detail-price .star-icon {
-            width: 28px;
-            height: 28px;
-        }
-        
         .action-buttons {
             display: flex;
             gap: 10px;
@@ -277,19 +187,15 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
         }
         
         .open-case-btn {
-            background: linear-gradient(145deg, #4CAF50, #45a049);
+            background: #4CAF50;
             color: white;
         }
         
         .demo-case-btn {
-            background: linear-gradient(145deg, #ff9800, #f57c00);
+            background: #ff9800;
             color: white;
         }
         
@@ -390,7 +296,6 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            background: transparent;
         }
         
         .chance-name {
@@ -437,93 +342,6 @@
             max-width: 120px;
         }
         
-        .inventory-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 10px;
-            margin-top: 20px;
-            max-height: 400px;
-            overflow-y: auto;
-            padding: 10px;
-        }
-        
-        .inventory-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        
-        .sell-all-inventory-btn {
-            background: #ff4444;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        
-        .inventory-item {
-            background: #0f0f0f;
-            border-radius: 12px;
-            padding: 10px;
-            text-align: center;
-            border: 1px solid #2a2a2a;
-        }
-        
-        .inventory-item img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            margin-bottom: 5px;
-            border-radius: 8px;
-            background: transparent;
-        }
-        
-        .inventory-item-name {
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 3px;
-            color: #fff;
-        }
-        
-        .inventory-item-price {
-            color: #ffd700;
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 3px;
-        }
-        
-        .item-count {
-            background: #ffd700;
-            color: #000;
-            padding: 2px 6px;
-            border-radius: 10px;
-            font-size: 10px;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 5px;
-        }
-        
-        .sell-one-btn {
-            background: #4CAF50;
-            color: white;
-            border: none;
-            padding: 5px;
-            border-radius: 5px;
-            font-size: 11px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 5px;
-        }
-        
         .games-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -568,9 +386,6 @@
         
         .upgrade-page {
             display: none;
-            overflow-y: auto;
-            max-height: calc(100vh - 140px);
-            padding-bottom: 20px;
         }
         
         .upgrade-page.active {
@@ -695,7 +510,7 @@
         }
         
         .action-btn.primary {
-            background: linear-gradient(145deg, #4CAF50, #45a049);
+            background: #4CAF50;
             color: white;
         }
         
@@ -713,8 +528,6 @@
             max-height: 400px;
             overflow-y: auto;
             padding: 10px;
-            width: 100%;
-            min-height: 200px;
         }
         
         .empty-section {
@@ -727,11 +540,6 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-        }
-        
-        .empty-section button {
-            margin-top: 20px;
-            max-width: 200px;
         }
         
         .item-card {
@@ -794,14 +602,13 @@
             padding: 20px;
             max-width: 95%;
             width: 600px;
-            text-align: center;
             max-height: 90vh;
             overflow-y: auto;
             border: 2px solid #ffd700;
         }
         
         .demo-mode {
-            background: linear-gradient(145deg, #ff9800, #f57c00);
+            background: #ff9800;
             color: white;
             padding: 5px 15px;
             border-radius: 20px;
@@ -813,35 +620,19 @@
         
         .multi-roulette {
             display: flex;
+            flex-direction: column;
             gap: 15px;
             margin: 20px 0;
         }
         
-        .multi-roulette.vertical {
-            flex-direction: column;
-        }
-        
-        .multi-roulette.horizontal {
-            flex-direction: row;
-            justify-content: center;
-        }
-        
         .single-roulette {
-            background: linear-gradient(145deg, #1a1a1a, #222);
+            background: #1a1a1a;
             border-radius: 10px;
             padding: 15px 0;
             position: relative;
             overflow: hidden;
             height: 80px;
             border: 2px solid #ffd700;
-        }
-        
-        .multi-roulette.vertical .single-roulette {
-            width: 100%;
-        }
-        
-        .multi-roulette.horizontal .single-roulette {
-            flex: 1;
         }
         
         .roulette-track {
@@ -851,7 +642,6 @@
             left: 50%;
             top: 50%;
             transform: translateY(-50%);
-            will-change: transform;
         }
         
         .roulette-item {
@@ -868,8 +658,6 @@
             width: 40px;
             height: 40px;
             object-fit: contain;
-            border-radius: 5px;
-            background: transparent;
         }
         
         .roulette-item span {
@@ -916,9 +704,7 @@
         .result-item img {
             width: 40px;
             height: 40px;
-            border-radius: 8px;
             object-fit: contain;
-            background: transparent;
         }
         
         .result-item-info {
@@ -1004,11 +790,6 @@
             cursor: pointer;
         }
         
-        .close-button:hover {
-            background: #666;
-            color: white;
-        }
-        
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -1052,6 +833,91 @@
         
         .section.active {
             display: block;
+        }
+        
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        
+        .inventory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .sell-all-inventory-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .inventory-item {
+            background: #0f0f0f;
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #2a2a2a;
+        }
+        
+        .inventory-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin-bottom: 5px;
+        }
+        
+        .inventory-item-name {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 3px;
+            color: #fff;
+        }
+        
+        .inventory-item-price {
+            color: #ffd700;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+        }
+        
+        .item-count {
+            background: #ffd700;
+            color: #000;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        
+        .sell-one-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 5px;
         }
         
         .profile-section {
@@ -1200,207 +1066,6 @@
             cursor: pointer;
         }
         
-        .admin-login {
-            position: fixed;
-            top: 70px;
-            right: 10px;
-            width: 40px;
-            height: 40px;
-            background: rgba(255,215,0,0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 20px;
-            z-index: 1000;
-            border: 1px solid #ffd700;
-        }
-        
-        .admin-panel {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            max-width: 800px;
-            max-height: 80vh;
-            background: #0f0f0f;
-            border-radius: 20px;
-            z-index: 2000;
-            overflow: hidden;
-            display: none;
-            flex-direction: column;
-            border: 2px solid #ffd700;
-        }
-        
-        .admin-header {
-            background: linear-gradient(145deg, #1a1a1a, #222);
-            color: #ffd700;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .admin-header h2 {
-            margin: 0;
-            font-size: 24px;
-        }
-        
-        .close-admin {
-            background: none;
-            border: none;
-            color: #ffd700;
-            font-size: 24px;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .admin-tabs {
-            display: flex;
-            border-bottom: 2px solid #2a2a2a;
-        }
-        
-        .admin-tab {
-            flex: 1;
-            padding: 12px;
-            background: none;
-            border: none;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            color: #aaa;
-        }
-        
-        .admin-tab.active {
-            background: #ffd700;
-            color: #000;
-        }
-        
-        .admin-tab-content {
-            display: none;
-            padding: 20px;
-            overflow-y: auto;
-            max-height: calc(80vh - 120px);
-        }
-        
-        .admin-tab-content.active {
-            display: block;
-        }
-        
-        .users-list {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        
-        .user-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            border-bottom: 1px solid #2a2a2a;
-            gap: 10px;
-        }
-        
-        .user-name {
-            font-weight: bold;
-            min-width: 120px;
-            color: #fff;
-        }
-        
-        .user-stats {
-            color: #ffd700;
-            font-size: 14px;
-        }
-        
-        .user-actions {
-            display: flex;
-            gap: 5px;
-        }
-        
-        .edit-balance-btn {
-            background: #4CAF50;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-        
-        .form-group {
-            margin: 15px 0;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #ffd700;
-        }
-        
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 8px;
-            border: 2px solid #2a2a2a;
-            border-radius: 8px;
-            font-size: 14px;
-            background: #1a1a1a;
-            color: #fff;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .stat-card {
-            background: #1a1a1a;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            border: 1px solid #2a2a2a;
-        }
-        
-        .stat-label {
-            font-size: 14px;
-            color: #aaa;
-            margin-bottom: 5px;
-        }
-        
-        .stat-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #ffd700;
-        }
-        
-        .top-list {
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        
-        .top-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px;
-            border-bottom: 1px solid #2a2a2a;
-            color: #fff;
-        }
-        
-        .top-rank {
-            font-weight: bold;
-            color: #ffd700;
-            margin-right: 10px;
-        }
-        
         .confirm-modal {
             background: #0f0f0f;
             border-radius: 20px;
@@ -1449,18 +1114,10 @@
 </head>
 <body>
     <div class="top-bar">
-        <div class="cases-teleport" onclick="teleportToCases()" title="Перейти к кейсам"></div>
-        
-        <div class="right-container">
-            <div class="balance-panel">
-                <div class="balance-box" onclick="showBalanceModal()">
-                    <div class="star-icon"></div>
-                    <span class="balance-amount" id="balanceDisplay">1000</span>
-                </div>
-                <div class="add-balance" onclick="showBalanceModal()">+</div>
-            </div>
-            
-            <div class="profile-avatar" onclick="switchToProfile()" id="profileAvatar"></div>
+        <div></div>
+        <div class="balance-container" onclick="showBalanceModal()">
+            <div class="star-icon"></div>
+            <span class="balance-amount" id="balanceDisplay">1000</span>
         </div>
     </div>
 
@@ -1651,8 +1308,6 @@
         </div>
     </div>
 
-    <div class="admin-login" id="adminLoginButton" onclick="promptAdminPassword()" title="Админ-панель">👑</div>
-
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready();
@@ -1661,7 +1316,6 @@
         const STARS_TO_TON = 100;
         const OWNER_ID = 7389462195;
 
-        // ВСЕ ПРЕДМЕТЫ
         const allItems = {
             rose: { id: 'rose', name: 'Розочка', image: 'https://cdn140.picsart.com/241734929003212.png', price: 25 },
             cake: { id: 'cake', name: 'Тортик', image: 'https://files.catbox.moe/1w9dkc.png', price: 50 },
@@ -1716,16 +1370,6 @@
             return (stars / STARS_TO_TON).toFixed(2);
         }
 
-        function teleportToCases() {
-            if (document.getElementById('caseDetail') && document.getElementById('caseDetail').classList.contains('active')) {
-                showMainMenu();
-            } else if (document.getElementById('mainMenu') && !document.getElementById('mainMenu').classList.contains('active')) {
-                switchToCases();
-            } else if (document.getElementById('mainMenu') && document.getElementById('mainMenu').classList.contains('active')) {
-                document.querySelector('.content').scrollTop = 0;
-            }
-        }
-
         function updateProfileInfo() {
             const user = tg.initDataUnsafe?.user;
             if (user) {
@@ -1769,7 +1413,6 @@
             document.getElementById('profileSection').classList.remove('active');
             document.getElementById('caseDetail').classList.remove('active');
             document.getElementById('upgradePage').classList.remove('active');
-            document.getElementById('backButton').classList.remove('visible');
             updateBalance();
             renderInventory();
         }
@@ -1781,7 +1424,6 @@
             document.getElementById('profileSection').classList.remove('active');
             document.getElementById('caseDetail').classList.remove('active');
             document.getElementById('upgradePage').classList.remove('active');
-            document.getElementById('backButton').classList.remove('visible');
         }
 
         function switchToProfile() {
@@ -1791,7 +1433,6 @@
             document.getElementById('profileSection').classList.add('active');
             document.getElementById('caseDetail').classList.remove('active');
             document.getElementById('upgradePage').classList.remove('active');
-            document.getElementById('backButton').classList.remove('visible');
             updateProfileInfo();
             renderInventory();
         }
@@ -1802,7 +1443,6 @@
             document.getElementById('gamesMenu').classList.remove('active');
             document.getElementById('profileSection').classList.remove('active');
             document.getElementById('upgradePage').classList.remove('active');
-            document.getElementById('backButton').classList.remove('visible');
         }
 
         function showCaseDetail(caseId) {
@@ -1810,28 +1450,18 @@
             const caseData = cases[caseId];
             
             const detailImage = document.getElementById('detailImage');
-            if (!detailImage) {
-                alert('Ошибка: элемент detailImage не найден');
-                return;
-            }
+            if (!detailImage) return;
             
             document.getElementById('mainMenu').classList.remove('active');
             document.getElementById('caseDetail').classList.add('active');
             document.getElementById('gamesMenu').classList.remove('active');
             document.getElementById('profileSection').classList.remove('active');
             document.getElementById('upgradePage').classList.remove('active');
-            document.getElementById('backButton').classList.add('visible');
             
             if (caseId === 'red') {
                 detailImage.style.backgroundImage = "url('https://files.catbox.moe/o2w0dj.png')";
-                detailImage.style.backgroundSize = "contain";
-                detailImage.style.backgroundPosition = "center";
-                detailImage.style.backgroundRepeat = "no-repeat";
             } else if (caseId === 'green') {
                 detailImage.style.backgroundImage = "url('https://files.catbox.moe/xl3oa3.png')";
-                detailImage.style.backgroundSize = "contain";
-                detailImage.style.backgroundPosition = "center";
-                detailImage.style.backgroundRepeat = "no-repeat";
             } else {
                 detailImage.style.background = caseData.color;
             }
@@ -2135,12 +1765,6 @@
             else rmode.style.display = 'none';
             fbtn.style.display = 'none';
             
-            if (state.selectedQuantity === 1) {
-                multi.className = 'multi-roulette horizontal';
-            } else {
-                multi.className = 'multi-roulette vertical';
-            }
-            
             const iw = 60, gap = 10, tiw = iw + gap;
             
             for (let i=0; i<state.selectedQuantity; i++) {
@@ -2273,15 +1897,6 @@
 
         function closeRoulette() {
             document.getElementById('rouletteModal').classList.remove('active');
-        }
-
-        function promptAdminPassword() {
-            const pwd = prompt('Пароль:');
-            if (pwd === 'pr000sto') {
-                alert('Добро пожаловать в админ-панель!');
-            } else {
-                alert('Неверный пароль');
-            }
         }
 
         const cases = {
