@@ -33,6 +33,12 @@
             z-index: 100;
         }
         
+        .left-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
         .back-button {
             font-size: 18px;
             cursor: pointer;
@@ -46,6 +52,25 @@
         
         .back-button.visible {
             display: block;
+        }
+        
+        /* Кнопка телепорта в кейсы */
+        .cases-teleport {
+            width: 45px;
+            height: 45px;
+            background: url('https://files.catbox.moe/as8ub3.png') center/contain no-repeat;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .cases-teleport:hover {
+            transform: scale(1.1);
+        }
+        
+        .right-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
         
         .balance-container {
@@ -69,6 +94,32 @@
             color: #ffd700;
             font-size: 18px;
             font-weight: bold;
+        }
+        
+        .profile-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #ffd700, #ffaa00);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #000;
+            cursor: pointer;
+            border: 2px solid #ffd700;
+            overflow: hidden;
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-avatar:hover {
+            transform: scale(1.05);
         }
         
         .content {
@@ -530,7 +581,7 @@
         
         .items-list {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 10px;
             margin-top: 20px;
             max-height: 400px;
@@ -1136,11 +1187,17 @@
 </head>
 <body>
     <div class="top-bar">
-        <div class="back-button" id="backButton" onclick="goBack()">← Назад</div>
-        <div></div>
-        <div class="balance-container" onclick="showBalanceModal()">
-            <div class="star-icon"></div>
-            <span class="balance-amount" id="balanceDisplay">1000</span>
+        <div class="left-container">
+            <div class="cases-teleport" onclick="teleportToCases()" title="Перейти к кейсам"></div>
+            <div class="back-button" id="backButton" onclick="goBack()">← Назад</div>
+        </div>
+        
+        <div class="right-container">
+            <div class="balance-container" onclick="showBalanceModal()">
+                <div class="star-icon"></div>
+                <span class="balance-amount" id="balanceDisplay">1000</span>
+            </div>
+            <div class="profile-avatar" onclick="switchToSection('profile')" id="profileAvatar">👤</div>
         </div>
     </div>
 
@@ -1412,14 +1469,35 @@
             return (stars / STARS_TO_TON).toFixed(2);
         }
 
+        function teleportToCases() {
+            // Если мы в детальной странице кейса или апгрейде - возвращаемся в главное меню
+            if (document.getElementById('caseDetailSection').classList.contains('active') || 
+                document.getElementById('upgradeSection').classList.contains('active')) {
+                showMainMenu();
+            } 
+            // Если мы в другом разделе - переключаемся на кейсы
+            else if (!document.getElementById('mainSection').classList.contains('active')) {
+                switchToSection('main');
+            }
+            // Если уже в кейсах - просто прокручиваем наверх
+            else {
+                document.querySelector('.content').scrollTop = 0;
+            }
+        }
+
         function goBack() {
             showMainMenu();
         }
 
         function showMainMenu() {
             document.getElementById('caseDetailSection').classList.remove('active');
+            document.getElementById('upgradeSection').classList.remove('active');
             document.getElementById('mainSection').classList.add('active');
             document.getElementById('backButton').classList.remove('visible');
+            
+            // Обновляем навигацию
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            document.querySelector('.nav-item').classList.add('active');
         }
 
         // Навигация
@@ -1499,6 +1577,7 @@
             document.getElementById('sourcePrice').innerHTML = '- ⭐';
             document.getElementById('targetItem').innerHTML = '<span style="font-size:30px;color:#666;">?</span>';
             document.getElementById('targetPrice').innerHTML = '- ⭐';
+            document.getElementById('itemsList').innerHTML = '';
             updateWheel(0);
         }
 
@@ -1520,6 +1599,9 @@
             if (isSpinning) return;
             
             isSpinning = true;
+            
+            // Закрываем список предметов
+            document.getElementById('itemsList').innerHTML = '';
             
             const sourceItem = allItems[selectedSource];
             const targetItem = allItems[selectedTarget];
@@ -1611,7 +1693,8 @@
             const list = document.getElementById('itemsList');
             
             if (type === 'my') {
-                const myItems = state.inventory.filter(item => item.price >= 100);
+                // Сортируем от самого дорогого к самому дешевому
+                const myItems = state.inventory.filter(item => item.price >= 100).sort((a, b) => b.price - a.price);
                 if (!myItems.length) {
                     list.innerHTML = '<div class="empty-section">🫙 Нет предметов</div>';
                     return;
@@ -1630,7 +1713,17 @@
                 });
                 list.innerHTML = html;
             } else {
-                const available = Object.values(allItems).filter(item => item.price >= 100).sort((a, b) => a.price - b.price);
+                // Для выбора цели - только предметы дороже исходного
+                const sourcePrice = allItems[selectedSource]?.price || 0;
+                const available = Object.values(allItems)
+                    .filter(item => item.price > sourcePrice && item.price >= 100)
+                    .sort((a, b) => b.price - a.price); // От дорогого к дешевому
+                
+                if (!available.length) {
+                    list.innerHTML = '<div class="empty-section">🎯 Нет доступных предметов</div>';
+                    return;
+                }
+                
                 let html = '';
                 available.forEach(item => {
                     html += `
@@ -1650,6 +1743,7 @@
             const item = allItems[itemId];
             document.getElementById('sourceItem').innerHTML = `<img src="${item.image}">`;
             document.getElementById('sourcePrice').innerHTML = `${item.price} ⭐`;
+            document.getElementById('itemsList').innerHTML = '';
         }
 
         function selectTarget(itemId) {
@@ -1657,6 +1751,23 @@
             const item = allItems[itemId];
             document.getElementById('targetItem').innerHTML = `<img src="${item.image}">`;
             document.getElementById('targetPrice').innerHTML = `${item.price} ⭐`;
+            document.getElementById('itemsList').innerHTML = '';
+            
+            if (selectedSource) {
+                calculateChance();
+            }
+        }
+
+        function calculateChance() {
+            if (!selectedSource || !selectedTarget) return;
+            
+            const sourceItem = allItems[selectedSource];
+            const targetItem = allItems[selectedTarget];
+            
+            let chance = (sourceItem.price * 2) / targetItem.price * 50;
+            chance = Math.min(Math.max(chance, 5), 95);
+            
+            updateWheel(chance);
         }
 
         function showMyItems() {
