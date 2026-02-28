@@ -54,17 +54,18 @@
             display: block;
         }
         
-        /* Кнопка телепорта в кейсы */
+        /* Увеличенная кнопка телепорта в кейсы */
         .cases-teleport {
-            width: 45px;
-            height: 45px;
+            width: 60px;
+            height: 60px;
             background: url('https://files.catbox.moe/as8ub3.png') center/contain no-repeat;
             cursor: pointer;
             transition: transform 0.2s;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
         }
         
         .cases-teleport:hover {
-            transform: scale(1.1);
+            transform: scale(1.1) rotate(5deg);
         }
         
         .right-container {
@@ -421,24 +422,32 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            transition: all 0.3s ease;
         }
         
         .game-card:hover {
             border-color: #ffd700;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
         }
         
         .game-icon {
-            width: 80px;
-            height: 80px;
-            background: #1a1a1a;
-            border-radius: 50%;
+            width: 100px;
+            height: 100px;
             margin-bottom: 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
-            color: #ffd700;
-            border: 2px solid #2a2a2a;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #ffd700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+        
+        .game-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
         .game-name {
@@ -463,10 +472,10 @@
         }
         
         .chance-wheel {
-            width: 250px;
-            height: 250px;
+            width: 280px;
+            height: 280px;
             position: relative;
-            margin: 30px auto;
+            margin: 20px auto;
             cursor: pointer;
         }
         
@@ -479,13 +488,14 @@
         
         .wheel-arrow {
             position: absolute;
-            top: -15px;
+            top: -25px;
             left: 50%;
             transform: translateX(-50%);
             color: #ffd700;
-            font-size: 40px;
-            text-shadow: 0 0 20px #ffd700;
+            font-size: 50px;
+            text-shadow: 0 0 20px #ffd700, 0 0 40px #ffaa00;
             z-index: 10;
+            filter: drop-shadow(0 0 10px gold);
         }
         
         .wheel-percent {
@@ -493,74 +503,80 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 32px;
+            font-size: 36px;
             font-weight: bold;
             color: #ffffff;
             z-index: 5;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
         }
         
         .items-row {
             display: flex;
             justify-content: center;
-            gap: 30px;
+            gap: 40px;
             margin: 20px 0;
             position: relative;
         }
         
         .item-slot {
-            width: 100px;
+            width: 120px;
             text-align: center;
         }
         
         .item-image {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             background: #1a1a1a;
-            border-radius: 15px;
+            border-radius: 20px;
             margin: 0 auto 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid #2a2a2a;
+            border: 3px solid #2a2a2a;
             cursor: pointer;
+            transition: all 0.2s;
         }
         
         .item-image:hover {
             border-color: #ffd700;
+            transform: scale(1.05);
         }
         
         .item-image img {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             object-fit: contain;
         }
         
         .item-price {
-            font-size: 14px;
+            font-size: 16px;
             color: #ffd700;
             margin-top: 5px;
+            font-weight: bold;
         }
         
         .question-mark {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             background: #1a1a1a;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 30px;
             color: #ffd700;
-            border: 2px solid #2a2a2a;
+            border: 3px solid #2a2a2a;
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(255,215,0,0.3);
         }
         
         .action-btn {
             flex: 1;
-            padding: 15px;
+            padding: 15px 30px;
             border: none;
             border-radius: 15px;
             font-size: 16px;
@@ -571,6 +587,8 @@
         .action-btn.primary {
             background: #4CAF50;
             color: white;
+            font-size: 18px;
+            padding: 15px 40px;
         }
         
         .action-btn.secondary {
@@ -587,6 +605,7 @@
             max-height: 400px;
             overflow-y: auto;
             padding: 10px;
+            width: 100%;
         }
         
         .item-card {
@@ -630,6 +649,7 @@
             max-height: 400px;
             overflow-y: auto;
             padding: 10px;
+            min-height: 200px;
         }
         
         .inventory-header {
@@ -775,29 +795,37 @@
         
         .best-item {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 5px;
+            justify-content: center;
+            gap: 10px;
         }
         
         .best-item img {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             object-fit: contain;
-            border-radius: 10px;
+            border-radius: 8px;
             background: rgba(255,255,255,0.1);
             padding: 5px;
+        }
+        
+        .best-item-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
         
         .best-item-name {
             font-size: 12px;
             font-weight: bold;
             color: #ffd700;
+            text-align: left;
         }
         
         .best-item-price {
             font-size: 14px;
             color: #ffd700;
+            font-weight: bold;
         }
         
         .profile-stats {
@@ -819,12 +847,12 @@
             border-bottom: none;
         }
         
-        .stat-label {
+        .stat-item .stat-label {
             font-size: 16px;
             color: #aaa;
         }
         
-        .stat-value {
+        .stat-item .stat-value {
             font-size: 18px;
             font-weight: bold;
             color: #ffd700;
@@ -1132,11 +1160,53 @@
             display: block;
         }
         
-        .empty-section {
+        .empty-inventory {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 300px;
             text-align: center;
-            padding: 50px 20px;
-            font-size: 18px;
+            background: #0f0f0f;
+            border-radius: 20px;
+            padding: 40px 20px;
+            border: 2px dashed #2a2a2a;
+        }
+        
+        .empty-inventory .emoji {
+            font-size: 64px;
+            margin-bottom: 20px;
+            filter: grayscale(50%);
+        }
+        
+        .empty-inventory h3 {
+            font-size: 24px;
             color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .empty-inventory p {
+            font-size: 16px;
+            color: #444;
+            margin-bottom: 30px;
+        }
+        
+        .empty-inventory .open-cases-btn {
+            background: linear-gradient(145deg, #ffd700, #ffaa00);
+            color: #000;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+        
+        .empty-inventory .open-cases-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
         }
         
         .confirm-modal {
@@ -1188,7 +1258,9 @@
 <body>
     <div class="top-bar">
         <div class="left-container">
+            <!-- Увеличенная кнопка телепорта -->
             <div class="cases-teleport" onclick="teleportToCases()" title="Перейти к кейсам"></div>
+            <!-- Убрали кнопку "Назад" из апгрейда -->
             <div class="back-button" id="backButton" onclick="goBack()">← Назад</div>
         </div>
         
@@ -1263,15 +1335,25 @@
         <div id="gamesSection" class="section">
             <h2 class="section-title">🎮 Мини-игры</h2>
             <div class="games-grid">
-                <div class="game-card" onclick="showUpgradePage()"><div class="game-icon">⚡</div><div class="game-name">Апгрейд</div></div>
-                <div class="game-card"><div class="game-icon">🎲</div><div class="game-name">Скоро</div></div>
+                <!-- Обновленная иконка апгрейда с картинкой -->
+                <div class="game-card" onclick="showUpgradePage()">
+                    <div class="game-icon">
+                        <img src="https://files.catbox.moe/v9db3j.png" alt="Upgrade">
+                    </div>
+                    <div class="game-name">Апгрейд</div>
+                </div>
+                <div class="game-card">
+                    <div class="game-icon">🎲</div>
+                    <div class="game-name">Скоро</div>
+                </div>
             </div>
         </div>
 
-        <!-- Апгрейд -->
+        <!-- Апгрейд (без кнопки Назад) -->
         <div id="upgradeSection" class="section">
             <div class="upgrade-container">
                 <div class="chance-wheel" onclick="startWheelSpin()">
+                    <!-- Обновленная стрелка как на картинке -->
                     <div class="wheel-arrow">▼</div>
                     <svg class="wheel-svg" viewBox="0 0 100 100">
                         <circle cx="50" cy="50" r="45" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
@@ -1317,19 +1399,23 @@
                 
                 <div class="stats-row">
                     <div class="stat-block">
-                        <div class="stat-label">🏆 Лучший дроп</div>
+                        <div class="stat-label">Лучший дроп</div>
                         <div class="best-item" id="bestDrop">
                             <img src="https://files.catbox.moe/nt7ios.png">
-                            <div class="best-item-name">Алмазик</div>
-                            <div class="best-item-price">100 ⭐</div>
+                            <div class="best-item-info">
+                                <div class="best-item-name">Алмазик</div>
+                                <div class="best-item-price">100 ⭐</div>
+                            </div>
                         </div>
                     </div>
                     <div class="stat-block">
-                        <div class="stat-label">⚡ Лучший апгрейд</div>
+                        <div class="stat-label">Лучший апгрейд</div>
                         <div class="best-item" id="bestUpgrade">
                             <img src="https://files.catbox.moe/6ified.png">
-                            <div class="best-item-name">Vintage Cigar</div>
-                            <div class="best-item-price">3357 ⭐</div>
+                            <div class="best-item-info">
+                                <div class="best-item-name">Vintage Cigar</div>
+                                <div class="best-item-price">3357 ⭐</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1470,11 +1556,14 @@
         }
 
         function teleportToCases() {
-            // Если мы в детальной странице кейса или апгрейде - возвращаемся в главное меню
-            if (document.getElementById('caseDetailSection').classList.contains('active') || 
-                document.getElementById('upgradeSection').classList.contains('active')) {
+            // Если мы в детальной странице кейса - возвращаемся в главное меню
+            if (document.getElementById('caseDetailSection').classList.contains('active')) {
                 showMainMenu();
             } 
+            // Если мы в апгрейде - переключаемся на кейсы
+            else if (document.getElementById('upgradeSection').classList.contains('active')) {
+                switchToSection('main');
+            }
             // Если мы в другом разделе - переключаемся на кейсы
             else if (!document.getElementById('mainSection').classList.contains('active')) {
                 switchToSection('main');
@@ -1504,7 +1593,13 @@
         function switchToSection(section) {
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('backButton').classList.remove('visible');
+            
+            // В апгрейде убираем кнопку назад
+            if (section === 'upgrade') {
+                document.getElementById('backButton').classList.remove('visible');
+            } else {
+                document.getElementById('backButton').classList.remove('visible');
+            }
             
             if (section === 'main') {
                 document.querySelector('.nav-item').classList.add('active');
@@ -1517,6 +1612,8 @@
                 document.getElementById('profileSection').classList.add('active');
                 renderInventory();
                 updateProfileInfo();
+            } else if (section === 'upgrade') {
+                document.getElementById('upgradeSection').classList.add('active');
             }
         }
 
@@ -1566,7 +1663,8 @@
         function showUpgradePage() {
             document.getElementById('gamesSection').classList.remove('active');
             document.getElementById('upgradeSection').classList.add('active');
-            document.getElementById('backButton').classList.add('visible');
+            // Убираем кнопку назад специально для апгрейда
+            document.getElementById('backButton').classList.remove('visible');
             resetUpgrade();
         }
 
@@ -1787,7 +1885,15 @@
             const items = state.inventory.filter(item => item.id !== 'stars150');
             
             if (!items.length) {
-                div.innerHTML = '<div class="empty-section">🫙 Инвентарь пуст</div>';
+                // Красивый пустой инвентарь по центру с кнопкой
+                div.innerHTML = `
+                    <div class="empty-inventory">
+                        <div class="emoji">🫙</div>
+                        <h3>Инвентарь пуст</h3>
+                        <p>У вас пока нет предметов</p>
+                        <button class="open-cases-btn" onclick="switchToSection('main')">🎁 Открыть кейсы</button>
+                    </div>
+                `;
                 return;
             }
             
@@ -1867,16 +1973,20 @@
             if (state.bestDrop) {
                 document.getElementById('bestDrop').innerHTML = `
                     <img src="${state.bestDrop.image}">
-                    <div class="best-item-name">${state.bestDrop.name}</div>
-                    <div class="best-item-price">${state.bestDrop.price} ⭐</div>
+                    <div class="best-item-info">
+                        <div class="best-item-name">${state.bestDrop.name}</div>
+                        <div class="best-item-price">${state.bestDrop.price} ⭐</div>
+                    </div>
                 `;
             }
             
             if (state.bestUpgrade) {
                 document.getElementById('bestUpgrade').innerHTML = `
                     <img src="${state.bestUpgrade.image}">
-                    <div class="best-item-name">${state.bestUpgrade.name}</div>
-                    <div class="best-item-price">${state.bestUpgrade.price} ⭐</div>
+                    <div class="best-item-info">
+                        <div class="best-item-name">${state.bestUpgrade.name}</div>
+                        <div class="best-item-price">${state.bestUpgrade.price} ⭐</div>
+                    </div>
                 `;
             }
         }
