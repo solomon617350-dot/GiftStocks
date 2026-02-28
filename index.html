@@ -1208,17 +1208,13 @@
             height: 40px;
             background: rgba(255,215,0,0.2);
             border-radius: 50%;
-            display: none;
+            display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             font-size: 20px;
             z-index: 1000;
             border: 1px solid #ffd700;
-        }
-        
-        .admin-login.visible {
-            display: flex;
         }
         
         .admin-panel {
@@ -1469,6 +1465,7 @@
     </div>
 
     <div class="content" id="content">
+        <!-- Главное меню (Кейсы) -->
         <div id="mainMenu" class="section active">
             <h2 class="section-title">🎁 Доступные кейсы</h2>
             <div class="cases-grid">
@@ -1477,16 +1474,19 @@
                     <div class="case-name">Red Case</div>
                     <div class="case-price"><div class="small-star"></div>99 ⭐</div>
                 </div>
+                
                 <div class="case-card" onclick="showCaseDetail('green')">
                     <div class="case-image green-case"></div>
                     <div class="case-name">Green Case</div>
                     <div class="case-price"><div class="small-star"></div>199 ⭐</div>
                 </div>
+                
                 <div class="case-card" onclick="showCaseDetail('gold')">
                     <div class="case-image" style="background: linear-gradient(145deg, #ffd700, #b8860b);"></div>
                     <div class="case-name">Золотой кейс</div>
                     <div class="case-price"><div class="small-star"></div>Скоро</div>
                 </div>
+                
                 <div class="case-card" onclick="showCaseDetail('diamond')">
                     <div class="case-image" style="background: linear-gradient(145deg, #b9f2ff, #00ffff);"></div>
                     <div class="case-name">Алмазный кейс</div>
@@ -1495,6 +1495,7 @@
             </div>
         </div>
 
+        <!-- Детальная страница кейса -->
         <div id="caseDetail" class="case-detail">
             <div class="detail-header">
                 <div class="detail-image" id="detailImage"></div>
@@ -1524,6 +1525,7 @@
             </div>
         </div>
 
+        <!-- Страница игр -->
         <div id="gamesMenu" class="section">
             <h2 class="section-title">🎮 Мини-игры</h2>
             <div class="games-grid">
@@ -1532,6 +1534,7 @@
             </div>
         </div>
 
+        <!-- Страница апгрейда -->
         <div id="upgradePage" class="upgrade-page">
             <div class="upgrade-container">
                 <div class="chance-wheel" onclick="startWheelSpin()">
@@ -1561,6 +1564,7 @@
             </div>
         </div>
 
+        <!-- Страница профиля -->
         <div id="profileSection" class="section">
             <div class="profile-section">
                 <div class="profile-avatar-large" id="profileAvatarLarge">👤</div>
@@ -1713,10 +1717,12 @@
         }
 
         function teleportToCases() {
-            if (document.getElementById('caseDetail').classList.contains('active')) {
+            if (document.getElementById('caseDetail') && document.getElementById('caseDetail').classList.contains('active')) {
                 showMainMenu();
-            } else if (!document.getElementById('mainMenu').classList.contains('active')) {
+            } else if (document.getElementById('mainMenu') && !document.getElementById('mainMenu').classList.contains('active')) {
                 switchToCases();
+            } else if (document.getElementById('mainMenu') && document.getElementById('mainMenu').classList.contains('active')) {
+                document.querySelector('.content').scrollTop = 0;
             }
         }
 
@@ -1818,8 +1824,14 @@
             
             if (caseId === 'red') {
                 detailImage.style.backgroundImage = "url('https://files.catbox.moe/o2w0dj.png')";
+                detailImage.style.backgroundSize = "contain";
+                detailImage.style.backgroundPosition = "center";
+                detailImage.style.backgroundRepeat = "no-repeat";
             } else if (caseId === 'green') {
                 detailImage.style.backgroundImage = "url('https://files.catbox.moe/xl3oa3.png')";
+                detailImage.style.backgroundSize = "contain";
+                detailImage.style.backgroundPosition = "center";
+                detailImage.style.backgroundRepeat = "no-repeat";
             } else {
                 detailImage.style.background = caseData.color;
             }
@@ -1869,7 +1881,10 @@
 
         function updateWheel(percent) {
             const angle = (percent / 100) * 360;
-            document.getElementById('wheelSegment').setAttribute('d', `M50 50 L50 5 A45 45 0 ${angle>180?1:0} 1 ${50+45*Math.sin(angle*Math.PI/180)} ${50-45*Math.cos(angle*Math.PI/180)} Z`);
+            const wheelSegment = document.getElementById('wheelSegment');
+            if (wheelSegment) {
+                wheelSegment.setAttribute('d', `M50 50 L50 5 A45 45 0 ${angle>180?1:0} 1 ${50+45*Math.sin(angle*Math.PI/180)} ${50-45*Math.cos(angle*Math.PI/180)} Z`);
+            }
             document.getElementById('wheelPercent').textContent = Math.round(percent) + '%';
         }
 
@@ -1885,6 +1900,8 @@
             chance = Math.min(Math.max(chance, 5), 95);
             
             const wheel = document.querySelector('.wheel-svg');
+            if (!wheel) return;
+            
             const spins = 3;
             const stopAngle = Math.random() * 360;
             const isWin = stopAngle <= (chance / 100 * 360);
