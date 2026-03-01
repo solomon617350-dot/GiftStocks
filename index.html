@@ -54,18 +54,18 @@
             display: block;
         }
         
-        /* Увеличенная кнопка телепорта в кейсы */
+        /* Огромная кнопка телепорта в кейсы */
         .cases-teleport {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             background: url('https://files.catbox.moe/as8ub3.png') center/contain no-repeat;
             cursor: pointer;
             transition: transform 0.2s;
-            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.5));
         }
         
         .cases-teleport:hover {
-            transform: scale(1.1) rotate(5deg);
+            transform: scale(1.15) rotate(5deg);
         }
         
         .right-container {
@@ -432,8 +432,8 @@
         }
         
         .game-icon {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             margin-bottom: 15px;
             display: flex;
             align-items: center;
@@ -452,9 +452,10 @@
         }
         
         .game-name {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
-            color: #fff;
+            color: #ffd700;
+            text-align: center;
         }
         
         .upgrade-page {
@@ -470,40 +471,6 @@
             flex-direction: column;
             align-items: center;
             gap: 20px;
-            position: relative;
-            min-height: calc(100vh - 200px);
-        }
-        
-        /* Фон на всю страницу апгрейда */
-        .upgrade-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url('https://files.catbox.moe/v9db3j.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            z-index: -1;
-            opacity: 0.3;
-            filter: blur(3px);
-        }
-        
-        /* Затемнение для читаемости контента */
-        .upgrade-overlay {
-            position: relative;
-            z-index: 1;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            border-radius: 30px;
-            margin-top: 20px;
         }
         
         .chance-wheel {
@@ -1293,9 +1260,8 @@
 <body>
     <div class="top-bar">
         <div class="left-container">
-            <!-- Увеличенная кнопка телепорта -->
+            <!-- Огромная кнопка телепорта -->
             <div class="cases-teleport" onclick="teleportToCases()" title="Перейти к кейсам"></div>
-            <!-- Убрали кнопку "Назад" из апгрейда -->
             <div class="back-button" id="backButton" onclick="goBack()">← Назад</div>
         </div>
         
@@ -1370,12 +1336,12 @@
         <div id="gamesSection" class="section">
             <h2 class="section-title">🎮 Мини-игры</h2>
             <div class="games-grid">
-                <!-- Обновленная иконка апгрейда -->
+                <!-- Иконка апгрейда с твоей картинкой и без надписи -->
                 <div class="game-card" onclick="showUpgradePage()">
                     <div class="game-icon">
                         <img src="https://files.catbox.moe/v9db3j.png" alt="Upgrade">
                     </div>
-                    <div class="game-name">Апгрейд</div>
+                    <!-- Убрал надпись "Апгрейд" полностью -->
                 </div>
                 <div class="game-card">
                     <div class="game-icon">🎲</div>
@@ -1384,49 +1350,43 @@
             </div>
         </div>
 
-        <!-- Апгрейд (без кнопки Назад, с фото на весь экран) -->
+        <!-- Апгрейд (без изменений, обычный чёрный фон) -->
         <div id="upgradeSection" class="section">
-            <!-- Фон на всю страницу -->
-            <div class="upgrade-background"></div>
-            
             <div class="upgrade-container">
-                <div class="upgrade-overlay">
-                    <div class="chance-wheel" onclick="startWheelSpin()">
-                        <!-- Обновленная стрелка как на картинке -->
-                        <div class="wheel-arrow">▼</div>
-                        <svg class="wheel-svg" viewBox="0 0 100 100">
-                            <circle cx="50" cy="50" r="45" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
-                            <path id="wheelSegment" d="M50 50 L50 5 A45 45 0 0 1 95 50 Z" fill="#ffd700" stroke="#2a2a2a" stroke-width="1"/>
-                            <circle cx="50" cy="50" r="40" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
-                        </svg>
-                        <div class="wheel-percent" id="wheelPercent">0%</div>
-                    </div>
-
-                    <div class="items-row">
-                        <div class="item-slot">
-                            <div class="item-image" id="sourceItem" onclick="selectSourceItem()">
-                                <span style="font-size:30px;color:#666;">?</span>
-                            </div>
-                            <div class="item-price" id="sourcePrice">- ⭐</div>
-                        </div>
-                        <div class="question-mark">?</div>
-                        <div class="item-slot">
-                            <div class="item-image" id="targetItem" onclick="selectTargetItem()">
-                                <span style="font-size:30px;color:#666;">?</span>
-                            </div>
-                            <div class="item-price" id="targetPrice">- ⭐</div>
-                        </div>
-                    </div>
-
-                    <button class="action-btn primary" onclick="startWheelSpin()">⚡ Крутить колесо</button>
-
-                    <div class="action-buttons">
-                        <button class="action-btn secondary" onclick="showMyItems()">📦 Мои предметы</button>
-                        <button class="action-btn secondary" onclick="showTargetItems()">🎯 Выбрать предмет</button>
-                    </div>
-
-                    <div id="itemsList" class="items-list"></div>
+                <div class="chance-wheel" onclick="startWheelSpin()">
+                    <div class="wheel-arrow">▼</div>
+                    <svg class="wheel-svg" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
+                        <path id="wheelSegment" d="M50 50 L50 5 A45 45 0 0 1 95 50 Z" fill="#ffd700" stroke="#2a2a2a" stroke-width="1"/>
+                        <circle cx="50" cy="50" r="40" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
+                    </svg>
+                    <div class="wheel-percent" id="wheelPercent">0%</div>
                 </div>
+
+                <div class="items-row">
+                    <div class="item-slot">
+                        <div class="item-image" id="sourceItem" onclick="selectSourceItem()">
+                            <span style="font-size:30px;color:#666;">?</span>
+                        </div>
+                        <div class="item-price" id="sourcePrice">- ⭐</div>
+                    </div>
+                    <div class="question-mark">?</div>
+                    <div class="item-slot">
+                        <div class="item-image" id="targetItem" onclick="selectTargetItem()">
+                            <span style="font-size:30px;color:#666;">?</span>
+                        </div>
+                        <div class="item-price" id="targetPrice">- ⭐</div>
+                    </div>
+                </div>
+
+                <button class="action-btn primary" onclick="startWheelSpin()">⚡ Крутить колесо</button>
+
+                <div class="action-buttons">
+                    <button class="action-btn secondary" onclick="showMyItems()">📦 Мои предметы</button>
+                    <button class="action-btn secondary" onclick="showTargetItems()">🎯 Выбрать предмет</button>
+                </div>
+
+                <div id="itemsList" class="items-list"></div>
             </div>
         </div>
 
@@ -1633,13 +1593,7 @@
         function switchToSection(section) {
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            
-            // В апгрейде убираем кнопку назад
-            if (section === 'upgrade') {
-                document.getElementById('backButton').classList.remove('visible');
-            } else {
-                document.getElementById('backButton').classList.remove('visible');
-            }
+            document.getElementById('backButton').classList.remove('visible');
             
             if (section === 'main') {
                 document.querySelector('.nav-item').classList.add('active');
@@ -1703,7 +1657,6 @@
         function showUpgradePage() {
             document.getElementById('gamesSection').classList.remove('active');
             document.getElementById('upgradeSection').classList.add('active');
-            // Убираем кнопку назад специально для апгрейда
             document.getElementById('backButton').classList.remove('visible');
             resetUpgrade();
         }
