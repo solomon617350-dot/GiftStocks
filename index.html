@@ -438,7 +438,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 20px; /* Прямоугольная иконка */
+            border-radius: 20px;
             overflow: hidden;
             border: 3px solid #ffd700;
             box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
@@ -448,7 +448,7 @@
         .game-icon img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Картинка заполняет всю иконку */
+            object-fit: cover;
         }
         
         .game-name {
@@ -470,6 +470,40 @@
             flex-direction: column;
             align-items: center;
             gap: 20px;
+            position: relative;
+            min-height: calc(100vh - 200px);
+        }
+        
+        /* Фон на всю страницу апгрейда */
+        .upgrade-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('https://files.catbox.moe/v9db3j.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+            opacity: 0.3;
+            filter: blur(3px);
+        }
+        
+        /* Затемнение для читаемости контента */
+        .upgrade-overlay {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            border-radius: 30px;
+            margin-top: 20px;
         }
         
         .chance-wheel {
@@ -1336,10 +1370,10 @@
         <div id="gamesSection" class="section">
             <h2 class="section-title">🎮 Мини-игры</h2>
             <div class="games-grid">
-                <!-- Обновленная иконка апгрейда - теперь картинка на всю иконку -->
+                <!-- Обновленная иконка апгрейда -->
                 <div class="game-card" onclick="showUpgradePage()">
                     <div class="game-icon">
-                        <img src="https://files.catbox.moe/v9db3j.png" alt="Upgrade" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src="https://files.catbox.moe/v9db3j.png" alt="Upgrade">
                     </div>
                     <div class="game-name">Апгрейд</div>
                 </div>
@@ -1350,44 +1384,49 @@
             </div>
         </div>
 
-        <!-- Апгрейд (без кнопки Назад) -->
+        <!-- Апгрейд (без кнопки Назад, с фото на весь экран) -->
         <div id="upgradeSection" class="section">
+            <!-- Фон на всю страницу -->
+            <div class="upgrade-background"></div>
+            
             <div class="upgrade-container">
-                <div class="chance-wheel" onclick="startWheelSpin()">
-                    <!-- Обновленная стрелка как на картинке -->
-                    <div class="wheel-arrow">▼</div>
-                    <svg class="wheel-svg" viewBox="0 0 100 100">
-                        <circle cx="50" cy="50" r="45" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
-                        <path id="wheelSegment" d="M50 50 L50 5 A45 45 0 0 1 95 50 Z" fill="#ffd700" stroke="#2a2a2a" stroke-width="1"/>
-                        <circle cx="50" cy="50" r="40" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
-                    </svg>
-                    <div class="wheel-percent" id="wheelPercent">0%</div>
-                </div>
-
-                <div class="items-row">
-                    <div class="item-slot">
-                        <div class="item-image" id="sourceItem" onclick="selectSourceItem()">
-                            <span style="font-size:30px;color:#666;">?</span>
-                        </div>
-                        <div class="item-price" id="sourcePrice">- ⭐</div>
+                <div class="upgrade-overlay">
+                    <div class="chance-wheel" onclick="startWheelSpin()">
+                        <!-- Обновленная стрелка как на картинке -->
+                        <div class="wheel-arrow">▼</div>
+                        <svg class="wheel-svg" viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
+                            <path id="wheelSegment" d="M50 50 L50 5 A45 45 0 0 1 95 50 Z" fill="#ffd700" stroke="#2a2a2a" stroke-width="1"/>
+                            <circle cx="50" cy="50" r="40" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
+                        </svg>
+                        <div class="wheel-percent" id="wheelPercent">0%</div>
                     </div>
-                    <div class="question-mark">?</div>
-                    <div class="item-slot">
-                        <div class="item-image" id="targetItem" onclick="selectTargetItem()">
-                            <span style="font-size:30px;color:#666;">?</span>
+
+                    <div class="items-row">
+                        <div class="item-slot">
+                            <div class="item-image" id="sourceItem" onclick="selectSourceItem()">
+                                <span style="font-size:30px;color:#666;">?</span>
+                            </div>
+                            <div class="item-price" id="sourcePrice">- ⭐</div>
                         </div>
-                        <div class="item-price" id="targetPrice">- ⭐</div>
+                        <div class="question-mark">?</div>
+                        <div class="item-slot">
+                            <div class="item-image" id="targetItem" onclick="selectTargetItem()">
+                                <span style="font-size:30px;color:#666;">?</span>
+                            </div>
+                            <div class="item-price" id="targetPrice">- ⭐</div>
+                        </div>
                     </div>
+
+                    <button class="action-btn primary" onclick="startWheelSpin()">⚡ Крутить колесо</button>
+
+                    <div class="action-buttons">
+                        <button class="action-btn secondary" onclick="showMyItems()">📦 Мои предметы</button>
+                        <button class="action-btn secondary" onclick="showTargetItems()">🎯 Выбрать предмет</button>
+                    </div>
+
+                    <div id="itemsList" class="items-list"></div>
                 </div>
-
-                <button class="action-btn primary" onclick="startWheelSpin()">⚡ Крутить колесо</button>
-
-                <div class="action-buttons">
-                    <button class="action-btn secondary" onclick="showMyItems()">📦 Мои предметы</button>
-                    <button class="action-btn secondary" onclick="showTargetItems()">🎯 Выбрать предмет</button>
-                </div>
-
-                <div id="itemsList" class="items-list"></div>
             </div>
         </div>
 
