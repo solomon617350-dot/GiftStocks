@@ -54,18 +54,17 @@
             display: block;
         }
         
-        /* Огромная кнопка телепорта в кейсы */
+        /* Кнопка телепорта - вернул прошлый размер */
         .cases-teleport {
-            width: 80px;
-            height: 80px;
+            width: 45px;
+            height: 45px;
             background: url('https://files.catbox.moe/as8ub3.png') center/contain no-repeat;
             cursor: pointer;
             transition: transform 0.2s;
-            filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.5));
         }
         
         .cases-teleport:hover {
-            transform: scale(1.15) rotate(5deg);
+            transform: scale(1.1);
         }
         
         .right-container {
@@ -416,13 +415,15 @@
         .game-card {
             background: #0f0f0f;
             border-radius: 20px;
-            padding: 20px;
+            padding: 0; /* Убираем внутренние отступы */
             cursor: pointer;
             border: 2px solid #2a2a2a;
             display: flex;
             flex-direction: column;
             align-items: center;
             transition: all 0.3s ease;
+            overflow: hidden; /* Чтобы картинка не вылезала за скругленные углы */
+            aspect-ratio: 1 / 1; /* Делаем карточку квадратной */
         }
         
         .game-card:hover {
@@ -432,45 +433,45 @@
         }
         
         .game-icon {
-            width: 120px;
-            height: 120px;
-            margin-bottom: 15px;
+            width: 100%;
+            height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 20px;
             overflow: hidden;
-            border: 3px solid #ffd700;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-            background: #1a1a1a;
         }
         
         .game-icon img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: cover; /* Картинка заполняет всё пространство */
         }
         
         .game-name {
-            font-size: 20px;
-            font-weight: bold;
-            color: #ffd700;
-            text-align: center;
+            display: none; /* Полностью скрываем название */
         }
         
-        .upgrade-page {
-            display: none;
+        /* Страница апгрейда с новым фоном */
+        #upgradeSection {
+            position: relative;
+            background-image: url('https://files.catbox.moe/4fyd5h.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: calc(100vh - 140px); /* Чтобы фон занимал всю высоту */
         }
         
-        .upgrade-page.active {
-            display: block;
-        }
-        
+        /* Затемнение для контента, чтобы было лучше видно */
         .upgrade-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px);
+            padding: 20px;
+            border-radius: 30px;
+            margin: 20px;
         }
         
         .chance-wheel {
@@ -1260,7 +1261,7 @@
 <body>
     <div class="top-bar">
         <div class="left-container">
-            <!-- Огромная кнопка телепорта -->
+            <!-- Кнопка телепорта обычного размера -->
             <div class="cases-teleport" onclick="teleportToCases()" title="Перейти к кейсам"></div>
             <div class="back-button" id="backButton" onclick="goBack()">← Назад</div>
         </div>
@@ -1336,21 +1337,21 @@
         <div id="gamesSection" class="section">
             <h2 class="section-title">🎮 Мини-игры</h2>
             <div class="games-grid">
-                <!-- Иконка апгрейда с твоей картинкой и без надписи -->
+                <!-- Иконка апгрейда с твоей картинкой на всё окно и без надписи -->
                 <div class="game-card" onclick="showUpgradePage()">
                     <div class="game-icon">
                         <img src="https://files.catbox.moe/v9db3j.png" alt="Upgrade">
                     </div>
-                    <!-- Убрал надпись "Апгрейд" полностью -->
+                    <!-- Надпись полностью скрыта через CSS -->
                 </div>
                 <div class="game-card">
                     <div class="game-icon">🎲</div>
-                    <div class="game-name">Скоро</div>
+                    <!-- Надпись "Скоро" тоже можно скрыть или оставить -->
                 </div>
             </div>
         </div>
 
-        <!-- Апгрейд (без изменений, обычный чёрный фон) -->
+        <!-- Апгрейд с новым фоном -->
         <div id="upgradeSection" class="section">
             <div class="upgrade-container">
                 <div class="chance-wheel" onclick="startWheelSpin()">
@@ -1556,20 +1557,13 @@
         }
 
         function teleportToCases() {
-            // Если мы в детальной странице кейса - возвращаемся в главное меню
             if (document.getElementById('caseDetailSection').classList.contains('active')) {
                 showMainMenu();
-            } 
-            // Если мы в апгрейде - переключаемся на кейсы
-            else if (document.getElementById('upgradeSection').classList.contains('active')) {
+            } else if (document.getElementById('upgradeSection').classList.contains('active')) {
                 switchToSection('main');
-            }
-            // Если мы в другом разделе - переключаемся на кейсы
-            else if (!document.getElementById('mainSection').classList.contains('active')) {
+            } else if (!document.getElementById('mainSection').classList.contains('active')) {
                 switchToSection('main');
-            }
-            // Если уже в кейсах - просто прокручиваем наверх
-            else {
+            } else {
                 document.querySelector('.content').scrollTop = 0;
             }
         }
@@ -1584,12 +1578,10 @@
             document.getElementById('mainSection').classList.add('active');
             document.getElementById('backButton').classList.remove('visible');
             
-            // Обновляем навигацию
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             document.querySelector('.nav-item').classList.add('active');
         }
 
-        // Навигация
         function switchToSection(section) {
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -1691,7 +1683,6 @@
             
             isSpinning = true;
             
-            // Закрываем список предметов
             document.getElementById('itemsList').innerHTML = '';
             
             const sourceItem = allItems[selectedSource];
@@ -1784,7 +1775,6 @@
             const list = document.getElementById('itemsList');
             
             if (type === 'my') {
-                // Сортируем от самого дорогого к самому дешевому
                 const myItems = state.inventory.filter(item => item.price >= 100).sort((a, b) => b.price - a.price);
                 if (!myItems.length) {
                     list.innerHTML = '<div class="empty-section">🫙 Нет предметов</div>';
@@ -1804,11 +1794,10 @@
                 });
                 list.innerHTML = html;
             } else {
-                // Для выбора цели - только предметы дороже исходного
                 const sourcePrice = allItems[selectedSource]?.price || 0;
                 const available = Object.values(allItems)
                     .filter(item => item.price > sourcePrice && item.price >= 100)
-                    .sort((a, b) => b.price - a.price); // От дорогого к дешевому
+                    .sort((a, b) => b.price - a.price);
                 
                 if (!available.length) {
                     list.innerHTML = '<div class="empty-section">🎯 Нет доступных предметов</div>';
@@ -1878,7 +1867,6 @@
             const items = state.inventory.filter(item => item.id !== 'stars150');
             
             if (!items.length) {
-                // Красивый пустой инвентарь по центру с кнопкой
                 div.innerHTML = `
                     <div class="empty-inventory">
                         <div class="emoji">🫙</div>
