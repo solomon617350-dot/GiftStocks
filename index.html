@@ -54,6 +54,7 @@
             display: block;
         }
         
+        /* Кнопка телепорта - обычный размер */
         .cases-teleport {
             width: 45px;
             height: 45px;
@@ -1272,9 +1273,226 @@
     </style>
 </head>
 <body>
-    <!-- Полный HTML код как в прошлый раз, но с исправленными JS функциями ниже -->
-    <!-- ... (здесь весь HTML из предыдущего сообщения, он не менялся) ... -->
-    
+    <div class="top-bar">
+        <div class="left-container">
+            <div class="cases-teleport" onclick="teleportToCases()" title="Перейти к кейсам"></div>
+            <div class="back-button" id="backButton" onclick="goBack()">← Назад</div>
+        </div>
+        
+        <div class="right-container">
+            <div class="balance-container" onclick="showBalanceModal()">
+                <div class="star-icon"></div>
+                <span class="balance-amount" id="balanceDisplay">1000</span>
+            </div>
+            <div class="profile-avatar" onclick="switchToSection('profile')" id="profileAvatar">👤</div>
+        </div>
+    </div>
+
+    <div class="content">
+        <!-- Главная -->
+        <div id="mainSection" class="section active">
+            <h2 class="section-title">🎁 Доступные кейсы</h2>
+            <div class="cases-grid">
+                <div class="case-card" onclick="showCaseDetail('red')">
+                    <div class="case-image red-case"></div>
+                    <div class="case-name">Red Case</div>
+                    <div class="case-price"><div class="small-star"></div>99 ⭐</div>
+                </div>
+                <div class="case-card" onclick="showCaseDetail('green')">
+                    <div class="case-image green-case"></div>
+                    <div class="case-name">Green Case</div>
+                    <div class="case-price"><div class="small-star"></div>199 ⭐</div>
+                </div>
+                <div class="case-card" onclick="showCaseDetail('gold')">
+                    <div class="case-image" style="background: linear-gradient(145deg, #ffd700, #b8860b);"></div>
+                    <div class="case-name">Золотой кейс</div>
+                    <div class="case-price"><div class="small-star"></div>Скоро</div>
+                </div>
+                <div class="case-card" onclick="showCaseDetail('diamond')">
+                    <div class="case-image" style="background: linear-gradient(145deg, #b9f2ff, #00ffff);"></div>
+                    <div class="case-name">Алмазный кейс</div>
+                    <div class="case-price"><div class="small-star"></div>Скоро</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Детальная страница кейса -->
+        <div id="caseDetailSection" class="section">
+            <div class="detail-header">
+                <div class="detail-image" id="detailImage"></div>
+                <div class="detail-name" id="detailName"></div>
+                <div class="detail-price" id="detailPrice"></div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="open-case-btn" onclick="openCase(false)"><span>💰 Открыть за звёзды</span><span class="total-price" id="totalPrice"></span></button>
+                <button class="demo-case-btn" onclick="openCase(true)"><span>🎲 Демо-открытие</span><span class="demo-badge">Бесплатно</span></button>
+            </div>
+
+            <div class="quantity-section">
+                <div class="quantity-title">Количество открытий:</div>
+                <div class="quantity-buttons">
+                    <button class="quantity-btn active" onclick="selectQuantity(1)">1</button>
+                    <button class="quantity-btn" onclick="selectQuantity(2)">2</button>
+                    <button class="quantity-btn" onclick="selectQuantity(3)">3</button>
+                    <button class="quantity-btn" onclick="selectQuantity(4)">4</button>
+                    <button class="quantity-btn" onclick="selectQuantity(5)">5</button>
+                </div>
+            </div>
+
+            <div class="chances-section">
+                <div class="chances-title">📊 Шансы выпадения</div>
+                <div class="chances-grid" id="chancesGrid"></div>
+            </div>
+        </div>
+
+        <!-- Игры -->
+        <div id="gamesSection" class="section">
+            <h2 class="section-title">🎮 Мини-игры</h2>
+            <div class="games-grid">
+                <div class="game-card" onclick="showUpgradePage()">
+                    <div class="game-icon">
+                        <img src="https://files.catbox.moe/v9db3j.png" alt="Upgrade">
+                    </div>
+                </div>
+                <div class="game-card">
+                    <div class="game-icon">🎲</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Апгрейд -->
+        <div id="upgradeSection" class="section">
+            <div class="upgrade-container">
+                <div class="chance-wheel" onclick="startWheelSpin()">
+                    <div class="wheel-arrow">▼</div>
+                    <svg class="wheel-svg" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="45" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
+                        <path id="wheelSegment" d="M50 50 L50 5 A45 45 0 0 1 95 50 Z" fill="#ffd700" stroke="#2a2a2a" stroke-width="1"/>
+                        <circle cx="50" cy="50" r="40" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
+                    </svg>
+                    <div class="wheel-percent" id="wheelPercent">0%</div>
+                </div>
+
+                <div class="items-row">
+                    <div class="item-slot">
+                        <div class="item-image" id="sourceItem" onclick="selectSourceItem()">
+                            <span style="font-size:30px;color:#666;">?</span>
+                        </div>
+                        <div class="item-price" id="sourcePrice">- ⭐</div>
+                    </div>
+                    <div class="question-mark">?</div>
+                    <div class="item-slot">
+                        <div class="item-image" id="targetItem" onclick="selectTargetItem()">
+                            <span style="font-size:30px;color:#666;">?</span>
+                        </div>
+                        <div class="item-price" id="targetPrice">- ⭐</div>
+                    </div>
+                </div>
+
+                <button class="action-btn primary" onclick="startWheelSpin()">⚡ Крутить колесо</button>
+
+                <div class="action-buttons">
+                    <button class="action-btn secondary" onclick="showMyItems()">📦 Мои предметы</button>
+                    <button class="action-btn secondary" onclick="showTargetItems()">🎯 Выбрать предмет</button>
+                </div>
+
+                <div id="itemsList" class="items-list"></div>
+            </div>
+        </div>
+
+        <!-- Профиль -->
+        <div id="profileSection" class="section">
+            <div class="profile-section">
+                <div class="profile-avatar-large" id="profileAvatarLarge">👤</div>
+                <div class="profile-name" id="profileName">Игрок</div>
+                <div class="profile-id" id="profileId">ID: 123456789</div>
+                
+                <div class="stats-row">
+                    <div class="stat-block">
+                        <div class="stat-label">Лучший дроп</div>
+                        <div class="best-item" id="bestDrop">
+                            <img src="https://files.catbox.moe/nt7ios.png">
+                            <div class="best-item-info">
+                                <div class="best-item-name">Алмазик</div>
+                                <div class="best-item-price">100 ⭐</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-block">
+                        <div class="stat-label">Лучший апгрейд</div>
+                        <div class="best-item" id="bestUpgrade">
+                            <img src="https://files.catbox.moe/6ified.png">
+                            <div class="best-item-info">
+                                <div class="best-item-name">Vintage Cigar</div>
+                                <div class="best-item-price">3357 ⭐</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="profile-stats">
+                <div class="stat-item"><span class="stat-label">Открыто кейсов:</span><span class="stat-value" id="openedCases">0</span></div>
+                <div class="stat-item"><span class="stat-label">Баланс звёзд:</span><span class="stat-value" id="profileBalance">1000 ⭐</span></div>
+            </div>
+            
+            <div class="inventory-header">
+                <h3 style="color:#ffd700;">📦 Инвентарь</h3>
+                <button class="sell-all-inventory-btn" onclick="confirmSellAll()">💰 Продать всё</button>
+            </div>
+            <div id="inventory" class="inventory-grid"></div>
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <div class="nav-item active" onclick="switchToSection('main')"><span class="nav-icon">🎁</span><span class="nav-label">Кейсы</span></div>
+        <div class="nav-item" onclick="switchToSection('games')"><span class="nav-icon">🎮</span><span class="nav-label">Игры</span></div>
+        <div class="nav-item" onclick="switchToSection('profile')"><span class="nav-icon">👤</span><span class="nav-label">Профиль</span></div>
+    </div>
+
+    <!-- Модальные окна -->
+    <div id="balanceModal" class="modal">
+        <div class="modal-content" style="max-width:400px;">
+            <h2>💰 Баланс</h2>
+            <div class="balance-big" id="modalBalance">1000 ⭐</div>
+            <div class="deposit-options">
+                <button class="deposit-option" onclick="depositBalance(100)">+100</button>
+                <button class="deposit-option" onclick="depositBalance(500)">+500</button>
+                <button class="deposit-option" onclick="depositBalance(1000)">+1000</button>
+                <button class="deposit-option" onclick="depositBalance(5000)">+5000</button>
+            </div>
+            <button onclick="closeModal('balanceModal')">Закрыть</button>
+        </div>
+    </div>
+
+    <div id="rouletteModal" class="modal">
+        <div class="modal-content">
+            <div id="rouletteMode" class="demo-mode" style="display:none;">🎲 ДЕМО-РЕЖИМ</div>
+            <h2>🎰 Открытие кейсов</h2>
+            <div id="multiRoulette" class="multi-roulette"></div>
+            <div id="resultsList" class="results-container"></div>
+            <div id="finalButtons" style="display:none;">
+                <div class="result-buttons">
+                    <button class="result-button sell-all" onclick="sellAllResults()">💰 Продать всё</button>
+                    <button class="result-button again" onclick="openAgain()">🎲 Открыть ещё</button>
+                </div>
+            </div>
+            <button class="close-button" onclick="closeModal('rouletteModal')">Закрыть</button>
+        </div>
+    </div>
+
+    <div id="confirmModal" class="modal">
+        <div class="confirm-modal">
+            <h3>⚠️ Подтверждение</h3>
+            <p>Вы точно хотите продать все предметы?</p>
+            <div class="confirm-buttons">
+                <button class="confirm-btn yes" onclick="executeSellAll()">Да</button>
+                <button class="confirm-btn no" onclick="closeConfirmModal()">Нет</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready();
@@ -1282,7 +1500,6 @@
 
         const STARS_TO_TON = 100;
 
-        // Все предметы на CATBOX
         const allItems = {
             rose: { id: 'rose', name: 'Розочка', image: 'https://cdn140.picsart.com/241734929003212.png', price: 25 },
             cake: { id: 'cake', name: 'Тортик', image: 'https://files.catbox.moe/1w9dkc.png', price: 50 },
@@ -1306,7 +1523,6 @@
             tonIcon: { id: 'ton', name: 'TON', image: 'https://files.catbox.moe/7lnef8.png', price: 0 }
         };
 
-        // Состояние
         let state = {
             balance: 1000,
             openedCases: 0,
@@ -1326,7 +1542,6 @@
         let isSpinning = false;
         let isCaseOpening = false;
 
-        // Загрузка состояния
         function loadState() {
             const saved = localStorage.getItem('caseGameState');
             if (saved) {
@@ -1375,7 +1590,6 @@
             document.querySelector('.nav-item').classList.add('active');
         }
 
-        // Навигация
         function switchToSection(section) {
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -1482,20 +1696,13 @@
             const sourceItem = allItems[selectedSource];
             const targetItem = allItems[selectedTarget];
             
-            // ЧЕСТНЫЙ РАСЧЁТ ШАНСА
             let chance = (sourceItem.price * 2) / targetItem.price * 50;
             chance = Math.min(Math.max(chance, 5), 95);
             
             const wheel = document.querySelector('.wheel-svg');
             const spins = 3;
-            
-            // Генерируем угол остановки (0-360)
             const stopAngle = Math.random() * 360;
-            
-            // ПОБЕДА если угол попадает в зону шанса
-            // Зона шанса: от 0 до (chance/100)*360 градусов
             const isWin = stopAngle <= (chance / 100 * 360);
-            
             const totalRotation = spins * 360 + stopAngle;
             
             wheel.style.transition = 'none';
@@ -1805,7 +2012,7 @@
             if (!isDemo) {
                 state.balance -= total;
                 updateBalance();
-                saveState(); // Сохраняем сразу после списания
+                saveState();
             }
             
             const results = [];
@@ -1827,7 +2034,6 @@
             
             state.currentOpenings = results;
             
-            // Сразу добавляем предметы в инвентарь (для не-демо)
             if (!isDemo) {
                 results.forEach(r => {
                     if (r.id === 'stars150') {
@@ -1849,7 +2055,7 @@
                 state.openedCases += state.selectedQuantity;
                 document.getElementById('openedCases').textContent = state.openedCases;
                 renderInventory();
-                saveState(); // Сохраняем после добавления предметов
+                saveState();
             }
             
             const modal = document.getElementById('rouletteModal');
@@ -2070,7 +2276,6 @@
             diamond: { name: 'Алмазный кейс', price: 0, color: 'linear-gradient(145deg,#b9f2ff,#00ffff)', items: [] }
         };
 
-        // Инициализация
         updateBalance();
         renderInventory();
         updateProfileInfo();
