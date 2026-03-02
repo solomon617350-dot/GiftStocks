@@ -970,6 +970,7 @@
             margin: 20px 0;
             overflow-x: auto;
             padding: 10px 0;
+            min-height: 350px;
         }
         
         .single-roulette {
@@ -1312,6 +1313,36 @@
             background: #ff4444;
             color: white;
         }
+        
+        /* Стили для прокрутки на месте кейса */
+        .case-detail-content {
+            transition: all 0.3s ease;
+        }
+        
+        .case-detail-content.hidden {
+            display: none;
+        }
+        
+        .roulette-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            min-height: 400px;
+        }
+        
+        .roulette-container.active {
+            display: flex;
+        }
+        
+        .case-results {
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .case-results.hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -1360,31 +1391,44 @@
 
         <!-- Детальная страница кейса -->
         <div id="caseDetailSection" class="section">
-            <div class="detail-header">
-                <div class="detail-image" id="detailImage"></div>
-                <div class="detail-name" id="detailName"></div>
-                <div class="detail-price" id="detailPrice"></div>
-            </div>
+            <div class="case-detail-content" id="caseDetailContent">
+                <div class="detail-header">
+                    <div class="detail-image" id="detailImage"></div>
+                    <div class="detail-name" id="detailName"></div>
+                    <div class="detail-price" id="detailPrice"></div>
+                </div>
 
-            <div class="action-buttons">
-                <button class="open-case-btn" onclick="openCase(false)"><span>💰 Открыть за звёзды</span><span class="total-price" id="totalPrice"></span></button>
-                <button class="demo-case-btn" onclick="openCase(true)"><span>🎲 Демо-открытие</span><span class="demo-badge">Бесплатно</span></button>
-            </div>
+                <div class="action-buttons">
+                    <button class="open-case-btn" onclick="openCase(false)"><span>💰 Открыть за звёзды</span><span class="total-price" id="totalPrice"></span></button>
+                    <button class="demo-case-btn" onclick="openCase(true)"><span>🎲 Демо-открытие</span><span class="demo-badge">Бесплатно</span></button>
+                </div>
 
-            <div class="quantity-section">
-                <div class="quantity-title">Количество открытий:</div>
-                <div class="quantity-buttons">
-                    <button class="quantity-btn active" onclick="selectQuantity(1)">1</button>
-                    <button class="quantity-btn" onclick="selectQuantity(2)">2</button>
-                    <button class="quantity-btn" onclick="selectQuantity(3)">3</button>
-                    <button class="quantity-btn" onclick="selectQuantity(4)">4</button>
-                    <button class="quantity-btn" onclick="selectQuantity(5)">5</button>
+                <div class="quantity-section">
+                    <div class="quantity-title">Количество открытий:</div>
+                    <div class="quantity-buttons">
+                        <button class="quantity-btn active" onclick="selectQuantity(1)">1</button>
+                        <button class="quantity-btn" onclick="selectQuantity(2)">2</button>
+                        <button class="quantity-btn" onclick="selectQuantity(3)">3</button>
+                        <button class="quantity-btn" onclick="selectQuantity(4)">4</button>
+                        <button class="quantity-btn" onclick="selectQuantity(5)">5</button>
+                    </div>
+                </div>
+
+                <div class="chances-section">
+                    <div class="chances-title">📊 Шансы выпадения</div>
+                    <div class="chances-grid" id="chancesGrid"></div>
                 </div>
             </div>
-
-            <div class="chances-section">
-                <div class="chances-title">📊 Шансы выпадения</div>
-                <div class="chances-grid" id="chancesGrid"></div>
+            
+            <!-- Контейнер для рулетки -->
+            <div class="roulette-container" id="rouletteContainer">
+                <div id="caseMultiRoulette" class="multi-roulette"></div>
+                <div id="caseResultsList" class="results-container case-results hidden"></div>
+                <div id="caseFinalButtons" class="result-buttons" style="display:none;">
+                    <button class="result-button again" onclick="openAgain()">🎲 Открыть ещё</button>
+                    <button class="result-button sell-all" onclick="sellAllResults()">💰 Продать всё</button>
+                    <button class="result-button" onclick="showCaseDetailContent()">🔙 Назад</button>
+                </div>
             </div>
         </div>
 
@@ -1508,22 +1552,6 @@
         </div>
     </div>
 
-    <div id="rouletteModal" class="modal">
-        <div class="modal-content">
-            <div id="rouletteMode" class="demo-mode" style="display:none;">🎲 ДЕМО-РЕЖИМ</div>
-            <h2>🎰 Открытие кейсов</h2>
-            <div id="multiRoulette" class="multi-roulette"></div>
-            <div id="resultsList" class="results-container"></div>
-            <div id="finalButtons" style="display:none;">
-                <div class="result-buttons">
-                    <button class="result-button again" onclick="openAgain()">🎲 Открыть ещё</button>
-                    <button class="result-button sell-all" onclick="sellAllResults()">💰 Продать всё</button>
-                </div>
-                <button class="close-button" onclick="closeModal('rouletteModal')">Закрыть</button>
-            </div>
-        </div>
-    </div>
-
     <div id="confirmModal" class="modal">
         <div class="confirm-modal">
             <h3>⚠️ Подтверждение</h3>
@@ -1581,6 +1609,7 @@
         let selectedTarget = null;
         let isSpinning = false;
         let isCaseOpening = false;
+        let currentCaseData = null;
 
         function loadState() {
             const saved = localStorage.getItem('caseGameState');
@@ -1656,9 +1685,16 @@
             const caseData = cases[caseId];
             if (!caseData) return;
             
+            currentCaseData = caseData;
+            
             document.getElementById('mainSection').classList.remove('active');
             document.getElementById('caseDetailSection').classList.add('active');
             document.getElementById('backButton').classList.add('visible');
+            
+            // Показываем контент кейса, скрываем рулетку
+            document.getElementById('caseDetailContent').classList.remove('hidden');
+            document.getElementById('rouletteContainer').classList.remove('active');
+            document.getElementById('caseResultsList').classList.add('hidden');
             
             const detailImage = document.getElementById('detailImage');
             if (caseId === 'red') {
@@ -1692,6 +1728,14 @@
             });
             
             selectQuantity(1);
+        }
+
+        function showCaseDetailContent() {
+            // Возвращаемся к деталям кейса
+            document.getElementById('caseDetailContent').classList.remove('hidden');
+            document.getElementById('rouletteContainer').classList.remove('active');
+            document.getElementById('caseResultsList').classList.add('hidden');
+            document.getElementById('caseFinalButtons').style.display = 'none';
         }
 
         function showUpgradePage() {
@@ -2070,21 +2114,26 @@
 
         function openCase(isDemo) {
             if (isCaseOpening) return;
-            isCaseOpening = true;
             
-            const caseData = cases[state.currentCase];
+            const caseData = currentCaseData;
             if (!caseData?.items?.length) {
                 alert('Кейс недоступен');
-                isCaseOpening = false;
                 return;
             }
             
             const total = caseData.price * state.selectedQuantity;
             if (!isDemo && state.balance < total) {
                 alert('Недостаточно звёзд');
-                isCaseOpening = false;
                 return;
             }
+            
+            isCaseOpening = true;
+            
+            // Скрываем детали кейса, показываем рулетку
+            document.getElementById('caseDetailContent').classList.add('hidden');
+            document.getElementById('rouletteContainer').classList.add('active');
+            document.getElementById('caseResultsList').classList.add('hidden');
+            document.getElementById('caseFinalButtons').style.display = 'none';
             
             state.isDemo = isDemo;
             if (!isDemo) {
@@ -2136,24 +2185,15 @@
                 saveState();
             }
             
-            const modal = document.getElementById('rouletteModal');
-            const multi = document.getElementById('multiRoulette');
-            const rlist = document.getElementById('resultsList');
-            const fbtn = document.getElementById('finalButtons');
-            const rmode = document.getElementById('rouletteMode');
+            const multi = document.getElementById('caseMultiRoulette');
+            const rlist = document.getElementById('caseResultsList');
+            const fbtn = document.getElementById('caseFinalButtons');
             
-            modal.classList.add('active');
             multi.innerHTML = '';
             rlist.innerHTML = '';
+            rlist.classList.add('hidden');
             
-            if (isDemo) {
-                rmode.style.display = 'inline-block';
-            } else {
-                rmode.style.display = 'none';
-            }
-            fbtn.style.display = 'none';
-            
-            const itemHeight = 150; // Высота одного предмета в пикселях
+            const itemHeight = 150;
             const gap = 15;
             const totalItemHeight = itemHeight + gap;
             
@@ -2161,7 +2201,7 @@
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const rd = document.createElement('div');
                 rd.className = 'single-roulette';
-                rd.id = `r-${i}`;
+                rd.id = `case-r-${i}`;
                 
                 const tr = document.createElement('div');
                 tr.className = 'roulette-track';
@@ -2195,13 +2235,13 @@
                 rd.innerHTML += '<div class="roulette-indicator"></div>';
                 multi.appendChild(rd);
                 
-                // Начальная позиция - сдвиг вверх на 10 позиций
+                // Начальная позиция - сдвиг вверх на 8 позиций
                 tr.style.transform = `translateY(-50%) translateY(${-totalItemHeight * 8}px)`;
             }
             
             setTimeout(() => {
                 for (let i = 0; i < state.selectedQuantity; i++) {
-                    const tr = document.querySelector(`#r-${i} .roulette-track`);
+                    const tr = document.querySelector(`#case-r-${i} .roulette-track`);
                     if (tr) {
                         // Конечная позиция - чтобы 15-й элемент оказался на индикаторе
                         const target = -totalItemHeight * 7.5;
@@ -2213,9 +2253,10 @@
             
             setTimeout(() => {
                 // Убираем рулетки
-                multi.style.display = 'none';
+                multi.innerHTML = '';
                 
                 // Показываем результаты
+                rlist.classList.remove('hidden');
                 results.forEach(r => {
                     rlist.innerHTML += `
                         <div class="result-item ${isDemo ? 'demo' : ''}">
@@ -2230,7 +2271,7 @@
                     `;
                 });
                 
-                fbtn.style.display = 'block';
+                fbtn.style.display = 'flex';
                 isCaseOpening = false;
             }, 10200);
         }
@@ -2256,7 +2297,7 @@
             renderInventory();
             saveState();
             
-            const rlist = document.getElementById('resultsList');
+            const rlist = document.getElementById('caseResultsList');
             if (!state.currentOpenings.length) {
                 rlist.innerHTML = '<div class="empty-section">Все предметы проданы</div>';
             } else {
@@ -2280,7 +2321,7 @@
 
         function sellAllResults() {
             if (state.isDemo) {
-                closeModal('rouletteModal');
+                showCaseDetailContent();
                 return;
             }
             
@@ -2302,11 +2343,11 @@
             updateBalance();
             renderInventory();
             saveState();
-            closeModal('rouletteModal');
+            showCaseDetailContent();
         }
 
         function openAgain() {
-            closeModal('rouletteModal');
+            showCaseDetailContent();
             setTimeout(() => openCase(state.isDemo), 300);
         }
 
