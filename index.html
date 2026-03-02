@@ -966,29 +966,29 @@
             display: flex;
             flex-direction: row;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             margin: 20px 0;
             overflow-x: auto;
             padding: 10px 0;
-            min-height: 350px;
+            min-height: 250px;
         }
         
         .single-roulette {
             background: #1a1a1a;
-            border-radius: 15px;
-            padding: 10px 0;
+            border-radius: 12px;
+            padding: 8px 0;
             position: relative;
             overflow: hidden;
-            width: 160px;
-            height: 300px;
-            border: 3px solid #ffd700;
+            width: 110px;
+            height: 200px;
+            border: 2px solid #ffd700;
             flex-shrink: 0;
         }
         
         .roulette-track {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 10px;
             position: absolute;
             left: 0;
             right: 0;
@@ -1003,22 +1003,22 @@
             flex-direction: column;
             align-items: center;
             background: rgba(255,255,255,0.1);
-            padding: 10px;
-            border-radius: 12px;
-            width: 140px;
+            padding: 6px;
+            border-radius: 8px;
+            width: 90px;
             margin: 0 auto;
         }
         
         .roulette-item img {
-            width: 80px;
-            height: 80px;
+            width: 50px;
+            height: 50px;
             object-fit: contain;
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
         
         .roulette-item span {
             color: #ffd700;
-            font-size: 14px;
+            font-size: 11px;
             font-weight: bold;
         }
         
@@ -1027,15 +1027,15 @@
             left: 0;
             right: 0;
             top: 50%;
-            height: 3px;
+            height: 2px;
             background: linear-gradient(to right, #ffd700, #ffaa00);
             transform: translateY(-50%);
             z-index: 2;
-            box-shadow: 0 0 10px gold;
+            box-shadow: 0 0 8px gold;
         }
         
         .results-container {
-            max-height: 300px;
+            max-height: 250px;
             overflow-y: auto;
             margin: 15px 0;
             padding: 10px;
@@ -1084,12 +1084,12 @@
             background: #4CAF50;
             color: white;
             border: none;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
             font-weight: bold;
             cursor: pointer;
-            min-width: 70px;
+            min-width: 60px;
             text-align: center;
         }
         
@@ -1328,7 +1328,7 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            min-height: 400px;
+            min-height: 300px;
         }
         
         .roulette-container.active {
@@ -2193,8 +2193,8 @@
             rlist.innerHTML = '';
             rlist.classList.add('hidden');
             
-            const itemHeight = 150;
-            const gap = 15;
+            const itemHeight = 100;
+            const gap = 10;
             const totalItemHeight = itemHeight + gap;
             
             // Создаём рулетки рядом по горизонтали
@@ -2206,11 +2206,11 @@
                 const tr = document.createElement('div');
                 tr.className = 'roulette-track';
                 
-                // Создаём 30 предметов для вертикальной прокрутки
-                for (let j = 0; j < 30; j++) {
+                // Создаём 25 предметов для вертикальной прокрутки
+                for (let j = 0; j < 25; j++) {
                     let item;
-                    // На 15-й позиции (середина) ставим реальный результат
-                    if (j === 15) {
+                    // На 12-й позиции ставим реальный результат
+                    if (j === 12) {
                         item = results[i];
                     } else {
                         const rand = Math.random() * 100;
@@ -2235,16 +2235,16 @@
                 rd.innerHTML += '<div class="roulette-indicator"></div>';
                 multi.appendChild(rd);
                 
-                // Начальная позиция - сдвиг вверх на 8 позиций
-                tr.style.transform = `translateY(-50%) translateY(${-totalItemHeight * 8}px)`;
+                // Начальная позиция - сдвиг вверх на 6 позиций
+                tr.style.transform = `translateY(-50%) translateY(${-totalItemHeight * 6}px)`;
             }
             
             setTimeout(() => {
                 for (let i = 0; i < state.selectedQuantity; i++) {
                     const tr = document.querySelector(`#case-r-${i} .roulette-track`);
                     if (tr) {
-                        // Конечная позиция - чтобы 15-й элемент оказался на индикаторе
-                        const target = -totalItemHeight * 7.5;
+                        // Конечная позиция - чтобы 12-й элемент оказался на индикаторе
+                        const target = -totalItemHeight * 5.5;
                         tr.style.transition = 'transform 10s cubic-bezier(0.15, 0.85, 0.35, 1)';
                         tr.style.transform = `translateY(-50%) translateY(${target}px)`;
                     }
