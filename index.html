@@ -54,7 +54,6 @@
             display: block;
         }
         
-        /* Кнопка телепорта - обычный размер */
         .cases-teleport {
             width: 45px;
             height: 45px;
@@ -464,7 +463,6 @@
             display: none;
         }
         
-        /* Страница апгрейда с твоим любимым фоном */
         #upgradeSection {
             position: relative;
             background-image: url('https://files.catbox.moe/4fyd5h.png');
@@ -487,8 +485,8 @@
         }
         
         .chance-wheel {
-            width: 280px;
-            height: 280px;
+            width: 300px;
+            height: 300px;
             position: relative;
             margin: 20px auto;
             cursor: pointer;
@@ -571,14 +569,14 @@
         }
         
         .question-mark {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             background: #1a1a1a;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 30px;
+            font-size: 16px;
             color: #ffd700;
             border: 3px solid #2a2a2a;
             position: absolute;
@@ -587,6 +585,9 @@
             transform: translate(-50%, -50%);
             font-weight: bold;
             box-shadow: 0 0 20px rgba(255,215,0,0.3);
+            text-align: center;
+            line-height: 1.2;
+            padding: 0 5px;
         }
         
         .action-btn {
@@ -1071,12 +1072,13 @@
             background: #4CAF50;
             color: white;
             border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 11px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
             font-weight: bold;
             cursor: pointer;
-            margin-left: 10px;
+            min-width: 70px;
+            text-align: center;
         }
         
         .demo-label {
@@ -1175,6 +1177,35 @@
         
         .section.active {
             display: block;
+        }
+        
+        .empty-section {
+            text-align: center;
+            padding: 40px 20px;
+            font-size: 18px;
+            color: #666;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .empty-section .open-cases-btn {
+            background: linear-gradient(145deg, #ffd700, #ffaa00);
+            color: #000;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+        
+        .empty-section .open-cases-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
         }
         
         .empty-inventory {
@@ -1381,7 +1412,7 @@
                         </div>
                         <div class="item-price" id="sourcePrice">- ⭐</div>
                     </div>
-                    <div class="question-mark">?</div>
+                    <div class="question-mark" id="multiplierDisplay">?</div>
                     <div class="item-slot">
                         <div class="item-image" id="targetItem" onclick="selectTargetItem()">
                             <span style="font-size:30px;color:#666;">?</span>
@@ -1478,7 +1509,6 @@
                     <button class="result-button again" onclick="openAgain()">🎲 Открыть ещё</button>
                 </div>
             </div>
-            <button class="close-button" onclick="closeModal('rouletteModal')">Закрыть</button>
         </div>
     </div>
 
@@ -1518,9 +1548,7 @@
             ringExpensive: { id: 'ringExpensive', name: 'Diamond Ring', image: 'https://files.catbox.moe/tjttfk.png', price: 2858 },
             cigar: { id: 'cigar', name: 'Vintage Cigar', image: 'https://files.catbox.moe/6ified.png', price: 3357 },
             calendar: { id: 'calendar', name: 'Календарь', image: 'https://files.catbox.moe/vp6ocv.png', price: 500 },
-            stars150: { id: 'stars150', name: '150 звёзд', image: 'https://nztcdn.com/files/34b13b5a-7b5f-4d29-9c92-8fada5f27b2f.webp', price: 150 },
-            cup: { id: 'cup', name: 'Кубок', image: 'https://files.catbox.moe/9a63n2.png', price: 100 },
-            tonIcon: { id: 'ton', name: 'TON', image: 'https://files.catbox.moe/7lnef8.png', price: 0 }
+            cup: { id: 'cup', name: 'Кубок', image: 'https://files.catbox.moe/9a63n2.png', price: 100 }
         };
 
         let state = {
@@ -1668,6 +1696,7 @@
             document.getElementById('sourcePrice').innerHTML = '- ⭐';
             document.getElementById('targetItem').innerHTML = '<span style="font-size:30px;color:#666;">?</span>';
             document.getElementById('targetPrice').innerHTML = '- ⭐';
+            document.getElementById('multiplierDisplay').innerHTML = '?';
             document.getElementById('itemsList').innerHTML = '';
             updateWheel(0);
         }
@@ -1696,13 +1725,26 @@
             const sourceItem = allItems[selectedSource];
             const targetItem = allItems[selectedTarget];
             
+            // Формула шанса: (цена_моего × 2) / цена_цели × 50
             let chance = (sourceItem.price * 2) / targetItem.price * 50;
             chance = Math.min(Math.max(chance, 5), 95);
             
             const wheel = document.querySelector('.wheel-svg');
             const spins = 3;
-            const stopAngle = Math.random() * 360;
-            const isWin = stopAngle <= (chance / 100 * 360);
+            
+            // Круг разделён на 1000 частей (0.1% каждая)
+            const totalParts = 1000;
+            const winParts = Math.round(chance * 10); // 40% = 400 частей
+            
+            // Генерируем случайную часть от 0 до 999
+            const stopPart = Math.floor(Math.random() * totalParts);
+            
+            // Победа если часть меньше winParts
+            const isWin = stopPart < winParts;
+            
+            // Угол остановки (0-360) на основе части
+            const stopAngle = (stopPart / totalParts) * 360;
+            
             const totalRotation = spins * 360 + stopAngle;
             
             wheel.style.transition = 'none';
@@ -1758,6 +1800,7 @@
                 document.getElementById('sourcePrice').innerHTML = '- ⭐';
                 document.getElementById('targetItem').innerHTML = '<span style="font-size:30px;color:#666;">?</span>';
                 document.getElementById('targetPrice').innerHTML = '- ⭐';
+                document.getElementById('multiplierDisplay').innerHTML = '?';
                 
                 wheel.style.transition = 'none';
                 wheel.style.transform = 'rotate(-90deg)';
@@ -1785,7 +1828,12 @@
             if (type === 'my') {
                 const myItems = state.inventory.filter(item => item.price >= 100).sort((a, b) => b.price - a.price);
                 if (!myItems.length) {
-                    list.innerHTML = '<div class="empty-section">🫙 Нет предметов</div>';
+                    list.innerHTML = `
+                        <div class="empty-section">
+                            <div>🫙 Нет предметов для апгрейда</div>
+                            <button class="open-cases-btn" onclick="switchToSection('main')">🎁 Открыть кейсы</button>
+                        </div>
+                    `;
                     return;
                 }
                 
@@ -1805,7 +1853,7 @@
                 const sourcePrice = allItems[selectedSource]?.price || 0;
                 const available = Object.values(allItems)
                     .filter(item => item.price > sourcePrice && item.price >= 100)
-                    .sort((a, b) => b.price - a.price);
+                    .sort((a, b) => a.price - b.price); // От дешёвого к дорогому
                 
                 if (!available.length) {
                     list.innerHTML = '<div class="empty-section">🎯 Нет доступных предметов</div>';
@@ -1832,6 +1880,10 @@
             document.getElementById('sourceItem').innerHTML = `<img src="${item.image}">`;
             document.getElementById('sourcePrice').innerHTML = `${item.price} ⭐`;
             document.getElementById('itemsList').innerHTML = '';
+            
+            if (selectedTarget) {
+                updateMultiplier();
+            }
         }
 
         function selectTarget(itemId) {
@@ -1843,7 +1895,21 @@
             
             if (selectedSource) {
                 calculateChance();
+                updateMultiplier();
             }
+        }
+
+        function updateMultiplier() {
+            if (!selectedSource || !selectedTarget) {
+                document.getElementById('multiplierDisplay').innerHTML = '?';
+                return;
+            }
+            
+            const sourcePrice = allItems[selectedSource].price;
+            const targetPrice = allItems[selectedTarget].price;
+            const multiplier = (targetPrice / sourcePrice).toFixed(1);
+            
+            document.getElementById('multiplierDisplay').innerHTML = `×${multiplier}`;
         }
 
         function calculateChance() {
@@ -1872,7 +1938,7 @@
 
         function renderInventory() {
             const div = document.getElementById('inventory');
-            const items = state.inventory.filter(item => item.id !== 'stars150');
+            const items = state.inventory;
             
             if (!items.length) {
                 div.innerHTML = `
@@ -2038,7 +2104,7 @@
                 results.forEach(r => {
                     if (r.id === 'stars150') {
                         state.balance += r.price;
-                    } else if (r.id !== 'stars150') {
+                    } else {
                         const existing = state.inventory.find(i => i.id === r.id);
                         if (existing) {
                             existing.count = (existing.count || 1) + 1;
@@ -2129,19 +2195,17 @@
             
             setTimeout(() => {
                 results.forEach(r => {
-                    if (r.id !== 'stars150') {
-                        rlist.innerHTML += `
-                            <div class="result-item ${isDemo ? 'demo' : ''}">
-                                <img src="${r.image}">
-                                <div class="result-item-info">
-                                    <div class="result-item-name">${r.name}</div>
-                                    <div class="result-item-price">${r.price} ⭐</div>
-                                </div>
-                                ${!isDemo ? `<button class="sell-result-btn" onclick="sellSingleResult('${r.timestamp}')">Продать</button>` : ''}
-                                ${isDemo ? '<span class="demo-label">DEMO</span>' : ''}
+                    rlist.innerHTML += `
+                        <div class="result-item ${isDemo ? 'demo' : ''}">
+                            <img src="${r.image}">
+                            <div class="result-item-info">
+                                <div class="result-item-name">${r.name}</div>
+                                <div class="result-item-price">${r.price} ⭐</div>
                             </div>
-                        `;
-                    }
+                            ${!isDemo ? `<button class="sell-result-btn" onclick="sellSingleResult('${r.timestamp}')">Продать</button>` : ''}
+                            ${isDemo ? '<span class="demo-label">DEMO</span>' : ''}
+                        </div>
+                    `;
                 });
                 
                 fbtn.style.display = 'block';
@@ -2256,7 +2320,6 @@
                     { ...allItems.cake, chance: 27 },
                     { ...allItems.diamond, chance: 26 },
                     { ...allItems.cup, chance: 13 },
-                    { ...allItems.stars150, chance: 10 },
                     { ...allItems.ring, chance: 10 },
                     { ...allItems.xmas, chance: 5 },
                     { ...allItems.ramen, chance: 2.5 },
