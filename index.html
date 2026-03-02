@@ -496,7 +496,7 @@
             width: 100%;
             height: 100%;
             transform: rotate(-90deg);
-            transition: transform 10s cubic-bezier(0.1, 0.8, 0.1, 1); /* 10 секунд */
+            transition: transform 10s cubic-bezier(0.1, 0.8, 0.1, 1);
         }
         
         .wheel-arrow {
@@ -964,29 +964,37 @@
         
         .multi-roulette {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            flex-direction: row;
+            justify-content: center;
+            gap: 20px;
             margin: 20px 0;
+            overflow-x: auto;
+            padding: 10px 0;
         }
         
         .single-roulette {
             background: #1a1a1a;
-            border-radius: 10px;
-            padding: 15px 0;
+            border-radius: 15px;
+            padding: 10px 0;
             position: relative;
             overflow: hidden;
-            height: 80px;
-            border: 2px solid #ffd700;
+            width: 160px;
+            height: 300px;
+            border: 3px solid #ffd700;
+            flex-shrink: 0;
         }
         
         .roulette-track {
             display: flex;
-            gap: 10px;
+            flex-direction: column;
+            gap: 15px;
             position: absolute;
-            left: 50%;
+            left: 0;
+            right: 0;
             top: 50%;
             transform: translateY(-50%);
             will-change: transform;
+            align-items: center;
         }
         
         .roulette-item {
@@ -994,32 +1002,35 @@
             flex-direction: column;
             align-items: center;
             background: rgba(255,255,255,0.1);
-            padding: 5px;
-            border-radius: 8px;
-            min-width: 60px;
+            padding: 10px;
+            border-radius: 12px;
+            width: 140px;
+            margin: 0 auto;
         }
         
         .roulette-item img {
-            width: 40px;
-            height: 40px;
+            width: 80px;
+            height: 80px;
             object-fit: contain;
+            margin-bottom: 5px;
         }
         
         .roulette-item span {
             color: #ffd700;
-            font-size: 12px;
+            font-size: 14px;
             font-weight: bold;
         }
         
         .roulette-indicator {
             position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            width: 3px;
-            background: linear-gradient(to bottom, #ffd700, #ffaa00);
-            transform: translateX(-50%);
+            left: 0;
+            right: 0;
+            top: 50%;
+            height: 3px;
+            background: linear-gradient(to right, #ffd700, #ffaa00);
+            transform: translateY(-50%);
             z-index: 2;
+            box-shadow: 0 0 10px gold;
         }
         
         .results-container {
@@ -1752,7 +1763,7 @@
             wheel.style.transform = 'rotate(-90deg)';
             
             setTimeout(() => {
-                wheel.style.transition = 'transform 10s cubic-bezier(0.1, 0.8, 0.1, 1)'; // 10 секунд
+                wheel.style.transition = 'transform 10s cubic-bezier(0.1, 0.8, 0.1, 1)';
                 wheel.style.transform = `rotate(${totalRotation - 90}deg)`;
             }, 50);
             
@@ -1808,7 +1819,7 @@
                 updateWheel(0);
                 
                 isSpinning = false;
-            }, 10200); // 10.2 секунды
+            }, 10200);
         }
 
         function selectSourceItem() {
@@ -1854,7 +1865,7 @@
                 const sourcePrice = allItems[selectedSource]?.price || 0;
                 const available = Object.values(allItems)
                     .filter(item => item.price > sourcePrice && item.price >= 100)
-                    .sort((a, b) => a.price - b.price); // От дешёвого к дорогому
+                    .sort((a, b) => a.price - b.price);
                 
                 if (!available.length) {
                     list.innerHTML = '<div class="empty-section">🎯 Нет доступных предметов</div>';
@@ -2142,9 +2153,11 @@
             }
             fbtn.style.display = 'none';
             
-            const iw = 60, gap = 10, tiw = iw + gap;
+            const itemHeight = 150; // Высота одного предмета в пикселях
+            const gap = 15;
+            const totalItemHeight = itemHeight + gap;
             
-            // Создаём рулетки вертикально друг под другом
+            // Создаём рулетки рядом по горизонтали
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const rd = document.createElement('div');
                 rd.className = 'single-roulette';
@@ -2153,9 +2166,11 @@
                 const tr = document.createElement('div');
                 tr.className = 'roulette-track';
                 
-                for (let j = 0; j < 70; j++) {
+                // Создаём 30 предметов для вертикальной прокрутки
+                for (let j = 0; j < 30; j++) {
                     let item;
-                    if (j === 35) {
+                    // На 15-й позиции (середина) ставим реальный результат
+                    if (j === 15) {
                         item = results[i];
                     } else {
                         const rand = Math.random() * 100;
@@ -2172,7 +2187,6 @@
                     
                     const el = document.createElement('div');
                     el.className = 'roulette-item';
-                    el.style.minWidth = iw + 'px';
                     el.innerHTML = `<img src="${item.image}"><span>${item.price} ⭐</span>`;
                     tr.appendChild(el);
                 }
@@ -2181,24 +2195,27 @@
                 rd.innerHTML += '<div class="roulette-indicator"></div>';
                 multi.appendChild(rd);
                 
-                tr.style.transform = `translateY(-50%) translateX(${-tiw * 20}px)`;
+                // Начальная позиция - сдвиг вверх на 10 позиций
+                tr.style.transform = `translateY(-50%) translateY(${-totalItemHeight * 8}px)`;
             }
             
             setTimeout(() => {
                 for (let i = 0; i < state.selectedQuantity; i++) {
                     const tr = document.querySelector(`#r-${i} .roulette-track`);
                     if (tr) {
-                        const target = -(35 * tiw + iw / 2);
+                        // Конечная позиция - чтобы 15-й элемент оказался на индикаторе
+                        const target = -totalItemHeight * 7.5;
                         tr.style.transition = 'transform 10s cubic-bezier(0.15, 0.85, 0.35, 1)';
-                        tr.style.transform = `translateY(-50%) translateX(${target}px)`;
+                        tr.style.transform = `translateY(-50%) translateY(${target}px)`;
                     }
                 }
             }, 100);
             
             setTimeout(() => {
-                // Убираем рулетки и показываем результаты
+                // Убираем рулетки
                 multi.style.display = 'none';
                 
+                // Показываем результаты
                 results.forEach(r => {
                     rlist.innerHTML += `
                         <div class="result-item ${isDemo ? 'demo' : ''}">
