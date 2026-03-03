@@ -966,21 +966,21 @@
             display: flex;
             flex-direction: row;
             justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
+            gap: 10px;
+            margin: 15px 0;
             overflow-x: auto;
             padding: 10px 0;
-            min-height: 250px;
+            min-height: 200px;
         }
         
         .single-roulette {
             background: #1a1a1a;
-            border-radius: 12px;
-            padding: 8px 0;
+            border-radius: 10px;
+            padding: 5px 0;
             position: relative;
             overflow: hidden;
-            width: 110px;
-            height: 200px;
+            width: 80px;
+            height: 150px;
             border: 2px solid #ffd700;
             flex-shrink: 0;
         }
@@ -988,7 +988,7 @@
         .roulette-track {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
             position: absolute;
             left: 0;
             right: 0;
@@ -1003,22 +1003,22 @@
             flex-direction: column;
             align-items: center;
             background: rgba(255,255,255,0.1);
-            padding: 6px;
-            border-radius: 8px;
-            width: 90px;
+            padding: 4px;
+            border-radius: 6px;
+            width: 70px;
             margin: 0 auto;
         }
         
         .roulette-item img {
-            width: 50px;
-            height: 50px;
+            width: 35px;
+            height: 35px;
             object-fit: contain;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
         }
         
         .roulette-item span {
             color: #ffd700;
-            font-size: 11px;
+            font-size: 9px;
             font-weight: bold;
         }
         
@@ -1031,75 +1031,42 @@
             background: linear-gradient(to right, #ffd700, #ffaa00);
             transform: translateY(-50%);
             z-index: 2;
-            box-shadow: 0 0 8px gold;
+            box-shadow: 0 0 5px gold;
         }
         
-        .results-container {
-            max-height: 250px;
-            overflow-y: auto;
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
             margin: 15px 0;
             padding: 10px;
-            background: #1a1a1a;
-            border-radius: 15px;
+            max-height: 300px;
+            overflow-y: auto;
         }
         
-        .result-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 10px;
-            border-radius: 10px;
+        .result-card {
             background: #1a1a1a;
-            margin-bottom: 8px;
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
             border: 1px solid #2a2a2a;
         }
         
-        .result-item.demo {
+        .result-card.demo {
             border: 2px dashed #ff9800;
         }
         
-        .result-item img {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-        }
-        
-        .result-item-info {
-            flex: 1;
-            text-align: left;
-        }
-        
-        .result-item-name {
-            font-weight: bold;
-            margin-bottom: 2px;
-            color: #fff;
-        }
-        
-        .result-item-price {
-            color: #ffd700;
+        .result-card .item-name {
             font-size: 14px;
-        }
-        
-        .sell-result-btn {
-            background: #4CAF50;
-            color: white;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 11px;
             font-weight: bold;
-            cursor: pointer;
-            min-width: 60px;
-            text-align: center;
+            color: #fff;
+            margin-bottom: 5px;
         }
         
-        .demo-label {
-            font-size: 10px;
-            background: #ff9800;
-            color: white;
-            padding: 2px 6px;
-            border-radius: 8px;
-            margin-left: 10px;
+        .result-card .item-price {
+            color: #ffd700;
+            font-size: 16px;
+            font-weight: bold;
         }
         
         .result-buttons {
@@ -1328,7 +1295,7 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            min-height: 300px;
+            min-height: 250px;
         }
         
         .roulette-container.active {
@@ -1423,7 +1390,7 @@
             <!-- Контейнер для рулетки -->
             <div class="roulette-container" id="rouletteContainer">
                 <div id="caseMultiRoulette" class="multi-roulette"></div>
-                <div id="caseResultsList" class="results-container case-results hidden"></div>
+                <div id="caseResultsList" class="results-grid case-results hidden"></div>
                 <div id="caseFinalButtons" class="result-buttons" style="display:none;">
                     <button class="result-button again" onclick="openAgain()">🎲 Открыть ещё</button>
                     <button class="result-button sell-all" onclick="sellAllResults()">💰 Продать всё</button>
@@ -1766,6 +1733,7 @@
             document.getElementById('wheelPercent').textContent = Math.round(percent) + '%';
         }
 
+        // ИСПРАВЛЕННАЯ ФУНКЦИЯ АПГРЕЙДА
         function startWheelSpin() {
             if (!selectedSource || !selectedTarget) {
                 alert('Выберите предметы для апгрейда');
@@ -1786,34 +1754,37 @@
             chance = Math.min(Math.max(chance, 5), 95);
             
             const wheel = document.querySelector('.wheel-svg');
-            const spins = 3;
+            const spins = 5; // Количество полных оборотов
             
-            // Круг разделён на 1000 частей (0.1% каждая)
-            const totalParts = 1000;
-            const winParts = Math.round(chance * 10); // 40% = 400 частей
+            // Генерируем случайный угол остановки (0-360)
+            const stopAngle = Math.random() * 360;
             
-            // Генерируем случайную часть от 0 до 999
-            const stopPart = Math.floor(Math.random() * totalParts);
+            // Определяем сектор, в который попала стрелка
+            // Сектор победы: от 0° до chance° (например, 40% = 144°)
+            const isWin = stopAngle <= chance * 3.6; // chance% в градусах
             
-            // Победа если часть меньше winParts
-            const isWin = stopPart < winParts;
+            // Для отладки - показываем в консоли
+            console.log('🎯 Угол остановки:', stopAngle.toFixed(2) + '°');
+            console.log('🎯 Сектор победы: 0° - ' + (chance * 3.6).toFixed(2) + '°');
+            console.log('🎯 Результат:', isWin ? '✅ ПОБЕДА' : '❌ ПРОИГРЫШ');
             
-            // Угол остановки (0-360) на основе части
-            const stopAngle = (stopPart / totalParts) * 360;
-            
-            const totalRotation = spins * 360 + stopAngle;
+            // Рассчитываем общий поворот
+            // Начинаем с -90° (потому что в SVG 0° - это направление вправо)
+            // Мы хотим, чтобы 0° было вверху
+            const startOffset = -90; 
+            const totalRotation = spins * 360 + stopAngle + startOffset;
             
             wheel.style.transition = 'none';
-            wheel.style.transform = 'rotate(-90deg)';
+            wheel.style.transform = 'rotate(' + startOffset + 'deg)';
             
             setTimeout(() => {
                 wheel.style.transition = 'transform 10s cubic-bezier(0.1, 0.8, 0.1, 1)';
-                wheel.style.transform = `rotate(${totalRotation - 90}deg)`;
+                wheel.style.transform = 'rotate(' + totalRotation + 'deg)';
             }, 50);
             
             setTimeout(() => {
                 if (isWin) {
-                    alert('✅ Успех!');
+                    alert('✅ Успех! Шанс был ' + chance.toFixed(1) + '%');
                     
                     const existingTarget = state.inventory.find(i => i.id === selectedTarget);
                     if (existingTarget) {
@@ -1835,7 +1806,7 @@
                         }
                     }
                 } else {
-                    alert('❌ Неудача');
+                    alert('❌ Неудача. Шанс был ' + chance.toFixed(1) + '%');
                     
                     const sourceIdx = state.inventory.findIndex(i => i.id === selectedSource);
                     if (sourceIdx !== -1) {
@@ -2255,68 +2226,21 @@
                 // Убираем рулетки
                 multi.innerHTML = '';
                 
-                // Показываем результаты
+                // Показываем результаты в сетке 2 колонки
                 rlist.classList.remove('hidden');
                 results.forEach(r => {
-                    rlist.innerHTML += `
-                        <div class="result-item ${isDemo ? 'demo' : ''}">
-                            <img src="${r.image}">
-                            <div class="result-item-info">
-                                <div class="result-item-name">${r.name}</div>
-                                <div class="result-item-price">${r.price} ⭐</div>
-                            </div>
-                            ${!isDemo ? `<button class="sell-result-btn" onclick="sellSingleResult('${r.timestamp}')">Продать</button>` : ''}
-                            ${isDemo ? '<span class="demo-label">DEMO</span>' : ''}
-                        </div>
+                    const card = document.createElement('div');
+                    card.className = 'result-card' + (isDemo ? ' demo' : '');
+                    card.innerHTML = `
+                        <div class="item-name">${r.name}</div>
+                        <div class="item-price">${r.price} ⭐</div>
                     `;
+                    rlist.appendChild(card);
                 });
                 
                 fbtn.style.display = 'flex';
                 isCaseOpening = false;
             }, 10200);
-        }
-
-        function sellSingleResult(timestamp) {
-            const idx = state.currentOpenings.findIndex(i => i.timestamp == timestamp);
-            if (idx === -1) return;
-            
-            const item = state.currentOpenings[idx];
-            state.balance += item.price;
-            
-            const invIdx = state.inventory.findIndex(i => i.id === item.id);
-            if (invIdx !== -1) {
-                const invItem = state.inventory[invIdx];
-                invItem.count--;
-                if (invItem.count === 0) {
-                    state.inventory.splice(invIdx, 1);
-                }
-            }
-            
-            state.currentOpenings.splice(idx, 1);
-            updateBalance();
-            renderInventory();
-            saveState();
-            
-            const rlist = document.getElementById('caseResultsList');
-            if (!state.currentOpenings.length) {
-                rlist.innerHTML = '<div class="empty-section">Все предметы проданы</div>';
-            } else {
-                let html = '';
-                state.currentOpenings.forEach(r => {
-                    html += `
-                        <div class="result-item ${r.isDemo ? 'demo' : ''}">
-                            <img src="${r.image}">
-                            <div class="result-item-info">
-                                <div class="result-item-name">${r.name}</div>
-                                <div class="result-item-price">${r.price} ⭐</div>
-                            </div>
-                            ${!r.isDemo ? `<button class="sell-result-btn" onclick="sellSingleResult('${r.timestamp}')">Продать</button>` : ''}
-                            ${r.isDemo ? '<span class="demo-label">DEMO</span>' : ''}
-                        </div>
-                    `;
-                });
-                rlist.innerHTML = html;
-            }
         }
 
         function sellAllResults() {
