@@ -962,33 +962,91 @@
             font-weight: bold;
         }
         
-        .multi-roulette {
+        /* Gift Battle стили для кейсов */
+        .gift-cases-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            min-height: 400px;
+            padding: 20px 0;
+        }
+        
+        .gift-cases-row {
             display: flex;
             flex-direction: row;
             justify-content: center;
-            gap: 10px;
-            margin: 15px 0;
-            overflow-x: auto;
-            padding: 10px 0;
-            min-height: 200px;
+            gap: 15px;
+            flex-wrap: wrap;
+            width: 100%;
         }
         
-        .single-roulette {
-            background: #1a1a1a;
-            border-radius: 10px;
-            padding: 5px 0;
-            position: relative;
-            overflow: hidden;
-            width: 80px;
-            height: 150px;
-            border: 2px solid #ffd700;
-            flex-shrink: 0;
-        }
-        
-        .roulette-track {
+        .gift-cases-column {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            align-items: center;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .gift-case-card {
+            background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+            border-radius: 20px;
+            padding: 15px;
+            border: 2px solid #ffd700;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+            width: 100%;
+            max-width: 350px;
+            margin: 0 auto;
+        }
+        
+        .gift-case-horizontal {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #1a1a1a;
+            border-radius: 15px;
+            padding: 15px;
+            border: 2px solid #ffd700;
+            width: 280px;
+            height: 350px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .gift-case-vertical {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #1a1a1a;
+            border-radius: 15px;
+            padding: 15px;
+            border: 2px solid #ffd700;
+            width: 100%;
+            max-width: 350px;
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .gift-track-horizontal {
+            display: flex;
+            flex-direction: row;
+            gap: 15px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            will-change: transform;
+            padding: 0 10px;
+        }
+        
+        .gift-track-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
             position: absolute;
             left: 0;
             right: 0;
@@ -998,119 +1056,128 @@
             align-items: center;
         }
         
-        .roulette-item {
+        .gift-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: rgba(255,255,255,0.1);
-            padding: 4px;
-            border-radius: 6px;
-            width: 70px;
-            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px;
+            min-width: 100px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
         }
         
-        .roulette-item img {
-            width: 35px;
-            height: 35px;
+        .gift-item img {
+            width: 60px;
+            height: 60px;
             object-fit: contain;
-            margin-bottom: 2px;
+            margin-bottom: 8px;
         }
         
-        .roulette-item span {
+        .gift-item span {
             color: #ffd700;
-            font-size: 9px;
+            font-size: 14px;
             font-weight: bold;
         }
         
-        .roulette-indicator {
+        .gift-indicator {
             position: absolute;
-            left: 0;
-            right: 0;
+            background: linear-gradient(90deg, transparent, #ffd700, transparent);
+            height: 4px;
+            width: 100%;
             top: 50%;
-            height: 2px;
-            background: linear-gradient(to right, #ffd700, #ffaa00);
+            left: 0;
             transform: translateY(-50%);
-            z-index: 2;
-            box-shadow: 0 0 5px gold;
+            z-index: 10;
+            box-shadow: 0 0 15px gold;
         }
         
-        .results-grid {
+        .gift-indicator-vertical {
+            position: absolute;
+            background: linear-gradient(180deg, transparent, #ffd700, transparent);
+            width: 4px;
+            height: 100%;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+            z-index: 10;
+            box-shadow: 0 0 15px gold;
+        }
+        
+        .gift-results-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin: 15px 0;
-            padding: 10px;
-            max-height: 300px;
-            overflow-y: auto;
+            gap: 15px;
+            margin: 20px 0;
+            width: 100%;
         }
         
-        .result-card {
-            background: #1a1a1a;
-            border-radius: 12px;
-            padding: 10px;
+        .gift-result-card {
+            background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+            border-radius: 15px;
+            padding: 20px;
             text-align: center;
-            border: 1px solid #2a2a2a;
+            border: 2px solid #ffd700;
         }
         
-        .result-card.demo {
+        .gift-result-card .item-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        
+        .gift-result-card .item-price {
+            color: #ffd700;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        .gift-result-card.demo {
             border: 2px dashed #ff9800;
         }
         
-        .result-card .item-name {
-            font-size: 14px;
-            font-weight: bold;
-            color: #fff;
-            margin-bottom: 5px;
-        }
-        
-        .result-card .item-price {
-            color: #ffd700;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        
-        .result-buttons {
+        .gift-buttons {
             display: flex;
             gap: 10px;
-            margin: 15px 0;
+            margin: 20px 0;
+            width: 100%;
         }
         
-        .result-button {
+        .gift-button {
             flex: 1;
-            padding: 12px;
+            padding: 15px;
             border: none;
             border-radius: 12px;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
+            transition: all 0.2s;
         }
         
-        .result-button.sell-all {
+        .gift-button.sell-all {
             background: #ff4444;
             color: white;
         }
         
-        .result-button.again {
+        .gift-button.again {
             background: #ffd700;
             color: #000;
         }
         
-        .close-button {
-            width: 100%;
-            padding: 12px;
-            background: none;
-            border: 2px solid #666;
-            border-radius: 12px;
-            color: #666;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
+        .gift-button.back {
+            background: #1a1a1a;
+            color: #fff;
+            border: 2px solid #2a2a2a;
         }
         
-        .close-button:hover {
-            background: #666;
-            color: white;
+        .gift-button:hover {
+            transform: scale(1.02);
+            filter: brightness(1.1);
+        }
+        
+        .hidden {
+            display: none !important;
         }
         
         .bottom-nav {
@@ -1280,36 +1347,6 @@
             background: #ff4444;
             color: white;
         }
-        
-        /* Стили для прокрутки на месте кейса */
-        .case-detail-content {
-            transition: all 0.3s ease;
-        }
-        
-        .case-detail-content.hidden {
-            display: none;
-        }
-        
-        .roulette-container {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            min-height: 250px;
-        }
-        
-        .roulette-container.active {
-            display: flex;
-        }
-        
-        .case-results {
-            width: 100%;
-            margin-top: 20px;
-        }
-        
-        .case-results.hidden {
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -1356,7 +1393,7 @@
             </div>
         </div>
 
-        <!-- Детальная страница кейса -->
+        <!-- Детальная страница кейса с Gift Battle механикой -->
         <div id="caseDetailSection" class="section">
             <div class="case-detail-content" id="caseDetailContent">
                 <div class="detail-header">
@@ -1366,8 +1403,8 @@
                 </div>
 
                 <div class="action-buttons">
-                    <button class="open-case-btn" onclick="openCase(false)"><span>💰 Открыть за звёзды</span><span class="total-price" id="totalPrice"></span></button>
-                    <button class="demo-case-btn" onclick="openCase(true)"><span>🎲 Демо-открытие</span><span class="demo-badge">Бесплатно</span></button>
+                    <button class="open-case-btn" onclick="openGiftCase(false)"><span>💰 Открыть за звёзды</span><span class="total-price" id="totalPrice"></span></button>
+                    <button class="demo-case-btn" onclick="openGiftCase(true)"><span>🎲 Демо-открытие</span><span class="demo-badge">Бесплатно</span></button>
                 </div>
 
                 <div class="quantity-section">
@@ -1387,14 +1424,14 @@
                 </div>
             </div>
             
-            <!-- Контейнер для рулетки -->
-            <div class="roulette-container" id="rouletteContainer">
-                <div id="caseMultiRoulette" class="multi-roulette"></div>
-                <div id="caseResultsList" class="results-grid case-results hidden"></div>
-                <div id="caseFinalButtons" class="result-buttons" style="display:none;">
-                    <button class="result-button again" onclick="openAgain()">🎲 Открыть ещё</button>
-                    <button class="result-button sell-all" onclick="sellAllResults()">💰 Продать всё</button>
-                    <button class="result-button" onclick="showCaseDetailContent()">🔙 Назад</button>
+            <!-- Gift Battle контейнер -->
+            <div class="gift-cases-container hidden" id="giftContainer">
+                <div id="giftCasesArea"></div>
+                <div id="giftResultsArea" class="gift-results-grid hidden"></div>
+                <div id="giftButtons" class="gift-buttons hidden">
+                    <button class="gift-button again" onclick="openGiftAgain()">🎲 Открыть ещё</button>
+                    <button class="gift-button sell-all" onclick="sellAllGiftResults()">💰 Продать всё</button>
+                    <button class="gift-button back" onclick="showGiftDetailContent()">🔙 Назад</button>
                 </div>
             </div>
         </div>
@@ -1577,6 +1614,7 @@
         let isSpinning = false;
         let isCaseOpening = false;
         let currentCaseData = null;
+        let currentGiftResults = [];
 
         function loadState() {
             const saved = localStorage.getItem('caseGameState');
@@ -1658,10 +1696,9 @@
             document.getElementById('caseDetailSection').classList.add('active');
             document.getElementById('backButton').classList.add('visible');
             
-            // Показываем контент кейса, скрываем рулетку
+            // Показываем контент кейса, скрываем Gift Battle
             document.getElementById('caseDetailContent').classList.remove('hidden');
-            document.getElementById('rouletteContainer').classList.remove('active');
-            document.getElementById('caseResultsList').classList.add('hidden');
+            document.getElementById('giftContainer').classList.add('hidden');
             
             const detailImage = document.getElementById('detailImage');
             if (caseId === 'red') {
@@ -1697,12 +1734,11 @@
             selectQuantity(1);
         }
 
-        function showCaseDetailContent() {
+        function showGiftDetailContent() {
             // Возвращаемся к деталям кейса
             document.getElementById('caseDetailContent').classList.remove('hidden');
-            document.getElementById('rouletteContainer').classList.remove('active');
-            document.getElementById('caseResultsList').classList.add('hidden');
-            document.getElementById('caseFinalButtons').style.display = 'none';
+            document.getElementById('giftContainer').classList.add('hidden');
+            document.getElementById('giftButtons').classList.add('hidden');
         }
 
         function showUpgradePage() {
@@ -1733,7 +1769,6 @@
             document.getElementById('wheelPercent').textContent = Math.round(percent) + '%';
         }
 
-        // ИСПРАВЛЕННАЯ ФУНКЦИЯ АПГРЕЙДА
         function startWheelSpin() {
             if (!selectedSource || !selectedTarget) {
                 alert('Выберите предметы для апгрейда');
@@ -1749,28 +1784,17 @@
             const sourceItem = allItems[selectedSource];
             const targetItem = allItems[selectedTarget];
             
-            // Формула шанса: (цена_моего × 2) / цена_цели × 50
             let chance = (sourceItem.price * 2) / targetItem.price * 50;
             chance = Math.min(Math.max(chance, 5), 95);
             
             const wheel = document.querySelector('.wheel-svg');
-            const spins = 5; // Количество полных оборотов
-            
-            // Генерируем случайный угол остановки (0-360)
+            const spins = 5;
             const stopAngle = Math.random() * 360;
+            const isWin = stopAngle <= chance * 3.6;
             
-            // Определяем сектор, в который попала стрелка
-            // Сектор победы: от 0° до chance° (например, 40% = 144°)
-            const isWin = stopAngle <= chance * 3.6; // chance% в градусах
-            
-            // Для отладки - показываем в консоли
             console.log('🎯 Угол остановки:', stopAngle.toFixed(2) + '°');
-            console.log('🎯 Сектор победы: 0° - ' + (chance * 3.6).toFixed(2) + '°');
             console.log('🎯 Результат:', isWin ? '✅ ПОБЕДА' : '❌ ПРОИГРЫШ');
             
-            // Рассчитываем общий поворот
-            // Начинаем с -90° (потому что в SVG 0° - это направление вправо)
-            // Мы хотим, чтобы 0° было вверху
             const startOffset = -90; 
             const totalRotation = spins * 360 + stopAngle + startOffset;
             
@@ -2083,7 +2107,8 @@
             }
         }
 
-        function openCase(isDemo) {
+        // GIFT BATTLE МЕХАНИКА
+        function openGiftCase(isDemo) {
             if (isCaseOpening) return;
             
             const caseData = currentCaseData;
@@ -2100,11 +2125,13 @@
             
             isCaseOpening = true;
             
-            // Скрываем детали кейса, показываем рулетку
+            // Скрываем детали кейса, показываем Gift Battle
             document.getElementById('caseDetailContent').classList.add('hidden');
-            document.getElementById('rouletteContainer').classList.add('active');
-            document.getElementById('caseResultsList').classList.add('hidden');
-            document.getElementById('caseFinalButtons').style.display = 'none';
+            document.getElementById('giftContainer').classList.remove('hidden');
+            document.getElementById('giftButtons').classList.add('hidden');
+            
+            const giftArea = document.getElementById('giftCasesArea');
+            giftArea.innerHTML = '';
             
             state.isDemo = isDemo;
             if (!isDemo) {
@@ -2113,6 +2140,7 @@
                 saveState();
             }
             
+            // Генерируем результаты ДО начала вращения
             const results = [];
             for (let i = 0; i < state.selectedQuantity; i++) {
                 const r = Math.random() * 100;
@@ -2130,59 +2158,24 @@
                 results.push({ ...selectedItem, timestamp: Date.now() + i, isDemo, id: selectedItem.id || 'unknown' });
             }
             
-            state.currentOpenings = results;
+            currentGiftResults = results;
             
-            if (!isDemo) {
-                results.forEach(r => {
-                    if (r.id === 'stars150') {
-                        state.balance += r.price;
-                    } else {
-                        const existing = state.inventory.find(i => i.id === r.id);
-                        if (existing) {
-                            existing.count = (existing.count || 1) + 1;
-                        } else {
-                            state.inventory.push({ ...r, count: 1 });
-                        }
-                        
-                        if (r.price > (state.bestDrop?.price || 0)) {
-                            state.bestDrop = r;
-                        }
-                    }
-                });
+            // Адаптация под количество кейсов
+            if (state.selectedQuantity === 1) {
+                // Горизонтальная прокрутка для 1 кейса
+                const caseElement = document.createElement('div');
+                caseElement.className = 'gift-case-horizontal';
+                caseElement.id = 'gift-case-0';
                 
-                state.openedCases += state.selectedQuantity;
-                document.getElementById('openedCases').textContent = state.openedCases;
-                renderInventory();
-                saveState();
-            }
-            
-            const multi = document.getElementById('caseMultiRoulette');
-            const rlist = document.getElementById('caseResultsList');
-            const fbtn = document.getElementById('caseFinalButtons');
-            
-            multi.innerHTML = '';
-            rlist.innerHTML = '';
-            rlist.classList.add('hidden');
-            
-            const itemHeight = 100;
-            const gap = 10;
-            const totalItemHeight = itemHeight + gap;
-            
-            // Создаём рулетки рядом по горизонтали
-            for (let i = 0; i < state.selectedQuantity; i++) {
-                const rd = document.createElement('div');
-                rd.className = 'single-roulette';
-                rd.id = `case-r-${i}`;
+                const track = document.createElement('div');
+                track.className = 'gift-track-horizontal';
                 
-                const tr = document.createElement('div');
-                tr.className = 'roulette-track';
-                
-                // Создаём 25 предметов для вертикальной прокрутки
-                for (let j = 0; j < 25; j++) {
+                // Создаём 30 предметов для прокрутки
+                for (let j = 0; j < 30; j++) {
                     let item;
-                    // На 12-й позиции ставим реальный результат
-                    if (j === 12) {
-                        item = results[i];
+                    // На 15-й позиции ставим реальный результат
+                    if (j === 15) {
+                        item = results[0];
                     } else {
                         const rand = Math.random() * 100;
                         let cum = 0;
@@ -2196,63 +2189,138 @@
                         }
                     }
                     
-                    const el = document.createElement('div');
-                    el.className = 'roulette-item';
-                    el.innerHTML = `<img src="${item.image}"><span>${item.price} ⭐</span>`;
-                    tr.appendChild(el);
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'gift-item';
+                    itemElement.innerHTML = `<img src="${item.image}"><span>${item.price} ⭐</span>`;
+                    track.appendChild(itemElement);
                 }
                 
-                rd.appendChild(tr);
-                rd.innerHTML += '<div class="roulette-indicator"></div>';
-                multi.appendChild(rd);
+                caseElement.appendChild(track);
+                caseElement.innerHTML += '<div class="gift-indicator"></div>';
+                giftArea.appendChild(caseElement);
                 
-                // Начальная позиция - сдвиг вверх на 6 позиций
-                tr.style.transform = `translateY(-50%) translateY(${-totalItemHeight * 6}px)`;
+                // Начальная позиция
+                track.style.transform = `translateY(-50%) translateX(${-100 * 8}px)`;
+                
+                setTimeout(() => {
+                    track.style.transition = 'transform 10s cubic-bezier(0.15, 0.85, 0.35, 1)';
+                    track.style.transform = `translateY(-50%) translateX(${-100 * 7.5}px)`;
+                }, 100);
+                
+            } else {
+                // Вертикальная прокрутка для 2+ кейсов
+                const column = document.createElement('div');
+                column.className = 'gift-cases-column';
+                
+                for (let i = 0; i < state.selectedQuantity; i++) {
+                    const caseElement = document.createElement('div');
+                    caseElement.className = 'gift-case-vertical';
+                    caseElement.id = `gift-case-${i}`;
+                    
+                    const track = document.createElement('div');
+                    track.className = 'gift-track-vertical';
+                    
+                    // Создаём 25 предметов для вертикальной прокрутки
+                    for (let j = 0; j < 25; j++) {
+                        let item;
+                        // На 12-й позиции ставим реальный результат
+                        if (j === 12) {
+                            item = results[i];
+                        } else {
+                            const rand = Math.random() * 100;
+                            let cum = 0;
+                            item = caseData.items[0];
+                            for (const it of caseData.items) {
+                                cum += it.chance;
+                                if (rand <= cum) {
+                                    item = it;
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        const itemElement = document.createElement('div');
+                        itemElement.className = 'gift-item';
+                        itemElement.innerHTML = `<img src="${item.image}"><span>${item.price} ⭐</span>`;
+                        track.appendChild(itemElement);
+                    }
+                    
+                    caseElement.appendChild(track);
+                    caseElement.innerHTML += '<div class="gift-indicator-vertical"></div>';
+                    column.appendChild(caseElement);
+                    
+                    // Начальная позиция
+                    track.style.transform = `translateY(-50%) translateY(${-85 * 6}px)`;
+                }
+                
+                giftArea.appendChild(column);
+                
+                setTimeout(() => {
+                    for (let i = 0; i < state.selectedQuantity; i++) {
+                        const track = document.querySelector(`#gift-case-${i} .gift-track-vertical`);
+                        if (track) {
+                            track.style.transition = 'transform 10s cubic-bezier(0.15, 0.85, 0.35, 1)';
+                            track.style.transform = `translateY(-50%) translateY(${-85 * 5.5}px)`;
+                        }
+                    }
+                }, 100);
+            }
+            
+            // Сохраняем результаты в инвентарь (для не-демо)
+            if (!isDemo) {
+                results.forEach(r => {
+                    const existing = state.inventory.find(i => i.id === r.id);
+                    if (existing) {
+                        existing.count = (existing.count || 1) + 1;
+                    } else {
+                        state.inventory.push({ ...r, count: 1 });
+                    }
+                    
+                    if (r.price > (state.bestDrop?.price || 0)) {
+                        state.bestDrop = r;
+                    }
+                });
+                
+                state.openedCases += state.selectedQuantity;
+                document.getElementById('openedCases').textContent = state.openedCases;
+                renderInventory();
+                saveState();
             }
             
             setTimeout(() => {
-                for (let i = 0; i < state.selectedQuantity; i++) {
-                    const tr = document.querySelector(`#case-r-${i} .roulette-track`);
-                    if (tr) {
-                        // Конечная позиция - чтобы 12-й элемент оказался на индикаторе
-                        const target = -totalItemHeight * 5.5;
-                        tr.style.transition = 'transform 10s cubic-bezier(0.15, 0.85, 0.35, 1)';
-                        tr.style.transform = `translateY(-50%) translateY(${target}px)`;
-                    }
-                }
-            }, 100);
-            
-            setTimeout(() => {
                 // Убираем рулетки
-                multi.innerHTML = '';
+                giftArea.innerHTML = '';
                 
                 // Показываем результаты в сетке 2 колонки
-                rlist.classList.remove('hidden');
+                const resultsArea = document.getElementById('giftResultsArea');
+                resultsArea.innerHTML = '';
+                resultsArea.classList.remove('hidden');
+                
                 results.forEach(r => {
                     const card = document.createElement('div');
-                    card.className = 'result-card' + (isDemo ? ' demo' : '');
+                    card.className = 'gift-result-card' + (isDemo ? ' demo' : '');
                     card.innerHTML = `
                         <div class="item-name">${r.name}</div>
                         <div class="item-price">${r.price} ⭐</div>
                     `;
-                    rlist.appendChild(card);
+                    resultsArea.appendChild(card);
                 });
                 
-                fbtn.style.display = 'flex';
+                document.getElementById('giftButtons').classList.remove('hidden');
                 isCaseOpening = false;
             }, 10200);
         }
 
-        function sellAllResults() {
+        function sellAllGiftResults() {
             if (state.isDemo) {
-                showCaseDetailContent();
+                showGiftDetailContent();
                 return;
             }
             
-            const total = state.currentOpenings.reduce((sum, item) => sum + item.price, 0);
+            const total = currentGiftResults.reduce((sum, item) => sum + item.price, 0);
             state.balance += total;
             
-            state.currentOpenings.forEach(w => {
+            currentGiftResults.forEach(w => {
                 const idx = state.inventory.findIndex(i => i.id === w.id);
                 if (idx !== -1) {
                     const invItem = state.inventory[idx];
@@ -2263,16 +2331,16 @@
                 }
             });
             
-            state.currentOpenings = [];
+            currentGiftResults = [];
             updateBalance();
             renderInventory();
             saveState();
-            showCaseDetailContent();
+            showGiftDetailContent();
         }
 
-        function openAgain() {
-            showCaseDetailContent();
-            setTimeout(() => openCase(state.isDemo), 300);
+        function openGiftAgain() {
+            showGiftDetailContent();
+            setTimeout(() => openGiftCase(state.isDemo), 300);
         }
 
         function showBalanceModal() {
