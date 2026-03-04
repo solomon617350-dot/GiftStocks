@@ -962,91 +962,42 @@
             font-weight: bold;
         }
         
-        /* Gift Battle стили для кейсов */
-        .gift-cases-container {
-            display: flex;
+        /* Стили для кейсов */
+        .case-roulette-wrapper {
+            display: none;
             flex-direction: column;
             align-items: center;
             width: 100%;
-            min-height: 400px;
-            padding: 20px 0;
         }
         
-        .gift-cases-row {
+        .case-roulette-wrapper.active {
+            display: flex;
+        }
+        
+        .case-roulette-container {
             display: flex;
             flex-direction: row;
             justify-content: center;
             gap: 15px;
+            margin: 20px 0;
             flex-wrap: wrap;
-            width: 100%;
         }
         
-        .gift-cases-column {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        
-        .gift-case-card {
-            background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
-            border-radius: 20px;
-            padding: 15px;
-            border: 2px solid #ffd700;
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
-            width: 100%;
-            max-width: 350px;
-            margin: 0 auto;
-        }
-        
-        .gift-case-horizontal {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .case-roulette-item {
             background: #1a1a1a;
-            border-radius: 15px;
-            padding: 15px;
-            border: 2px solid #ffd700;
-            width: 280px;
-            height: 350px;
-            overflow: hidden;
+            border-radius: 12px;
+            padding: 10px 0;
             position: relative;
+            overflow: hidden;
+            width: 100px;
+            height: 200px;
+            border: 2px solid #ffd700;
         }
         
-        .gift-case-vertical {
+        .case-roulette-track {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            background: #1a1a1a;
-            border-radius: 15px;
-            padding: 15px;
-            border: 2px solid #ffd700;
-            width: 100%;
-            max-width: 350px;
-            height: 250px;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .gift-track-horizontal {
-            display: flex;
-            flex-direction: row;
-            gap: 15px;
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translateY(-50%);
-            will-change: transform;
-            padding: 0 10px;
-        }
-        
-        .gift-track-vertical {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+            gap: 10px;
             position: absolute;
             left: 0;
             right: 0;
@@ -1056,128 +1007,198 @@
             align-items: center;
         }
         
-        .gift-item {
+        .case-roulette-item-inner {
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 12px;
-            min-width: 100px;
-            border: 1px solid rgba(255, 215, 0, 0.3);
+            background: rgba(255,255,255,0.1);
+            padding: 8px;
+            border-radius: 8px;
+            width: 80px;
         }
         
-        .gift-item img {
-            width: 60px;
-            height: 60px;
+        .case-roulette-item-inner img {
+            width: 45px;
+            height: 45px;
             object-fit: contain;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
         
-        .gift-item span {
+        .case-roulette-item-inner span {
             color: #ffd700;
-            font-size: 14px;
+            font-size: 11px;
             font-weight: bold;
         }
         
-        .gift-indicator {
+        .case-roulette-indicator {
             position: absolute;
-            background: linear-gradient(90deg, transparent, #ffd700, transparent);
-            height: 4px;
-            width: 100%;
-            top: 50%;
             left: 0;
+            right: 0;
+            top: 50%;
+            height: 3px;
+            background: linear-gradient(to right, #ffd700, #ffaa00);
             transform: translateY(-50%);
             z-index: 10;
-            box-shadow: 0 0 15px gold;
+            box-shadow: 0 0 10px gold;
         }
         
-        .gift-indicator-vertical {
-            position: absolute;
-            background: linear-gradient(180deg, transparent, #ffd700, transparent);
-            width: 4px;
-            height: 100%;
-            left: 50%;
-            top: 0;
-            transform: translateX(-50%);
-            z-index: 10;
-            box-shadow: 0 0 15px gold;
-        }
-        
-        .gift-results-grid {
+        .case-results-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
             margin: 20px 0;
-            width: 100%;
         }
         
-        .gift-result-card {
-            background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
-            border-radius: 15px;
-            padding: 20px;
+        .case-result-card {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 15px;
             text-align: center;
-            border: 2px solid #ffd700;
+            border: 1px solid #ffd700;
         }
         
-        .gift-result-card .item-name {
-            font-size: 16px;
+        .case-result-card .item-name {
+            font-size: 14px;
             font-weight: bold;
             color: #fff;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
         
-        .gift-result-card .item-price {
+        .case-result-card .item-price {
             color: #ffd700;
-            font-size: 20px;
+            font-size: 16px;
             font-weight: bold;
         }
         
-        .gift-result-card.demo {
+        .case-result-card.demo {
             border: 2px dashed #ff9800;
         }
         
-        .gift-buttons {
+        .case-buttons {
             display: flex;
             gap: 10px;
             margin: 20px 0;
-            width: 100%;
         }
         
-        .gift-button {
+        .case-button {
             flex: 1;
-            padding: 15px;
+            padding: 12px;
             border: none;
             border-radius: 12px;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s;
         }
         
-        .gift-button.sell-all {
+        .case-button.sell-all {
             background: #ff4444;
             color: white;
         }
         
-        .gift-button.again {
+        .case-button.again {
             background: #ffd700;
             color: #000;
         }
         
-        .gift-button.back {
+        .case-button.back {
             background: #1a1a1a;
             color: #fff;
             border: 2px solid #2a2a2a;
         }
         
-        .gift-button:hover {
-            transform: scale(1.02);
+        .case-detail-content.hidden {
+            display: none;
+        }
+        
+        /* Админ панель */
+        .admin-section {
+            background: #0f0f0f;
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 30px;
+            border: 2px solid #ff4444;
+        }
+        
+        .admin-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff4444;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        
+        .admin-card {
+            background: #1a1a1a;
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px solid #333;
+        }
+        
+        .admin-card h4 {
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .admin-input {
+            width: 100%;
+            padding: 10px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        .admin-select {
+            width: 100%;
+            padding: 10px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 10px;
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        .admin-button {
+            width: 100%;
+            padding: 10px;
+            background: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .admin-button:hover {
             filter: brightness(1.1);
         }
         
-        .hidden {
-            display: none !important;
+        .admin-stats {
+            margin-top: 20px;
+            padding: 15px;
+            background: #1a1a1a;
+            border-radius: 15px;
+        }
+        
+        .admin-stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .admin-stat-row:last-child {
+            border-bottom: none;
         }
         
         .bottom-nav {
@@ -1393,7 +1414,7 @@
             </div>
         </div>
 
-        <!-- Детальная страница кейса с Gift Battle механикой -->
+        <!-- Детальная страница кейса -->
         <div id="caseDetailSection" class="section">
             <div class="case-detail-content" id="caseDetailContent">
                 <div class="detail-header">
@@ -1403,8 +1424,8 @@
                 </div>
 
                 <div class="action-buttons">
-                    <button class="open-case-btn" onclick="openGiftCase(false)"><span>💰 Открыть за звёзды</span><span class="total-price" id="totalPrice"></span></button>
-                    <button class="demo-case-btn" onclick="openGiftCase(true)"><span>🎲 Демо-открытие</span><span class="demo-badge">Бесплатно</span></button>
+                    <button class="open-case-btn" onclick="openCase(false)"><span>💰 Открыть за звёзды</span><span class="total-price" id="totalPrice"></span></button>
+                    <button class="demo-case-btn" onclick="openCase(true)"><span>🎲 Демо-открытие</span><span class="demo-badge">Бесплатно</span></button>
                 </div>
 
                 <div class="quantity-section">
@@ -1424,14 +1445,14 @@
                 </div>
             </div>
             
-            <!-- Gift Battle контейнер -->
-            <div class="gift-cases-container hidden" id="giftContainer">
-                <div id="giftCasesArea"></div>
-                <div id="giftResultsArea" class="gift-results-grid hidden"></div>
-                <div id="giftButtons" class="gift-buttons hidden">
-                    <button class="gift-button again" onclick="openGiftAgain()">🎲 Открыть ещё</button>
-                    <button class="gift-button sell-all" onclick="sellAllGiftResults()">💰 Продать всё</button>
-                    <button class="gift-button back" onclick="showGiftDetailContent()">🔙 Назад</button>
+            <!-- Контейнер для рулетки -->
+            <div class="case-roulette-wrapper" id="caseRouletteWrapper">
+                <div id="caseRouletteContainer" class="case-roulette-container"></div>
+                <div id="caseResults" class="case-results-grid hidden"></div>
+                <div id="caseActionButtons" class="case-buttons hidden">
+                    <button class="case-button again" onclick="openCaseAgain()">🎲 Открыть ещё</button>
+                    <button class="case-button sell-all" onclick="sellAllCaseResults()">💰 Продать всё</button>
+                    <button class="case-button back" onclick="showCaseDetailContent()">🔙 Назад</button>
                 </div>
             </div>
         </div>
@@ -1491,7 +1512,7 @@
             </div>
         </div>
 
-        <!-- Профиль -->
+        <!-- Профиль + Админ панель -->
         <div id="profileSection" class="section">
             <div class="profile-section">
                 <div class="profile-avatar-large" id="profileAvatarLarge">👤</div>
@@ -1532,6 +1553,73 @@
                 <button class="sell-all-inventory-btn" onclick="confirmSellAll()">💰 Продать всё</button>
             </div>
             <div id="inventory" class="inventory-grid"></div>
+
+            <!-- Админ панель (видна только админу) -->
+            <div id="adminPanel" class="admin-section" style="display: none;">
+                <div class="admin-title">
+                    <span>⚡</span> Админ панель
+                </div>
+                
+                <div class="admin-grid">
+                    <div class="admin-card">
+                        <h4>💰 Управление балансом</h4>
+                        <select id="adminUserSelect" class="admin-select">
+                            <option value="current">Текущий пользователь</option>
+                        </select>
+                        <input type="number" id="adminBalanceAmount" class="admin-input" placeholder="Сумма" value="1000">
+                        <button class="admin-button" onclick="adminAddBalance()">➕ Добавить</button>
+                        <button class="admin-button" onclick="adminRemoveBalance()" style="background: #ff9800; margin-top: 5px;">➖ Забрать</button>
+                    </div>
+
+                    <div class="admin-card">
+                        <h4>🎁 Выдать предмет</h4>
+                        <select id="adminItemSelect" class="admin-select">
+                            <option value="rose">🌹 Розочка (25⭐)</option>
+                            <option value="cake">🍰 Тортик (50⭐)</option>
+                            <option value="diamond">💎 Алмазик (100⭐)</option>
+                            <option value="ring">💍 Кольцо (100⭐)</option>
+                            <option value="xmas">🎄 Xmas Stocking (495⭐)</option>
+                            <option value="ramen">🍜 Instant Ramen (520⭐)</option>
+                            <option value="icecream">🍦 Ice Cream (560⭐)</option>
+                            <option value="bunny">🐰 Jelly Bunny (750⭐)</option>
+                            <option value="star">⭐ Hanging Star (917⭐)</option>
+                            <option value="bell">🔔 Sleigh Bell (1095⭐)</option>
+                            <option value="skull">💀 Skull Flower (1245⭐)</option>
+                            <option value="hat">🎩 Top Hat (1293⭐)</option>
+                            <option value="skelettos">👻 Sky Skelettos (1530⭐)</option>
+                            <option value="charm">❤️ Cupid Charm (2038⭐)</option>
+                            <option value="ringExpensive">💍 Diamond Ring (2858⭐)</option>
+                            <option value="cigar">🚬 Vintage Cigar (3357⭐)</option>
+                            <option value="calendar">📅 Календарь (500⭐)</option>
+                            <option value="cup">🏆 Кубок (100⭐)</option>
+                        </select>
+                        <input type="number" id="adminItemCount" class="admin-input" placeholder="Количество" value="1" min="1">
+                        <button class="admin-button" onclick="adminGiveItem()">🎁 Выдать</button>
+                    </div>
+                </div>
+
+                <div class="admin-stats">
+                    <h4 style="color: #ffd700; margin-bottom: 10px;">📊 Статистика сервера</h4>
+                    <div class="admin-stat-row">
+                        <span>Всего пользователей:</span>
+                        <span id="adminTotalUsers">1</span>
+                    </div>
+                    <div class="admin-stat-row">
+                        <span>Всего открыто кейсов:</span>
+                        <span id="adminTotalOpened">0</span>
+                    </div>
+                    <div class="admin-stat-row">
+                        <span>Всего звёзд в системе:</span>
+                        <span id="adminTotalStars">1000</span>
+                    </div>
+                    <div class="admin-stat-row">
+                        <span>Предметов в инвентарях:</span>
+                        <span id="adminTotalItems">5</span>
+                    </div>
+                </div>
+
+                <button class="admin-button" onclick="adminResetAll()" style="background: #ff4444; margin-top: 15px;">⚠️ Сбросить всё</button>
+            </div>
         </div>
     </div>
 
@@ -1573,6 +1661,9 @@
         tg.expand();
 
         const STARS_TO_TON = 100;
+        
+        // ТВОЙ TELEGRAM ID - вставь сюда свой ID
+        const ADMIN_ID = 7389462195; // ЗАМЕНИ НА СВОЙ РЕАЛЬНЫЙ ID
 
         const allItems = {
             rose: { id: 'rose', name: 'Розочка', image: 'https://cdn140.picsart.com/241734929003212.png', price: 25 },
@@ -1614,7 +1705,8 @@
         let isSpinning = false;
         let isCaseOpening = false;
         let currentCaseData = null;
-        let currentGiftResults = [];
+        let currentCaseResults = [];
+        let currentUserId = null;
 
         function loadState() {
             const saved = localStorage.getItem('caseGameState');
@@ -1696,9 +1788,9 @@
             document.getElementById('caseDetailSection').classList.add('active');
             document.getElementById('backButton').classList.add('visible');
             
-            // Показываем контент кейса, скрываем Gift Battle
+            // Показываем контент кейса, скрываем рулетку
             document.getElementById('caseDetailContent').classList.remove('hidden');
-            document.getElementById('giftContainer').classList.add('hidden');
+            document.getElementById('caseRouletteWrapper').classList.remove('active');
             
             const detailImage = document.getElementById('detailImage');
             if (caseId === 'red') {
@@ -1734,11 +1826,11 @@
             selectQuantity(1);
         }
 
-        function showGiftDetailContent() {
-            // Возвращаемся к деталям кейса
+        function showCaseDetailContent() {
             document.getElementById('caseDetailContent').classList.remove('hidden');
-            document.getElementById('giftContainer').classList.add('hidden');
-            document.getElementById('giftButtons').classList.add('hidden');
+            document.getElementById('caseRouletteWrapper').classList.remove('active');
+            document.getElementById('caseResults').classList.add('hidden');
+            document.getElementById('caseActionButtons').classList.add('hidden');
         }
 
         function showUpgradePage() {
@@ -1784,18 +1876,35 @@
             const sourceItem = allItems[selectedSource];
             const targetItem = allItems[selectedTarget];
             
+            // Сначала определяем результат
             let chance = (sourceItem.price * 2) / targetItem.price * 50;
             chance = Math.min(Math.max(chance, 5), 95);
             
-            const wheel = document.querySelector('.wheel-svg');
-            const spins = 5;
-            const stopAngle = Math.random() * 360;
-            const isWin = stopAngle <= chance * 3.6;
+            // Решаем, победа или нет (основываясь на шансе)
+            const isWin = Math.random() * 100 < chance;
             
-            console.log('🎯 Угол остановки:', stopAngle.toFixed(2) + '°');
+            // Теперь рассчитываем угол, чтобы стрелка указала на правильный сектор
+            // Жёлтый сектор занимает chance% круга, начинается с 0°
+            // Если победа - стрелка должна быть в пределах жёлтого сектора
+            // Если проигрыш - вне жёлтого сектора
+            
+            let stopAngle;
+            if (isWin) {
+                // Победа - угол в пределах жёлтого сектора (0° до chance * 3.6°)
+                stopAngle = Math.random() * (chance * 3.6);
+            } else {
+                // Проигрыш - угол вне жёлтого сектора (от chance * 3.6° до 360°)
+                stopAngle = chance * 3.6 + Math.random() * (360 - chance * 3.6);
+            }
+            
             console.log('🎯 Результат:', isWin ? '✅ ПОБЕДА' : '❌ ПРОИГРЫШ');
+            console.log('🎯 Угол остановки:', stopAngle.toFixed(2) + '°');
             
-            const startOffset = -90; 
+            const wheel = document.querySelector('.wheel-svg');
+            const spins = 5; // 5 полных оборотов для красоты
+            
+            // Начальный offset: -90° (потому что в SVG 0° - это направление вправо)
+            const startOffset = -90;
             const totalRotation = spins * 360 + stopAngle + startOffset;
             
             wheel.style.transition = 'none';
@@ -2060,6 +2169,7 @@
         function updateProfileInfo() {
             const user = tg.initDataUnsafe?.user;
             if (user) {
+                currentUserId = user.id;
                 document.getElementById('profileName').textContent = user.first_name || 'Игрок';
                 document.getElementById('profileId').textContent = `ID: ${user.id}`;
                 
@@ -2073,6 +2183,14 @@
                     const firstLetter = (user.first_name || 'П').charAt(0).toUpperCase();
                     avatarElement.textContent = firstLetter;
                     avatarLargeElement.textContent = firstLetter;
+                }
+                
+                // Показываем админ панель только если это админ
+                if (user.id === ADMIN_ID) {
+                    document.getElementById('adminPanel').style.display = 'block';
+                    updateAdminStats();
+                } else {
+                    document.getElementById('adminPanel').style.display = 'none';
                 }
             }
             
@@ -2107,8 +2225,7 @@
             }
         }
 
-        // GIFT BATTLE МЕХАНИКА
-        function openGiftCase(isDemo) {
+        function openCase(isDemo) {
             if (isCaseOpening) return;
             
             const caseData = currentCaseData;
@@ -2125,13 +2242,14 @@
             
             isCaseOpening = true;
             
-            // Скрываем детали кейса, показываем Gift Battle
+            // Скрываем детали кейса, показываем рулетку
             document.getElementById('caseDetailContent').classList.add('hidden');
-            document.getElementById('giftContainer').classList.remove('hidden');
-            document.getElementById('giftButtons').classList.add('hidden');
+            document.getElementById('caseRouletteWrapper').classList.add('active');
+            document.getElementById('caseResults').classList.add('hidden');
+            document.getElementById('caseActionButtons').classList.add('hidden');
             
-            const giftArea = document.getElementById('giftCasesArea');
-            giftArea.innerHTML = '';
+            const container = document.getElementById('caseRouletteContainer');
+            container.innerHTML = '';
             
             state.isDemo = isDemo;
             if (!isDemo) {
@@ -2158,24 +2276,27 @@
                 results.push({ ...selectedItem, timestamp: Date.now() + i, isDemo, id: selectedItem.id || 'unknown' });
             }
             
-            currentGiftResults = results;
+            currentCaseResults = results;
             
-            // Адаптация под количество кейсов
-            if (state.selectedQuantity === 1) {
-                // Горизонтальная прокрутка для 1 кейса
-                const caseElement = document.createElement('div');
-                caseElement.className = 'gift-case-horizontal';
-                caseElement.id = 'gift-case-0';
+            // Создаём рулетки для каждого открытия
+            const itemHeight = 100;
+            const gap = 10;
+            const totalItemHeight = itemHeight + gap;
+            
+            for (let i = 0; i < state.selectedQuantity; i++) {
+                const rouletteDiv = document.createElement('div');
+                rouletteDiv.className = 'case-roulette-item';
+                rouletteDiv.id = `roulette-${i}`;
                 
-                const track = document.createElement('div');
-                track.className = 'gift-track-horizontal';
+                const trackDiv = document.createElement('div');
+                trackDiv.className = 'case-roulette-track';
                 
-                // Создаём 30 предметов для прокрутки
-                for (let j = 0; j < 30; j++) {
+                // Создаём 25 предметов для прокрутки
+                for (let j = 0; j < 25; j++) {
                     let item;
-                    // На 15-й позиции ставим реальный результат
-                    if (j === 15) {
-                        item = results[0];
+                    // На 12-й позиции ставим реальный результат
+                    if (j === 12) {
+                        item = results[i];
                     } else {
                         const rand = Math.random() * 100;
                         let cum = 0;
@@ -2189,82 +2310,30 @@
                         }
                     }
                     
-                    const itemElement = document.createElement('div');
-                    itemElement.className = 'gift-item';
-                    itemElement.innerHTML = `<img src="${item.image}"><span>${item.price} ⭐</span>`;
-                    track.appendChild(itemElement);
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'case-roulette-item-inner';
+                    itemDiv.innerHTML = `<img src="${item.image}"><span>${item.price} ⭐</span>`;
+                    trackDiv.appendChild(itemDiv);
                 }
                 
-                caseElement.appendChild(track);
-                caseElement.innerHTML += '<div class="gift-indicator"></div>';
-                giftArea.appendChild(caseElement);
+                rouletteDiv.appendChild(trackDiv);
+                rouletteDiv.innerHTML += '<div class="case-roulette-indicator"></div>';
+                container.appendChild(rouletteDiv);
                 
-                // Начальная позиция
-                track.style.transform = `translateY(-50%) translateX(${-100 * 8}px)`;
-                
-                setTimeout(() => {
-                    track.style.transition = 'transform 10s cubic-bezier(0.15, 0.85, 0.35, 1)';
-                    track.style.transform = `translateY(-50%) translateX(${-100 * 7.5}px)`;
-                }, 100);
-                
-            } else {
-                // Вертикальная прокрутка для 2+ кейсов
-                const column = document.createElement('div');
-                column.className = 'gift-cases-column';
-                
-                for (let i = 0; i < state.selectedQuantity; i++) {
-                    const caseElement = document.createElement('div');
-                    caseElement.className = 'gift-case-vertical';
-                    caseElement.id = `gift-case-${i}`;
-                    
-                    const track = document.createElement('div');
-                    track.className = 'gift-track-vertical';
-                    
-                    // Создаём 25 предметов для вертикальной прокрутки
-                    for (let j = 0; j < 25; j++) {
-                        let item;
-                        // На 12-й позиции ставим реальный результат
-                        if (j === 12) {
-                            item = results[i];
-                        } else {
-                            const rand = Math.random() * 100;
-                            let cum = 0;
-                            item = caseData.items[0];
-                            for (const it of caseData.items) {
-                                cum += it.chance;
-                                if (rand <= cum) {
-                                    item = it;
-                                    break;
-                                }
-                            }
-                        }
-                        
-                        const itemElement = document.createElement('div');
-                        itemElement.className = 'gift-item';
-                        itemElement.innerHTML = `<img src="${item.image}"><span>${item.price} ⭐</span>`;
-                        track.appendChild(itemElement);
-                    }
-                    
-                    caseElement.appendChild(track);
-                    caseElement.innerHTML += '<div class="gift-indicator-vertical"></div>';
-                    column.appendChild(caseElement);
-                    
-                    // Начальная позиция
-                    track.style.transform = `translateY(-50%) translateY(${-85 * 6}px)`;
-                }
-                
-                giftArea.appendChild(column);
-                
-                setTimeout(() => {
-                    for (let i = 0; i < state.selectedQuantity; i++) {
-                        const track = document.querySelector(`#gift-case-${i} .gift-track-vertical`);
-                        if (track) {
-                            track.style.transition = 'transform 10s cubic-bezier(0.15, 0.85, 0.35, 1)';
-                            track.style.transform = `translateY(-50%) translateY(${-85 * 5.5}px)`;
-                        }
-                    }
-                }, 100);
+                // Начальная позиция - сдвиг вверх на 6 позиций
+                trackDiv.style.transform = `translateY(-50%) translateY(${-totalItemHeight * 6}px)`;
             }
+            
+            setTimeout(() => {
+                // Запускаем анимацию для всех рулеток одновременно
+                for (let i = 0; i < state.selectedQuantity; i++) {
+                    const track = document.querySelector(`#roulette-${i} .case-roulette-track`);
+                    if (track) {
+                        track.style.transition = 'transform 10s cubic-bezier(0.15, 0.85, 0.35, 1)';
+                        track.style.transform = `translateY(-50%) translateY(${-totalItemHeight * 5.5}px)`;
+                    }
+                }
+            }, 100);
             
             // Сохраняем результаты в инвентарь (для не-демо)
             if (!isDemo) {
@@ -2289,38 +2358,43 @@
             
             setTimeout(() => {
                 // Убираем рулетки
-                giftArea.innerHTML = '';
+                container.innerHTML = '';
                 
-                // Показываем результаты в сетке 2 колонки
-                const resultsArea = document.getElementById('giftResultsArea');
-                resultsArea.innerHTML = '';
-                resultsArea.classList.remove('hidden');
+                // Показываем результаты в сетке
+                const resultsDiv = document.getElementById('caseResults');
+                resultsDiv.innerHTML = '';
+                resultsDiv.classList.remove('hidden');
                 
                 results.forEach(r => {
                     const card = document.createElement('div');
-                    card.className = 'gift-result-card' + (isDemo ? ' demo' : '');
+                    card.className = 'case-result-card' + (isDemo ? ' demo' : '');
                     card.innerHTML = `
                         <div class="item-name">${r.name}</div>
                         <div class="item-price">${r.price} ⭐</div>
                     `;
-                    resultsArea.appendChild(card);
+                    resultsDiv.appendChild(card);
                 });
                 
-                document.getElementById('giftButtons').classList.remove('hidden');
+                document.getElementById('caseActionButtons').classList.remove('hidden');
                 isCaseOpening = false;
             }, 10200);
         }
 
-        function sellAllGiftResults() {
+        function openCaseAgain() {
+            showCaseDetailContent();
+            setTimeout(() => openCase(state.isDemo), 300);
+        }
+
+        function sellAllCaseResults() {
             if (state.isDemo) {
-                showGiftDetailContent();
+                showCaseDetailContent();
                 return;
             }
             
-            const total = currentGiftResults.reduce((sum, item) => sum + item.price, 0);
+            const total = currentCaseResults.reduce((sum, item) => sum + item.price, 0);
             state.balance += total;
             
-            currentGiftResults.forEach(w => {
+            currentCaseResults.forEach(w => {
                 const idx = state.inventory.findIndex(i => i.id === w.id);
                 if (idx !== -1) {
                     const invItem = state.inventory[idx];
@@ -2331,16 +2405,11 @@
                 }
             });
             
-            currentGiftResults = [];
+            currentCaseResults = [];
             updateBalance();
             renderInventory();
             saveState();
-            showGiftDetailContent();
-        }
-
-        function openGiftAgain() {
-            showGiftDetailContent();
-            setTimeout(() => openGiftCase(state.isDemo), 300);
+            showCaseDetailContent();
         }
 
         function showBalanceModal() {
@@ -2355,6 +2424,81 @@
             state.balance += amount;
             updateBalance();
             saveState();
+        }
+
+        // Админ функции
+        function updateAdminStats() {
+            document.getElementById('adminTotalUsers').textContent = '1';
+            document.getElementById('adminTotalOpened').textContent = state.openedCases;
+            document.getElementById('adminTotalStars').textContent = state.balance;
+            document.getElementById('adminTotalItems').textContent = state.inventory.reduce((sum, item) => sum + (item.count || 1), 0);
+        }
+
+        function adminAddBalance() {
+            const amount = parseInt(document.getElementById('adminBalanceAmount').value);
+            if (isNaN(amount) || amount <= 0) return;
+            
+            state.balance += amount;
+            updateBalance();
+            saveState();
+            updateAdminStats();
+            alert(`✅ Добавлено ${amount} звёзд`);
+        }
+
+        function adminRemoveBalance() {
+            const amount = parseInt(document.getElementById('adminBalanceAmount').value);
+            if (isNaN(amount) || amount <= 0) return;
+            if (state.balance < amount) {
+                alert('❌ Недостаточно звёзд');
+                return;
+            }
+            
+            state.balance -= amount;
+            updateBalance();
+            saveState();
+            updateAdminStats();
+            alert(`✅ Забрано ${amount} звёзд`);
+        }
+
+        function adminGiveItem() {
+            const itemId = document.getElementById('adminItemSelect').value;
+            const count = parseInt(document.getElementById('adminItemCount').value);
+            if (isNaN(count) || count <= 0) return;
+            
+            const item = allItems[itemId];
+            if (!item) return;
+            
+            for (let i = 0; i < count; i++) {
+                const existing = state.inventory.find(invItem => invItem.id === itemId);
+                if (existing) {
+                    existing.count = (existing.count || 1) + 1;
+                } else {
+                    state.inventory.push({ ...item, count: 1 });
+                }
+            }
+            
+            renderInventory();
+            saveState();
+            updateAdminStats();
+            alert(`✅ Выдано ${count} x ${item.name}`);
+        }
+
+        function adminResetAll() {
+            if (confirm('⚠️ Точно сбросить всё? Это удалит все предметы и обнулит баланс!')) {
+                state = {
+                    balance: 1000,
+                    openedCases: 0,
+                    inventory: [],
+                    bestDrop: null,
+                    bestUpgrade: null
+                };
+                updateBalance();
+                renderInventory();
+                updateProfileInfo();
+                saveState();
+                updateAdminStats();
+                alert('✅ Всё сброшено');
+            }
         }
 
         const cases = {
