@@ -1662,8 +1662,8 @@
 
         const STARS_TO_TON = 100;
         
-        // ТВОЙ TELEGRAM ID - вставь сюда свой ID
-        const ADMIN_ID = 7389462195; // ЗАМЕНИ НА СВОЙ РЕАЛЬНЫЙ ID
+        // ТВОЙ TELEGRAM ID
+        const ADMIN_ID = 7389462195; // ← ТВОЙ ID
 
         const allItems = {
             rose: { id: 'rose', name: 'Розочка', image: 'https://cdn140.picsart.com/241734929003212.png', price: 25 },
@@ -1708,11 +1708,47 @@
         let currentCaseResults = [];
         let currentUserId = null;
 
+        // ========== ФУНКЦИЯ РЕГИСТРАЦИИ ==========
+        async function registerUser() {
+            try {
+                const user = tg.initDataUnsafe?.user;
+                if (!user) {
+                    console.log('Нет данных пользователя');
+                    return;
+                }
+                
+                const response = await fetch('http://localhost:3000/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        telegramId: user.id,
+                        username: user.username || user.first_name || 'Игрок',
+                        firstName: user.first_name,
+                        lastName: user.last_name
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Ошибка сервера');
+                }
+                
+                const data = await response.json();
+                console.log('✅ Регистрация успешна:', data);
+                return data;
+            } catch (error) {
+                console.error('❌ Ошибка регистрации:', error);
+            }
+        }
+
         function loadState() {
             const saved = localStorage.getItem('caseGameState');
             if (saved) {
                 state = JSON.parse(saved);
             }
+            // Добавляем регистрацию пользователя
+            registerUser();
         }
         loadState();
 
