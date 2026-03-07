@@ -472,13 +472,13 @@
             max-width: 100px;
         }
         
-        /* РУЛЕТКА - 5 В РЯД, БЕЗ ПЕРЕНОСОВ */
+        /* РУЛЕТКА - КОМПАКТНАЯ, 5 В РЯД */
         .case-roulette-wrapper {
             display: none;
             flex-direction: column;
             align-items: center;
             width: 100%;
-            min-height: 500px;
+            min-height: 400px;
             justify-content: center;
         }
         
@@ -490,25 +490,25 @@
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-            gap: 10px;
-            margin: 30px 0;
+            gap: 8px;
+            margin: 20px 0;
             width: 100%;
-            max-width: 1000px;
+            max-width: 800px;
             overflow-x: auto;
             padding: 10px 0;
         }
         
         .case-roulette-item {
             background: linear-gradient(145deg, #1a0a2a, #0f0f1f);
-            border-radius: 25px;
-            padding: 15px 0;
+            border-radius: 20px;
+            padding: 10px 0;
             position: relative;
             overflow: hidden;
-            min-width: 170px;
-            width: 170px;
-            height: 340px;
+            min-width: 130px;
+            width: 130px;
+            height: 240px;
             border: 2px solid rgba(255, 215, 0, 0.5);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7), 0 0 30px rgba(170, 0, 255, 0.4);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7), 0 0 20px rgba(170, 0, 255, 0.4);
             transition: all 0.3s;
             flex: 0 0 auto;
         }
@@ -533,8 +533,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            box-shadow: inset 0 0 40px rgba(255, 215, 0, 0.2);
-            border-radius: 25px;
+            box-shadow: inset 0 0 30px rgba(255, 215, 0, 0.2);
+            border-radius: 20px;
             pointer-events: none;
             animation: glowPulse 2.5s infinite;
         }
@@ -553,7 +553,7 @@
         .case-roulette-track {
             display: flex;
             flex-direction: column;
-            gap: 18px;
+            gap: 12px;
             position: absolute;
             left: 0;
             right: 0;
@@ -569,26 +569,26 @@
             align-items: center;
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(5px);
-            padding: 12px;
-            border-radius: 20px;
-            width: 130px;
+            padding: 8px;
+            border-radius: 15px;
+            width: 110px;
             border: 1px solid rgba(255, 215, 0, 0.2);
-            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
         }
         
         .case-roulette-item-inner img {
-            width: 70px;
-            height: 70px;
+            width: 50px;
+            height: 50px;
             object-fit: contain;
-            margin-bottom: 8px;
-            filter: drop-shadow(0 0 8px gold);
+            margin-bottom: 5px;
+            filter: drop-shadow(0 0 5px gold);
         }
         
         .case-roulette-item-inner span {
             color: #ffd700;
-            font-size: 14px;
+            font-size: 11px;
             font-weight: bold;
-            text-shadow: 0 0 8px gold;
+            text-shadow: 0 0 5px gold;
         }
         
         .case-roulette-indicator {
@@ -600,7 +600,7 @@
             background: linear-gradient(90deg, transparent, #ffd700, #aa00ff, #ffd700, transparent);
             transform: translateY(-50%);
             z-index: 10;
-            box-shadow: 0 0 25px gold, 0 0 40px #aa00ff;
+            box-shadow: 0 0 20px gold, 0 0 30px #aa00ff;
             animation: pulse 1.5s infinite;
         }
         
@@ -2215,8 +2215,8 @@
             
             currentCaseResults = results;
             
-            const itemHeight = 130;
-            const gap = 18;
+            const itemHeight = 100;
+            const gap = 12;
             const totalItemHeight = itemHeight + gap;
             
             for (let i = 0; i < state.selectedQuantity; i++) {
