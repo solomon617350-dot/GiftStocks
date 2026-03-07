@@ -472,14 +472,15 @@
             max-width: 100px;
         }
         
-        /* РУЛЕТКА - МАКСИМАЛЬНО КОМПАКТНАЯ, 5 В РЯД */
+        /* РУЛЕТКА - БЕЗ ПАНЕЛЕЙ, ВПЛОТНУЮ */
         .case-roulette-wrapper {
             display: none;
             flex-direction: column;
             align-items: center;
             width: 100%;
-            min-height: 300px;
+            min-height: 280px;
             justify-content: center;
+            background: transparent;
         }
         
         .case-roulette-wrapper.active {
@@ -490,67 +491,25 @@
             display: flex;
             flex-direction: row;
             justify-content: center;
-            gap: 8px;
-            margin: 15px 0;
+            gap: 2px;
+            margin: 10px 0;
             width: 100%;
-            flex-wrap: wrap;
+            background: transparent;
         }
         
         .case-roulette-item {
-            background: linear-gradient(145deg, #1a0a2a, #0f0f1f);
-            border-radius: 15px;
-            padding: 8px 0;
             position: relative;
             overflow: hidden;
-            width: 110px;
-            height: 200px;
-            border: 2px solid rgba(255, 215, 0, 0.5);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.7), 0 0 15px rgba(170, 0, 255, 0.4);
-            transition: all 0.3s;
+            width: 90px;
+            height: 180px;
+            background: transparent;
             flex: 0 0 auto;
-        }
-        
-        /* СВЕЧЕНИЕ ДЛЯ ВСЕХ РУЛЕТОК */
-        .case-roulette-item::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.25) 0%, transparent 70%);
-            animation: rotate 12s linear infinite;
-            pointer-events: none;
-        }
-        
-        .case-roulette-item::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            box-shadow: inset 0 0 20px rgba(255, 215, 0, 0.2);
-            border-radius: 15px;
-            pointer-events: none;
-            animation: glowPulse 2.5s infinite;
-        }
-        
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        @keyframes glowPulse {
-            0% { opacity: 0.4; }
-            50% { opacity: 0.8; }
-            100% { opacity: 0.4; }
         }
         
         .case-roulette-track {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
             position: absolute;
             left: 0;
             right: 0;
@@ -564,28 +523,24 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(5px);
-            padding: 6px;
-            border-radius: 12px;
-            width: 90px;
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+            background: transparent;
+            padding: 4px;
+            width: 80px;
         }
         
         .case-roulette-item-inner img {
             width: 45px;
             height: 45px;
             object-fit: contain;
-            margin-bottom: 4px;
-            filter: drop-shadow(0 0 4px gold);
+            margin-bottom: 2px;
+            filter: drop-shadow(0 0 8px gold);
         }
         
         .case-roulette-item-inner span {
             color: #ffd700;
             font-size: 10px;
             font-weight: bold;
-            text-shadow: 0 0 4px gold;
+            text-shadow: 0 0 8px gold;
         }
         
         .case-roulette-indicator {
@@ -597,14 +552,14 @@
             background: linear-gradient(90deg, transparent, #ffd700, #aa00ff, #ffd700, transparent);
             transform: translateY(-50%);
             z-index: 10;
-            box-shadow: 0 0 15px gold, 0 0 20px #aa00ff;
+            box-shadow: 0 0 20px gold, 0 0 30px #aa00ff;
             animation: pulse 1.5s infinite;
         }
         
         @keyframes pulse {
-            0% { opacity: 0.6; }
+            0% { opacity: 0.7; }
             50% { opacity: 1; }
-            100% { opacity: 0.6; }
+            100% { opacity: 0.7; }
         }
         
         /* РЕЗУЛЬТАТЫ С КАРТИНКАМИ */
@@ -1484,7 +1439,7 @@
                 </div>
             </div>
             
-            <!-- Контейнер для рулетки -->
+            <!-- Контейнер для рулетки - без панелей, вплотную -->
             <div class="case-roulette-wrapper" id="caseRouletteWrapper">
                 <div id="caseRouletteContainer" class="case-roulette-container"></div>
                 <div id="caseResults" class="case-results-grid hidden"></div>
@@ -2215,7 +2170,7 @@
             currentCaseResults = results;
             
             const itemHeight = 100;
-            const gap = 10;
+            const gap = 8;
             const totalItemHeight = itemHeight + gap;
             
             for (let i = 0; i < state.selectedQuantity; i++) {
