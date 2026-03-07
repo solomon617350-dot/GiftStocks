@@ -489,13 +489,11 @@
         .case-roulette-container {
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
-            gap: 5px;
+            justify-content: center;
+            gap: 8px;
             margin: 15px 0;
             width: 100%;
-            max-width: 550px;
-            overflow-x: auto;
-            padding: 5px 0;
+            flex-wrap: wrap;
         }
         
         .case-roulette-item {
@@ -504,9 +502,8 @@
             padding: 8px 0;
             position: relative;
             overflow: hidden;
-            min-width: 100px;
-            width: 100px;
-            height: 180px;
+            width: 110px;
+            height: 200px;
             border: 2px solid rgba(255, 215, 0, 0.5);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.7), 0 0 15px rgba(170, 0, 255, 0.4);
             transition: all 0.3s;
@@ -553,7 +550,7 @@
         .case-roulette-track {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
             position: absolute;
             left: 0;
             right: 0;
@@ -569,24 +566,24 @@
             align-items: center;
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(5px);
-            padding: 5px;
-            border-radius: 10px;
-            width: 85px;
+            padding: 6px;
+            border-radius: 12px;
+            width: 90px;
             border: 1px solid rgba(255, 215, 0, 0.2);
             box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
         }
         
         .case-roulette-item-inner img {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             object-fit: contain;
-            margin-bottom: 3px;
+            margin-bottom: 4px;
             filter: drop-shadow(0 0 4px gold);
         }
         
         .case-roulette-item-inner span {
             color: #ffd700;
-            font-size: 9px;
+            font-size: 10px;
             font-weight: bold;
             text-shadow: 0 0 4px gold;
         }
@@ -1404,7 +1401,6 @@
     </style>
 </head>
 <body>
-    <!-- Весь HTML без изменений -->
     <div class="top-bar">
         <div class="left-container">
             <div class="cases-teleport" onclick="teleportToCases()" title="Перейти к кейсам"></div>
@@ -1420,7 +1416,7 @@
     </div>
 
     <div class="content">
-        <!-- Главная - 2 КЕЙСА В РЯД -->
+        <!-- Главная -->
         <div id="mainSection" class="section active">
             <h2 class="section-title">✨ ДОСТУПНЫЕ КЕЙСЫ</h2>
             <div class="cases-grid">
@@ -1488,7 +1484,7 @@
                 </div>
             </div>
             
-            <!-- Контейнер для рулетки - 5 В РЯД БЕЗ ПЕРЕНОСОВ -->
+            <!-- Контейнер для рулетки -->
             <div class="case-roulette-wrapper" id="caseRouletteWrapper">
                 <div id="caseRouletteContainer" class="case-roulette-container"></div>
                 <div id="caseResults" class="case-results-grid hidden"></div>
@@ -1632,9 +1628,775 @@
     </div>
 
     <script>
-        // Полный скрипт из предыдущего ответа
-        // (я не стал его копировать сюда для экономии места, 
-        // но в реальном коде он должен быть полностью)
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+
+        const STARS_TO_TON = 100;
+
+        const allItems = {
+            rose: { id: 'rose', name: 'Розочка', image: 'https://cdn140.picsart.com/241734929003212.png', price: 25 },
+            cake: { id: 'cake', name: 'Тортик', image: 'https://files.catbox.moe/1w9dkc.png', price: 50 },
+            diamond: { id: 'diamond', name: 'Алмазик', image: 'https://files.catbox.moe/nt7ios.png', price: 100 },
+            ring: { id: 'ring', name: 'Кольцо', image: 'https://files.catbox.moe/8mhtc7.png', price: 100 },
+            xmas: { id: 'xmas', name: 'Xmas Stocking', image: 'https://files.catbox.moe/yecky8.png', price: 495 },
+            ramen: { id: 'ramen', name: 'Instant Ramen', image: 'https://files.catbox.moe/98yf4o.png', price: 520 },
+            icecream: { id: 'icecream', name: 'Ice Cream', image: 'https://files.catbox.moe/hwregp.png', price: 560 },
+            bunny: { id: 'bunny', name: 'Jelly Bunny', image: 'https://files.catbox.moe/6nsg8j.png', price: 750 },
+            star: { id: 'star', name: 'Hanging Star', image: 'https://files.catbox.moe/59c2w2.png', price: 917 },
+            bell: { id: 'bell', name: 'Sleigh Bell', image: 'https://files.catbox.moe/5bya6r.png', price: 1095 },
+            skull: { id: 'skull', name: 'Skull Flower', image: 'https://files.catbox.moe/6berpu.png', price: 1245 },
+            hat: { id: 'hat', name: 'Top Hat', image: 'https://files.catbox.moe/sldlrh.png', price: 1293 },
+            skelettos: { id: 'skelettos', name: 'Sky Skelettos', image: 'https://files.catbox.moe/o336j5.png', price: 1530 },
+            charm: { id: 'charm', name: 'Cupid Charm', image: 'https://files.catbox.moe/qel225.png', price: 2038 },
+            ringExpensive: { id: 'ringExpensive', name: 'Diamond Ring', image: 'https://files.catbox.moe/tjttfk.png', price: 2858 },
+            cigar: { id: 'cigar', name: 'Vintage Cigar', image: 'https://files.catbox.moe/6ified.png', price: 3357 },
+            calendar: { id: 'calendar', name: 'Календарь', image: 'https://files.catbox.moe/vp6ocv.png', price: 500 },
+            cup: { id: 'cup', name: 'Кубок', image: 'https://files.catbox.moe/9a63n2.png', price: 100 }
+        };
+
+        let state = {
+            balance: 1000,
+            openedCases: 0,
+            inventory: [
+                { id: 'rose', name: 'Розочка', image: 'https://cdn140.picsart.com/241734929003212.png', price: 25, count: 3 },
+                { id: 'cake', name: 'Тортик', image: 'https://files.catbox.moe/1w9dkc.png', price: 50, count: 2 },
+                { id: 'diamond', name: 'Алмазик', image: 'https://files.catbox.moe/nt7ios.png', price: 100, count: 1 },
+                { id: 'xmas', name: 'Xmas Stocking', image: 'https://files.catbox.moe/yecky8.png', price: 495, count: 1 },
+                { id: 'cigar', name: 'Vintage Cigar', image: 'https://files.catbox.moe/6ified.png', price: 3357, count: 1 }
+            ],
+            bestDrop: { id: 'cigar', name: 'Vintage Cigar', image: 'https://files.catbox.moe/6ified.png', price: 3357 },
+            bestUpgrade: { id: 'ringExpensive', name: 'Diamond Ring', image: 'https://files.catbox.moe/tjttfk.png', price: 2858 }
+        };
+
+        let selectedSource = null;
+        let selectedTarget = null;
+        let isSpinning = false;
+        let isCaseOpening = false;
+        let currentCaseData = null;
+        let currentCaseResults = [];
+
+        function loadState() {
+            const saved = localStorage.getItem('caseGameState');
+            if (saved) {
+                state = JSON.parse(saved);
+            }
+        }
+        loadState();
+
+        function saveState() {
+            localStorage.setItem('caseGameState', JSON.stringify(state));
+        }
+
+        function updateBalance() {
+            document.getElementById('balanceDisplay').textContent = state.balance;
+            document.getElementById('profileBalance').textContent = state.balance + ' ⭐';
+            document.getElementById('modalBalance').textContent = state.balance + ' ⭐';
+        }
+
+        function starsToTon(stars) {
+            return (stars / STARS_TO_TON).toFixed(2);
+        }
+
+        function teleportToCases() {
+            if (document.getElementById('caseDetailSection').classList.contains('active')) {
+                showMainMenu();
+            } else if (document.getElementById('upgradeSection').classList.contains('active')) {
+                switchToSection('main');
+            } else if (!document.getElementById('mainSection').classList.contains('active')) {
+                switchToSection('main');
+            } else {
+                document.querySelector('.content').scrollTop = 0;
+            }
+        }
+
+        function showMainMenu() {
+            document.getElementById('caseDetailSection').classList.remove('active');
+            document.getElementById('upgradeSection').classList.remove('active');
+            document.getElementById('mainSection').classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            document.querySelector('.nav-item').classList.add('active');
+        }
+
+        function switchToSection(section) {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            
+            if (section === 'main') {
+                document.querySelector('.nav-item').classList.add('active');
+                document.getElementById('mainSection').classList.add('active');
+            } else if (section === 'games') {
+                document.querySelectorAll('.nav-item')[1].classList.add('active');
+                document.getElementById('gamesSection').classList.add('active');
+            } else if (section === 'profile') {
+                document.querySelectorAll('.nav-item')[2].classList.add('active');
+                document.getElementById('profileSection').classList.add('active');
+                renderInventory();
+                updateProfileInfo();
+            } else if (section === 'upgrade') {
+                document.getElementById('upgradeSection').classList.add('active');
+            }
+        }
+
+        function showCaseDetail(caseId) {
+            state.currentCase = caseId;
+            const caseData = cases[caseId];
+            if (!caseData) return;
+            
+            currentCaseData = caseData;
+            
+            document.getElementById('mainSection').classList.remove('active');
+            document.getElementById('caseDetailSection').classList.add('active');
+            
+            document.getElementById('caseDetailContent').classList.remove('hidden');
+            document.getElementById('caseRouletteWrapper').classList.remove('active');
+            
+            const detailImage = document.getElementById('detailImage');
+            if (caseId === 'red') {
+                detailImage.style.backgroundImage = "url('https://files.catbox.moe/o2w0dj.png')";
+            } else if (caseId === 'green') {
+                detailImage.style.backgroundImage = "url('https://files.catbox.moe/xl3oa3.png')";
+            } else {
+                detailImage.style.background = caseData.color;
+            }
+            
+            document.getElementById('detailName').textContent = caseData.name;
+            document.getElementById('detailPrice').innerHTML = `<div class="star-icon"></div>${caseData.price} ⭐`;
+            
+            const sortedItems = [...caseData.items].sort((a, b) => a.chance - b.chance);
+            const chancesGrid = document.getElementById('chancesGrid');
+            chancesGrid.innerHTML = '';
+            
+            sortedItems.forEach(item => {
+                const tonPrice = starsToTon(item.price);
+                chancesGrid.innerHTML += `
+                    <div class="chance-card">
+                        <div class="chance-image"><img src="${item.image}" alt="${item.name}"></div>
+                        <div class="chance-name">${item.name}</div>
+                        <div class="chance-prices">
+                            <span class="price-stars">${item.price} ⭐</span>
+                            <span class="price-ton"><span class="ton-icon"></span>${tonPrice}</span>
+                        </div>
+                        <button class="chance-button">${item.chance}%</button>
+                    </div>
+                `;
+            });
+            
+            selectQuantity(1);
+        }
+
+        function showCaseDetailContent() {
+            document.getElementById('caseDetailContent').classList.remove('hidden');
+            document.getElementById('caseRouletteWrapper').classList.remove('active');
+            document.getElementById('caseResults').classList.add('hidden');
+            document.getElementById('caseActionButtons').classList.add('hidden');
+        }
+
+        function showUpgradePage() {
+            document.getElementById('gamesSection').classList.remove('active');
+            document.getElementById('upgradeSection').classList.add('active');
+            resetUpgrade();
+        }
+
+        function resetUpgrade() {
+            selectedSource = null;
+            selectedTarget = null;
+            document.getElementById('sourceItem').innerHTML = '<span style="font-size:30px;color:#666;">?</span>';
+            document.getElementById('sourcePrice').innerHTML = '- ⭐';
+            document.getElementById('targetItem').innerHTML = '<span style="font-size:30px;color:#666;">?</span>';
+            document.getElementById('targetPrice').innerHTML = '- ⭐';
+            document.getElementById('multiplierDisplay').innerHTML = '?';
+            document.getElementById('itemsList').innerHTML = '';
+            updateWheel(0);
+        }
+
+        function updateWheel(percent) {
+            const angle = (percent / 100) * 360;
+            const wheelSegment = document.getElementById('wheelSegment');
+            if (wheelSegment) {
+                wheelSegment.setAttribute('d', `M50 50 L50 5 A45 45 0 ${angle > 180 ? 1 : 0} 1 ${50 + 45 * Math.sin(angle * Math.PI / 180)} ${50 - 45 * Math.cos(angle * Math.PI / 180)} Z`);
+            }
+            document.getElementById('wheelPercent').textContent = Math.round(percent) + '%';
+        }
+
+        function startWheelSpin() {
+            if (!selectedSource || !selectedTarget) {
+                alert('Выберите предметы для апгрейда');
+                return;
+            }
+            
+            if (isSpinning) return;
+            
+            isSpinning = true;
+            
+            document.getElementById('itemsList').innerHTML = '';
+            
+            const sourceItem = allItems[selectedSource];
+            const targetItem = allItems[selectedTarget];
+            
+            let chance = (sourceItem.price * 2) / targetItem.price * 50;
+            chance = Math.min(Math.max(chance, 5), 95);
+            
+            const isWin = Math.random() * 100 < chance;
+            
+            let stopAngle;
+            if (isWin) {
+                stopAngle = Math.random() * (chance * 3.6);
+            } else {
+                stopAngle = chance * 3.6 + Math.random() * (360 - chance * 3.6);
+            }
+            
+            console.log('🎯 Угол:', stopAngle.toFixed(2) + '°', isWin ? '✅' : '❌');
+            
+            const wheel = document.querySelector('.wheel-svg');
+            const spins = 5;
+            const startOffset = -90;
+            const totalRotation = spins * 360 + stopAngle + startOffset;
+            
+            wheel.style.transition = 'none';
+            wheel.style.transform = 'rotate(' + startOffset + 'deg)';
+            
+            setTimeout(() => {
+                wheel.style.transition = 'transform 10s cubic-bezier(0.1, 0.8, 0.1, 1)';
+                wheel.style.transform = 'rotate(' + totalRotation + 'deg)';
+            }, 50);
+            
+            setTimeout(() => {
+                if (isWin) {
+                    alert('✅ Успех! Шанс был ' + chance.toFixed(1) + '%');
+                    
+                    const existingTarget = state.inventory.find(i => i.id === selectedTarget);
+                    if (existingTarget) {
+                        existingTarget.count = (existingTarget.count || 1) + 1;
+                    } else {
+                        state.inventory.push({ ...targetItem, count: 1 });
+                    }
+                    
+                    if (targetItem.price > (state.bestUpgrade?.price || 0)) {
+                        state.bestUpgrade = targetItem;
+                    }
+                    
+                    const sourceIdx = state.inventory.findIndex(i => i.id === selectedSource);
+                    if (sourceIdx !== -1) {
+                        const src = state.inventory[sourceIdx];
+                        src.count--;
+                        if (src.count === 0) {
+                            state.inventory.splice(sourceIdx, 1);
+                        }
+                    }
+                } else {
+                    alert('❌ Неудача. Шанс был ' + chance.toFixed(1) + '%');
+                    
+                    const sourceIdx = state.inventory.findIndex(i => i.id === selectedSource);
+                    if (sourceIdx !== -1) {
+                        const src = state.inventory[sourceIdx];
+                        src.count--;
+                        if (src.count === 0) {
+                            state.inventory.splice(sourceIdx, 1);
+                        }
+                    }
+                }
+                
+                renderInventory();
+                saveState();
+                
+                selectedSource = null;
+                selectedTarget = null;
+                document.getElementById('sourceItem').innerHTML = '<span style="font-size:30px;color:#666;">?</span>';
+                document.getElementById('sourcePrice').innerHTML = '- ⭐';
+                document.getElementById('targetItem').innerHTML = '<span style="font-size:30px;color:#666;">?</span>';
+                document.getElementById('targetPrice').innerHTML = '- ⭐';
+                document.getElementById('multiplierDisplay').innerHTML = '?';
+                
+                wheel.style.transition = 'none';
+                wheel.style.transform = 'rotate(-90deg)';
+                updateWheel(0);
+                
+                isSpinning = false;
+            }, 10200);
+        }
+
+        function selectSourceItem() {
+            renderItemsList('my');
+        }
+
+        function selectTargetItem() {
+            if (!selectedSource) {
+                alert('Сначала выберите предмет для апгрейда');
+                return;
+            }
+            renderItemsList('all');
+        }
+
+        function renderItemsList(type) {
+            const list = document.getElementById('itemsList');
+            
+            if (type === 'my') {
+                const myItems = state.inventory.filter(item => item.price >= 100).sort((a, b) => b.price - a.price);
+                if (!myItems.length) {
+                    list.innerHTML = `
+                        <div class="empty-section">
+                            <div>🫙 Нет предметов для апгрейда</div>
+                            <button class="open-cases-btn" onclick="switchToSection('main')">🎁 Открыть кейсы</button>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                let html = '';
+                myItems.forEach(item => {
+                    html += `
+                        <div class="item-card" onclick="selectMyItem('${item.id}')">
+                            <img src="${item.image}">
+                            <div class="item-card-name">${item.name}</div>
+                            <div class="item-card-price">${item.price} ⭐</div>
+                            <div style="color:#aaa;">x${item.count || 1}</div>
+                        </div>
+                    `;
+                });
+                list.innerHTML = html;
+            } else {
+                const sourcePrice = allItems[selectedSource]?.price || 0;
+                const available = Object.values(allItems)
+                    .filter(item => item.price > sourcePrice && item.price >= 100)
+                    .sort((a, b) => a.price - b.price);
+                
+                if (!available.length) {
+                    list.innerHTML = '<div class="empty-section">🎯 Нет доступных предметов</div>';
+                    return;
+                }
+                
+                let html = '';
+                available.forEach(item => {
+                    html += `
+                        <div class="item-card" onclick="selectTarget('${item.id}')">
+                            <img src="${item.image}">
+                            <div class="item-card-name">${item.name}</div>
+                            <div class="item-card-price">${item.price} ⭐</div>
+                        </div>
+                    `;
+                });
+                list.innerHTML = html;
+            }
+        }
+
+        function selectMyItem(itemId) {
+            selectedSource = itemId;
+            const item = allItems[itemId];
+            document.getElementById('sourceItem').innerHTML = `<img src="${item.image}">`;
+            document.getElementById('sourcePrice').innerHTML = `${item.price} ⭐`;
+            document.getElementById('itemsList').innerHTML = '';
+            
+            if (selectedTarget) {
+                updateMultiplier();
+            }
+        }
+
+        function selectTarget(itemId) {
+            selectedTarget = itemId;
+            const item = allItems[itemId];
+            document.getElementById('targetItem').innerHTML = `<img src="${item.image}">`;
+            document.getElementById('targetPrice').innerHTML = `${item.price} ⭐`;
+            document.getElementById('itemsList').innerHTML = '';
+            
+            if (selectedSource) {
+                calculateChance();
+                updateMultiplier();
+            }
+        }
+
+        function updateMultiplier() {
+            if (!selectedSource || !selectedTarget) {
+                document.getElementById('multiplierDisplay').innerHTML = '?';
+                return;
+            }
+            
+            const sourcePrice = allItems[selectedSource].price;
+            const targetPrice = allItems[selectedTarget].price;
+            const multiplier = (targetPrice / sourcePrice).toFixed(1);
+            
+            document.getElementById('multiplierDisplay').innerHTML = `×${multiplier}`;
+        }
+
+        function calculateChance() {
+            if (!selectedSource || !selectedTarget) return;
+            
+            const sourceItem = allItems[selectedSource];
+            const targetItem = allItems[selectedTarget];
+            
+            let chance = (sourceItem.price * 2) / targetItem.price * 50;
+            chance = Math.min(Math.max(chance, 5), 95);
+            
+            updateWheel(chance);
+        }
+
+        function showMyItems() {
+            renderItemsList('my');
+        }
+
+        function showTargetItems() {
+            if (!selectedSource) {
+                alert('Сначала выберите предмет для апгрейда');
+                return;
+            }
+            renderItemsList('all');
+        }
+
+        function renderInventory() {
+            const div = document.getElementById('inventory');
+            const items = state.inventory;
+            
+            if (!items.length) {
+                div.innerHTML = `
+                    <div class="empty-inventory">
+                        <div class="emoji">🫙</div>
+                        <h3>ИНВЕНТАРЬ ПУСТ</h3>
+                        <p>У вас пока нет предметов</p>
+                        <button class="open-cases-btn" onclick="switchToSection('main')">🎁 ОТКРЫТЬ КЕЙСЫ</button>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            items.forEach(item => {
+                html += `
+                    <div class="inventory-item">
+                        <img src="${item.image}">
+                        <div class="inventory-item-name">${item.name}</div>
+                        <div class="inventory-item-price">${item.price} ⭐</div>
+                        <span class="item-count">x${item.count || 1}</span>
+                        <button class="sell-one-btn" onclick="sellItem('${item.id}')">ПРОДАТЬ 1</button>
+                    </div>
+                `;
+            });
+            div.innerHTML = html;
+        }
+
+        function sellItem(itemId) {
+            const idx = state.inventory.findIndex(i => i.id === itemId);
+            if (idx === -1) return;
+            
+            const item = state.inventory[idx];
+            state.balance += item.price;
+            item.count--;
+            
+            if (item.count === 0) {
+                state.inventory.splice(idx, 1);
+            }
+            
+            updateBalance();
+            renderInventory();
+            saveState();
+        }
+
+        function confirmSellAll() {
+            if (!state.inventory?.length) {
+                alert('Инвентарь пуст');
+                return;
+            }
+            document.getElementById('confirmModal').classList.add('active');
+        }
+
+        function closeConfirmModal() {
+            document.getElementById('confirmModal').classList.remove('active');
+        }
+
+        function executeSellAll() {
+            const total = state.inventory.reduce((sum, item) => sum + (item.price * (item.count || 1)), 0);
+            state.balance += total;
+            state.inventory = [];
+            updateBalance();
+            renderInventory();
+            saveState();
+            closeConfirmModal();
+        }
+
+        function updateProfileInfo() {
+            const user = tg.initDataUnsafe?.user;
+            if (user) {
+                document.getElementById('profileName').textContent = user.first_name?.toUpperCase() || 'ИГРОК';
+                document.getElementById('profileId').textContent = `ID: ${user.id}`;
+                
+                const avatarElement = document.getElementById('profileAvatar');
+                const avatarLargeElement = document.getElementById('profileAvatarLarge');
+                
+                if (user.photo_url) {
+                    avatarElement.innerHTML = `<img src="${user.photo_url}" alt="avatar">`;
+                    avatarLargeElement.innerHTML = `<img src="${user.photo_url}" alt="avatar">`;
+                } else {
+                    const firstLetter = (user.first_name || 'П').charAt(0).toUpperCase();
+                    avatarElement.textContent = firstLetter;
+                    avatarLargeElement.textContent = firstLetter;
+                }
+            }
+            
+            if (state.bestDrop) {
+                document.getElementById('bestDrop').innerHTML = `
+                    <img src="${state.bestDrop.image}">
+                    <div class="best-item-info">
+                        <div class="best-item-name">${state.bestDrop.name}</div>
+                        <div class="best-item-price">${state.bestDrop.price} ⭐</div>
+                    </div>
+                `;
+            }
+            
+            if (state.bestUpgrade) {
+                document.getElementById('bestUpgrade').innerHTML = `
+                    <img src="${state.bestUpgrade.image}">
+                    <div class="best-item-info">
+                        <div class="best-item-name">${state.bestUpgrade.name}</div>
+                        <div class="best-item-price">${state.bestUpgrade.price} ⭐</div>
+                    </div>
+                `;
+            }
+        }
+
+        function selectQuantity(q) {
+            state.selectedQuantity = q;
+            document.querySelectorAll('.quantity-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.quantity-btn:nth-child(${q})`).classList.add('active');
+            const caseData = cases[state.currentCase];
+            if (caseData) {
+                document.getElementById('totalPrice').innerHTML = `${caseData.price * q} ⭐`;
+            }
+        }
+
+        function openCase(isDemo) {
+            if (isCaseOpening) return;
+            
+            const caseData = currentCaseData;
+            if (!caseData?.items?.length) {
+                alert('Кейс недоступен');
+                return;
+            }
+            
+            const total = caseData.price * state.selectedQuantity;
+            if (!isDemo && state.balance < total) {
+                alert('Недостаточно звёзд');
+                return;
+            }
+            
+            isCaseOpening = true;
+            
+            document.getElementById('caseDetailContent').classList.add('hidden');
+            document.getElementById('caseRouletteWrapper').classList.add('active');
+            document.getElementById('caseResults').classList.add('hidden');
+            document.getElementById('caseActionButtons').classList.add('hidden');
+            
+            const container = document.getElementById('caseRouletteContainer');
+            container.innerHTML = '';
+            
+            state.isDemo = isDemo;
+            if (!isDemo) {
+                state.balance -= total;
+                updateBalance();
+                saveState();
+            }
+            
+            const results = [];
+            for (let i = 0; i < state.selectedQuantity; i++) {
+                const r = Math.random() * 100;
+                let s = 0;
+                let selectedItem = caseData.items[0];
+                
+                for (const item of caseData.items) {
+                    s += item.chance;
+                    if (r <= s) {
+                        selectedItem = item;
+                        break;
+                    }
+                }
+                
+                results.push({ ...selectedItem, timestamp: Date.now() + i, isDemo, id: selectedItem.id || 'unknown' });
+            }
+            
+            currentCaseResults = results;
+            
+            const itemHeight = 100;
+            const gap = 10;
+            const totalItemHeight = itemHeight + gap;
+            
+            for (let i = 0; i < state.selectedQuantity; i++) {
+                const rouletteDiv = document.createElement('div');
+                rouletteDiv.className = 'case-roulette-item';
+                rouletteDiv.id = `roulette-${i}`;
+                
+                const trackDiv = document.createElement('div');
+                trackDiv.className = 'case-roulette-track';
+                
+                for (let j = 0; j < 25; j++) {
+                    let item;
+                    if (j === 12) {
+                        item = results[i];
+                    } else {
+                        const rand = Math.random() * 100;
+                        let cum = 0;
+                        item = caseData.items[0];
+                        for (const it of caseData.items) {
+                            cum += it.chance;
+                            if (rand <= cum) {
+                                item = it;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'case-roulette-item-inner';
+                    itemDiv.innerHTML = `<img src="${item.image}"><span>${item.price} ⭐</span>`;
+                    trackDiv.appendChild(itemDiv);
+                }
+                
+                rouletteDiv.appendChild(trackDiv);
+                rouletteDiv.innerHTML += '<div class="case-roulette-indicator"></div>';
+                container.appendChild(rouletteDiv);
+                
+                trackDiv.style.transform = `translateY(-50%) translateY(${-totalItemHeight * 6}px)`;
+            }
+            
+            setTimeout(() => {
+                for (let i = 0; i < state.selectedQuantity; i++) {
+                    const track = document.querySelector(`#roulette-${i} .case-roulette-track`);
+                    if (track) {
+                        track.style.transition = 'transform 10s cubic-bezier(0.15, 0.85, 0.35, 1)';
+                        track.style.transform = `translateY(-50%) translateY(${-totalItemHeight * 5.5}px)`;
+                    }
+                }
+            }, 100);
+            
+            if (!isDemo) {
+                results.forEach(r => {
+                    const existing = state.inventory.find(i => i.id === r.id);
+                    if (existing) {
+                        existing.count = (existing.count || 1) + 1;
+                    } else {
+                        state.inventory.push({ ...r, count: 1 });
+                    }
+                    
+                    if (r.price > (state.bestDrop?.price || 0)) {
+                        state.bestDrop = r;
+                    }
+                });
+                
+                state.openedCases += state.selectedQuantity;
+                document.getElementById('openedCases').textContent = state.openedCases;
+                renderInventory();
+                saveState();
+            }
+            
+            setTimeout(() => {
+                container.innerHTML = '';
+                
+                const resultsDiv = document.getElementById('caseResults');
+                resultsDiv.innerHTML = '';
+                resultsDiv.classList.remove('hidden');
+                
+                results.forEach(r => {
+                    const card = document.createElement('div');
+                    card.className = 'case-result-card' + (isDemo ? ' demo' : '');
+                    card.innerHTML = `
+                        <img src="${r.image}">
+                        <div class="item-name">${r.name}</div>
+                        <div class="item-price">${r.price} ⭐</div>
+                    `;
+                    resultsDiv.appendChild(card);
+                });
+                
+                document.getElementById('caseActionButtons').classList.remove('hidden');
+                isCaseOpening = false;
+            }, 10200);
+        }
+
+        function openCaseAgain() {
+            showCaseDetailContent();
+            setTimeout(() => openCase(state.isDemo), 300);
+        }
+
+        function sellAllCaseResults() {
+            if (state.isDemo) {
+                showCaseDetailContent();
+                return;
+            }
+            
+            const total = currentCaseResults.reduce((sum, item) => sum + item.price, 0);
+            state.balance += total;
+            
+            currentCaseResults.forEach(w => {
+                const idx = state.inventory.findIndex(i => i.id === w.id);
+                if (idx !== -1) {
+                    const invItem = state.inventory[idx];
+                    invItem.count--;
+                    if (invItem.count === 0) {
+                        state.inventory.splice(idx, 1);
+                    }
+                }
+            });
+            
+            currentCaseResults = [];
+            updateBalance();
+            renderInventory();
+            saveState();
+            showCaseDetailContent();
+        }
+
+        function showBalanceModal() {
+            document.getElementById('balanceModal').classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function depositBalance(amount) {
+            state.balance += amount;
+            updateBalance();
+            saveState();
+        }
+
+        const cases = {
+            red: {
+                name: 'RED CASE',
+                price: 99,
+                color: 'linear-gradient(145deg,#ff0000,#aa0000)',
+                items: [
+                    { ...allItems.calendar, chance: 10 },
+                    { ...allItems.rose, chance: 90 }
+                ]
+            },
+            green: {
+                name: 'GREEN CASE',
+                price: 199,
+                color: 'linear-gradient(145deg,#00ff00,#00aa00)',
+                items: [
+                    { ...allItems.cake, chance: 27 },
+                    { ...allItems.diamond, chance: 26 },
+                    { ...allItems.cup, chance: 13 },
+                    { ...allItems.ring, chance: 10 },
+                    { ...allItems.xmas, chance: 5 },
+                    { ...allItems.ramen, chance: 2.5 },
+                    { ...allItems.icecream, chance: 2 },
+                    { ...allItems.bunny, chance: 1.5 },
+                    { ...allItems.star, chance: 0.64 },
+                    { ...allItems.bell, chance: 0.52 },
+                    { ...allItems.skull, chance: 0.5 },
+                    { ...allItems.hat, chance: 0.4 },
+                    { ...allItems.skelettos, chance: 0.35 },
+                    { ...allItems.charm, chance: 0.25 },
+                    { ...allItems.ringExpensive, chance: 0.21 },
+                    { ...allItems.cigar, chance: 0.13 }
+                ]
+            },
+            gold: { name: 'GOLD CASE', price: 0, color: 'linear-gradient(145deg,#ffd700,#b8860b)', items: [] },
+            diamond: { name: 'DIAMOND CASE', price: 0, color: 'linear-gradient(145deg,#b9f2ff,#00ffff)', items: [] },
+            premium: { name: 'PREMIUM', price: 499, color: 'linear-gradient(145deg,#ff00aa,#5500ff)', items: [] },
+            legend: { name: 'LEGEND', price: 999, color: 'linear-gradient(145deg,#ff5500,#aa00ff)', items: [] }
+        };
+
+        updateBalance();
+        renderInventory();
+        updateProfileInfo();
     </script>
 </body>
 </html>
