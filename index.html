@@ -131,7 +131,7 @@
             letter-spacing: 2px;
         }
         
-        /* СЕТКА КЕЙСОВ - ВСЕГДА 5 В РЯД, БЕЗ АДАПТАЦИИ */
+        /* СЕТКА КЕЙСОВ (НЕ НАЖАТЫХ) - 5 В РЯД */
         .cases-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -141,7 +141,6 @@
             padding-bottom: 10px;
         }
         
-        /* Кейсы крупные, как и просила */
         .case-card {
             background: linear-gradient(145deg, #1a0a2a, #0f0f1f);
             border-radius: 30px;
@@ -152,7 +151,7 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-            min-width: 200px;
+            min-width: 180px;
         }
         
         .case-card::before {
@@ -180,7 +179,7 @@
         
         .case-image {
             width: 100%;
-            height: 150px;
+            height: 120px;
             border-radius: 20px;
             margin-bottom: 15px;
             background-size: contain;
@@ -204,13 +203,12 @@
         }
         
         .case-name {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             margin-bottom: 10px;
             color: #fff;
             text-align: center;
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-            letter-spacing: 1px;
         }
         
         .case-price {
@@ -218,7 +216,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            font-size: 18px;
+            font-size: 16px;
             color: #ffd700;
             font-weight: bold;
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
@@ -232,8 +230,8 @@
         }
         
         .case-price .small-star {
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             background: url('https://cdn1.tenchat.ru/static/vbc-gostinder/2025-09-21/5c565d16-168c-49e4-8b3c-6d20da018214.webp') center/contain no-repeat;
             filter: drop-shadow(0 0 5px gold);
         }
@@ -253,9 +251,9 @@
         }
         
         .detail-image {
-            width: 220px;
-            height: 220px;
-            border-radius: 40px;
+            width: 200px;
+            height: 200px;
+            border-radius: 30px;
             margin: 0 auto 20px;
             background-size: contain;
             background-position: center;
@@ -266,7 +264,7 @@
         }
         
         .detail-name {
-            font-size: 36px;
+            font-size: 32px;
             font-weight: bold;
             margin-bottom: 10px;
             color: #ffd700;
@@ -278,7 +276,7 @@
             align-items: center;
             justify-content: center;
             gap: 15px;
-            font-size: 26px;
+            font-size: 24px;
             color: #ffd700;
             font-weight: bold;
             background: rgba(0, 0, 0, 0.5);
@@ -477,7 +475,7 @@
             max-width: 100px;
         }
         
-        /* РУЛЕТКА - КРУПНАЯ, КРАСИВАЯ */
+        /* РУЛЕТКА - 5 В РЯД, КРУПНАЯ */
         .case-roulette-wrapper {
             display: none;
             flex-direction: column;
@@ -495,22 +493,23 @@
             display: flex;
             flex-direction: row;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             margin: 30px 0;
             flex-wrap: wrap;
         }
         
         .case-roulette-item {
             background: linear-gradient(145deg, #1a0a2a, #0f0f1f);
-            border-radius: 30px;
-            padding: 20px 0;
+            border-radius: 25px;
+            padding: 15px 0;
             position: relative;
             overflow: hidden;
-            width: 180px;
-            height: 350px;
+            width: 170px;
+            height: 340px;
             border: 2px solid rgba(255, 215, 0, 0.5);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 40px rgba(170, 0, 255, 0.5);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7), 0 0 30px rgba(170, 0, 255, 0.4);
             transition: all 0.3s;
+            flex: 0 0 auto;
         }
         
         /* СВЕЧЕНИЕ ДЛЯ ВСЕХ РУЛЕТОК */
@@ -533,8 +532,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            box-shadow: inset 0 0 50px rgba(255, 215, 0, 0.2);
-            border-radius: 30px;
+            box-shadow: inset 0 0 40px rgba(255, 215, 0, 0.2);
+            border-radius: 25px;
             pointer-events: none;
             animation: glowPulse 2.5s infinite;
         }
@@ -553,7 +552,7 @@
         .case-roulette-track {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 18px;
             position: absolute;
             left: 0;
             right: 0;
@@ -569,26 +568,26 @@
             align-items: center;
             background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(5px);
-            padding: 15px;
-            border-radius: 25px;
-            width: 140px;
+            padding: 12px;
+            border-radius: 20px;
+            width: 130px;
             border: 1px solid rgba(255, 215, 0, 0.2);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.5);
         }
         
         .case-roulette-item-inner img {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             object-fit: contain;
-            margin-bottom: 10px;
-            filter: drop-shadow(0 0 10px gold);
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 8px gold);
         }
         
         .case-roulette-item-inner span {
             color: #ffd700;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
-            text-shadow: 0 0 10px gold;
+            text-shadow: 0 0 8px gold;
         }
         
         .case-roulette-indicator {
@@ -596,11 +595,11 @@
             left: 0;
             right: 0;
             top: 50%;
-            height: 4px;
+            height: 3px;
             background: linear-gradient(90deg, transparent, #ffd700, #aa00ff, #ffd700, transparent);
             transform: translateY(-50%);
             z-index: 10;
-            box-shadow: 0 0 30px gold, 0 0 60px #aa00ff;
+            box-shadow: 0 0 25px gold, 0 0 40px #aa00ff;
             animation: pulse 1.5s infinite;
         }
         
@@ -914,7 +913,7 @@
             margin-top: 5px;
         }
         
-        /* ПРОФИЛЬ - БЕЗ ИЗМЕНЕНИЙ */
+        /* ПРОФИЛЬ */
         .profile-section {
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://avatars.mds.yandex.net/i?id=206f6bd99b548c1999cfbb94645e4ac52125f749-16349630-images-thumbs&n=13');
             background-size: cover;
@@ -1487,7 +1486,7 @@
                 </div>
             </div>
             
-            <!-- Контейнер для рулетки -->
+            <!-- Контейнер для рулетки - 5 В РЯД -->
             <div class="case-roulette-wrapper" id="caseRouletteWrapper">
                 <div id="caseRouletteContainer" class="case-roulette-container"></div>
                 <div id="caseResults" class="case-results-grid hidden"></div>
@@ -2215,8 +2214,8 @@
             
             currentCaseResults = results;
             
-            const itemHeight = 140;
-            const gap = 20;
+            const itemHeight = 130;
+            const gap = 18;
             const totalItemHeight = itemHeight + gap;
             
             for (let i = 0; i < state.selectedQuantity; i++) {
