@@ -23,7 +23,7 @@
             overflow-x: hidden;
         }
         
-        /* Фон с градиентом и звездами */
+        /* Красивый задний фон (оставляем) */
         body::before {
             content: '';
             position: fixed;
@@ -37,7 +37,6 @@
             z-index: -2;
         }
         
-        /* Золотые искры */
         body::after {
             content: '';
             position: fixed;
@@ -72,23 +71,7 @@
             gap: 15px;
         }
         
-        .back-button {
-            font-size: 18px;
-            cursor: pointer;
-            padding: 8px 15px;
-            border-radius: 30px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-            display: none;
-            font-weight: 500;
-            color: #ffd700;
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
-        }
-        
-        .back-button.visible {
-            display: block;
-        }
+        /* Кнопка назад полностью удалена */
         
         .cases-teleport {
             width: 45px;
@@ -181,27 +164,36 @@
             letter-spacing: 2px;
         }
         
-        /* ОСНОВНАЯ СЕТКА КЕЙСОВ - СОВРЕМЕННЫЙ ДИЗАЙН */
+        /* СЕТКА КЕЙСОВ - 2 на телефоне, 3-4 на планшете */
         .cases-grid {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 30px;
-            flex-wrap: wrap;
-            padding: 10px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        @media (min-width: 600px) {
+            .cases-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+        }
+        
+        @media (min-width: 900px) {
+            .cases-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 25px;
+            }
         }
         
         .case-card {
             background: linear-gradient(145deg, #1a0a2a, #0f0f1f);
             border-radius: 30px;
-            padding: 20px;
+            padding: 20px 15px;
             cursor: pointer;
             border: 1px solid rgba(255, 215, 0, 0.3);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(170, 0, 255, 0.3);
             transition: all 0.3s ease;
-            width: 280px;
-            max-width: 90%;
             position: relative;
             overflow: hidden;
         }
@@ -231,9 +223,9 @@
         
         .case-image {
             width: 100%;
-            height: 200px;
+            height: 120px;
             border-radius: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
@@ -243,7 +235,7 @@
         }
         
         .case-card:hover .case-image {
-            transform: scale(1.05);
+            transform: scale(1.1);
         }
         
         .red-case {
@@ -255,9 +247,9 @@
         }
         
         .case-name {
-            font-size: 24px;
+            font-size: 18px;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: #fff;
             text-align: center;
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
@@ -269,12 +261,12 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            font-size: 20px;
+            font-size: 16px;
             color: #ffd700;
             font-weight: bold;
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
             background: rgba(0, 0, 0, 0.5);
-            padding: 8px 20px;
+            padding: 6px 15px;
             border-radius: 30px;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 215, 0, 0.3);
@@ -283,51 +275,45 @@
         }
         
         .case-price .small-star {
-            width: 24px;
-            height: 24px;
+            width: 20px;
+            height: 20px;
             background: url('https://cdn1.tenchat.ru/static/vbc-gostinder/2025-09-21/5c565d16-168c-49e4-8b3c-6d20da018214.webp') center/contain no-repeat;
             filter: drop-shadow(0 0 5px gold);
         }
         
-        /* ДЕТАЛЬНАЯ СТРАНИЦА КЕЙСА - КРУПНО, КРАСИВО */
+        .total-price {
+            font-size: 12px;
+            background: rgba(255,255,255,0.2);
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-left: 8px;
+        }
+        
+        /* ДЕТАЛЬНАЯ СТРАНИЦА КЕЙСА */
         .detail-header {
             text-align: center;
             margin-bottom: 30px;
-            animation: glowPulse 2s infinite;
-        }
-        
-        @keyframes glowPulse {
-            0% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
-            50% { text-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
-            100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
         }
         
         .detail-image {
-            width: 250px;
-            height: 250px;
-            border-radius: 40px;
-            margin: 0 auto 30px;
+            width: 200px;
+            height: 200px;
+            border-radius: 30px;
+            margin: 0 auto 20px;
             background-size: contain;
             background-position: center;
             background-repeat: no-repeat;
             background-color: transparent;
             border: 2px solid #ffd700;
             box-shadow: 0 0 50px rgba(255, 215, 0, 0.5), 0 20px 40px rgba(0, 0, 0, 0.8);
-            filter: drop-shadow(0 0 30px gold);
-            transition: transform 0.3s;
-        }
-        
-        .detail-image:hover {
-            transform: scale(1.05) rotate(5deg);
         }
         
         .detail-name {
-            font-size: 36px;
+            font-size: 32px;
             font-weight: bold;
             margin-bottom: 10px;
             color: #ffd700;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
-            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
         }
         
         .detail-price {
@@ -335,38 +321,40 @@
             align-items: center;
             justify-content: center;
             gap: 15px;
-            font-size: 28px;
+            font-size: 24px;
             color: #ffd700;
             font-weight: bold;
-            text-shadow: 0 0 20px gold;
             background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(10px);
-            padding: 10px 30px;
-            border-radius: 50px;
+            padding: 10px 25px;
+            border-radius: 40px;
             width: fit-content;
             margin: 0 auto;
             border: 1px solid rgba(255, 215, 0, 0.5);
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
         }
         
         .action-buttons {
             display: flex;
             gap: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
         
         .open-case-btn, .demo-case-btn {
             flex: 1;
-            padding: 18px;
+            padding: 16px;
             border: none;
             border-radius: 40px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
             text-transform: uppercase;
             letter-spacing: 1px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         
         .open-case-btn {
@@ -386,7 +374,6 @@
         .open-case-btn:hover, .demo-case-btn:hover {
             transform: translateY(-5px);
             filter: brightness(1.2);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7), 0 0 40px currentColor;
         }
         
         .quantity-section {
@@ -394,9 +381,8 @@
             backdrop-filter: blur(10px);
             border-radius: 30px;
             padding: 20px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             border: 1px solid rgba(255, 215, 0, 0.2);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
         
         .quantity-title {
@@ -406,7 +392,6 @@
             color: #ffd700;
             text-align: center;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
         
         .quantity-buttons {
@@ -417,17 +402,16 @@
         
         .quantity-btn {
             flex: 1;
-            padding: 15px;
+            padding: 14px;
             border: 2px solid rgba(255, 215, 0, 0.3);
             background: rgba(0, 0, 0, 0.5);
             color: white;
             border-radius: 20px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            max-width: 70px;
+            max-width: 65px;
             transition: all 0.3s;
-            backdrop-filter: blur(5px);
         }
         
         .quantity-btn.active {
@@ -442,51 +426,39 @@
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
             border-radius: 30px;
-            padding: 25px;
-            margin-bottom: 30px;
+            padding: 20px;
+            margin-bottom: 25px;
             border: 1px solid rgba(255, 215, 0, 0.2);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
         
         .chances-title {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             color: #ffd700;
             text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
         
         .chances-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            gap: 12px;
         }
         
         .chance-card {
             background: linear-gradient(145deg, #1a0a2a, #0f0f1f);
-            border-radius: 20px;
-            padding: 15px;
+            border-radius: 16px;
+            padding: 12px;
             border: 1px solid rgba(255, 215, 0, 0.2);
             display: flex;
             flex-direction: column;
             align-items: center;
-            transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-        }
-        
-        .chance-card:hover {
-            transform: translateY(-5px);
-            border-color: #ffd700;
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
         }
         
         .chance-image {
-            width: 70px;
-            height: 70px;
-            margin-bottom: 10px;
-            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.5));
+            width: 60px;
+            height: 60px;
+            margin-bottom: 8px;
         }
         
         .chance-image img {
@@ -496,10 +468,10 @@
         }
         
         .chance-name {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
             color: #fff;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             text-align: center;
         }
         
@@ -508,7 +480,7 @@
             align-items: center;
             gap: 8px;
             justify-content: center;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-size: 12px;
         }
         
@@ -533,43 +505,29 @@
             height: 14px;
             background: url('https://files.catbox.moe/7lnef8.png') center/contain no-repeat;
             display: inline-block;
-            flex-shrink: 0;
         }
         
         .chance-button {
             background: linear-gradient(145deg, #2a2a2a, #1a1a1a);
             color: #ffd700;
             border: 1px solid #ffd700;
-            padding: 6px 12px;
+            padding: 5px 10px;
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
-            max-width: 100px;
-            transition: all 0.3s;
+            max-width: 90px;
         }
         
-        .chance-button:hover {
-            background: #ffd700;
-            color: #000;
-            box-shadow: 0 0 20px gold;
-        }
-        
-        /* СТИЛИ ДЛЯ КЕЙСОВ - КРУПНЫЕ, КРАСИВЫЕ */
+        /* РУЛЕТКА - УВЕЛИЧЕННАЯ, КРАСИВАЯ */
         .case-roulette-wrapper {
             display: none;
             flex-direction: column;
             align-items: center;
             width: 100%;
-            min-height: 400px;
+            min-height: 500px;
             justify-content: center;
-            animation: fadeIn 0.5s;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
         }
         
         .case-roulette-wrapper.active {
@@ -588,15 +546,41 @@
         .case-roulette-item {
             background: linear-gradient(145deg, #1a0a2a, #0f0f1f);
             border-radius: 30px;
-            padding: 15px 0;
+            padding: 20px 0;
             position: relative;
             overflow: hidden;
-            width: 140px;
-            height: 280px;
+            width: 180px;
+            height: 350px;
             border: 2px solid rgba(255, 215, 0, 0.5);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 40px rgba(170, 0, 255, 0.5);
             transition: all 0.3s;
             animation: float 3s infinite ease-in-out;
+        }
+        
+        /* СВЕЧЕНИЕ ДЛЯ ВСЕХ РУЛЕТОК */
+        .case-roulette-item::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+            pointer-events: none;
+        }
+        
+        .case-roulette-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            box-shadow: inset 0 0 50px rgba(255, 215, 0, 0.3);
+            border-radius: 30px;
+            pointer-events: none;
+            animation: glowPulse 2s infinite;
         }
         
         @keyframes float {
@@ -605,27 +589,21 @@
             100% { transform: translateY(0px); }
         }
         
-        .case-roulette-item::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, transparent 70%);
-            animation: rotate 10s linear infinite;
-            pointer-events: none;
-        }
-        
         @keyframes rotate {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
         
+        @keyframes glowPulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+        
         .case-roulette-track {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
             position: absolute;
             left: 0;
             right: 0;
@@ -641,31 +619,24 @@
             align-items: center;
             background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(5px);
-            padding: 12px;
-            border-radius: 20px;
-            width: 110px;
+            padding: 15px;
+            border-radius: 25px;
+            width: 140px;
             border: 1px solid rgba(255, 215, 0, 0.3);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            transition: all 0.3s;
-        }
-        
-        .case-roulette-item-inner:hover {
-            border-color: #ffd700;
-            box-shadow: 0 0 30px gold;
-            transform: scale(1.05);
         }
         
         .case-roulette-item-inner img {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             object-fit: contain;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             filter: drop-shadow(0 0 10px gold);
         }
         
         .case-roulette-item-inner span {
             color: #ffd700;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: bold;
             text-shadow: 0 0 10px gold;
         }
@@ -689,6 +660,7 @@
             100% { opacity: 0.7; }
         }
         
+        /* РЕЗУЛЬТАТЫ С КАРТИНКАМИ */
         .case-results-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -701,12 +673,14 @@
         .case-result-card {
             background: linear-gradient(145deg, #1a0a2a, #0f0f1f);
             border-radius: 30px;
-            padding: 25px;
+            padding: 20px;
             text-align: center;
             border: 2px solid rgba(255, 215, 0, 0.5);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 50px rgba(170, 0, 255, 0.5);
-            animation: glow 2s infinite;
             transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
         .case-result-card:hover {
@@ -715,25 +689,26 @@
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 0 0 80px gold;
         }
         
-        @keyframes glow {
-            0% { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(170, 0, 255, 0.5); }
-            50% { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 60px rgba(170, 0, 255, 0.8); }
-            100% { box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(170, 0, 255, 0.5); }
+        .case-result-card img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 20px gold);
         }
         
         .case-result-card .item-name {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             color: #fff;
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px gold;
+            margin-bottom: 8px;
         }
         
         .case-result-card .item-price {
             color: #ffd700;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
-            text-shadow: 0 0 20px gold;
+            text-shadow: 0 0 15px gold;
         }
         
         .case-result-card.demo {
@@ -750,10 +725,10 @@
         
         .case-button {
             flex: 1;
-            padding: 18px;
+            padding: 16px;
             border: none;
             border-radius: 40px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s;
@@ -783,7 +758,6 @@
         .case-button:hover {
             transform: translateY(-5px);
             filter: brightness(1.2);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7), 0 0 40px currentColor;
         }
         
         .case-detail-content.hidden {
@@ -792,6 +766,419 @@
         
         .hidden {
             display: none !important;
+        }
+        
+        /* СТАРЫЙ ДИЗАЙН АПГРЕЙДА (ВОЗВРАЩАЕМ) */
+        #upgradeSection {
+            position: relative;
+            background-image: url('https://files.catbox.moe/4fyd5h.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            min-height: calc(100vh - 140px);
+        }
+        
+        .upgrade-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            border-radius: 30px;
+            margin: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px);
+        }
+        
+        .chance-wheel {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            margin: 20px auto;
+            cursor: pointer;
+        }
+        
+        .wheel-svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+            transition: transform 10s cubic-bezier(0.1, 0.8, 0.1, 1);
+        }
+        
+        .wheel-arrow {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffd700;
+            font-size: 50px;
+            text-shadow: 0 0 20px #ffd700, 0 0 40px #ffaa00;
+            z-index: 10;
+            filter: drop-shadow(0 0 10px gold);
+        }
+        
+        .wheel-percent {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 36px;
+            font-weight: bold;
+            color: #ffffff;
+            z-index: 5;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        
+        .items-row {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .item-slot {
+            width: 120px;
+            text-align: center;
+        }
+        
+        .item-image {
+            width: 100px;
+            height: 100px;
+            background: #1a1a1a;
+            border-radius: 20px;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #2a2a2a;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .item-image:hover {
+            border-color: #ffd700;
+            transform: scale(1.05);
+        }
+        
+        .item-image img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+        
+        .item-price {
+            font-size: 16px;
+            color: #ffd700;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        
+        .question-mark {
+            width: 60px;
+            height: 60px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #ffd700;
+            border: 3px solid #2a2a2a;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(255,215,0,0.3);
+            text-align: center;
+            line-height: 1.2;
+            padding: 0 5px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .action-btn.primary {
+            background: #4CAF50;
+            color: white;
+            font-size: 18px;
+            padding: 15px 40px;
+        }
+        
+        .action-btn.secondary {
+            background: #1a1a1a;
+            color: #fff;
+            border: 2px solid #2a2a2a;
+        }
+        
+        .items-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            width: 100%;
+        }
+        
+        .item-card {
+            background: #0f0f0f;
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border: 2px solid #2a2a2a;
+        }
+        
+        .item-card:hover {
+            border-color: #ffd700;
+        }
+        
+        .item-card img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin-bottom: 5px;
+        }
+        
+        .item-card-name {
+            font-size: 12px;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .item-card-price {
+            color: #ffd700;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        /* СТАРЫЙ ДИЗАЙН ПРОФИЛЯ */
+        .profile-section {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://avatars.mds.yandex.net/i?id=206f6bd99b548c1999cfbb94645e4ac52125f749-16349630-images-thumbs&n=13');
+            background-size: cover;
+            background-position: center;
+            border-radius: 30px;
+            padding: 30px 20px;
+            margin-bottom: 20px;
+            border: 2px solid #ffd700;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-avatar-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #ffd700, #ffaa00);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: bold;
+            color: #000;
+            margin: 0 auto 15px;
+            border: 3px solid #ffd700;
+            overflow: hidden;
+        }
+        
+        .profile-avatar-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffd700;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        
+        .profile-id {
+            font-size: 14px;
+            color: #aaa;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .stats-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-block {
+            flex: 1;
+            background: rgba(0,0,0,0.8);
+            border-radius: 20px;
+            padding: 15px;
+            border: 1px solid #ffd700;
+            text-align: center;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 10px;
+        }
+        
+        .best-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .best-item img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            padding: 5px;
+        }
+        
+        .best-item-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .best-item-name {
+            font-size: 12px;
+            font-weight: bold;
+            color: #ffd700;
+            text-align: left;
+        }
+        
+        .best-item-price {
+            font-size: 14px;
+            color: #ffd700;
+            font-weight: bold;
+        }
+        
+        .profile-stats {
+            background: #0f0f0f;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #2a2a2a;
+        }
+        
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+        
+        .stat-item .stat-label {
+            font-size: 16px;
+            color: #aaa;
+        }
+        
+        .stat-item .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffd700;
+        }
+        
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            min-height: 200px;
+        }
+        
+        .inventory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .sell-all-inventory-btn {
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .inventory-item {
+            background: #0f0f0f;
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #2a2a2a;
+        }
+        
+        .inventory-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin-bottom: 5px;
+        }
+        
+        .inventory-item-name {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 3px;
+            color: #fff;
+        }
+        
+        .inventory-item-price {
+            color: #ffd700;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .item-count {
+            background: #ffd700;
+            color: #000;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+        
+        .sell-one-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 5px;
         }
         
         .bottom-nav {
@@ -866,8 +1253,6 @@
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 0 40px rgba(255, 215, 0, 0.5);
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
         
         .empty-section .open-cases-btn:hover {
@@ -954,7 +1339,6 @@
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 0 0 80px rgba(170, 0, 255, 0.5);
             max-height: 90vh;
             overflow-y: auto;
-            position: relative;
         }
         
         .modal-content h2 {
@@ -1072,7 +1456,7 @@
     <div class="top-bar">
         <div class="left-container">
             <div class="cases-teleport" onclick="teleportToCases()" title="Перейти к кейсам"></div>
-            <div class="back-button" id="backButton" onclick="goBack()">← Назад</div>
+            <!-- Кнопка назад полностью удалена -->
         </div>
         
         <div class="right-container">
@@ -1170,7 +1554,7 @@
             </div>
         </div>
 
-        <!-- Апгрейд -->
+        <!-- Апгрейд - СТАРЫЙ ДИЗАЙН -->
         <div id="upgradeSection" class="section">
             <div class="upgrade-container">
                 <div class="chance-wheel" onclick="startWheelSpin()">
@@ -1210,7 +1594,7 @@
             </div>
         </div>
 
-        <!-- Профиль -->
+        <!-- Профиль - СТАРЫЙ ДИЗАЙН -->
         <div id="profileSection" class="section">
             <div class="profile-section">
                 <div class="profile-avatar-large" id="profileAvatarLarge">👤</div>
@@ -1334,7 +1718,6 @@
         let isCaseOpening = false;
         let currentCaseData = null;
         let currentCaseResults = [];
-        let currentUserId = null;
 
         function loadState() {
             const saved = localStorage.getItem('caseGameState');
@@ -1370,15 +1753,10 @@
             }
         }
 
-        function goBack() {
-            showMainMenu();
-        }
-
         function showMainMenu() {
             document.getElementById('caseDetailSection').classList.remove('active');
             document.getElementById('upgradeSection').classList.remove('active');
             document.getElementById('mainSection').classList.add('active');
-            document.getElementById('backButton').classList.remove('visible');
             
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             document.querySelector('.nav-item').classList.add('active');
@@ -1387,7 +1765,6 @@
         function switchToSection(section) {
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.getElementById('backButton').classList.remove('visible');
             
             if (section === 'main') {
                 document.querySelector('.nav-item').classList.add('active');
@@ -1414,7 +1791,6 @@
             
             document.getElementById('mainSection').classList.remove('active');
             document.getElementById('caseDetailSection').classList.add('active');
-            document.getElementById('backButton').classList.add('visible');
             
             document.getElementById('caseDetailContent').classList.remove('hidden');
             document.getElementById('caseRouletteWrapper').classList.remove('active');
@@ -1463,7 +1839,6 @@
         function showUpgradePage() {
             document.getElementById('gamesSection').classList.remove('active');
             document.getElementById('upgradeSection').classList.add('active');
-            document.getElementById('backButton').classList.remove('visible');
             resetUpgrade();
         }
 
@@ -1784,7 +2159,6 @@
         function updateProfileInfo() {
             const user = tg.initDataUnsafe?.user;
             if (user) {
-                currentUserId = user.id;
                 document.getElementById('profileName').textContent = user.first_name?.toUpperCase() || 'ИГРОК';
                 document.getElementById('profileId').textContent = `ID: ${user.id}`;
                 
@@ -1883,8 +2257,8 @@
             
             currentCaseResults = results;
             
-            const itemHeight = 120;
-            const gap = 15;
+            const itemHeight = 140;
+            const gap = 20;
             const totalItemHeight = itemHeight + gap;
             
             for (let i = 0; i < state.selectedQuantity; i++) {
@@ -1966,6 +2340,7 @@
                     const card = document.createElement('div');
                     card.className = 'case-result-card' + (isDemo ? ' demo' : '');
                     card.innerHTML = `
+                        <img src="${r.image}">
                         <div class="item-name">${r.name}</div>
                         <div class="item-price">${r.price} ⭐</div>
                     `;
