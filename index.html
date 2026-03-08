@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>🎰 Gift Battle Style Cases</title>
+    <title>🎰 Case Frog Style</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -431,7 +431,7 @@
             max-width: 100px;
         }
         
-        /* КРАСИВАЯ РУЛЕТКА */
+        /* ВЕРТИКАЛЬНАЯ РУЛЕТКА - КАК В CASE FROG */
         .case-roulette-wrapper {
             display: none;
             flex-direction: column;
@@ -441,13 +441,14 @@
             justify-content: center;
             background: transparent;
             position: relative;
+            margin-top: 20px;
         }
         
         .case-roulette-wrapper.active {
             display: flex;
         }
         
-        /* Эффект свечения вокруг рулеток */
+        /* Эффект свечения вокруг рулетки */
         .case-roulette-wrapper::before {
             content: '';
             position: absolute;
@@ -477,20 +478,18 @@
             margin: 20px 0;
             width: 100%;
             background: transparent;
-            flex-wrap: wrap;
             position: relative;
             z-index: 1;
-            perspective: 1000px;
         }
         
         .case-roulette-item {
             position: relative;
             overflow: hidden;
-            width: 75px;
-            height: 250px;
+            width: 120px;
+            height: 350px;
             background: linear-gradient(180deg, rgba(20, 10, 30, 0.8) 0%, rgba(10, 5, 20, 0.9) 100%);
             flex: 0 0 auto;
-            border-radius: 40px;
+            border-radius: 60px;
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 215, 0, 0.3);
             border: 1px solid rgba(255, 215, 0, 0.2);
             backdrop-filter: blur(5px);
@@ -506,7 +505,7 @@
         .case-roulette-track {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 15px;
             position: absolute;
             left: 0;
             right: 0;
@@ -522,9 +521,9 @@
             align-items: center;
             background: rgba(30, 20, 40, 0.7);
             backdrop-filter: blur(5px);
-            padding: 8px 4px;
-            width: 65px;
-            border-radius: 30px;
+            padding: 12px 8px;
+            width: 100px;
+            border-radius: 40px;
             border: 1px solid rgba(255, 215, 0, 0.2);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
             transition: all 0.2s;
@@ -536,16 +535,16 @@
         }
         
         .case-roulette-item-inner img {
-            width: 45px;
-            height: 45px;
+            width: 60px;
+            height: 60px;
             object-fit: contain;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             filter: drop-shadow(0 0 8px gold);
         }
         
         .case-roulette-item-inner span {
             color: #ffd700;
-            font-size: 10px;
+            font-size: 12px;
             font-weight: bold;
             text-shadow: 0 0 8px gold;
             text-align: center;
@@ -592,7 +591,7 @@
             height: 30%;
             background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 100%);
             pointer-events: none;
-            border-radius: 0 0 40px 40px;
+            border-radius: 0 0 60px 60px;
         }
         
         /* РЕЗУЛЬТАТЫ С КАРТИНКАМИ */
@@ -1463,7 +1462,7 @@
                 </div>
             </div>
             
-            <!-- Контейнер для рулетки -->
+            <!-- Контейнер для вертикальной рулетки (появляется на месте кейса) -->
             <div class="case-roulette-wrapper" id="caseRouletteWrapper">
                 <div id="caseRouletteContainer" class="case-roulette-container"></div>
                 <div id="caseResults" class="case-results-grid hidden"></div>
@@ -2204,9 +2203,9 @@
                 saveState();
             }
             
-            // Создаём рулетку
-            const itemHeight = 100;
-            const gap = 10;
+            // Создаём вертикальную рулетку
+            const itemHeight = 110;
+            const gap = 15;
             const totalItemHeight = itemHeight + gap;
             
             const rouletteDiv = document.createElement('div');
@@ -2216,7 +2215,7 @@
             const trackDiv = document.createElement('div');
             trackDiv.className = 'case-roulette-track';
             
-            // Создаём 25 предметов
+            // Создаём 25 предметов для вертикальной прокрутки
             for (let j = 0; j < 25; j++) {
                 let item;
                 // На 12-й позиции (считая с 0) ставим реальный результат
