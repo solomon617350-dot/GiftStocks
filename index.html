@@ -472,15 +472,23 @@
             max-width: 100px;
         }
         
-        /* РУЛЕТКА - ПРАВИЛЬНЫЕ ПРОПОРЦИИ */
+        /* РУЛЕТКА - С НОВЫМ ФОНОМ */
         .case-roulette-wrapper {
             display: none;
             flex-direction: column;
             align-items: center;
             width: 100%;
-            min-height: 300px;
+            min-height: 350px;
             justify-content: center;
-            background: transparent;
+            /* ЗДЕСЬ ВСТАВЬ СВОЮ ССЫЛКУ НА ФОН */
+            background-image: url('https://files.catbox.moe/26yt3b.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-radius: 40px;
+            padding: 30px 10px;
+            margin: 10px 0;
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.3);
         }
         
         .case-roulette-wrapper.active {
@@ -492,7 +500,7 @@
             flex-direction: row;
             justify-content: center;
             gap: 2px;
-            margin: 10px 0;
+            margin: 0;
             width: 100%;
             background: transparent;
             flex-wrap: wrap;
@@ -1441,7 +1449,7 @@
                 </div>
             </div>
             
-            <!-- Контейнер для рулетки - без панелей, вплотную -->
+            <!-- Контейнер для рулетки - с новым фоном -->
             <div class="case-roulette-wrapper" id="caseRouletteWrapper">
                 <div id="caseRouletteContainer" class="case-roulette-container"></div>
                 <div id="caseResults" class="case-results-grid hidden"></div>
@@ -2193,8 +2201,8 @@
                 saveState();
             }
             
-            // Создаём рулетки
-            const itemHeight = 120;
+            // Создаём рулетки - ИСПРАВЛЕННАЯ СИНХРОНИЗАЦИЯ
+            const itemHeight = 100;
             const gap = 8;
             const totalItemHeight = itemHeight + gap;
             
@@ -2209,7 +2217,7 @@
                 // Создаём 25 предметов
                 for (let j = 0; j < 25; j++) {
                     let item;
-                    // На 12-й позиции ставим реальный результат
+                    // На 12-й позиции (считая с 0) ставим реальный результат
                     if (j === 12) {
                         item = results[i];
                     } else {
@@ -2235,7 +2243,8 @@
                 rouletteDiv.innerHTML += '<div class="case-roulette-indicator"></div>';
                 container.appendChild(rouletteDiv);
                 
-                trackDiv.style.transform = `translateY(-50%) translateY(${-totalItemHeight * 6}px)`;
+                // Начальная позиция: сдвиг вверх на 6 позиций
+                trackDiv.style.transform = `translateY(-50%) translateY(${-6 * totalItemHeight}px)`;
             }
             
             setTimeout(() => {
@@ -2243,7 +2252,9 @@
                     const track = document.querySelector(`#roulette-${i} .case-roulette-track`);
                     if (track) {
                         track.style.transition = 'transform 10s cubic-bezier(0.15, 0.85, 0.35, 1)';
-                        track.style.transform = `translateY(-50%) translateY(${-totalItemHeight * 5.5}px)`;
+                        // Конечная позиция: 12-й элемент ровно на индикаторе
+                        const finalPosition = -12 * totalItemHeight;
+                        track.style.transform = `translateY(-50%) translateY(${finalPosition}px)`;
                     }
                 }
             }, 100);
