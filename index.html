@@ -131,6 +131,7 @@
             letter-spacing: 2px;
         }
         
+        /* СЕТКА КЕЙСОВ (НЕНАЖАТЫХ) - 2 В РЯД */
         .cases-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -240,6 +241,7 @@
             margin-left: 8px;
         }
         
+        /* ДЕТАЛЬНАЯ СТРАНИЦА КЕЙСА */
         .detail-header {
             text-align: center;
             margin-bottom: 30px;
@@ -326,6 +328,7 @@
             filter: brightness(1.2);
         }
         
+        /* УБИРАЕМ СЕКЦИЮ С КОЛИЧЕСТВОМ */
         .quantity-section {
             display: none;
         }
@@ -428,12 +431,13 @@
             max-width: 100px;
         }
         
+        /* РУЛЕТКА - НА ВЕСЬ ЭКРАН */
         .case-roulette-wrapper {
             display: none;
             flex-direction: column;
             align-items: center;
             width: 100%;
-            min-height: 200px;
+            min-height: 250px;
             justify-content: center;
             background: transparent;
             position: relative;
@@ -444,16 +448,17 @@
             display: flex;
         }
         
+        /* Эффект свечения вокруг рулетки */
         .case-roulette-wrapper::before {
             content: '';
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 90%;
-            height: 90%;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 70%);
-            filter: blur(30px);
+            width: 95%;
+            height: 95%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.2) 0%, transparent 70%);
+            filter: blur(40px);
             z-index: 0;
             pointer-events: none;
             animation: glowPulse 3s infinite;
@@ -470,40 +475,41 @@
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            gap: 10px;
+            gap: 15px;
             margin: 0;
             width: 100%;
             background: transparent;
             position: relative;
             z-index: 1;
             overflow-x: auto;
-            padding: 10px 0;
+            padding: 15px 0;
         }
         
         .case-roulette-item {
             position: relative;
             overflow: hidden;
-            width: 90px;
-            height: 110px;
-            background: linear-gradient(180deg, rgba(20, 10, 30, 0.8) 0%, rgba(10, 5, 20, 0.9) 100%);
+            min-width: 160px;
+            width: 160px;
+            height: 180px;
+            background: linear-gradient(180deg, rgba(30, 20, 40, 0.9) 0%, rgba(15, 10, 25, 0.95) 100%);
             flex: 0 0 auto;
-            border-radius: 30px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 215, 0, 0.3);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            backdrop-filter: blur(5px);
+            border-radius: 40px;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.4);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            backdrop-filter: blur(10px);
             transition: all 0.3s;
         }
         
         .case-roulette-item:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.5);
-            border-color: rgba(255, 215, 0, 0.4);
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.9), 0 0 40px rgba(255, 215, 0, 0.6);
+            border-color: rgba(255, 215, 0, 0.5);
         }
         
         .case-roulette-track {
             display: flex;
             flex-direction: row;
-            gap: 10px;
+            gap: 15px;
             position: absolute;
             left: 50%;
             top: 50%;
@@ -516,34 +522,34 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: rgba(30, 20, 40, 0.7);
-            backdrop-filter: blur(5px);
-            padding: 8px 5px;
-            width: 80px;
-            border-radius: 25px;
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            background: rgba(40, 30, 50, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 15px 10px;
+            width: 140px;
+            border-radius: 35px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.6);
             transition: all 0.2s;
         }
         
         .case-roulette-item-inner:hover {
-            border-color: rgba(255, 215, 0, 0.5);
-            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.3);
+            border-color: rgba(255, 215, 0, 0.6);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
         }
         
         .case-roulette-item-inner img {
-            width: 50px;
-            height: 50px;
+            width: 90px;
+            height: 90px;
             object-fit: contain;
-            margin-bottom: 4px;
-            filter: drop-shadow(0 0 8px gold);
+            margin-bottom: 8px;
+            filter: drop-shadow(0 0 15px gold);
         }
         
         .case-roulette-item-inner span {
             color: #ffd700;
-            font-size: 11px;
+            font-size: 16px;
             font-weight: bold;
-            text-shadow: 0 0 8px gold;
+            text-shadow: 0 0 10px gold;
             text-align: center;
         }
         
@@ -552,20 +558,21 @@
             left: 50%;
             top: 0;
             bottom: 0;
-            width: 3px;
+            width: 4px;
             background: linear-gradient(180deg, transparent, #ffd700, #aa00ff, #ffd700, transparent);
             transform: translateX(-50%);
             z-index: 10;
-            box-shadow: 0 0 25px gold, 0 0 40px #aa00ff;
+            box-shadow: 0 0 30px gold, 0 0 50px #aa00ff;
             animation: indicatorPulse 1.5s infinite;
         }
         
         @keyframes indicatorPulse {
-            0% { opacity: 0.7; width: 3px; }
-            50% { opacity: 1; width: 4px; box-shadow: 0 0 35px gold, 0 0 50px #aa00ff; }
-            100% { opacity: 0.7; width: 3px; }
+            0% { opacity: 0.7; width: 4px; }
+            50% { opacity: 1; width: 6px; box-shadow: 0 0 40px gold, 0 0 60px #aa00ff; }
+            100% { opacity: 0.7; width: 4px; }
         }
         
+        /* Декоративные элементы */
         .case-roulette-item::before {
             content: '';
             position: absolute;
@@ -573,7 +580,7 @@
             left: -10%;
             width: 120%;
             height: 120%;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.1) 0%, transparent 60%);
+            background: radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.15) 0%, transparent 60%);
             pointer-events: none;
             z-index: 0;
         }
@@ -584,12 +591,13 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 20%;
-            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 100%);
+            height: 25%;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
             pointer-events: none;
-            border-radius: 0 0 30px 30px;
+            border-radius: 0 0 40px 40px;
         }
         
+        /* РЕЗУЛЬТАТЫ С КАРТИНКАМИ */
         .case-results-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -697,6 +705,7 @@
             display: none !important;
         }
         
+        /* АПГРЕЙД - ТОЛЬКО СВОЙ ФОН */
         #upgradeSection {
             position: relative;
             background-image: url('https://files.catbox.moe/4fyd5h.png');
@@ -892,6 +901,7 @@
             margin-top: 5px;
         }
         
+        /* ПРОФИЛЬ */
         .profile-section {
             background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://avatars.mds.yandex.net/i?id=206f6bd99b548c1999cfbb94645e4ac52125f749-16349630-images-thumbs&n=13');
             background-size: cover;
@@ -1396,6 +1406,7 @@
     </div>
 
     <div class="content">
+        <!-- Главная -->
         <div id="mainSection" class="section active">
             <h2 class="section-title">✨ ДОСТУПНЫЕ КЕЙСЫ</h2>
             <div class="cases-grid">
@@ -1432,6 +1443,7 @@
             </div>
         </div>
 
+        <!-- Детальная страница кейса -->
         <div id="caseDetailSection" class="section">
             <div class="case-detail-content" id="caseDetailContent">
                 <div class="detail-header">
@@ -1445,12 +1457,15 @@
                     <button class="demo-case-btn" onclick="openCase(true)"><span>🎲 ДЕМО</span></button>
                 </div>
 
+                <!-- Секция с количеством удалена -->
+
                 <div class="chances-section">
                     <div class="chances-title">⚡ ШАНСЫ ВЫПАДЕНИЯ</div>
                     <div class="chances-grid" id="chancesGrid"></div>
                 </div>
             </div>
             
+            <!-- Контейнер для рулетки - появляется на месте кейса -->
             <div class="case-roulette-wrapper" id="caseRouletteWrapper">
                 <div id="caseRouletteContainer" class="case-roulette-container"></div>
                 <div id="caseResults" class="case-results-grid hidden"></div>
@@ -1462,6 +1477,7 @@
             </div>
         </div>
 
+        <!-- Игры -->
         <div id="gamesSection" class="section">
             <h2 class="section-title">🎮 МИНИ-ИГРЫ</h2>
             <div class="cases-grid">
@@ -1476,6 +1492,7 @@
             </div>
         </div>
 
+        <!-- Апгрейд -->
         <div id="upgradeSection" class="section">
             <div class="upgrade-container">
                 <div class="chance-wheel" onclick="startWheelSpin()">
@@ -1515,6 +1532,7 @@
             </div>
         </div>
 
+        <!-- Профиль -->
         <div id="profileSection" class="section">
             <div class="profile-section">
                 <div class="profile-avatar-large" id="profileAvatarLarge">👤</div>
@@ -1564,6 +1582,7 @@
         <div class="nav-item" onclick="switchToSection('profile')"><span class="nav-icon">👤</span><span class="nav-label">ПРОФИЛЬ</span></div>
     </div>
 
+    <!-- Модальные окна -->
     <div id="balanceModal" class="modal">
         <div class="modal-content" style="max-width:400px;">
             <h2>💰 БАЛАНС</h2>
@@ -2183,8 +2202,8 @@
                 saveState();
             }
             
-            const itemWidth = 100;
-            const gap = 10;
+            const itemWidth = 180;
+            const gap = 15;
             const totalItemWidth = itemWidth + gap;
             
             const rouletteDiv = document.createElement('div');
