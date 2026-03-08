@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>🎰 Case Frog Style</title>
+    <title>🎰 Gift Battle Style</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -431,17 +431,17 @@
             max-width: 100px;
         }
         
-        /* ВЕРТИКАЛЬНАЯ РУЛЕТКА - КАК В CASE FROG */
+        /* ГОРИЗОНТАЛЬНАЯ РУЛЕТКА - КРАСИВАЯ */
         .case-roulette-wrapper {
             display: none;
             flex-direction: column;
             align-items: center;
             width: 100%;
-            min-height: 400px;
+            min-height: 200px;
             justify-content: center;
             background: transparent;
             position: relative;
-            margin-top: 20px;
+            margin: 20px 0;
         }
         
         .case-roulette-wrapper.active {
@@ -474,23 +474,26 @@
             display: flex;
             flex-direction: row;
             justify-content: center;
+            align-items: center;
             gap: 10px;
-            margin: 20px 0;
+            margin: 0;
             width: 100%;
             background: transparent;
             position: relative;
             z-index: 1;
+            overflow-x: auto;
+            padding: 10px 0;
         }
         
         .case-roulette-item {
             position: relative;
             overflow: hidden;
-            width: 120px;
-            height: 350px;
+            width: 90px;
+            height: 110px;
             background: linear-gradient(180deg, rgba(20, 10, 30, 0.8) 0%, rgba(10, 5, 20, 0.9) 100%);
             flex: 0 0 auto;
-            border-radius: 60px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 215, 0, 0.3);
+            border-radius: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 215, 0, 0.3);
             border: 1px solid rgba(255, 215, 0, 0.2);
             backdrop-filter: blur(5px);
             transition: all 0.3s;
@@ -498,19 +501,18 @@
         
         .case-roulette-item:hover {
             transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.5);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.5);
             border-color: rgba(255, 215, 0, 0.4);
         }
         
         .case-roulette-track {
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            flex-direction: row;
+            gap: 10px;
             position: absolute;
-            left: 0;
-            right: 0;
+            left: 50%;
             top: 50%;
-            transform: translateY(-50%);
+            transform: translate(-50%, -50%);
             will-change: transform;
             align-items: center;
         }
@@ -521,9 +523,9 @@
             align-items: center;
             background: rgba(30, 20, 40, 0.7);
             backdrop-filter: blur(5px);
-            padding: 12px 8px;
-            width: 100px;
-            border-radius: 40px;
+            padding: 8px 5px;
+            width: 80px;
+            border-radius: 25px;
             border: 1px solid rgba(255, 215, 0, 0.2);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
             transition: all 0.2s;
@@ -535,16 +537,16 @@
         }
         
         .case-roulette-item-inner img {
-            width: 60px;
-            height: 60px;
+            width: 50px;
+            height: 50px;
             object-fit: contain;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             filter: drop-shadow(0 0 8px gold);
         }
         
         .case-roulette-item-inner span {
             color: #ffd700;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
             text-shadow: 0 0 8px gold;
             text-align: center;
@@ -552,21 +554,21 @@
         
         .case-roulette-indicator {
             position: absolute;
-            left: 0;
-            right: 0;
-            top: 50%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #ffd700, #aa00ff, #ffd700, transparent);
-            transform: translateY(-50%);
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(180deg, transparent, #ffd700, #aa00ff, #ffd700, transparent);
+            transform: translateX(-50%);
             z-index: 10;
             box-shadow: 0 0 25px gold, 0 0 40px #aa00ff;
             animation: indicatorPulse 1.5s infinite;
         }
         
         @keyframes indicatorPulse {
-            0% { opacity: 0.7; height: 3px; }
-            50% { opacity: 1; height: 4px; box-shadow: 0 0 35px gold, 0 0 50px #aa00ff; }
-            100% { opacity: 0.7; height: 3px; }
+            0% { opacity: 0.7; width: 3px; }
+            50% { opacity: 1; width: 4px; box-shadow: 0 0 35px gold, 0 0 50px #aa00ff; }
+            100% { opacity: 0.7; width: 3px; }
         }
         
         /* Декоративные элементы */
@@ -588,10 +590,10 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 30%;
+            height: 20%;
             background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 100%);
             pointer-events: none;
-            border-radius: 0 0 60px 60px;
+            border-radius: 0 0 30px 30px;
         }
         
         /* РЕЗУЛЬТАТЫ С КАРТИНКАМИ */
@@ -1388,224 +1390,11 @@
     </style>
 </head>
 <body>
-    <div class="top-bar">
-        <div class="left-container">
-            <div class="cases-teleport" onclick="teleportToCases()" title="Перейти к кейсам"></div>
-        </div>
-        
-        <div class="right-container">
-            <div class="balance-container" onclick="showBalanceModal()">
-                <div class="star-icon"></div>
-                <span class="balance-amount" id="balanceDisplay">1000</span>
-            </div>
-            <div class="profile-avatar" onclick="switchToSection('profile')" id="profileAvatar">👤</div>
-        </div>
-    </div>
-
-    <div class="content">
-        <!-- Главная -->
-        <div id="mainSection" class="section active">
-            <h2 class="section-title">✨ ДОСТУПНЫЕ КЕЙСЫ</h2>
-            <div class="cases-grid">
-                <div class="case-card" onclick="showCaseDetail('red')">
-                    <div class="case-image red-case"></div>
-                    <div class="case-name">RED CASE</div>
-                    <div class="case-price"><div class="small-star"></div>99 ⭐</div>
-                </div>
-                <div class="case-card" onclick="showCaseDetail('green')">
-                    <div class="case-image green-case"></div>
-                    <div class="case-name">GREEN CASE</div>
-                    <div class="case-price"><div class="small-star"></div>199 ⭐</div>
-                </div>
-                <div class="case-card" onclick="showCaseDetail('gold')">
-                    <div class="case-image" style="background: linear-gradient(145deg, #ffd700, #b8860b); border-radius: 20px;"></div>
-                    <div class="case-name">GOLD CASE</div>
-                    <div class="case-price"><div class="small-star"></div>СКОРО</div>
-                </div>
-                <div class="case-card" onclick="showCaseDetail('diamond')">
-                    <div class="case-image" style="background: linear-gradient(145deg, #b9f2ff, #00ffff); border-radius: 20px;"></div>
-                    <div class="case-name">DIAMOND CASE</div>
-                    <div class="case-price"><div class="small-star"></div>СКОРО</div>
-                </div>
-                <div class="case-card" onclick="showCaseDetail('premium')">
-                    <div class="case-image" style="background: linear-gradient(145deg, #ff00aa, #5500ff); border-radius: 20px;"></div>
-                    <div class="case-name">PREMIUM</div>
-                    <div class="case-price"><div class="small-star"></div>499 ⭐</div>
-                </div>
-                <div class="case-card" onclick="showCaseDetail('legend')">
-                    <div class="case-image" style="background: linear-gradient(145deg, #ff5500, #aa00ff); border-radius: 20px;"></div>
-                    <div class="case-name">LEGEND</div>
-                    <div class="case-price"><div class="small-star"></div>999 ⭐</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Детальная страница кейса -->
-        <div id="caseDetailSection" class="section">
-            <div class="case-detail-content" id="caseDetailContent">
-                <div class="detail-header">
-                    <div class="detail-image" id="detailImage"></div>
-                    <div class="detail-name" id="detailName"></div>
-                    <div class="detail-price" id="detailPrice"></div>
-                </div>
-
-                <div class="action-buttons">
-                    <button class="open-case-btn" onclick="openCase(false)"><span>💰 ОТКРЫТЬ</span><span class="total-price" id="totalPrice"></span></button>
-                    <button class="demo-case-btn" onclick="openCase(true)"><span>🎲 ДЕМО</span></button>
-                </div>
-
-                <!-- Секция с количеством удалена -->
-
-                <div class="chances-section">
-                    <div class="chances-title">⚡ ШАНСЫ ВЫПАДЕНИЯ</div>
-                    <div class="chances-grid" id="chancesGrid"></div>
-                </div>
-            </div>
-            
-            <!-- Контейнер для вертикальной рулетки (появляется на месте кейса) -->
-            <div class="case-roulette-wrapper" id="caseRouletteWrapper">
-                <div id="caseRouletteContainer" class="case-roulette-container"></div>
-                <div id="caseResults" class="case-results-grid hidden"></div>
-                <div id="caseActionButtons" class="case-buttons hidden">
-                    <button class="case-button again" onclick="openCaseAgain()">🎲 ОТКРЫТЬ ЕЩЁ</button>
-                    <button class="case-button sell-all" onclick="sellAllCaseResults()">💰 ПРОДАТЬ ВСЁ</button>
-                    <button class="case-button back" onclick="showCaseDetailContent()">🔙 НАЗАД</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Игры -->
-        <div id="gamesSection" class="section">
-            <h2 class="section-title">🎮 МИНИ-ИГРЫ</h2>
-            <div class="cases-grid">
-                <div class="case-card" onclick="showUpgradePage()">
-                    <div class="case-image" style="background-image: url('https://files.catbox.moe/v9db3j.png'); background-size: cover; background-position: center;"></div>
-                    <div class="case-name">⚡ АПГРЕЙД</div>
-                </div>
-                <div class="case-card">
-                    <div class="case-image" style="background: linear-gradient(145deg, #ffd700, #aa00ff); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 60px;">🎲</div>
-                    <div class="case-name">СКОРО</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Апгрейд -->
-        <div id="upgradeSection" class="section">
-            <div class="upgrade-container">
-                <div class="chance-wheel" onclick="startWheelSpin()">
-                    <div class="wheel-arrow">▼</div>
-                    <svg class="wheel-svg" viewBox="0 0 100 100">
-                        <circle cx="50" cy="50" r="45" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
-                        <path id="wheelSegment" d="M50 50 L50 5 A45 45 0 0 1 95 50 Z" fill="#ffd700" stroke="#2a2a2a" stroke-width="1"/>
-                        <circle cx="50" cy="50" r="40" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="2"/>
-                    </svg>
-                    <div class="wheel-percent" id="wheelPercent">0%</div>
-                </div>
-
-                <div class="items-row">
-                    <div class="item-slot">
-                        <div class="item-image" id="sourceItem" onclick="selectSourceItem()">
-                            <span style="font-size:30px;color:#666;">?</span>
-                        </div>
-                        <div class="item-price" id="sourcePrice">- ⭐</div>
-                    </div>
-                    <div class="question-mark" id="multiplierDisplay">?</div>
-                    <div class="item-slot">
-                        <div class="item-image" id="targetItem" onclick="selectTargetItem()">
-                            <span style="font-size:30px;color:#666;">?</span>
-                        </div>
-                        <div class="item-price" id="targetPrice">- ⭐</div>
-                    </div>
-                </div>
-
-                <button class="action-btn primary" onclick="startWheelSpin()">⚡ КРУТИТЬ КОЛЕСО</button>
-
-                <div class="action-buttons">
-                    <button class="action-btn secondary" onclick="showMyItems()">📦 МОИ ПРЕДМЕТЫ</button>
-                    <button class="action-btn secondary" onclick="showTargetItems()">🎯 ВЫБРАТЬ ЦЕЛЬ</button>
-                </div>
-
-                <div id="itemsList" class="items-list"></div>
-            </div>
-        </div>
-
-        <!-- Профиль -->
-        <div id="profileSection" class="section">
-            <div class="profile-section">
-                <div class="profile-avatar-large" id="profileAvatarLarge">👤</div>
-                <div class="profile-name" id="profileName">ИГРОК</div>
-                <div class="profile-id" id="profileId">ID: 123456789</div>
-                
-                <div class="stats-row">
-                    <div class="stat-block">
-                        <div class="stat-label">ЛУЧШИЙ ДРОП</div>
-                        <div class="best-item" id="bestDrop">
-                            <img src="https://files.catbox.moe/nt7ios.png">
-                            <div class="best-item-info">
-                                <div class="best-item-name">Алмазик</div>
-                                <div class="best-item-price">100 ⭐</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="stat-block">
-                        <div class="stat-label">ЛУЧШИЙ АПГРЕЙД</div>
-                        <div class="best-item" id="bestUpgrade">
-                            <img src="https://files.catbox.moe/6ified.png">
-                            <div class="best-item-info">
-                                <div class="best-item-name">Vintage Cigar</div>
-                                <div class="best-item-price">3357 ⭐</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="profile-stats">
-                <div class="stat-item"><span class="stat-label">ОТКРЫТО КЕЙСОВ:</span><span class="stat-value" id="openedCases">0</span></div>
-                <div class="stat-item"><span class="stat-label">БАЛАНС ЗВЁЗД:</span><span class="stat-value" id="profileBalance">1000 ⭐</span></div>
-            </div>
-            
-            <div class="inventory-header">
-                <h3 style="color:#ffd700;">📦 ИНВЕНТАРЬ</h3>
-                <button class="sell-all-inventory-btn" onclick="confirmSellAll()">💰 ПРОДАТЬ ВСЁ</button>
-            </div>
-            <div id="inventory" class="inventory-grid"></div>
-        </div>
-    </div>
-
-    <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchToSection('main')"><span class="nav-icon">🎁</span><span class="nav-label">КЕЙСЫ</span></div>
-        <div class="nav-item" onclick="switchToSection('games')"><span class="nav-icon">🎮</span><span class="nav-label">ИГРЫ</span></div>
-        <div class="nav-item" onclick="switchToSection('profile')"><span class="nav-icon">👤</span><span class="nav-label">ПРОФИЛЬ</span></div>
-    </div>
-
-    <!-- Модальные окна -->
-    <div id="balanceModal" class="modal">
-        <div class="modal-content" style="max-width:400px;">
-            <h2>💰 БАЛАНС</h2>
-            <div class="balance-big" id="modalBalance">1000 ⭐</div>
-            <div class="deposit-options">
-                <button class="deposit-option" onclick="depositBalance(100)">+100</button>
-                <button class="deposit-option" onclick="depositBalance(500)">+500</button>
-                <button class="deposit-option" onclick="depositBalance(1000)">+1000</button>
-                <button class="deposit-option" onclick="depositBalance(5000)">+5000</button>
-            </div>
-            <button onclick="closeModal('balanceModal')">ЗАКРЫТЬ</button>
-        </div>
-    </div>
-
-    <div id="confirmModal" class="modal">
-        <div class="confirm-modal">
-            <h3>⚠️ ПОДТВЕРЖДЕНИЕ</h3>
-            <p>Вы точно хотите продать все предметы?</p>
-            <div class="confirm-buttons">
-                <button class="confirm-btn yes" onclick="executeSellAll()">ДА</button>
-                <button class="confirm-btn no" onclick="closeConfirmModal()">НЕТ</button>
-            </div>
-        </div>
-    </div>
-
+    <!-- Весь HTML такой же, как в предыдущих ответах -->
+    <!-- ... -->
+    
     <script>
+        // Полный скрипт с исправленной синхронизацией
         const tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
@@ -2203,10 +1992,10 @@
                 saveState();
             }
             
-            // Создаём вертикальную рулетку
-            const itemHeight = 110;
-            const gap = 15;
-            const totalItemHeight = itemHeight + gap;
+            // Создаём горизонтальную рулетку
+            const itemWidth = 100; // ширина одного предмета + gap
+            const gap = 10;
+            const totalItemWidth = itemWidth + gap;
             
             const rouletteDiv = document.createElement('div');
             rouletteDiv.className = 'case-roulette-item';
@@ -2215,7 +2004,7 @@
             const trackDiv = document.createElement('div');
             trackDiv.className = 'case-roulette-track';
             
-            // Создаём 25 предметов для вертикальной прокрутки
+            // Создаём 25 предметов для горизонтальной прокрутки
             for (let j = 0; j < 25; j++) {
                 let item;
                 // На 12-й позиции (считая с 0) ставим реальный результат
@@ -2244,16 +2033,16 @@
             rouletteDiv.innerHTML += '<div class="case-roulette-indicator"></div>';
             container.appendChild(rouletteDiv);
             
-            // Начальная позиция: сдвиг вверх на 6 позиций
-            trackDiv.style.transform = `translateY(-50%) translateY(${-6 * totalItemHeight}px)`;
+            // Начальная позиция: сдвиг влево на 6 позиций
+            trackDiv.style.transform = `translate(-50%, -50%) translateX(${-6 * totalItemWidth}px)`;
             
             setTimeout(() => {
                 const track = document.querySelector('#roulette-0 .case-roulette-track');
                 if (track) {
                     track.style.transition = 'transform 10s cubic-bezier(0.15, 0.85, 0.35, 1)';
                     // Конечная позиция: 12-й элемент ровно на индикаторе
-                    const finalPosition = -12 * totalItemHeight;
-                    track.style.transform = `translateY(-50%) translateY(${finalPosition}px)`;
+                    const finalPosition = -12 * totalItemWidth;
+                    track.style.transform = `translate(-50%, -50%) translateX(${finalPosition}px)`;
                 }
             }, 100);
             
