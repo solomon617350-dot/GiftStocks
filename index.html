@@ -328,50 +328,9 @@
             filter: brightness(1.2);
         }
         
+        /* УБИРАЕМ СЕКЦИЮ С КОЛИЧЕСТВОМ */
         .quantity-section {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 30px;
-            padding: 20px;
-            margin-bottom: 25px;
-            border: 1px solid rgba(255, 215, 0, 0.2);
-        }
-        
-        .quantity-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #ffd700;
-            text-align: center;
-            text-transform: uppercase;
-        }
-        
-        .quantity-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-        
-        .quantity-btn {
-            flex: 1;
-            padding: 14px;
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            border-radius: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            max-width: 65px;
-            transition: all 0.3s;
-        }
-        
-        .quantity-btn.active {
-            background: linear-gradient(145deg, #ffd700, #aa00ff);
-            color: #000;
-            border-color: #ffd700;
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
-            transform: scale(1.1);
+            display: none;
         }
         
         .chances-section {
@@ -1430,7 +1389,6 @@
     </style>
 </head>
 <body>
-    <!-- Весь HTML такой же, как в предыдущих ответах -->
     <div class="top-bar">
         <div class="left-container">
             <div class="cases-teleport" onclick="teleportToCases()" title="Перейти к кейсам"></div>
@@ -1497,16 +1455,7 @@
                     <button class="demo-case-btn" onclick="openCase(true)"><span>🎲 ДЕМО</span></button>
                 </div>
 
-                <div class="quantity-section">
-                    <div class="quantity-title">КОЛИЧЕСТВО</div>
-                    <div class="quantity-buttons">
-                        <button class="quantity-btn active" onclick="selectQuantity(1)">1</button>
-                        <button class="quantity-btn" onclick="selectQuantity(2)">2</button>
-                        <button class="quantity-btn" onclick="selectQuantity(3)">3</button>
-                        <button class="quantity-btn" onclick="selectQuantity(4)">4</button>
-                        <button class="quantity-btn" onclick="selectQuantity(5)">5</button>
-                    </div>
-                </div>
+                <!-- Секция с количеством удалена -->
 
                 <div class="chances-section">
                     <div class="chances-title">⚡ ШАНСЫ ВЫПАДЕНИЯ</div>
@@ -1514,7 +1463,7 @@
                 </div>
             </div>
             
-            <!-- КРАСИВАЯ РУЛЕТКА -->
+            <!-- Контейнер для рулетки -->
             <div class="case-roulette-wrapper" id="caseRouletteWrapper">
                 <div id="caseRouletteContainer" class="case-roulette-container"></div>
                 <div id="caseResults" class="case-results-grid hidden"></div>
@@ -1658,7 +1607,6 @@
     </div>
 
     <script>
-        // Полный скрипт из предыдущего ответа с исправленной синхронизацией
         const tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
@@ -1814,7 +1762,9 @@
                 `;
             });
             
-            selectQuantity(1);
+            // Всегда открываем 1 кейс
+            state.selectedQuantity = 1;
+            document.getElementById('totalPrice').innerHTML = `${caseData.price} ⭐`;
         }
 
         function showCaseDetailContent() {
@@ -1877,8 +1827,6 @@
             } else {
                 stopAngle = chance * 3.6 + Math.random() * (360 - chance * 3.6);
             }
-            
-            console.log('🎯 Результат:', isWin ? '✅' : '❌', 'Угол:', stopAngle.toFixed(2) + '°');
             
             const wheel = document.querySelector('.wheel-svg');
             const spins = 5;
@@ -2184,16 +2132,6 @@
             }
         }
 
-        function selectQuantity(q) {
-            state.selectedQuantity = q;
-            document.querySelectorAll('.quantity-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`.quantity-btn:nth-child(${q})`).classList.add('active');
-            const caseData = cases[state.currentCase];
-            if (caseData) {
-                document.getElementById('totalPrice').innerHTML = `${caseData.price * q} ⭐`;
-            }
-        }
-
         function openCase(isDemo) {
             if (isCaseOpening) return;
             
@@ -2203,7 +2141,7 @@
                 return;
             }
             
-            const total = caseData.price * state.selectedQuantity;
+            const total = caseData.price; // Всегда 1 кейс
             if (!isDemo && state.balance < total) {
                 alert('Недостаточно звёзд');
                 return;
@@ -2211,6 +2149,7 @@
             
             isCaseOpening = true;
             
+            // Скрываем детали кейса, показываем рулетку
             document.getElementById('caseDetailContent').classList.add('hidden');
             document.getElementById('caseRouletteWrapper').classList.add('active');
             document.getElementById('caseResults').classList.add('hidden');
@@ -2226,27 +2165,25 @@
                 saveState();
             }
             
-            // Генерируем результаты ДО начала вращения
+            // Генерируем результат ДО начала вращения
             const results = [];
-            for (let i = 0; i < state.selectedQuantity; i++) {
-                const r = Math.random() * 100;
-                let s = 0;
-                let selectedItem = caseData.items[0];
-                
-                for (const item of caseData.items) {
-                    s += item.chance;
-                    if (r <= s) {
-                        selectedItem = item;
-                        break;
-                    }
+            const r = Math.random() * 100;
+            let s = 0;
+            let selectedItem = caseData.items[0];
+            
+            for (const item of caseData.items) {
+                s += item.chance;
+                if (r <= s) {
+                    selectedItem = item;
+                    break;
                 }
-                
-                results.push({ ...selectedItem, timestamp: Date.now() + i, isDemo, id: selectedItem.id || 'unknown' });
             }
+            
+            results.push({ ...selectedItem, timestamp: Date.now(), isDemo, id: selectedItem.id || 'unknown' });
             
             currentCaseResults = results;
             
-            // Сохраняем результаты в инвентарь сразу (для не-демо)
+            // Сохраняем результат в инвентарь сразу (для не-демо)
             if (!isDemo) {
                 results.forEach(r => {
                     const existing = state.inventory.find(i => i.id === r.id);
@@ -2261,67 +2198,63 @@
                     }
                 });
                 
-                state.openedCases += state.selectedQuantity;
+                state.openedCases += 1;
                 document.getElementById('openedCases').textContent = state.openedCases;
                 renderInventory();
                 saveState();
             }
             
-            // Создаём рулетки - ИСПРАВЛЕННАЯ СИНХРОНИЗАЦИЯ
+            // Создаём рулетку
             const itemHeight = 100;
             const gap = 10;
             const totalItemHeight = itemHeight + gap;
             
-            for (let i = 0; i < state.selectedQuantity; i++) {
-                const rouletteDiv = document.createElement('div');
-                rouletteDiv.className = 'case-roulette-item';
-                rouletteDiv.id = `roulette-${i}`;
-                
-                const trackDiv = document.createElement('div');
-                trackDiv.className = 'case-roulette-track';
-                
-                // Создаём 25 предметов
-                for (let j = 0; j < 25; j++) {
-                    let item;
-                    // На 12-й позиции (считая с 0) ставим реальный результат
-                    if (j === 12) {
-                        item = results[i];
-                    } else {
-                        const rand = Math.random() * 100;
-                        let cum = 0;
-                        item = caseData.items[0];
-                        for (const it of caseData.items) {
-                            cum += it.chance;
-                            if (rand <= cum) {
-                                item = it;
-                                break;
-                            }
+            const rouletteDiv = document.createElement('div');
+            rouletteDiv.className = 'case-roulette-item';
+            rouletteDiv.id = 'roulette-0';
+            
+            const trackDiv = document.createElement('div');
+            trackDiv.className = 'case-roulette-track';
+            
+            // Создаём 25 предметов
+            for (let j = 0; j < 25; j++) {
+                let item;
+                // На 12-й позиции (считая с 0) ставим реальный результат
+                if (j === 12) {
+                    item = results[0];
+                } else {
+                    const rand = Math.random() * 100;
+                    let cum = 0;
+                    item = caseData.items[0];
+                    for (const it of caseData.items) {
+                        cum += it.chance;
+                        if (rand <= cum) {
+                            item = it;
+                            break;
                         }
                     }
-                    
-                    const itemDiv = document.createElement('div');
-                    itemDiv.className = 'case-roulette-item-inner';
-                    itemDiv.innerHTML = `<img src="${item.image}"><span>${item.price} ⭐</span>`;
-                    trackDiv.appendChild(itemDiv);
                 }
                 
-                rouletteDiv.appendChild(trackDiv);
-                rouletteDiv.innerHTML += '<div class="case-roulette-indicator"></div>';
-                container.appendChild(rouletteDiv);
-                
-                // Начальная позиция: сдвиг вверх на 6 позиций
-                trackDiv.style.transform = `translateY(-50%) translateY(${-6 * totalItemHeight}px)`;
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'case-roulette-item-inner';
+                itemDiv.innerHTML = `<img src="${item.image}"><span>${item.price} ⭐</span>`;
+                trackDiv.appendChild(itemDiv);
             }
             
+            rouletteDiv.appendChild(trackDiv);
+            rouletteDiv.innerHTML += '<div class="case-roulette-indicator"></div>';
+            container.appendChild(rouletteDiv);
+            
+            // Начальная позиция: сдвиг вверх на 6 позиций
+            trackDiv.style.transform = `translateY(-50%) translateY(${-6 * totalItemHeight}px)`;
+            
             setTimeout(() => {
-                for (let i = 0; i < state.selectedQuantity; i++) {
-                    const track = document.querySelector(`#roulette-${i} .case-roulette-track`);
-                    if (track) {
-                        track.style.transition = 'transform 10s cubic-bezier(0.15, 0.85, 0.35, 1)';
-                        // Конечная позиция: 12-й элемент ровно на индикаторе
-                        const finalPosition = -12 * totalItemHeight;
-                        track.style.transform = `translateY(-50%) translateY(${finalPosition}px)`;
-                    }
+                const track = document.querySelector('#roulette-0 .case-roulette-track');
+                if (track) {
+                    track.style.transition = 'transform 10s cubic-bezier(0.15, 0.85, 0.35, 1)';
+                    // Конечная позиция: 12-й элемент ровно на индикаторе
+                    const finalPosition = -12 * totalItemHeight;
+                    track.style.transform = `translateY(-50%) translateY(${finalPosition}px)`;
                 }
             }, 100);
             
